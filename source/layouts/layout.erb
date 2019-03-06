@@ -1,0 +1,169 @@
+<%#
+Copyright 2008-2013 Concur Technologies, Inc.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may
+not use this file except in compliance with the License. You may obtain
+a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations
+under the License.
+%>
+<% language_tabs = current_page.data.language_tabs || [] %>
+<% page_content = yield %>
+<%
+  if current_page.data.includes
+    current_page.data.includes.each do |include|
+      page_content += partial("includes/#{include}")
+    end
+  end
+%>
+
+<!doctype html>
+<html>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-109213957-3"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-109213957-3');
+    </script>
+
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title><%= current_page.data.title || "Blocknet | API Documentation" %></title>
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/site.webmanifest">
+    <link rel="mask-icon" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/safari-pinned-tab.svg" color="#162e48">
+    <link rel="shortcut icon" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/favicon.ico">
+    <meta name="msapplication-TileColor" content="#dddfeb">
+    <meta name="msapplication-config" content="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/browserconfig.xml">
+    <meta name="theme-color" content="#dddfeb">
+    <meta name="author" content="Blocknet.co">
+    <meta name="subject" content="Crypto">
+    <meta name="description" content="Start building multi-blockchain applications with Blocknet, a decentralized interoperability protocol enabling the transfer of data and value across different blockchains, all while remaining trustless.">
+    <meta name="keywords" content="blocknet, api, documentation, docs, crypto, protocol, blockchain, interoperability, dex, exchange, internet">
+    <meta name="image" content="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/blocknet.png">
+    <meta name="language" content="english">
+    <meta name="copyright" content="Blocknet">
+    <meta name="contact" content="contact@blocknet.co">
+    <meta name="distribution" content="global">
+    <meta name="country" content="USA">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Blocknet">
+    <meta name="og:locale" content="en_US">
+    <meta property="og:description" content="Start building multi-blockchain applications with Blocknet, a decentralized interoperability protocol enabling the transfer of data and value across different blockchains, all while remaining trustless.">
+    <meta property="og:image" content="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/blocknet.png">
+    <meta property="og:url" content="https://blocknet.co">
+    <meta property="og:site_name" content="Blocknet">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Blocknet">
+    <meta name="twitter:description" content="Start building multi-blockchain applications with Blocknet, a decentralized interoperability protocol enabling the transfer of data and value across different blockchains, all while remaining trustless.">
+    <meta name="twitter:site" content="@The_Blocknet">
+    <meta name="twitter:creator" content="@The_Blocknet">
+    <meta name="twitter:image:src" content="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/blocknet.png">
+    <meta name="twitter:image:alt" content="Blocknet">
+    <meta property="fb:app_id" content="1870616833254995">
+
+
+    <style>
+      <%= Rouge::Themes::MonokaiSublime.render(:scope => '.highlight') %>
+    </style>
+    <%= stylesheet_link_tag :screen, media: :screen %>
+    <%= stylesheet_link_tag :print, media: :print %>
+    <% if current_page.data.search %>
+      <%= javascript_include_tag  "all" %>
+    <% else %>
+      <%= javascript_include_tag  "all_nosearch" %>
+    <% end %>
+  </head>
+
+  <body class="<%= page_classes %>" data-languages="<%=h language_tabs.map{ |lang| lang.is_a?(Hash) ? lang.keys.first : lang }.to_json %>">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <%= image_tag('navbar.png') %>
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <a href="#">
+        <%= image_tag "brand.png", class: 'logo' %>
+      </a>
+      <% if language_tabs.any? %>
+        <div class="lang-selector">
+          <% language_tabs.each do |lang| %>
+            <% if lang.is_a? Hash %>
+              <a href="#" data-language-name="<%= lang.keys.first %>"><%= lang.values.first %></a>
+            <% else %>
+              <a href="#" data-language-name="<%= lang %>"><%= lang %></a>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+      <% if current_page.data.search %>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <% end %>
+      <div id="toc" class="toc-list-h1">
+        <% toc_data(page_content).each do |h1| %>
+          <li>
+            <% if h1[:id] == "xbridge-api" %>
+              <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">BETA</span></a>
+            <% elsif h1[:id] == "xrouter-api" %>
+              <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">ALPHA</span></a>
+            <% else %>
+              <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %></a>
+            <% end %>
+            <% if h1[:children].length > 0 %>
+              <ul class="toc-list-h2">
+                <% h1[:children].each do |h2| %>
+                  <li>
+                    <a href="#<%= h2[:id] %>" class="toc-h2 toc-link" data-title="<%= h2[:content].to_s.parameterize %>"><%= h2[:content] %></a>
+                  </li>
+                <% end %>
+              </ul>
+            <% end %>
+          </li>
+        <% end %>
+      </div>
+      <% if current_page.data.toc_footers %>
+        <ul class="toc-footer">
+          <% current_page.data.toc_footers.each do |footer| %>
+            <li><%= footer %></li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <%= page_content %>
+      </div>
+      <div class="dark-box">
+        <% if language_tabs.any? %>
+          <div class="lang-selector">
+            <% language_tabs.each do |lang| %>
+              <% if lang.is_a? Hash %>
+                <a href="#" data-language-name="<%= lang.keys.first %>"><%= lang.values.first %></a>
+              <% else %>
+                <a href="#" data-language-name="<%= lang %>"><%= lang %></a>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </body>
+</html>
