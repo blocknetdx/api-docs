@@ -59,7 +59,7 @@ The protocol is supported by a network of Service Nodes, which are similar to ma
 	1. The packets are received by Service Nodes;
 -->
 
-BLOCK is the utility token of the Blocknet blockchain and powers the Blocknet Protocol. BLOCK is used to pay fees for the network's services, such as those provided by XBridge](#xbridge) and [XRouter](#xrouter). Through these fees, BLOCK is also used for compensation to participating Service Nodes to incentivize support. 
+BLOCK is the utility token of the Blocknet blockchain and powers the Blocknet Protocol. BLOCK is used to pay fees for the network's services, such as those provided by [XBridge](#xbridge) and [XRouter](#xrouter). Through these fees, BLOCK is also used for compensation to participating Service Nodes to incentivize support. 
 
 
 
