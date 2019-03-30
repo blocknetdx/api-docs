@@ -32,7 +32,7 @@ Blocknet is an interoperability protocol that can be used as a 2nd layer on any 
 The protocol is supported by a network of Service Nodes, which are similar to masternodes with an increased level of participation. Service Nodes host full nodes of the blockchains the protocol is compatible with, host microservices, verify interactions between peers, route communication between blockchains, participate in governance by voting, and perform anti-spam and anti-DOS measures for the network.
  
 <!-- 
-	Below is a diagram of how a connection between clients and Service Nodes are made. As seen in the diagrams, a "client" refers to software utlizing the Blocknet Protocol, which can be a blockchain, microservice, dApp, mobile app, website, etc.
+	Below is a diagram of how a connection between clients and Service Nodes are made. As seen in the diagrams, a "client" refers to software utilizing the Blocknet Protocol, which can be a blockchain, microservice, dApp, mobile app, website, etc.
 
 	<div class="center diagram-group">
 		<strong>Communication Process</strong>
@@ -81,14 +81,14 @@ XBridge provides the ability to perform *true* trustless and decentralized excha
 
 <small>[1] [ACCT using Check Lock Time Verify (#4)](http://www.kkurokawa.com/2015/10/atomic-cross-chain-transfer-overview.html)</small>
 
-The exchange takes place on each respective blockchain with the process overlooked by a network of 400+ [Service Nodes](/service-nodes/introduction) running full nodes of the compatible blockchains to ensure no malicious behavior is occuring. Note that once an exchange is completed, when the funds are received will be dependent on the blockchain's accepted confirmation time. By default, the required amount of confirmations is set 0 and the funds aren't spent until each blockchain achieves their respective required amount of confirmations. For instance, lets look at an example of an exchange between BTC requiring 1 confirmation and BLOCK requiring 2 confirmations. BLOCK has a faster confirmation time so it will receive 2 confirmations while BTC has 0, but the funds will not be spent until BLOCK has at least 2 confirmation and BTC has at least 1 confirmation.
+The exchange takes place on each respective blockchain with the process overlooked by a network of 400+ [Service Nodes](/service-nodes/introduction) running full nodes of the compatible blockchains to ensure no malicious behavior is ocurring. Note that once an exchange is completed, when the funds are received will be dependent on the blockchain's accepted confirmation time. By default, the required amount of confirmations is set 0 and the funds aren't spent until each blockchain achieves their respective required amount of confirmations. For instance, let's look at an example of an exchange between BTC requiring 1 confirmation and BLOCK requiring 2 confirmations. BLOCK has a faster confirmation time so it will receive 2 confirmations while BTC has 0, but the funds will not be spent until BLOCK has at least 2 confirmation and BTC has at least 1 confirmation.
 
 There is currently a fixed fee of 0.015 BLOCK to take(fill) an order and no fee to make(create) an order. 
 
 
 ### Design
 
-The following diagrams depict the events of an exchange with various outcomes. As seen in the diagrams, a "client" refers to software utlizing the Blocknet Protocol, which can be a blockchain, microservice, dApp, mobile app, website, etc.
+The following diagrams depict the events of an exchange with various outcomes. As seen in the diagrams, a "client" refers to software utilizing the Blocknet Protocol, which can be a blockchain, microservice, dApp, mobile app, website, etc.
 
 <div class="center diagram-group">
 	<strong>Successful Exchange</strong>
@@ -230,7 +230,7 @@ XRouter submissions are calls that involve interactions with a blockchain, such 
 
 XRouter queries are calls requesting information from a blockchain, such as `xrGetBlockCount`. With queries, the packets are also routed from the client to the respective blockchain and the response of the information queried is routed back to the client. XRouter queries can require a specific amount of Service Nodes to receive a response from in order to achieve consensus on the final answer. 
 
-The following diagrams depict the events of an XRouter query and submission. As seen in the diagrams, a "client" refers to software utlizing the Blocknet Protocol, which can be a blockchain, microservice, dApp, mobile app, website, etc.
+The following diagrams depict the events of an XRouter query and submission. As seen in the diagrams, a "client" refers to software utilizing the Blocknet Protocol, which can be a blockchain, microservice, dApp, mobile app, website, etc.
 
 
 <div class="center diagram-group">

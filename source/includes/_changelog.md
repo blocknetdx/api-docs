@@ -30,8 +30,8 @@ reference: https://docs.pro.coinbase.com
 -->
 
 
-3/5/2019    <small>([view version](https://api.blocknet.co/v/3-5-2019/))</small> |
----------- |
+3/5/2019	|
+------------|
 * Update links to Github to reflect change in repository names
 * Updated link to [compatible blockchains](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets)
 * Updated XRouter [confirmations] to [node_count]
@@ -40,8 +40,8 @@ reference: https://docs.pro.coinbase.com
 
 
 
-12/7/2018    <small>([view version](https://api.blocknet.co/v/12-7-2018/))</small> |
----------- |
+12/7/2018	|
+------------|
 * Updated Introduction Service Node description
 * Updated 'coin' verbiage to 'token'
 * Updated description of how XBridge orderbooks are decentralized
@@ -60,19 +60,19 @@ reference: https://docs.pro.coinbase.com
 * Added historic versioning, which can be viewed next to each changelog date
 * Corrected XRouter `confirmations` data type from 'string' to 'int'
 
-8/31/2018    <small>([view version](https://api.blocknet.co/v/8-31-2018/))</small> |
---------- |
+8/31/2018	|
+------------|
 * Updated XBridge design details and diagrams to reflect fee switch from maker to taker
 * Updated mentions of XBridge from 0.005 BLOCK to 0.015 BLOCK
 * Added reference for atomic swap type in XBridge introduction
 
-8/21/2018    <small>([view version](https://api.blocknet.co/v/8-21-2018/))</small> |
---------- |
+8/21/2018	|
+------------|
 * Added information on the design of XBridge and XRouter
 * Added hyperlink to site branding leading to the site root
 
-8/10/2018    <small>(version unavailable)</small> |
---------- |
+8/10/2018	|
+------------|
 * Added additonal information on the Blocknet Protocol, XBridge, and XRouter
 * Added information on configuration and setup needed to use the API
 * Moved Error Codes to under the XBridge API category
@@ -84,12 +84,12 @@ reference: https://docs.pro.coinbase.com
 * Updated sidebar links
 * Updated design
 
-8/3/2018    <small>(version unavailable)</small> |
---------- |
+8/3/2018	|
+------------|
 * Added documentation for XRouter CLI API calls
 
-6/4/2018    <small>(version unavailable)</small> | 
---------- |
+6/4/2018	|
+------------|
 * API documentation went live
 * Includes documentation for XBridge CLI API calls
 
