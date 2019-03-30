@@ -43,14 +43,11 @@ You can now see the docs at http://localhost:4567. This will reload automaticall
 1. Add notes to `source/includes/_changelog.md`.
 	1. Use the following header:
 		```
-		M/D/YYY    <small>([view version](https://api.blocknet.co/v/M-D-YYYY/))</small> |
+		M/D/YYY    |
 		---------- |
 		```
-	1. Replace `M/D/YYY` and `M-D-YYYY` with publishing date in said formats.
+	1. Replace `M/D/YYY` with the publishing date in said format.
 	1. See past changelog entries for reference.
-1. Build the docs with the `bundle exec middleman build` command.
-1. Create a folder in `source/v/` with the publishing date in `M-D-YYYY` format.
-1. Copy the contents of `build/` (not including `v/`) into this new folder.
 1. Build the docs with the `bundle exec middleman build` command.
 1. Deploy `build/` contents to staging site for testing.
 1. Deploy `build/` contents to [https://api.blocknet.co/](https://api.blocknet.co/).
