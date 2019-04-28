@@ -43,7 +43,6 @@ under the License.
     <link rel="apple-touch-icon" sizes="180x180" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/favicon-16x16.png">
-    <link rel="manifest" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/site.webmanifest">
     <link rel="mask-icon" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/safari-pinned-tab.svg" color="#162e48">
     <link rel="shortcut icon" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/favicon.ico">
     <meta name="msapplication-TileColor" content="#dddfeb">
@@ -122,7 +121,9 @@ under the License.
             <% if h1[:id] == "xbridge-api" %>
               <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">BETA</span></a>
             <% elsif h1[:id] == "xrouter-api" %>
-              <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">ALPHA</span></a>
+              <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">BETA</span></a>
+            <% elsif h1[:id] == "xcloud-api" %>
+              <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">BETA</span></a>
             <% else %>
               <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %></a>
             <% end %>
@@ -145,6 +146,7 @@ under the License.
           <% end %>
         </ul>
       <% end %>
+      <a class="support-button" href="https://discord.gg/T7AG8TK" target="_blank">Need Support?</a>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
@@ -165,11 +167,22 @@ under the License.
         <% end %>
       </div>
     </div>
-    <!-- <div id="notification-bar">
-      <div class="notification">
-        <span class="message">This is a test Blocknet announcment. <a href="https://api.blocknet.co" target="_blank">Read more...</a></span>
+    <div id="wallet-version">
+      <span>Wallet v3.13.0</span>
+    </div>
+    <div id="notification-bar">
+      <!-- <div class="notification" data-expire="">
+        <span class="message"><strong>Need support? <a href="https://discord.gg/2e6s7H8" target="_blank">Join our Discord!</a></strong></span>
+        <span class="notification-close" onclick="this.parentElement.style.display = 'none'">✕</span>
+      </div> -->
+      <div class="notification" data-expire="1557294893">
+        <span class="message"><strong>XRouter Beta Released! <a href="https://blocknet.co/xrouter-missing-link-between-all-blockchains/" target="_blank">Read more...</a></strong></span>
         <span class="notification-close" onclick="this.parentElement.style.display = 'none'">✕</span>
       </div>
-    </div> -->
+      <div class="notification" data-expire="1557294893">
+        <span class="message"><strong>Required Wallet v3.13.0 Update! <a href="https://blocknet.co/#downloads" target="_blank">View downloads...</a></strong></span>
+        <span class="notification-close" onclick="this.parentElement.style.display = 'none'">✕</span>
+      </div>
+    </div>
   </body>
 </html>

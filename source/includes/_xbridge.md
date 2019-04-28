@@ -2,6 +2,31 @@
 
 The following set of calls are used to conduct decentralized and trustless exchanges over the Blocknet network.
 
+See [XBridge Setup](#xbridge-setup) for instructions on setting up your environment for use with XBridge.
+
+Call                                      | Description
+------------------------------------------|---------------
+[dxMakeOrder](#dxmakeorder)               | Create an order
+[dxTakeOrder](#dxtakeorder)               | Take an existing order
+[dxCancelOrder](#dxcancelorder)           | Cancel your own order
+[dxGetOrder](#dxgetorder)                 | Returns order details by ID
+[dxGetOrders](#dxgetorders)               | Returns all orders with details
+[dxGetMyOrders](#dxgetmyorders)           | Returns all your own orders with details
+[dxGetOrderFills](#dxgetorderfills)       | Returns all recent filled orders
+[dxGetOrderHistory](#dxgetorderhistory)   | Returns the OHLCV data my market
+[dxGetLocalTokens](#dxgetlocaltokens)     | Returns all assets connected locally
+[dxGetNetworkTokens](#dxgetnetworktokens) | Returns all assets connect on the network
+[dxGetTokenBalances](#dxgettokenbalances) | Returns available balances for your assets
+[dxGetOrderBook](#dxgetorderbook)         | Returns open orders
+[dxLoadXBridgeConf](#dxloadxbridgeConf)   | Reloads the `xbridge.conf`
+[Status Codes](#status-codes)             | XBridge order status codes
+[Error Codes](#error-codes)               | Error codes
+
+
+
+
+
+
 
 
 
@@ -21,7 +46,9 @@ The following set of calls are used to conduct decentralized and trustless excha
   "type": "exact"
 }
 ```
-This call is used to create a new order. There are no fees to make orders, but there are transaction fees for the maker asset's native network.
+This call is used to create a new order. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
+
+There are no fees to make orders, but there are transaction fees for the maker asset's native network. 
 
 
 ### Request Parameters
@@ -31,18 +58,18 @@ This call is used to create a new order. There are no fees to make orders, but t
 ```cli
 blocknetdx-cli dxMakeOrder SYS 0.100 yFMXXUJF7pSKegHTkTYMjfNxyUGVt1uCrL LTC 0.01 yGDmuy8m1Li4ShNe7kGYusACw4oyiGiK5b exact
 ```
-<code>dxMakeOrder [maker] [maker_size] [maker_address] [taker] [taker_size] [taker_address] [type] [dryrun]\(optional)</code>
+<code class="api-call">dxMakeOrder [maker] [maker_size] [maker_address] [taker] [taker_size] [taker_address] [type] [dryrun]\(optional)</code>
 
-Parameter | Type | Description
---------- | ------- | -----------
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size | string(float) | Maker trading size. String is used to preserve precision.
-maker_address | string | Maker address for sending the outgoing asset.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size | string(float) | Taker trading size. String is used to preserve precision.
-taker_address | string | Maker address for receiving the incoming asset.
-type | string | This is the order type. <br><code>"exact"</code>: Matches a specific order. <br><code>"limit"</code>: (not yet supported) <br><code>"market"</code>: (not yet supported)
-dryrun | string | (Optional Parameter) <br><code>"dryrun"</code>: Receive a response without actually submitting the order to the network.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | string(float) | Maker trading size. String is used to preserve precision.
+maker_address | string        | Maker address for sending the outgoing asset.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | string(float) | Taker trading size. String is used to preserve precision.
+taker_address | string        | Maker address for receiving the incoming asset.
+type          | string        | This is the order type.<br>`exact`: Matches a specific order. <br>`limit`: (not yet supported) <br>`market`: (not yet supported)
+dryrun        | string        | (Optional Parameter)<br>`dryrun`: Receive a response without actually submitting the order to the network.
 
 
 ### Response Parameters
@@ -58,10 +85,10 @@ dryrun | string | (Optional Parameter) <br><code>"dryrun"</code>: Receive a resp
   "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
   "maker": "SYS",
   "maker_size": "0.100",
-  "maker_address": "yFMXXUJF7pSKegHTkTYMjfNxyUGVt1uCrL",
+  "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
   "taker": "LTC",
   "taker_size": "0.01",
-  "taker_address": "yGDmuy8m1Li4ShNe7kGYusACw4oyiGiK5b",
+  "taker_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
   "updated_at": "2018-01-16T00:00:00.00000Z",
   "created_at": "2018-01-15T18:15:30.12345Z",
   "block_id": "38729344720578447445023782734923740427863289632489723984723",
@@ -69,19 +96,19 @@ dryrun | string | (Optional Parameter) <br><code>"dryrun"</code>: Receive a resp
 }
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-id | string | The order GUID.
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size | string(float) | Maker trading size. String is used to preserve precision.
-maker_address | string | Maker address for sending the outgoing asset.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size | string(float) | Taker trading size. String is used to preserve precision.
-taker_address | string | Maker address for receiving the incoming asset.
-updated_at | string | ISO 8601 datetime, with microseconds, of the last time the order was updated.
-created_at | string | ISO 8601 datetime, with microseconds, of when the order was created.
-block_id | string | The GUID block hash of the current block on the Blocknet blockchain at the time the order was created.
-status | string | [View order status codes](#status-codes)
+Parameter     | Type          | Description
+--------------|---------------|-------------
+id            | string        | The order UUID.
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | string(float) | Maker trading size. String is used to preserve precision.
+maker_address | string        | Maker address for sending the outgoing asset.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | string(float) | Taker trading size. String is used to preserve precision.
+taker_address | string        | Maker address for receiving the incoming asset.
+updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+block_id      | string        | The UUID block hash of the current block on the Blocknet blockchain at the time the order was created.
+status        | string        | [View order status codes](#status-codes)
 
 
 > Sample 400 Response
@@ -98,11 +125,11 @@ status | string | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -118,40 +145,27 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1018 | 400 | Unable to connect to wallet
-1025 | 400 | Invalid parameters
-1026 | 400 | Bad address
-1002 | 500 | Internal server error
-
-
-<!-- 
-Pending responses to: https://trello.com/c/LlmSFPLz/282-dxmakeorder-fixes
-
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-  1011 | 400 | Invalid maker symbol  -> add back?
-  1012 | 400 | Invalid taker symbol  -> add back?
-1018 | 400 | Unable to connect to wallet
-  1024 | 400 | Size must be greater than 0  -> add back?
-1025 | 400 | Invalid parameters
-1026 | 400 | Bad address
-1002 | 500 | Internal server error
- -->
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1011  | 400   | Invalid maker symbol
+1012  | 400   | Invalid taker symbol
+1018  | 400   | Unable to connect to wallet
+1024  | 400   | Size must be greater than 0
+1025  | 400   | Invalid parameters
+1026  | 400   | Bad address
+1002  | 500   | Internal server error
 
 
 
@@ -169,13 +183,14 @@ Code | Type | Error
 ```cli
 {
   "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
-  "send_address": "yFMXXUJF7pSKegHTkTYMjfNxyUGVt1uCrL",
-  "receive_address": "yGDmuy8m1Li4ShNe7kGYusACw4oyiGiK5b",
+  "send_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
+  "receive_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
   "dryrun": "dryrun"
 }
 ```
-This call is used to take an order. Taking your own order is currently not supported. Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the taker asset's native network. If the taker asset is BLOCK, there needs to be *at least* two UXTOs - one or more to cover the 0.015 BLOCK fee and one or more to cover the traded amount. 
+This call is used to take an order. Taking your own order is currently not supported. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
 
+Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the taker asset's native network. If the taker asset is BLOCK, there needs to be *at least* two UXTOs - one or more to cover the 0.015 BLOCK fee and one or more to cover the traded amount. 
 
 
 ### Request Parameters
@@ -183,16 +198,16 @@ This call is used to take an order. Taking your own order is currently not suppo
 > Sample Request
 
 ```cli
-blocknetdx-cli dxTakeOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092 yFMXXUJF7pSKegHTkTYMjfNxyUGVt1uCrL yGDmuy8m1Li4ShNe7kGYusACw4oyiGiK5b
+blocknetdx-cli dxTakeOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
 ```
-<code>dxTakeOrder [order_id] [send_address] [receive_address] [dryrun]\(optional)</code>
+<code class="api-call">dxTakeOrder [order_id] [send_address] [receive_address] [dryrun]\(optional)</code>
 
-Parameter | Type | Description
---------- | ------- | -----------
-id | string | ID of order being filled.
-send_address | string | Taker address for sending the outgoing asset.
-receive_address | string | Taker address for receiving the incoming asset.
-dryrun | string | (Optional Parameter) <br><code>"dryrun"</code>: Receive a response without actually submitting the order to the network.
+Parameter       | Type          | Description
+----------------|---------------|-------------
+id              | string        | ID of order being filled.
+send_address    | string        | Taker address for sending the outgoing asset.
+receive_address | string        | Taker address for receiving the incoming asset.
+dryrun          | string        | (Optional Parameter) <br>`dryrun`: Receive a response without actually submitting the order to the network.
 
 
 ### Response Parameters
@@ -216,16 +231,16 @@ dryrun | string | (Optional Parameter) <br><code>"dryrun"</code>: Receive a resp
 }
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-id | string | The order GUID.
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size | string(float) | Maker trading size. String is used to preserve precision.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size | string(float) | Taker trading size. String is used to preserve precision.
-updated_at | string | ISO 8601 datetime, with microseconds, of the last time the order was updated.
-created_at | string | ISO 8601 datetime, with microseconds, of when the order was created.
-status | string | Order status: <code>"finished"</code>
+Parameter     | Type          | Description
+--------------|---------------|-------------
+id            | string        | The order UUID.
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | string(float) | Maker trading size. String is used to preserve precision.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | string(float) | Taker trading size. String is used to preserve precision.
+updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+status        | string        | Order status: `finished`
 
 
 > Sample 400 Response
@@ -242,11 +257,11 @@ status | string | Order status: <code>"finished"</code>
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -262,39 +277,27 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1020 | 400 | Invalid order
-1021 | 400 | Invalid order id
-1025 | 400 | Invalid parameters
-1026 | 400 | Bad address
-1002 | 500 | Internal server error
-
-
-<!-- 
-Pending responses to: https://trello.com/c/LlmSFPLz/282-dxmakeorder-fixes
-
-1001 | 401 | Unauthorized
-1011 | 400 | Invalid maker symbol <- add back?
-1012 | 400 | Invalid taker symbol <- add back?
-1020 | 400 | Invalid order
-1021 | 400 | Invalid order id
-1025 | 400 | Invalid parameters
-1026 | 400 | Bad address
-1002 | 500 | Internal server error
--->
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1011  | 400   | Invalid maker symbol
+1012  | 400   | Invalid taker symbol
+1020  | 400   | Invalid order
+1021  | 400   | Invalid order id
+1025  | 400   | Invalid parameters
+1026  | 400   | Bad address
+1002  | 500   | Internal server error
 
 
 
@@ -314,7 +317,7 @@ Pending responses to: https://trello.com/c/LlmSFPLz/282-dxmakeorder-fixes
   "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092"
 }
 ```
-This call is used to cancel one of your own orders, which automatically rolls back the order if necessary.
+This call is used to cancel one of your own orders, which automatically rolls back the order if a trade is in process.
 
 
 ### Request Parameters
@@ -324,11 +327,11 @@ This call is used to cancel one of your own orders, which automatically rolls ba
 ```cli
 blocknetdx-cli dxCancelOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092
 ```
-<code>dxCancelOrder [order_id]</code>
+<code class="api-call">dxCancelOrder [order_id]</code>
 
-Parameter | Type | Description
---------- | ------- | -----------
-id | string | ID of order being cancelled.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+id            | string        | ID of order being cancelled.
 
 
 ### Response Parameters
@@ -344,28 +347,28 @@ id | string | ID of order being cancelled.
   "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
   "maker": "SYS",
   "maker_size": "0.100",
-  "maker_address": "yFMXXUJF7pSKegHTkTYMjfNxyUGVt1uCrL",
+  "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
   "taker": "LTC",
   "taker_size": "0.01",
-  "taker_address": "yGDmuy8m1Li4ShNe7kGYusACw4oyiGiK5b",
+  "taker_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
   "updated_at": "1970-01-01T00:00:00.00000Z",
   "created_at": "2018-01-15T18:15:30.12345Z",
   "status": "canceled"
 }
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-id | string | The order GUID.
-maker | string | Sending asset of party cancelling the order.
-maker_size | string(float) | Sending trading size. String is used to preserve precision.
-maker_address | string | Address for sending the outgoing asset.
-taker | string | Receiving asset of party cancelling the order.
-taker_size | string(float) | Receiving trading size. String is used to preserve precision.
-taker_address | string | Address for receiving the incoming asset.
-updated_at | string | ISO 8601 datetime, with microseconds, of the last time the order was updated.
-created_at | string | ISO 8601 datetime, with microseconds, of when the order was created.
-status | string | [View order status codes](#status-codes)
+Parameter     | Type          | Description
+--------------|---------------|-------------
+id            | string        | The order UUID.
+maker         | string        | Sending asset of party cancelling the order.
+maker_size    | string(float) | Sending trading size. String is used to preserve precision.
+maker_address | string        | Address for sending the outgoing asset.
+taker         | string        | Receiving asset of party cancelling the order.
+taker_size    | string(float) | Receiving trading size. String is used to preserve precision.
+taker_address | string        | Address for receiving the incoming asset.
+updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+status        | string        | [View order status codes](#status-codes)
 
 
 > Sample 400 Response
@@ -382,11 +385,11 @@ status | string | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -402,23 +405,23 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1021 | 400 | Invalid order id
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1021  | 400   | Invalid order id
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
 
 
@@ -448,11 +451,11 @@ This call is used to retrieve order info.
 ```cli
 blocknetdx-cli dxGetOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092
 ```
-<code>dxGetOrder [order_id]</code>
+<code class="api-call">dxGetOrder [order_id]</code>
 
-Parameter | Type | Description
---------- | ------- | -----------
-id | string | ID of order of interest.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+id            | string        | ID of order of interest.
 
 
 ### Response Parameters
@@ -476,16 +479,16 @@ id | string | ID of order of interest.
 }
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-id | string | The order GUID.
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size | string(float) | Maker trading size. String is used to preserve precision.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size | string(float) | Taker trading size. String is used to preserve precision.
-updated_at | string | ISO 8601 datetime, with microseconds, of the last time the order was updated.
-created_at | string | ISO 8601 datetime, with microseconds, of when the order was created.
-status | string | [View order status codes](#status-codes)
+Parameter     | Type          | Description
+--------------|---------------|-------------
+id            | string        | The order UUID.
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | string(float) | Maker trading size. String is used to preserve precision.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | string(float) | Taker trading size. String is used to preserve precision.
+updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+status        | string        | [View order status codes](#status-codes)
 
 
 > Sample 400 Response
@@ -502,11 +505,11 @@ status | string | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -522,23 +525,23 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1021 | 400 | Invalid order id
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1021  | 400   | Invalid order id
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
 
 
@@ -561,7 +564,7 @@ This call is used to retrieve all orders of every market pair. It will only retu
 ```cli
 blocknetdx-cli dxGetOrders
 ```
-<code>dxGetOrders</code>
+<code class="api-call">dxGetOrders</code>
 
 This call does not take parameters.
 
@@ -609,17 +612,17 @@ This call does not take parameters.
 ]
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-Array | array | An array of all orders with each order having the following parameters.
-id | string | The order GUID.
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size | string(float) | Maker trading size. String is used to preserve precision.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size | string(float) | Taker trading size. String is used to preserve precision.
-updated_at | string | ISO 8601 datetime, with microseconds, of the last time the order was updated.
-created_at | string | ISO 8601 datetime, with microseconds, of when the order was created.
-status | string | [View order status codes](#status-codes)
+Parameter     | Type          | Description
+--------------|---------------|-------------
+Array         | array         | An array of all orders with each order having the following parameters.
+id            | string        | The order UUID.
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | string(float) | Maker trading size. String is used to preserve precision.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | string(float) | Taker trading size. String is used to preserve precision.
+updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+status        | string        | [View order status codes](#status-codes)
 
 
 > Sample 400 Response
@@ -636,11 +639,11 @@ status | string | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -656,22 +659,22 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
 
 
@@ -684,7 +687,7 @@ Code | Type | Error
 
 ## dxGetMyOrders
 
-This call is used to retrieve all of your orders (of all states) from the local client.
+This call is used to retrieve all of your orders (of all states) from the local client. It will only return orders from your current session.
 
 
 ### Request Parameters
@@ -694,7 +697,7 @@ This call is used to retrieve all of your orders (of all states) from the local 
 ```cli
 blocknetdx-cli dxGetMyOrders
 ```
-<code>dxGetMyOrders</code>
+<code class="api-call">dxGetMyOrders</code>
 
 This call does not take parameters.
 
@@ -742,19 +745,19 @@ This call does not take parameters.
 ]
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-Array | array | An array of all orders with each order having the following parameters.
-id | string | The order GUID.
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size | string(float) | Maker trading size. String is used to preserve precision.
-maker_address | string | Address for sending the outgoing asset.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size | string(float) | Taker trading size. String is used to preserve precision.
-taker_address | string | Address for receiving the incoming asset.
-updated_at | string | ISO 8601 datetime, with microseconds, of the last time the order was updated.
-created_at | string | ISO 8601 datetime, with microseconds, of when the order was created.
-status | string | [View order status codes](#status-codes)
+Parameter     | Type          | Description
+--------------|---------------|-------------
+Array         | array         | An array of all orders with each order having the following parameters.
+id            | string        | The order UUID.
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | string(float) | Maker trading size. String is used to preserve precision.
+maker_address | string        | Address for sending the outgoing asset.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | string(float) | Taker trading size. String is used to preserve precision.
+taker_address | string        | Address for receiving the incoming asset.
+updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+status        | string        | [View order status codes](#status-codes)
 
 
 > Sample 400 Response
@@ -771,11 +774,11 @@ status | string | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -791,22 +794,22 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
 
 
@@ -828,7 +831,7 @@ Code | Type | Error
   "combined": false
 }
 ```
-This call is used to retrieve all recent filled orders by a given trade pair.
+This call is used to retrieve all recent filled orders by a given trade pair. It will only return orders that have been filled in your current session.
 
 
 ### Request Parameters
@@ -838,13 +841,13 @@ This call is used to retrieve all recent filled orders by a given trade pair.
 ```cli
 blocknetdx-cli dxGetOrderFills SYS LTC false
 ```
-<code>dxGetOrderFills [maker] [taker] [combined]\(optional)</code>
+<code class="api-call">dxGetOrderFills [maker] [taker] [combined]\(optional)</code>
 
-Parameter | Type | Description
---------- | ------- | -----------
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-combines | boolean | (Optional Parameter) Defaults to <code>true</code>.<br><code>true</code>: Receive filled orders for both the maker and taker assets as specified, as well as the inverse with the maker asset as the taker and the taker aseet as the maker.<br><code>false</code>: Receive filled orders only with the maker and taker assets as specified.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+combines      | boolean       | (Optional Parameter) Defaults to `true`.<br>`true`: Receive filled orders for both the maker and taker assets as specified, as well as the inverse with the maker asset as the taker and the taker asset as the maker.<br>`false`: Receive filled orders only with the maker and taker assets as specified.
 
 
 ### Response Parameters
@@ -876,24 +879,25 @@ combines | boolean | (Optional Parameter) Defaults to <code>true</code>.<br><cod
 ]
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-Array | array | Array of orders sorted by date descending (most recent filled trade first).
-id | string | The order GUID.
-time | string | Time the order was filled.
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size | string(float) | Maker trading size. String is used to preserve precision.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size | string(float) | Taker trading size. String is used to preserve precision.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+Array         | array         | Array of orders sorted by date descending (most recent filled trade first).
+id            | string        | The order UUID.
+time          | string        | Time the order was filled.
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | string(float) | Maker trading size. String is used to preserve precision.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | string(float) | Taker trading size. String is used to preserve precision.
 
 <!-- 
-maker_txid | string | The transaction ID(hash) of maker aseet on the aseet's network.
+maker_txid    | string        | The transaction ID(hash) of maker asset on the asset's network.
   "maker_txid": "f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156",
-taker_txid | string | The transaction ID(hash) of taker aseet on the aseet's network.
+taker_txid    | string        | The transaction ID(hash) of taker asset on the asset's network.
   "taker_txid": "bcb7543c2f66777927899e701c8309be77904b9c0ef286791fb1a1813bb9099d",
-block_id | string | Blocknet block hash GUID at the time the order was filled.
+block_id      | string        | Blocknet block hash UUID at the time the order was filled.
   "block_id": "69a1f3bc5031e55800a37062d3c74c017cf233730e7c00813f5cbe7d9d7d0230"
  -->
+
 
 > Sample 400 Response
 
@@ -909,11 +913,11 @@ block_id | string | Blocknet block hash GUID at the time the order was filled.
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -929,30 +933,25 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1011  | 400   | Invalid maker symbol
+1012  | 400   | Invalid taker symbol
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
-<!-- 
-1001 | 401 | Unauthorized
-1011 | 400 | Invalid maker symbol <- add back?
-1012 | 400 | Invalid taker symbol <- add back?
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
- -->
 
 
 
@@ -975,7 +974,7 @@ Code | Type | Error
   "granularity": 60
 }
 ```
-This call is used to retrieve all the filled trades by a trade pair within a specified time range. It can return the history for any [compatible asset](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) since all trade history is stored on-chain.
+This call is used to retrieve the OHLCV data by a trade pair within a specified time range. It can return the history for any [compatible asset](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) since all trade history is stored on-chain.
 
 
 ### Request Parameters
@@ -986,37 +985,30 @@ This call is used to retrieve all the filled trades by a trade pair within a spe
 blocknetdx-cli dxGetOrderHistory SYS LTC 1540660180 1540660420 60 true
 ```
 
-<code>dxGetOrderHistory [maker] [taker] [start_time] [end_time] [granularity] [order_ids]\(optional) [with_inverse]\(optional) [limit]\(optional)</code>
+<code class="api-call">dxGetOrderHistory [maker] [taker] [start_time] [end_time] [granularity] [order_ids]\(optional) [with_inverse]\(optional) [limit]\(optional)</code>
 
 <!-- 
-<code>dxGetOrderHistory [maker] [taker] [start_time] [end_time] [granularity] [order_ids]\(optional) [with_inverse]\(optional) [limit]\(optional) [interval_timestamp]\(optional)</code>
+<code class="api-call">dxGetOrderHistory [maker] [taker] [start_time] [end_time] [granularity] [order_ids]\(optional) [with_inverse]\(optional) [limit]\(optional) [interval_timestamp]\(optional)</code>
  -->
  
-Parameter | Type | Description
---------- | ------- | -----------
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-start_time | int | Start time(Unix time) representing the lower boundary to search.
-end_time | int | End time(Unix time) representing the upper boundary to search.
-granularity | int | Time interval slice in seconds: <br><code>60</code>, <code>300</code>, <code>900</code>, <code>3600</code>, <code>21600</code>, <code>86400</code>
-order_ids | bool | (Optional Parameter) Defaults to <code>false</code>.<br><code>true</code>: Receive the GUIDs of all filled orders in each slice.<br><code>false</code>: Do not receive the order GUIDs.
-with_inverse | bool | (Optional Parameter) Defaults to <code>false</code>.<br><code>false</code>: Returns the orders in the specified market pair.<br><code>true</code>: Returns the orders in the inverse pair too, e.g. LTC SYS -> SYS LTC would be returned as well.
-limit | int | (Optional Parameter) Defaults to <code>2147483647</code>.<br>The max number of interval slices returned.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+start_time    | int           | Start time(Unix time) representing the lower boundary to search.
+end_time      | int           | End time(Unix time) representing the upper boundary to search.
+granularity   | int           | Time interval slice in seconds: <br>`60`, `300`, `900`, `3600`, `21600`, `86400`
+order_ids     | bool          | (Optional Parameter) Defaults to `false`.<br>`true`: Receive the GUIDs of all filled orders in each slice.<br>`false`: Do not receive the order GUIDs.
+with_inverse  | bool          | (Optional Parameter) Defaults to `false`.<br>`false`: Returns the orders in the specified market pair.<br>`true`: Returns the orders in the inverse pair too, e.g. LTC SYS -> SYS LTC would be returned as well.
+limit         | int           | (Optional Parameter) Defaults to `2147483647`.<br>The max number of interval slices returned.
 
 <!-- 
 add parameter as option in call parameters above (currently uncommented)
 
-interval_timestamp | string | (Optional Parameter) Defaults to <code>at_start</code>.<br><code>at_start</code>: Description.<br><code>at_end</code>: Description.
+interval_timestamp | string | (Optional Parameter) Defaults to `at_start`.<br>`at_start`: Description.<br>`at_end`: Description.
 
 at_start means all orders that fall in the specified number up to the next time interval. at_end means all the orders that happened in the time interval immediately prior to the specified number
  -->
-
-
-
-
-
-
-
 
 
 ### Response Parameters
@@ -1038,15 +1030,16 @@ at_start means all orders that fall in the specified number up to the next time 
 ]
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-time | string | ISO 8601 datetime, with microseconds, of the time at the beginning of the time slice.
-low | float64 | Exchange rate lower bound within the time slice.
-high | float64 | Exchange rate upper bound within the time slice.
-open | float64 | Exchange rate of first filled order at the beginning of the time slice.
-close | float64 | Exchange rate of last filled order at the end of the time slice.
-volume | int64 | Total volume of the taker asset within the time slice.
-order_ids | array | Array of GUIDs of all filled orders within the time slice.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+time          | string        | ISO 8601 datetime, with microseconds, of the time at the beginning of the time slice.
+low           | float64       | Exchange rate lower bound within the time slice.
+high          | float64       | Exchange rate upper bound within the time slice.
+open          | float64       | Exchange rate of first filled order at the beginning of the time slice.
+close         | float64       | Exchange rate of last filled order at the end of the time slice.
+volume        | int64         | Total volume of the taker asset within the time slice.
+order_ids     | array         | Array of GUIDs of all filled orders within the time slice.
+
 
 > Sample 400 Response
 
@@ -1062,11 +1055,11 @@ order_ids | array | Array of GUIDs of all filled orders within the time slice.
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -1083,32 +1076,28 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1004 | 400 | Bad request
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1004  | 400   | Bad request
+1011  | 400   | Invalid maker symbol
+1012  | 400   | Invalid taker symbol
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
 <!-- 
-1001 | 401 | Unauthorized
-1004 | 400 | Bad request
-1011 | 400 | Invalid maker symbol <- add back?
-1012 | 400 | Invalid taker symbol <- add back?
-1016 | 400 | Invalid time <- add back?
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+1016  | 400   | Invalid time
  -->
 
 
@@ -1122,7 +1111,7 @@ Code | Type | Error
 
 ## dxGetLocalTokens
 
-This call is used to retrieve all the assets supported by the local client.
+This call is used to retrieve all the assets supported by the local client. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). 
 
 
 ### Request Parameters
@@ -1132,7 +1121,7 @@ This call is used to retrieve all the assets supported by the local client.
 ```cli
 blocknetdx-cli dxGetLocalTokens
 ```
-<code>dxGetLocalTokens</code>
+<code class="api-call">dxGetLocalTokens</code>
 
 This call does not take parameters.
 
@@ -1154,9 +1143,10 @@ This call does not take parameters.
 ]
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-Array | array | An array of all the assets supported by the local client.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+Array         | array         | An array of all the assets supported by the local client.
+
 
 > Sample 400 Response
 
@@ -1172,11 +1162,11 @@ Array | array | An array of all the assets supported by the local client.
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -1192,23 +1182,23 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1004 | 400 | Bad request
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1004  | 400   | Bad request
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
 
 
@@ -1221,7 +1211,7 @@ Code | Type | Error
 
 ## dxGetNetworkTokens
 
-This call is used to retrieve all the assets supported by the network.
+This call is used to retrieve all the assets currently supported by the network. This list may differ from the [compatibility list](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) due to assets being unofficially supported or assets not being supported by any nodes on the network.
 
 
 ### Request Parameters
@@ -1231,7 +1221,7 @@ This call is used to retrieve all the assets supported by the network.
 ```cli
 blocknetdx-cli dxGetNetworkTokens
 ```
-<code>dxGetNetworkTokens</code>
+<code class="api-call">dxGetNetworkTokens</code>
 
 This call does not take parameters.
 
@@ -1253,9 +1243,9 @@ This call does not take parameters.
 ]
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-Array | array | An array of all the assets supported by the network.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+Array         | array         | An array of all the assets supported by the network.
 
 > Sample 400 Response
 
@@ -1271,11 +1261,11 @@ Array | array | An array of all the assets supported by the network.
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -1291,23 +1281,23 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1004 | 400 | Bad request
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1004  | 400   | Bad request
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
 
 
@@ -1320,7 +1310,7 @@ Code | Type | Error
 
 ## dxGetTokenBalances
 
-This call is used to retrieve the *available* balances for all connected wallets on the local client.
+This call is used to retrieve the asset __*available*__ balances for all connected wallets on the local client. This will only return balances for the assets returned in [dxGetLocalTokens](#dxgetlocaltokens). If an asset is not showing and is not returned in or the value is showing 0, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup).
 
 
 ### Request Parameters
@@ -1330,7 +1320,7 @@ This call is used to retrieve the *available* balances for all connected wallets
 ```cli
 blocknetdx-cli dxGetTokenBalances
 ```
-<code>dxGetTokenBalances</code>
+<code class="api-call">dxGetTokenBalances</code>
 
 This call does not take parameters.
 
@@ -1352,11 +1342,12 @@ This call does not take parameters.
 }
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-Object | map | Map structure of the assets and respective balances.
-- key | string | The asset symbol.
-- value | string(float) | The available wallet balance amount. String is used to preserve precision.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+Object        | object        | Key-value object of the assets and respective balances.
+-- key        | string        | The asset symbol.
+-- value      | string(float) | The available wallet balance amount. String is used to preserve precision.
+
 
 > Sample 400 Response
 
@@ -1372,11 +1363,11 @@ Object | map | Map structure of the assets and respective balances.
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -1392,23 +1383,23 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1004 | 400 | Bad request
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1004  | 400   | Bad request
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
 
 
@@ -1428,7 +1419,7 @@ Code | Type | Error
   "id": "f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156"
 }
 ```
-This call is used to retrieve the locked UTXOs for a specified order GUID.
+This call is used to retrieve the locked UTXOs for a specified order UUID.
 
 
 ### Request Parameters
@@ -1438,12 +1429,11 @@ This call is used to retrieve the locked UTXOs for a specified order GUID.
 ```cli
 blocknetdx-cli dxGetLockedUtxos f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156
 ```
-<code>dxGetLockedUtxos [order_id]</code>
+<code class="api-call">dxGetLockedUtxos [order_id]</code>
 
-Parameter | Type | Description
---------- | ------- | -----------
-id | string | The order GUID to recieve the UTXOs for.
-
+Parameter     | Type          | Description
+--------------|---------------|-------------
+id            | string        | The order UUID to recieve the UTXOs for.
 
 
 ### Response Parameters
@@ -1467,12 +1457,12 @@ id | string | The order GUID to recieve the UTXOs for.
 ]
 ```
 
-Parameter | Type | Description
---------- | ------- | -----------
-id | string | The order GUID.
-Object | map | Map structure of the token and UTXOs for the specified order.
-- key | string | The token symbol.
-- value | array | The UTXOs locked for the given order GUID.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+id            | string        | The order UUID.
+Object        | object        | Key-value object of the asset and UTXOs for the specified order.
+-- key        | string        | The asset symbol.
+-- value      | array         | The UTXOs locked for the given order UUID.
 
 > Sample 400 Response
 
@@ -1488,11 +1478,11 @@ Object | map | Map structure of the token and UTXOs for the specified order.
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -1509,23 +1499,23 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1004 | 400 | Bad request
-1029 | 400 | Not an exchange node
-1002 | 500 | Internal server error -->
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1004  | 400   | Bad request
+1029  | 400   | Not an exchange node
+1002  | 500   | Internal server error -->
 
 
 
@@ -1564,14 +1554,14 @@ It will only return orders for assets returned in dxGetLocalTokens.
 ```cli
 blocknetdx-cli dxGetOrderBook 1 LTC SYS 100
 ```
-<code>dxGetOrderBook [detail] [maker] [taker] [max_orders]\(optional)</code>
+<code class="api-call">dxGetOrderBook [detail] [maker] [taker] [max_orders]\(optional)</code>
 
-Parameter | Type | Description
---------- | ------- | -----------
-detail | int | Detail level: <code>1</code>, <code>2</code>, <code>3</code>, <code>4</code>
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-max_orders | int | (Optional Parameter) Defaults to <code>50</code>.<br>The maximum total orders to display for bids and asks combined. Odd values are rounded up 1. Quantity is split evenly between bids and asks. 
+Parameter     | Type          | Description
+--------------|---------------|-------------
+detail        | int           | Detail level: `1`, `2`, `3`, `4`
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+max_orders    | int           | (Optional Parameter) Defaults to `50`.<br>The maximum total orders to display for bids and asks combined. Odd values are rounded up 1. Quantity is split evenly between bids and asks. 
 
 
 ### Response Parameters
@@ -1601,20 +1591,20 @@ max_orders | int | (Optional Parameter) Defaults to <code>50</code>.<br>The maxi
 <br><b>Detail 1</b><br>
 Retrieves the best bid and ask.
 
+Parameter     | Type          | Description
+--------------|---------------|-------------
+detail        | int           | Detail level: `1`
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+bids          | array         | An array of the best bids.
+- price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
+- quantity    | int           | The total bid orders at this price.
+asks          | array         | An array of the best asks.
+- price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
+- quantity    | int           | The total ask orders at this price.
 
-Parameter | Type | Description
---------- | ------- | -----------
-detail | int | Detail level: <code>1</code>
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-bids | array | An array of the best bids.
-- price | string(float) | The highest bid price for the token. String is used to preserve precision.
-- size | string(float) | The size of bid orders at this price. String is used to preserve precision.
-- quantity | int | The total bid orders at this price.
-asks | array | An array of the best asks.
-- price | string(float) | The lowest ask price for the token. String is used to preserve precision.
-- size | string(float) | The size of ask orders at this price. String is used to preserve precision.
-- quantity | int | The total ask orders at this price.
 
 > Sample 200 Response \(Detail 2)
 
@@ -1637,19 +1627,20 @@ asks | array | An array of the best asks.
 <br><b>Detail 2</b><br>
 Retrieves a list of aggregated orders. This is useful for charting.
 
-Parameter | Type | Description
---------- | ------- | -----------
-detail | int | Detail level: <code>2</code>
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-bids | array | An array of bids.
-- price | string(float) | The bid price for the token. String is used to preserve precision.
-- size | string(float) | The size of bid orders at this price. String is used to preserve precision.
-- quantity | int | The total bid orders at this price.
-asks | array | An array of asks.
-- price | string(float) | The ask price for the token. String is used to preserve precision.
-- size | string(float) | The size of ask orders at this price. String is used to preserve precision.
-- quantity | int | The total ask orders at this price.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+detail        | int           | Detail level: `2`
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+bids          | array         | An array of bids.
+- price       | string(float) | The bid price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
+- quantity    | int           | The total bid orders at this price.
+asks          | array         | An array of asks.
+- price       | string(float) | The ask price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
+- quantity    | int           | The total ask orders at this price.
+
 
 > Sample 200 Response \(Detail 3)
 
@@ -1674,19 +1665,20 @@ asks | array | An array of asks.
 <br><b>Detail 3</b><br>
 Retrieves a list of non-aggregated orders. This is useful for bot trading.
 
-Parameter | Type | Description
---------- | ------- | -----------
-detail | int | Detail level: <code>3</code>
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-bids | array | An array of bids.
-- price | string(float) | The highest bid price for the asset. String is used to preserve precision.
-- size | string(float) | The size of the bid order. String is used to preserve precision.
-- order_id | string | The GUID of the bid order.
-asks | array | An array of asks.
-- price | string(float) | The lowest ask price for the asset. String is used to preserve precision.
-- size | string(float) | The size of the ask order. String is used to preserve precision.
-- order_id | string | The GUID of the ask order.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+detail        | int           | Detail level: `3`
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+bids          | array         | An array of bids.
+- price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of the bid order. String is used to preserve precision.
+- order_id    | string        | The UUID of the bid order.
+asks          | array         | An array of asks.
+- price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of the ask order. String is used to preserve precision.
+- order_id    | string        | The UUID of the ask order.
+
 
 > Sample 200 Response \(Detail 4)
 
@@ -1709,19 +1701,20 @@ asks | array | An array of asks.
 <br><b>Detail 4</b><br>
 Retrieves the best bid and ask with the order GUIDs.
 
-Parameter | Type | Description
---------- | ------- | -----------
-detail | int | Detail level: <code>4</code>
-maker | string | Maker trading asset; the ticker of the asset being sold by the maker.
-taker | string | Taker trading asset; the ticker of the asset being sold by the taker.
-bids | array | An array of the best bids.
-- price | string(float) | The highest bid price for the asset. String is used to preserve precision.
-- size | string(float) | The size of bid orders at this price. String is used to preserve precision.
-- order_ids | array | An array of GUID for bid orders at this price.
-asks | array | An array of the best asks.
-- price | string(float) | The lowest ask price for the asset. String is used to preserve precision.
-- size | string(float) | The size of ask orders at this price. String is used to preserve precision.
-- order_ids | array | An array of GUID for ask orders at this price.
+Parameter     | Type          | Description
+--------------|---------------|-------------
+detail        | int           | Detail level: `4`
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+bids          | array         | An array of the best bids.
+- price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
+- order_ids   | array         | An array of UUID for bid orders at this price.
+asks          | array         | An array of the best asks.
+- price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
+- order_ids   | array         | An array of UUID for ask orders at this price.
+
 
 > Sample 400 Response
 
@@ -1737,11 +1730,11 @@ asks | array | An array of the best asks.
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -1758,35 +1751,26 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1004 | 400 | Bad request
-1015 | 400 | Invalid detail level
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
-
-
-<!-- 
-1001 | 401 | Unauthorized
-1004 | 400 | Bad request
-1011 | 400 | Invalid maker symbol <- add back?
-1012 | 400 | Invalid taker symbol <- add back?
-1015 | 400 | Invalid detail level
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
- -->
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1004  | 400   | Bad request
+1011  | 400   | Invalid maker symbol
+1012  | 400   | Invalid taker symbol
+1015  | 400   | Invalid detail level
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
 
 
@@ -1799,7 +1783,7 @@ Code | Type | Error
 
 ## dxLoadXBridgeConf
 
-This call is used to reload the *xbridge.conf* file without requiring to restart the local client.
+This call is used to reload `xbridge.conf` to run newly configured settings without needing to restart the Blocknet client.
 
 
 ### Request Parameters
@@ -1809,7 +1793,7 @@ This call is used to reload the *xbridge.conf* file without requiring to restart
 ```cli
 blocknetdx-cli dxLoadXBridgeConf
 ```
-<code>dxLoadXBridgeConf</code>
+<code class="api-call">dxLoadXBridgeConf</code>
 
 This call does not take parameters.
 
@@ -1826,9 +1810,10 @@ This call does not take parameters.
 true
 ```
 
-Type | Description
---------- | ------- | -----------
-bool | <code>true</code>: Successfully reloaded file
+Type          | Description
+--------------|-------------
+bool          | `true`: Successfully reloaded file.
+
 
 > Sample 400 Response
 
@@ -1844,11 +1829,11 @@ bool | <code>true</code>: Successfully reloaded file
 400 Bad Request
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 > Sample 500 Response
@@ -1864,23 +1849,23 @@ name | string | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter | Type | Description
---------- | ------- | -----------
-error | string | Error message
-code | int | Error code
-name | string | Name of the RPC function
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
 
 
 <aside class="warning">
 Error Codes
 </aside>
 
-Code | Type | Error
---------- | ------- | -----------
-1001 | 401 | Unauthorized
-1004 | 400 | Bad request
-1025 | 400 | Invalid parameters
-1002 | 500 | Internal server error
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1004  | 400   | Bad request
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
 
 
 
@@ -1896,21 +1881,21 @@ Code | Type | Error
 The XBridge API uses the following order status codes:
 
 
-Status | Description
---------- | -------
-new | New order, not yet broadcasted
-open | Open order, waiting for taker
-accepting | Taker accepting order
-hold | Counterparties acknowledge each other
-initialized | Counterparties agree on order
-created | Swap process starting
-commited | Swap finalized
-finished | Order complete
-expired | Order expired
-offline | Maker or taker went offline
-canceled | Order was canceled
-invalid | Problem detected with the order
-rolled back | Funds redeemed in failed trade
+Status          | Description
+----------------|-------------
+new             | New order, not yet broadcasted
+open            | Open order, waiting for taker
+accepting       | Taker accepting order
+hold            | Counterparties acknowledge each other
+initialized     | Counterparties agree on order
+created         | Swap process starting
+commited        | Swap finalized
+finished        | Order complete
+expired         | Order expired
+offline         | Maker or taker went offline
+canceled        | Order was canceled
+invalid         | Problem detected with the order
+rolled back     | Trade failed, funds being rolled back
 rollback failed | Funds unsuccessfully redeemed in failed trade
 
 
@@ -1927,34 +1912,32 @@ rollback failed | Funds unsuccessfully redeemed in failed trade
 The XBridge API uses the following error codes:
 
 
-Code | Type | Error
---------- | ------- | -----------
-1004 | 400 | Bad request
-1011 | 400 | Invalid maker symbol
-1012 | 400 | Invalid taker symbol
-1015 | 400 | Invalid detail level
-1016 | 400 | Invalid time
-1017 | 400 | Invalid asset
-1018 | 400 | Unable to connect to wallet
-1019 | 400 | Insufficient funds
-1020 | 400 | Funds not signed for
-1021 | 400 | Invalid order id
-1022 | 400 | Unknown session
-1023 | 400 | Revert transaction failed
-1024 | 400 | Invalid amount
-1025 | 400 | Invalid parameters
-1026 | 400 | Invalid address
-1027 | 400 | Invalid signature
-1028 | 400 | Invalid state
-1029 | 400 | Not an exchange node
-1030 | 400 | Dust amount
-1031 | 400 | Insufficient funds
-1032 | 400 | Unsupported token
-1024 | 400 | Size must be greater than 0
-1001 | 401 | Unauthorized
-1002 | 500 | Internal server error
-
-
+Code  | Type  | Error
+------|-------|------------
+1004  | 400   | Bad request
+1011  | 400   | Invalid maker symbol
+1012  | 400   | Invalid taker symbol
+1015  | 400   | Invalid detail level
+1016  | 400   | Invalid time
+1017  | 400   | Invalid asset
+1018  | 400   | Unable to connect to wallet
+1019  | 400   | Insufficient funds
+1020  | 400   | Funds not signed for
+1021  | 400   | Invalid order ID
+1022  | 400   | Unknown session
+1023  | 400   | Revert transaction failed
+1024  | 400   | Invalid amount
+1025  | 400   | Invalid parameters
+1026  | 400   | Invalid address
+1027  | 400   | Invalid signature
+1028  | 400   | Invalid state
+1029  | 400   | Not an exchange node
+1030  | 400   | Dust amount
+1031  | 400   | Insufficient funds
+1032  | 400   | Unsupported asset
+1024  | 400   | Size must be greater than 0
+1001  | 401   | Unauthorized
+1002  | 500   | Internal server error
 
 
 

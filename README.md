@@ -32,6 +32,17 @@ You can now see the docs at http://localhost:4567. This will reload automaticall
 * __Syntax__ - These documents use [Markdown syntax](https://github.com/lord/slate/wiki/Markdown-Syntax).
 * __Content__ - For better maintenance, the content is composed of separate files in `source/includes/`. Add new files to the docs by including the file name under `includes:` in `source/index.html.md`. This also adds the content as a menu item.
 * __Layout__ - The page template is managed with `source/layouts/layout.erb` and `source/stylesheets/`.
+* __Formatting Conventions__: 
+	* __Styling__:
+		* *Italics* - Referencing menu/button text (*Settings*, *Submit*, *Cancel*, etc)
+		* __*Bold+Italics*__ - Word emphasis (__*available*__ balances)
+		* `inline code` - code, commands (`servicenode list`), calls (`dxGetOrders`), file contents (`ExchangeWallets=`), state (`finished`), parameters (`dryrun`) , files (`blocknetdx.conf`), directories (`BlocknetDX/`)
+	* __Naming__:
+		* Parameters - Lowercase, underscores (correct: `order_id`, `orderid`; incorrect: `order id`, `order-id`, `orderID`)
+	* __Spacing__:
+		* 10 lines separating each call
+		* 2 lines separating each section within a call
+		* 2 lines separating response types
 
 [See full wiki](https://github.com/lord/slate/wiki).
 
@@ -41,7 +52,7 @@ You can now see the docs at http://localhost:4567. This will reload automaticall
 ## Publishing
 
 1. Add notes to `source/includes/_changelog.md`.
-	1. Use the following header:
+	1. Use the following header format:
 		```
 		M/D/YYY    |
 		---------- |
