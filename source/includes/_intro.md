@@ -17,7 +17,7 @@ Please see [Getting Started](#getting-started) to begin using the APIs or contin
 
 ## Blocknet Protocol
 
-Blocknet is an interoperability protocol that can be used as a 2nd layer on any compatible blockchain to enable decentralized communication and exchange between different blockchains in a permissionless and trustless manner. Blockchain interoperability comes in 2 parts: exchange([XBridge](#xbridge)) and communication([XRouter](#xrouter)).
+Blocknet is an interoperability protocol that can be used as a 2nd layer on any compatible blockchain to enable decentralized communication and exchange between different blockchains in a permissionless and trustless manner. Blockchain interoperability comes in 2 parts: exchange ([XBridge](#xbridge)) and communication ([XRouter](#xrouter)).
 
 <!-- 
 	There are currently many projects that try to provide as many features as possible in a single blockchain, resulting in the finished product being inefficient and bloated. The future Blocknet sees for blockchain is a highly collaborative microservice ecosystem.
@@ -28,8 +28,6 @@ Blocknet is an interoperability protocol that can be used as a 2nd layer on any 
 
 	Another benefit to microservice architecture is that it will allow concentration of resources on core microservice blockchains, rather than development mind-share being divided among different projects trying to reinvent the wheel. Again, this is similar to the core libraries used in traditional programming. Research and advancements can be made for these microservice blockchains to perform one task really well and be secure, reliable, and efficient. 
 -->
-
-The protocol is supported by a network of Service Nodes, which are similar to masternodes with an increased level of participation. Service Nodes host full nodes of the blockchains the protocol is compatible with, host microservices, verify interactions between peers, route communication between blockchains, participate in governance by voting, and perform anti-spam and anti-DOS measures for the network.
  
 <!-- 
 	Below is a diagram of how a connection between clients and Service Nodes are made. As seen in the diagrams, a "client" refers to software utilizing the Blocknet Protocol, which can be a blockchain, microservice, dApp, mobile app, website, etc.
@@ -70,9 +68,24 @@ BLOCK is the utility token of the Blocknet blockchain and powers the Blocknet Pr
 
 
 
+## Service Nodes
+
+The protocol is supported by a network of Service Nodes, which are similar to masternodes with an increased level of participation. Service Nodes host full nodes of the supported blockchains, host microservices, verify interactions between peers, route communication between blockchains, participate in governance by voting, and perform anti-spam and anti-DOS measures for the network. Read more about Service Nodes [here](https://docs.blocknet.co/service-nodes/introduction).
+
+Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+
+
+
+
+
+
+
+
+
+
 ## XBridge
 
-XBridge provides the ability to perform *true* trustless and decentralized exchanges between any digital asset that is supported by the Blocknet Protocol via APIs ([view list](/protocol/xbridge/compatibility/#supported-digital-assets)). When paired with XRouter, any application can perform exchanges between any compatible blockchains using a decentralized SPV implementation. Unlike every other "decentralized" exchange protocols, no derivatives (proxy tokens or colored coins) are used and the entire process is done in a trustless manner by decentralizing the four components of an exchange: 
+XBridge provides the ability to perform *true* trustless and decentralized exchanges between any digital asset that is supported by the Blocknet Protocol via APIs ([view list](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets)). When paired with XRouter, any application can perform exchanges between any compatible blockchains using a decentralized SPV implementation. Unlike every other "decentralized" exchange protocols, no derivatives (proxy tokens or colored coins) are used and the entire process is done in a trustless manner by decentralizing the four components of an exchange: 
 
 * __Storage of Funds__ - Trading occurs directly out of the client's wallet and funds are within the client's control throughout the entire process. 
 * __Order Books__ - Orders are broadcasted directly peer-to-peer over the network. Each client compiles the order book themselves instead of relying on a central order book service. All integrators and services on the protocol share the orderbook and liquidity. Currently there is just support for a public order book, but there are plans for private order books and direct trading as well.
@@ -81,12 +94,14 @@ XBridge provides the ability to perform *true* trustless and decentralized excha
 
 <small>[1] [ACCT using Check Lock Time Verify (#4)](http://www.kkurokawa.com/2015/10/atomic-cross-chain-transfer-overview.html)</small>
 
-The exchange takes place on each respective blockchain with the process overlooked by a network of 400+ [Service Nodes](/service-nodes/introduction) running full nodes of the compatible blockchains to ensure no malicious behavior is ocurring. Note that once an exchange is completed, when the funds are received will be dependent on the blockchain's accepted confirmation time. By default, the required amount of confirmations is set 0 and the funds aren't spent until each blockchain achieves their respective required amount of confirmations. For instance, let's look at an example of an exchange between BTC requiring 1 confirmation and BLOCK requiring 2 confirmations. BLOCK has a faster confirmation time so it will receive 2 confirmations while BTC has 0, but the funds will not be spent until BLOCK has at least 2 confirmation and BTC has at least 1 confirmation.
+The exchange takes place on each respective blockchain with the process overlooked by a network of 400+ Service Nodes running full nodes of the compatible blockchains to ensure no malicious behavior is ocurring. 
 
-There is currently a fixed fee of 0.015 BLOCK to take(fill) an order and no fee to make(create) an order. 
+Note that once an exchange is completed, when the funds are received will be dependent on the blockchain's accepted confirmation time. By default, the required amount of confirmations for most assets is 0 and the funds aren't spent until each blockchain achieves their respective required amount of confirmations. For instance, let's look at an example of an exchange between BTC requiring 1 confirmation and BLOCK requiring 2 confirmations. BLOCK has a faster confirmation time so it will receive 2 confirmations while BTC has 0, but the funds will not be spent until BLOCK has at least 2 confirmation and BTC has at least 1 confirmation. Both conditions must be met. This setting applies to the asset that you are receiving. The setting for the asset that is being sold is set by the opposite party.
+
+There is currently a fixed fee of 0.015 BLOCK to take (fill) an order and no fee to make(create) an order. 
 
 
-### Design
+### XBridge Design
 
 The following diagrams depict the events of an exchange with various outcomes. As seen in the diagrams, a "client" refers to software utilizing the Blocknet Protocol, which can be a blockchain, microservice, dApp, mobile app, website, etc.
 
@@ -98,29 +113,29 @@ The following diagrams depict the events of an exchange with various outcomes. A
 
 The flow of the diagram above is top-to-bottom, left-to-right:
 
-1. The maker client creates an order locally;
-	* Order put in `new` state;
-1. The order is broadcasted to the network;
-	* A network transaction fee for the maker asset's blockchain is charged to the maker;
-1. The Service Node network verifies the order is good;
-1. The order is added to the order books, which the Service Nodes sync;
-	* Order put in `open` state;
-1. The taker client responds to take the order;
-	* A network transaction fee for the taker asset's blockchain is charged;
-	* A fixed 0.015 BLOCK fee is charged to the taker;
-	* Order put in `accepting` state;
-1. The Service Node network verifies the response to take the order is good;
-1. The maker acknowledges the taker;
-    * Order put in `hold` state;
-1. The maker and trader assets are deposited into the atomic swap P2SH address;
-    * Order put in `created` state;
-1. The Service Nodes verify the terms of the atomic swap contract are good;
-1. The transactions to the P2SH meet the required amount of confirmations;
-1. The P2SH secrets are spent to the opposite party;
-	* Order put in `signed` state;
-	* Order put in `commited` state;
-1. The maker and taker successfully receive the exchanged assets;
-    * Order put in `finished` state;
+1. The maker client creates an order locally.
+	* The order is put in `new` state.
+1. The order is broadcasted to the network.
+	* A network transaction fee for the maker asset's blockchain is charged to the maker.
+1. The Service Node network verifies the order is good.
+1. The order is added to the order books, which the Service Nodes sync.
+	* The order is put in `open` state.
+1. The taker client responds to take the order.
+	* A network transaction fee for the taker asset's blockchain is charged.
+	* A fixed 0.015 BLOCK fee is charged to the taker.
+	* The order is put in `accepting` state.
+1. The Service Node network verifies the response to take the order is good.
+1. The maker acknowledges the taker.
+    * The order is put in `hold` state.
+1. The maker and trader assets are deposited into the atomic swap P2SH address.
+    * The order is put in `created` state.
+1. The Service Nodes verify the terms of the atomic swap contract are good.
+1. The transactions to the P2SH meet the required amount of confirmations.
+1. The P2SH secrets are spent to the opposite party.
+	* The order is put in `signed` state.
+	* The order is put in `commited` state.
+1. The maker and taker successfully receive the exchanged assets.
+    * The order is put in `finished` state.
 
 
 <div class="center diagram-group">
@@ -131,13 +146,13 @@ The flow of the diagram above is top-to-bottom, left-to-right:
 
 The flow of the diagram above is top-to-bottom, left-to-right:
 
-1. The maker client creates an order locally;
-	* Order put in `new` state;
-1. The order is broadcasted to the network;
-	* A network transaction fee for the maker asset's blockchain is charged to the maker;
-1. The Service Node network verifies the order is bad;
-1. The order is rejected by the network;
-	* Order put in `canceled` state;
+1. The maker client creates an order locally.
+	* The order is put in `new` state.
+1. The order is broadcasted to the network.
+	* A network transaction fee for the maker asset's blockchain is charged to the maker.
+1. The Service Node network verifies the order is bad.
+1. The order is rejected by the network.
+	* The order is put in `canceled` state.
 
 
 <div class="center diagram-group">
@@ -148,19 +163,19 @@ The flow of the diagram above is top-to-bottom, left-to-right:
 
 The flow of the diagram above is top-to-bottom, left-to-right:
 
-1. The maker client creates an order locally;
-	* Order put in `new` state;
-1. The order is broadcasted to the network;
-	* A network transaction fee for the maker asset's blockchain is charged to the maker;
-1. The Service Node network verifies the order is good;
-1. The order is added to the order books, which the Service Nodes sync;
-	* Order put in `open` state;
-1. The taker client responds to take the order;
-	* A network transaction fee for the taker asset's blockchain is charged;
-	* A fixed 0.015 BLOCK fee is charged to the taker;
-	* Order put in `accepting` state;
-1. The Service Node network verifies the response to take the order is bad;
-	* Order put in `canceled` state;
+1. The maker client creates an order locally.
+	* The order is put in `new` state.
+1. The order is broadcasted to the network.
+	* A network transaction fee for the maker asset's blockchain is charged to the maker.
+1. The Service Node network verifies the order is good.
+1. The order is added to the order books, which the Service Nodes sync.
+	* The order is put in `open` state.
+1. The taker client responds to take the order.
+	* A network transaction fee for the taker asset's blockchain is charged.
+	* A fixed 0.015 BLOCK fee is charged to the taker.
+	* The order is put in `accepting` state.
+1. The Service Node network verifies the response to take the order is bad.
+	* The order is put in `canceled` state.
 
 
 <div class="center diagram-group">
@@ -171,39 +186,48 @@ The flow of the diagram above is top-to-bottom, left-to-right:
 
 The flow of the diagram above is top-to-bottom, left-to-right:
 
-1. The maker client creates an order locally;
-	* Order put in `new` state;
-1. The order is broadcasted to the network;
-	* A network transaction fee for the maker asset's blockchain is charged to the maker;
-1. The Service Node network verifies the order is good;
-1. The order is added to the order books, which the Service Nodes sync;
-	* Order put in `open` state;
-1. The taker client responds to take the order;
-	* A network transaction fee for the taker asset's blockchain is charged;
-	* A fixed 0.015 BLOCK fee is charged to the taker;
-	* Order put in `accepting` state;
-1. The Service Node network verifies the response to take the order is good;
-1. The maker acknowledges the taker;
-    * Order put in `hold` state;
-1. The maker and trader assets are deposited into the atomic swap P2SH address;
-    * Order put in `created` state;
-1. The Service Nodes verify the terms of the atomic swap contract are bad;
-1. The funds in the P2SH addresses are redeemed back to the original party;
-	* Order put in `canceled` state;
+1. The maker client creates an order locally.
+	* The order is put in `new` state.
+1. The order is broadcasted to the network.
+	* A network transaction fee for the maker asset's blockchain is charged to the maker.
+1. The Service Node network verifies the order is good.
+1. The order is added to the order books, which the Service Nodes sync.
+	* The order is put in `open` state.
+1. The taker client responds to take the order.
+	* A network transaction fee for the taker asset's blockchain is charged.
+	* A fixed 0.015 BLOCK fee is charged to the taker.
+	* The order is put in `accepting` state.
+1. The Service Node network verifies the response to take the order is good.
+1. The maker acknowledges the taker.
+    * The order is put in `hold` state.
+1. The maker and trader assets are deposited into the atomic swap P2SH address.
+    * The order is put in `created` state.
+1. The Service Nodes verify the terms of the atomic swap contract are bad.
+1. The funds in the P2SH addresses are redeemed back to the original party.
+	* The order is put in `canceled` state.
 
 
-### Fees
+### XBridge Fees
 
 * __Maker Fee__ - When creating an order with XBridge, there is no fee other than the transaction fee for the network of the asset being sold. This is the same type of fee you would incur if sending this asset to another party. Having no fee to place an order encourages market makers to add liquidity. This also makes it possible to acquire the BLOCK needed to take orders.
 
 * __Taker Fee__ - When accepting an order with XBridge, a static fee of 0.015 BLOCK is charged at the time the order is taken. This fee is charged even if a trade is canceled or fails and is meant to discourage malicious behavior on the network. In addition to the 0.015 BLOCK fee, there is also the transaction fee for the network of the asset being sold. This is the same type of fee you would incur if sending this asset to another party. If the taker asset is BLOCK, there needs to be *at least* two UXTOs - one or more to cover the 0.015 BLOCK fee and one or more to cover the traded amount. In a future update, there will be a percent-based fee that’s charged when accepting an order, but the details of this are not yet finalized.
 
 
+### XBridge Use Cases
+
+Below is a non-exhaustive list of possible use cases that XBridge enables.
+
+* __Decentralized Exchange__ - A truly decentralized exchange can fairly easily be created utilizing XBridge since the protocol handles the order placement, order books, order matching, and settlement. A DEX dApp has already been developed call [Block DX](https://github.com/BlocknetDX/block-dx). The codebase is entirely open source under MIT license and can be used to create a white label DEX.
+
+* __Decentralized ShapeShift__ - The idea of a decentralized exchange can be abstracted to offer a simpler interface similar to ShapeShift where a user enter the amount they want to exchange and the best price is provided.
+
+* __OTC Trading__ - Due to the nature of XBridge, it can be used to exchange large amounts securely with the funds always remaining the user's control.
+
 
 
 <!-- 
 ### Scaling
-### Use Cases
  -->
 
 
@@ -219,16 +243,24 @@ The flow of the diagram above is top-to-bottom, left-to-right:
 
 XRouter provides the Blocknet Protocol with a communication layer consisting of an inter-blockchain SPV client backend, enabling the verification of blockchain records without requiring users to download the full blockchain. This empowers development of lightweight microservice architectures that harness contracts, protocols, and services from other blockchains, laying a foundation for a decentralized API ecosystem.
 
-There is currently no fee to use XRouter, but the client needs to have at least 200 BLOCK on any account. This is used as a spam deterrent until the fee structure is implemented.
+Since XRouter functions on the TCP/IP level, it is compatible with any network. This includes public and private DLT's from Bitcoin, to IOTA, to Hyperledger.
+
+Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
 
 
-### Design
+### XRouter Design
 
 The XRouter system utilizes the Service Node network to route calls from the client directly to the respective blockchain. There are 2 types of XRouter calls: submissions and queries. 
 
 XRouter submissions are calls that involve interactions with a blockchain, such as `xrSendTransaction`. With submissions, the packets are routed from the client to the respective blockchain and a response, if any, is routed back to the client. 
 
 XRouter queries are calls requesting information from a blockchain, such as `xrGetBlockCount`. With queries, the packets are also routed from the client to the respective blockchain and the response of the information queried is routed back to the client. XRouter queries can require a specific amount of Service Nodes to receive a response from in order to achieve consensus on the final answer. 
+
+<div class="center diagram-group">
+	<strong>XRouter Overview</strong>
+	<img class="diagram" src="/images/xrouter-overview-2.png">
+	<a href="/images/xrouter-overview-2.png" target="_blank">(view full size image)</a>
+</div>
 
 The following diagrams depict the events of an XRouter query and submission. As seen in the diagrams, a "client" refers to software utilizing the Blocknet Protocol, which can be a blockchain, microservice, dApp, mobile app, website, etc.
 
@@ -241,11 +273,11 @@ The following diagrams depict the events of an XRouter query and submission. As 
 
 The flow of the diagram is top-to-bottom:
 
-1. The client dispatches a packet for a query via API call to the Service Node network;
-1. The Service Nodes supporting the queried blockchain receive the packet;
-1. The Service Nodes route the packet of the query to the blockchain;
-1. The Service Nodes route the response from the blockchain back to the client;
-1. The client evaluates the responses for a majority consensus on the final answer;
+1. The client dispatches a packet for a query via API call to the Service Node network.
+1. The Service Nodes supporting the queried blockchain receive the packet.
+1. The Service Nodes route the packet of the query to the blockchain.
+1. The Service Nodes route the response from the blockchain back to the client.
+1. The client receives all responses, as well as a response for a majority consensus on the answer.
 
 
 <div class="center diagram-group">
@@ -254,15 +286,66 @@ The flow of the diagram is top-to-bottom:
 	<a href="/images/xrouter-submission.png" target="_blank">(view full size image)</a>
 </div>
 
-1. The client dispatches a packet for a submission via API call to the Service Node network;
-1. The Service Nodes supporting the desired blockchain receive the packet;
-1. The Service Nodes route the packet of the query to the blockchain;
-1. IF there is a response from the blockchain, the Service Nodes route the response back to the client;
+1. The client dispatches a packet for a submission via API call to the Service Node network.
+1. The Service Nodes supporting the desired blockchain receive the packet.
+1. The Service Nodes route the packet of the query to the blockchain.
+1. If there is a response from the blockchain, the Service Nodes route the response back to the client.
 
 
-<!-- 
-### Use Cases
- -->
+### Namespace
+
+XRouter SPV wallets utlize the `xrs::` namespace while [XCloud](#xcloud) services utilize the `xrs::` namespace. A list of the SPV wallets and services can be viewed using [xrGetNetworkServices](#xrgetnetworkservices) and you can pre-connect to the nodes with [xrConnect](#xrconnect).
+
+
+### Fees
+
+With XRouter, and subsequently [XCloud](#xcloud), fees are determined by a free market. Service Nodes can specify the fee that they wish to charge for a call and client can specify the max fee they are willing to pay for calls.
+
+
+### XRouter Node Scoring
+
+Clients keep a score of each Service Node. When a Service Node reaches a score of `-200`, the Service Node will be banned by the client for a 24hr period. After this 24hr period, the Service Node will start with a score of `-25`. The ban score threshold can be adjusted using the `xrouterbanscore` setting in `blocknetdx.conf` (see [setup](#xrouter-setup)).
+
+Action                                  | Change in Score
+----------------------------------------|-----------------
+Failure to respond to call within 30s   | -25
+Failure to meet majority consensus      | -5
+Matching consensus                      | correct_nodes * 2
+Sending bad XRouter config              | -10
+Sending bad XCloud config               | -2
+
+This mechanism and values are subject to change in future releases. Join the [Developer mailing list](http://eepurl.com/dDjhYH) to stay updated.
+
+
+### XRouter Use Cases
+
+The applications for XRouter are as vast and imaginative as the internet. Below are a few examples of use cases:
+
+* __Supply Chain__ - In supply chain there will be multiple blockchains being used at various steps of the process much like there is today with traditional software stacks. The Blocknet Protocol and XRouter would allow information to be accessible between these different blockchains. For Example, pharmaceutical manufacturers have strict regulations to follow and need to provide certain information and assurances. Being able to access batch information from the raw materials being consumed, temperature and humidity information during transportation, and final destinations are all important. A smart contract utilizing XRouter to gather this information from each respective chain and write it to the pharmaceutical’s blockchain along with the batch code. XRouter would enable this communication to occur in a trustless way, which is important to ensure validity of the information.
+
+* __Storage and Hosting__ - If creating a dApp on Ethereum, you may require storage functionality. Ethereum doesn’t intrinsically handle file storage very efficiently. In this scenario, XRouter can be used to interact with other blockchains such as Storj, Filecoin, Sia, or Swarm to utilize their storage services.
+
+* __Media and Content__ - For content creation, a creator has the option of publishing to the LBRY Credits or Alexandria blockchains. Similar to HootSuite, which is a tool that allows posting to multiple social media platforms simultaneously, a dApp can be created using XRouter that offers the same benefit. The user can post their content once, whether it’s audio, video, literature, or art, and have it published to Alexandria’s and LBRY Credit’s blockchain platform simultaneously. 
+
+* __Markets__ - There are many blockchains creating decentralized marketplaces including Origami, District0x, OpenBazaar, and Syscoin’s marketplace, but the offering of products are relatively low on each independent platform. A dApp that utilizes XRouter to aggregate all the products into a single hub would offer a lot more options to users and a fuller marketplace. It can also make publishing products easier by publishing to all platforms simultaneously through a single form, offering more exposure than posting to a single marketplace while saving time.
+
+* __Business and Industry__ - There are many dApps and blockchains that will end up using health data. Rather than submitting health data to each application, a universal EHR (Electronic Health Record) blockchain can be created to manage personal medical data and accessibility of data by each application. The health data on this EHR ledger can be shared amongst healthcare providers, hospitals, and insurance blockchains, dApps, and applications via XRouter. 
+
+* __Certifications__ - Certifications and licensing records can be stored on a dedicated blockchain where they could be verified by a dApp built on the Blocknet Protocol. These records can be used to confirm qualifications and grant access or permissions.
+
+
+
+
+
+ 
+## XCloud
+
+XCloud can be used to monetize any service with crypto payments without having to re-code or change anything about those existing applications. A good way to think of XCloud is like a decentralized AWS. CoinMarketCap could be connected in a matter of minutes and allow users to access their API for a fee paid in BLOCK, without requiring any signups or KYC.
+
+XCloud sits on top of, and is powered by, XRouter. Services are hosted by Service Nodes and operate in a similar manner as the full node SPV wallets. For further explanation, refer to [XRouter Design](#xrouter-design), [Namespacing](#namespace), [Fees](#xrouter-fees), and [XRouter Node Scoring](#xrouter-node-scoring). 
+
+Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+
 
 
 

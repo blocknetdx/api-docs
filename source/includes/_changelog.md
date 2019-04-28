@@ -16,18 +16,25 @@ To do:
 - Wallet `help` commands
 - Add description of how peers and snodes interact on the network
 - Added updated config setup instructions
-- Testnet info
 - Link to trading bots
 - Make sure error codes are correct
-- XRouter rate limit explanation
-- Update [XRouter setup instructions](#xrouter-setup)
-- Review XRouter and update docs
-- Update XRouter default parameter values
-- XCloud
 
 reference: https://docs.pro.coinbase.com
 
 -->
+
+
+5/18/2019	|
+------------|
+* Updated [XRouter setup](#xrouter-setup) instructions
+* Updated [XBridge setup](#xbridge-setup) instructions
+* Added [XCloud setup](#xcloud-setup) instructions
+* Updated [XBridge API](#xbridge-api) descriptions
+* Updated [XRouter API](#xrouter-api) for beta release
+* Added [XCloud API](#xcloud-api) for beta release
+* Updated XBridge confirmations info for clarifications
+* Updated XRouter intro to include node scoring information
+* Added XCloud introduction
 
 
 3/5/2019	|

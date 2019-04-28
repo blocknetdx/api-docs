@@ -19,13 +19,9 @@ under the License.
 // CUSTOMIZE SLATE
 ////////////////////////////////////////////////////////////////////////////////
 // Use these settings to help adjust the appearance of Slate
-// $light-blue: #133049; // code sidebar background color - original
-// $dark-blue: #051937; // code sidebar well background color - used in last version
-// $light-blue: #162d49; // code sidebar background color - used in last version
-// $button-blue: #006afe; // not sure which blue is the right blue
 $dark-blue: #001938; // code sidebar well background color
 $light-blue: #0e2643; // code sidebar background color
-$light-grey: #f8f8f8; // light grey background color
+$light-grey: #f6f6f6; // light grey background color
 $button-blue: #016AFF;
 
 // DX colors
@@ -34,28 +30,11 @@ $button-blue: #016AFF;
 // 2: #162d49 panel heading background
 // 3: #0e2643 panel background
 // 4: #203c55 form label background
+//#0ccec0 green
 
 
 // BACKGROUND COLORS
 ////////////////////
-// $nav-bg: #2E3336 !default;
-// $nav-subitem-bg: #1E2224 !default;
-// $nav-active-bg: #0F75D4 !default;
-// $nav-active-parent-bg: #1E2224 !default; // parent links of the current section
-// $examples-bg: #2E3336 !default;
-// $code-bg: #1E2224 !default;
-// $code-annotation-bg: #191D1F !default;
-// $lang-select-bg: #1E2224 !default;
-// $lang-select-active-bg: $examples-bg !default; // feel free to change this to blue or something
-// $lang-select-pressed-bg: #111 !default; // color of language tab bg when mouse is pressed
-// $lang-select-inactive-bg: #6F8097 !default; // no longer used
-// $lang-select-inactive-bg: rgba(27, 58, 82, 0.3) !default; // no longer used
-// $main-bg: #F3F7F9 !default;
-// $aside-notice-bg: #8fbcd4 !default;
-// $aside-notice-bg: #74B2FE !default;
-// $aside-warning-bg: #c97a7e !default;
-// $aside-success-bg: #6ac174 !default;
-// $search-notice-bg: #c97a7e !default;
 $nav-bg: $light-grey !default;
 $nav-subitem-bg: $light-grey !default;
 $nav-active-bg: $light-grey !default;
@@ -72,7 +51,6 @@ $aside-notice-bg: #00C9FF !default;
 $aside-warning-bg: #FB7F70 !default;
 $aside-success-bg: #4BF5C6 !default;
 $search-notice-bg: rgba(0, 0, 0, 0.05) !default;
-
 
 
 // TEXT COLORS

@@ -10,9 +10,9 @@ toc_footers:
   # - <a href="https://api.cc.blocknet.co" target="_blank">Blocknet Core - API Docs</a>
   - <a href="https://github.com/BlocknetDX/blocknet/blob/master/CONTRIBUTING.md" target="_blank">Blocknet Core - Contributing</a>
   - <a href="https://github.com/BlocknetDX/blocknet" target="_blank">Blocknet Core - Github</a>
-  - <a href="https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets" target="_blank">Compatible Blockchains</a>
   - <a href="https://docs.blocknet.co/" target="_blank">Documentation Portal</a>
   - <a href="http://eepurl.com/dDjhYH" target="_blank">Developer Notifications</a>
+  - <a href="https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets" target="_blank">XBridge Compatible Blockchains</a>
 
 
 includes:
@@ -20,6 +20,7 @@ includes:
 - setup
 - xbridge
 - xrouter
+- xcloud
 - changelog
 
 search: true
