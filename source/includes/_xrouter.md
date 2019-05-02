@@ -674,7 +674,7 @@ parameters      | string  | Information on the parameters the command takes.
 fee             | float   | The service command fee. This overrides the `feedefault` value.
 paymentaddress  | string  | The node's payment address for this specific command.
 requestlimit    | int     | The minimum time allowed between calls in milliseconds. A value of `-1` means there is no limit. If you exceed this value you will be penalized and eventually banned by this specific node.
-fetchlimit      | int     | The maximum number of blocks processed. A value of `-1` means there is no limit. A value of `0` means no blocks will be processed.
+fetchlimit      | int     | The maximum number of records returned. This pertains to calls such as [xrGetBlocks](#xrgetblocks) and [xrGetTransactions](#xrgettransactions) where multiple records are returned. A value of `-1` means there is no limit. A value of `0` means no blocks will be processed.
 timeout         | int     | The value for `timeout` you set in `xrouter.conf` for this call. Defines how long (in seconds) your client waits for a response from a Service Node. The default value is `30`.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -1237,7 +1237,7 @@ parameters      | string  | Information on the parameters the command takes.
 fee             | float   | The service command fee. This overrides the `feedefault` value.
 paymentaddress  | string  | The node's payment address for this specific command.
 requestlimit    | int     | The minimum time allowed between calls in milliseconds. A value of `-1` means there is no limit. If you exceed this value you will be penalized and eventually banned by this specific node.
-fetchlimit      | int     | The maximum number of blocks processed. A value of `-1` means there is no limit. A value of `0` means no blocks will be processed.
+fetchlimit      | int     | The maximum number of records returned. This pertains to calls such as [xrGetBlocks](#xrgetblocks) and [xrGetTransactions](#xrgettransactions) where multiple records are returned. A value of `-1` means there is no limit. A value of `0` means no blocks will be processed.
 timeout         | int     | The value for `timeout` you set in `xrouter.conf` for this call. Defines how long (in seconds) your client waits for a response from a Service Node. The default value is `30`.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
