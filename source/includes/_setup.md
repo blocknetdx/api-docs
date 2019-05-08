@@ -20,9 +20,9 @@ port=41412
 rpcport=41414
 ```
 
-1. [Download and install](https://docs.blocknet.co/wallet/installation) the [latest Blocknet wallet](https://github.com/BlocknetDX/BlockDX/releases/latest).
+1. [Download and install](https://docs.blocknet.co/wallet/installation) the [latest Blocknet wallet](https://github.com/blocknetdx/blocknet/releases/latest).
 1. Open the wallet, [encrypt it](https://docs.blocknet.co/wallet/encrypting), and [sync the blockchain](https://docs.blocknet.co/wallet/syncing).
-	* A [bootstrap is also available](https://github.com/BlocknetDX/blocknet-blockchain-bootstrap) for faster syncing.
+	* A [bootstrap is also available](https://github.com/blocknetdx/blocknet-blockchain-bootstrap) for faster syncing.
 1. Compose `blocknetdx.conf` as seen in the sample.
 1. Set an RPC username and password in `blocknetdx.conf`.
 1. If using the XBridge API, see [XBridge Setup](#xbridge-setup).
@@ -96,12 +96,12 @@ Confirmations=0
 1. Compose `xbridge.conf` as seen in the sample ([video tutorial](https://www.youtube.com/watch?v=HXzac9WnsS8)).
 	* For automated setup, you can use the [GUI configuration setup](https://docs.blocknet.co/blockdx/configuration/) for Block DX (a DEX built on XBridge).
 	* This configuration file should be customized for whichever blockchains you will be interacting with.
-	* [Here are configurations for other blockchains](https://github.com/BlocknetDX/blockchain-configuration-files/tree/master/xbridge-confs). Use [the manifest](https://github.com/BlocknetDX/blockchain-configuration-files/blob/master/manifest-latest.json) to determine which files to use for with each blockchain and wallet version. See the [full list of compatible blockchains](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) and wallet versions.
+	* [Here are configurations for other blockchains](https://github.com/blocknetdx/blockchain-configuration-files/tree/master/xbridge-confs). Use [the manifest](https://github.com/blocknetdx/blockchain-configuration-files/blob/master/manifest-latest.json) to determine which files to use for with each blockchain and wallet version. See the [full list of compatible blockchains](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) and wallet versions.
 	* The BLOCK configurations will always be required since the Blocknet wallet is used to facilitate interactions.
 	* `ExchangeWallets=` under `[Main]` must also include each blockchain's symbol.
 	* `Confirmations=` is the number of confirmations required before funds are redeemable from the atomic swap contract. For blockchains like Bitcoin, it is recommended to use at least 1 confirmation.
 1. Compose the wallet configuration file for whichever blockchains will be interacted with ([video tutorial](https://www.youtube.com/watch?v=w7UTbk6EWJQ)).
-	* [Here are configurations for other blockchains](https://github.com/BlocknetDX/blockchain-configuration-files/tree/master/wallet-confs). Use [the manifest](https://github.com/BlocknetDX/blockchain-configuration-files/blob/master/manifest-latest.json) to determine which files to use for with each blockchain and wallet version.
+	* [Here are configurations for other blockchains](https://github.com/blocknetdx/blockchain-configuration-files/tree/master/wallet-confs). Use [the manifest](https://github.com/blocknetdx/blockchain-configuration-files/blob/master/manifest-latest.json) to determine which files to use for with each blockchain and wallet version.
 	* This process is the same as for `blocknetdx.conf`.
 	* Only the blockchains that will be interacted with will require this configuration setup.
 	* __IMPORTANT:__

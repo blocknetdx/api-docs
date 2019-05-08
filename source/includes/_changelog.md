@@ -1,6 +1,6 @@
 # Changelog
 
-This API documentation will be continuously updated to improve descriptions, instructions, and overall clarity on how to use the API and begin building on the Blocknet Protocol. An overview of changes can be viewed below.
+This API documentation will be continuously updated to improve descriptions, instructions, and overall clarity on how to use the API and begin building on the Blocknet Protocol. An overview of changes can be viewed below. For a more detailed view of changes, [see the site's Github repository](https://github.com/blocknetdx/api-docs).
 
 To receive notifications and stay informed on important developer updates and changes relating to the Blocknet Protocol, subscribe to the [developer notification emailing list](http://eepurl.com/dDjhYH).
 
@@ -12,7 +12,6 @@ __Updates__
 <!-- 
 
 To do:
-- Change github BlocknetDX links to blocknetdx
 - CLI commands
 - Wallet `help` commands
 - Add description of how peers and snodes interact on the network
