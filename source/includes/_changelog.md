@@ -12,6 +12,7 @@ __Updates__
 <!-- 
 
 To do:
+- Change github BlocknetDX links to blocknetdx
 - CLI commands
 - Wallet `help` commands
 - Add description of how peers and snodes interact on the network

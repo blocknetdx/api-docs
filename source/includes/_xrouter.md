@@ -3138,7 +3138,7 @@ reply           | string  | A confirmation that `xrouter.conf` has been reloaded
 
 ## xrStatus
 
-This call is used to print your XRouter configuration.
+This call is used to print your XRouter configuration and has two different outputs depending on if this call is made from a user client or a Service Node.
 
 
 ### Request Parameters
@@ -3159,7 +3159,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample 200 Response \(User Client)
 
 ```cli
 {
@@ -3167,14 +3167,25 @@ This call does not take parameters.
   "servicenode" : false,
   "config" : "[Main]\ntimeout=30\nconsensus=1\nmaxfee=0.5"
 }
+```
+
+### User Client
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+xrouter         | bool    | Signifies XRouter activation.<br>`true`: XRouter is enabled.<br>`false`: XRouter is disabled.
+servicenode     | bool    | Signifies if your client is a Service Node.<br>`true`: Client is a Service Node.<br>`false`: Client is not a Service Node.
+config          | string  | The raw text contents of your `xrouter.conf`.
 
 
+> Sample 200 Response \(Service Node)
 
+```cli
 {
     "nodepubkey" : "03f1bf0087e5a0036176560493fb05fedb0eb841993536c6a86c78687c4e73a527",
     "score" : 0,
     "banned" : false,
-    "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+    "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
     "spvwallets" : [
       "SYS"
     ],
@@ -3186,63 +3197,63 @@ This call does not take parameters.
             "command" : "xrGetConfig",
             "fee" : 0.00000000,
             "requestlimit" : -1,
-            "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+            "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
             "disabled" : false
           },
           {
             "command" : "xrGetBlockCount",
             "fee" : 0.00000000,
             "requestlimit" : -1,
-            "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+            "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
             "disabled" : false
           },
           {
             "command" : "xrGetBlockHash",
             "fee" : 0.00000000,
             "requestlimit" : -1,
-            "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+            "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
             "disabled" : false
           },
           {
             "command" : "xrGetBlock",
             "fee" : 0.00000000,
             "requestlimit" : -1,
-            "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+            "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
             "disabled" : false
           },
           {
             "command" : "xrGetTransaction",
             "fee" : 0.00000000,
             "requestlimit" : -1,
-            "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+            "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
             "disabled" : false
           },
           {
             "command" : "xrSendTransaction",
             "fee" : 0.00000000,
             "requestlimit" : -1,
-            "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+            "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
             "disabled" : false
           },
           {
             "command" : "xrGetBlocks",
             "fee" : 0.00000000,
             "requestlimit" : -1,
-            "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+            "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
             "disabled" : false
           },
           {
             "command" : "xrGetTransactions",
             "fee" : 0.00000000,
             "requestlimit" : -1,
-            "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+            "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
             "disabled" : false
           },
           {
             "command" : "xrDecodeRawTransaction",
             "fee" : 0.00000000,
             "requestlimit" : -1,
-            "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+            "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
             "disabled" : false
           }
         ]
@@ -3255,7 +3266,7 @@ This call does not take parameters.
       "SYSlistoffers" : {
         "parameters" : "",
         "fee" : 0.00000000,
-        "paymentaddress" : "y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
+        "paymentaddress" : "B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS",
         "requestlimit" : -1,
         "fetchlimit" : 50,
         "timeout" : 30,
@@ -3264,43 +3275,43 @@ This call does not take parameters.
     },
     "xrouter" : true,
     "servicenode" : true,
-    "config" : "[Main]\nwallets=SYS\nplugins=hanniabu\nmaxfee=0.5\npaymentaddress=y2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS\n",
+    "config" : "[Main]\nwallets=SYS\nplugins=hanniabu\nmaxfee=0.5\npaymentaddress=B2B8HVr7BuxBXx7JTqmPgUZJ11CGcL9vtS\n",
     "plugins" : {
       "SYSlistoffers" : "parameters=\nprivate::type=rpc\nprivate::rpcip=127.0.0.1\nprivate::rpcport=8370\nprivate::rpcuser=username\nprivate::rpcpassword=password\nprivate::rpccommand=listoffers"
     }
 }
 ```
 
+### Service Node
+
 Parameter       | Type    | Description
 ----------------|---------|-------------
-nodepubkey*     | string  | Your node ID.
-score*          | int     | Not applicable when viewing your own score.
-paymentaddress* | string  | Your node's general payment address.
-spvwallets*     | array   | An array of SPV wallets you're supporting, represented by the asset's ticker.
-spvconfigs*     | array   | An array of each SPV wallets and command configurations.
-spvwallet*      | string  | The SPV wallet that the configurations under `commands` pertains to.
-commands*       | array   | An array of each SPV wallet command and respective configurations.
-command*        | string  | The SPV command.
-fee*            | float   | The command fee, overrides the `feedefault` and `fees` values. This priority has already been accounted for in this value.
-requestlimit*   | int     | The minimum time allowed between calls in milliseconds. A value of `-1` means there is no limit. If a client exceeds this value they will be penalized and eventually banned by your node.
-paymentaddress* | string  | Your node's payment address for this specific command.
-disabled*       | bool    | Signifies if your node has disabled this command.<br>`true`: Call is disabled and not supported.<br>`false`: Call is enabled and supported.
-feedefault*     | float   | Your node's default service fee. This fee is overridden by the values specified in `fees`, SPV command configuration `fee`, and XCloud service command configuration `fee`.
-fees*           | object  | Object of SPV commands and respective fees. These values are overridden by the SPV wallet-specific configuration `fee`.
-services*       | object  | Object of your node's XCloud service calls with respective properties.
-parameters*     | string  | Information on the parameters the command takes.
-fee*            | float   | The service command fee. This overrides the `feedefault` value.
-paymentaddress* | string  | Your node's payment address for this specific command.
-requestlimit*   | int     | The minimum time allowed between calls in milliseconds. A value of `-1` means there is no limit. If a client exceeds this value they will be penalized and eventually banned by your node.
-fetchlimit*     | int     | The maximum number of blocks processed. A value of `-1` means there is no limit. A value of `0` means no blocks will be processed.
-timeout*        | int     | The value for `timeout` you set in `xrouter.conf` for this call. Defines how long (in seconds) your client waits for a response from another Service Node. The default value is `30`.
-disabled*       | bool    | Signifies if your node has disabled this service.<br>`true`: Call is disabled and not supported.<br>`false`: Call is enabled and supported.
+nodepubkey      | string  | Your node ID.
+score           | int     | Not applicable when viewing your own score.
+paymentaddress  | string  | Your node's general payment address.
+spvwallets      | array   | An array of SPV wallets you're supporting, represented by the asset's ticker.
+spvconfigs      | array   | An array of each SPV wallets and command configurations.
+spvwallet       | string  | The SPV wallet that the configurations under `commands` pertains to.
+commands        | array   | An array of each SPV wallet command and respective configurations.
+command         | string  | The SPV command.
+fee             | float   | The command fee, overrides the `feedefault` and `fees` values. This priority has already been accounted for in this value.
+requestlimit    | int     | The minimum time allowed between calls in milliseconds. A value of `-1` means there is no limit. If a client exceeds this value they will be penalized and eventually banned by your node.
+paymentaddress  | string  | Your node's payment address for this specific command.
+disabled        | bool    | Signifies if your node has disabled this command.<br>`true`: Call is disabled and not supported.<br>`false`: Call is enabled and supported.
+feedefault      | float   | Your node's default service fee. This fee is overridden by the values specified in `fees`, SPV command configuration `fee`, and XCloud service command configuration `fee`.
+fees            | object  | Object of SPV commands and respective fees. These values are overridden by the SPV wallet-specific configuration `fee`.
+services        | object  | Object of your node's XCloud service calls with respective properties.
+parameters      | string  | Information on the parameters the command takes.
+fee             | float   | The service command fee. This overrides the `feedefault` value.
+paymentaddress  | string  | Your node's payment address for this specific command.
+requestlimit    | int     | The minimum time allowed between calls in milliseconds. A value of `-1` means there is no limit. If a client exceeds this value they will be penalized and eventually banned by your node.
+fetchlimit      | int     | The maximum number of blocks processed. A value of `-1` means there is no limit. A value of `0` means no blocks will be processed.
+timeout         | int     | The value for `timeout` you set in `xrouter.conf` for this call. Defines how long (in seconds) your client waits for a response from another Service Node. The default value is `30`.
+disabled        | bool    | Signifies if your node has disabled this service.<br>`true`: Call is disabled and not supported.<br>`false`: Call is enabled and supported.
 xrouter         | bool    | Signifies XRouter activation.<br>`true`: XRouter is enabled.<br>`false`: XRouter is disabled.
 servicenode     | bool    | Signifies if your client is a Service Node.<br>`true`: Client is a Service Node.<br>`false`: Client is not a Service Node.
 config          | string  | The raw text contents of your `xrouter.conf`.
-plugins*        | object  | An object of each service you have setup and the raw text contents of the respective config file in teh `plugins` folder within the Blocknet data directory.
-
-\* This is only returned if your client is a Service Node.
+plugins         | object  | An object of each service you have setup and the raw text contents of the respective config file in the `plugins` folder within the Blocknet data directory.
 
 
 
