@@ -218,7 +218,7 @@ The flow of the diagram above is top-to-bottom, left-to-right:
 
 Below is a non-exhaustive list of possible use cases that XBridge enables.
 
-* __Decentralized Exchange__ - A truly decentralized exchange can fairly easily be created utilizing XBridge since the protocol handles the order placement, order books, order matching, and settlement. A DEX dApp has already been developed call [Block DX](https://github.com/BlocknetDX/block-dx). The codebase is entirely open source under MIT license and can be used to create a white label DEX.
+* __Decentralized Exchange__ - A truly decentralized exchange can fairly easily be created utilizing XBridge since the protocol handles the order placement, order books, order matching, and settlement. A DEX dApp has already been developed call [Block DX](https://github.com/blocknetdx/block-dx). The codebase is entirely open source under MIT license and can be used to create a white label DEX.
 
 * __Decentralized ShapeShift__ - The idea of a decentralized exchange can be abstracted to offer a simpler interface similar to ShapeShift where a user enter the amount they want to exchange and the best price is provided.
 

@@ -1,6 +1,6 @@
 # Changelog
 
-This API documentation will be continuously updated to improve descriptions, instructions, and overall clarity on how to use the API and begin building on the Blocknet Protocol. An overview of changes can be viewed below.
+This API documentation will be continuously updated to improve descriptions, instructions, and overall clarity on how to use the API and begin building on the Blocknet Protocol. An overview of changes can be viewed below. For a more detailed view of changes, [see the site's Github repository](https://github.com/blocknetdx/api-docs).
 
 To receive notifications and stay informed on important developer updates and changes relating to the Blocknet Protocol, subscribe to the [developer notification emailing list](http://eepurl.com/dDjhYH).
 
@@ -23,8 +23,13 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+5/9/2019	|
+------------|
+* Updated Gihub links from `/BlocknetDX` to `/blocknetdx`
+* Updated Blocknet repo links from `/BlockDX` to `/blocknet`
 
-5/18/2019	|
+
+4/18/2019	|
 ------------|
 * Updated [XRouter setup](#xrouter-setup) instructions
 * Updated [XBridge setup](#xbridge-setup) instructions
