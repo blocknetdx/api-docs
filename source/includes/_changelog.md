@@ -23,8 +23,13 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+5/9/2019	|
+------------|
+* Updated Gihub links from `/BlocknetDX` to `/blocknetdx`
+* Updated Blocknet repo links from `/BlockDX` to `/blocknet`
 
-5/18/2019	|
+
+4/18/2019	|
 ------------|
 * Updated [XRouter setup](#xrouter-setup) instructions
 * Updated [XBridge setup](#xbridge-setup) instructions
