@@ -15,10 +15,11 @@ Call                                      | Description
 [dxGetOrderFills](#dxgetorderfills)       | Returns all recent filled orders
 [dxGetOrderHistory](#dxgetorderhistory)   | Returns the OHLCV data my market
 [dxGetLocalTokens](#dxgetlocaltokens)     | Returns all assets connected locally
-[dxGetNetworkTokens](#dxgetnetworktokens) | Returns all assets connect on the network
+[dxGetNetworkTokens](#dxgetnetworktokens) | Returns all assets connected on the network
 [dxGetTokenBalances](#dxgettokenbalances) | Returns available balances for your assets
 [dxGetOrderBook](#dxgetorderbook)         | Returns open orders
 [dxLoadXBridgeConf](#dxloadxbridgeConf)   | Reloads the `xbridge.conf`
+[gettradingdata](#gettradingdata)         | Returns on-chain trading records
 [Status Codes](#status-codes)             | XBridge order status codes
 [Error Codes](#error-codes)               | Error codes
 
@@ -555,6 +556,8 @@ Code  | Type  | Error
 ## dxGetOrders
 
 This call is used to retrieve all orders of every market pair. It will only return orders for assets returned in dxGetLocalTokens.
+
+**Note**: This call will only return orders for markets with both assets returned in dxGetLocalTokens.
 
 
 ### Request Parameters
@@ -1544,7 +1547,8 @@ This call is used to retrieve open orders at various detail levels:
 <br><b>Detail 3</b> - Retrieves a list of non-aggregated orders. This is useful for bot trading.
 <br><b>Detail 4</b> - Retrieves the best bid and ask with the order GUIDs.
 <br>
-It will only return orders for assets returned in dxGetLocalTokens.
+
+**Note**: This call will only return orders for markets with both assets returned in dxGetLocalTokens.
 
 
 ### Request Parameters
@@ -1866,6 +1870,89 @@ Code  | Type  | Error
 1004  | 400   | Bad request
 1025  | 400   | Invalid parameters
 1002  | 500   | Internal server error
+
+
+
+
+
+
+
+
+
+
+## gettradingdata
+
+This call returns the XBridge trading records. This information is pulled from on-chain history so pulling a large amount of blocks will result in longer response times.
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknetdx-cli gettradingdata 1440
+```
+
+<code class="api-call">gettradingdata [blocks]\(optional)</code>
+ 
+Parameter     | Type          | Description
+--------------|---------------|-------------
+blocks        | int           | (Optional Parameter) Defaults to `43200`.<br>Number of blocks to return trade records for (60s block time).
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+[
+  {
+    "timestamp" : 1559970139,
+    "txid" : "4b409e5c5fb1986930cf7c19afec2c89ac2ad4fddc13c1d5479b66ddf4a8fefb",
+    "to" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
+    "xid" : "9eb57bac331eab34f3daefd8364cdb2bb05259c407d805d0bd0c",
+    "from" : "BLOCK",
+    "fromAmount" : 0.001111,
+    "to" : "SYS",
+    "toAmount" : 0.001000
+  },
+  {
+    "timestamp" : 1559970139,
+    "txid" : "3de7479e8a88ebed986d3b7e7e135291d3fd10e4e6d4c6238663db42c5019286",
+    "to" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
+    "xid" : "fd0fed3ee9fe557d5735768c9bdcd4ab2908165353e0f0cef0d5",
+    "from" : "BLOCK",
+    "fromAmount" : 0.001577,
+    "to" : "SYS",
+    "toAmount" : 0.001420
+  },
+  {
+    "timestamp" : 1559970139,
+    "txid" : "9cc4a0dae46f2f1849b3ab6f93ea1c59aeaf0e95662d90398814113f12127eae",
+    "to" : "BbrQKtutGBLuWHvq26EmHKuNaztnfBFWVB",
+    "xid" : "f74c614489bd77efe545c239d1f9a57363c5428e7401b2018d350",
+    "from" : "BLOCK",
+    "fromAmount" : 0.000231,
+    "to" : "SYS",
+    "toAmount" : 0.001100
+  }
+]
+```
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+timestamp     | int           | Unix epoch timestamp of when the trade took place.
+txid          | string        | The Blocknet trade fee transaction ID.
+to            | string        | Service Node that received the trade fee.
+xid           | string        | XBridge transaction ID.
+from          | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+fromAmount    | int           | Taker trading size.
+to            | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+toAmount      | int           | Maker trading size.
 
 
 

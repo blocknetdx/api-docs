@@ -70,7 +70,7 @@ BLOCK is the utility token of the Blocknet blockchain and powers the Blocknet Pr
 
 ## Service Nodes
 
-The protocol is supported by a network of Service Nodes, which are similar to masternodes with an increased level of participation. Service Nodes host full nodes of the supported blockchains, host microservices, verify interactions between peers, route communication between blockchains, participate in governance by voting, and perform anti-spam and anti-DOS measures for the network. Read more about Service Nodes [here](https://docs.blocknet.co/service-nodes/introduction).
+The protocol is supported by a network of Service Nodes, which are similar to masternodes with an increased level of participation. Service Nodes host full nodes of the supported blockchains, host microservices, verify UTXOs, route communication between blockchains, participate in governance by voting, and perform anti-spam and anti-DOS measures for the network. Read more about Service Nodes [here](https://docs.blocknet.co/service-nodes/introduction).
 
 Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
 
@@ -85,9 +85,9 @@ Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If y
 
 ## XBridge
 
-XBridge provides the ability to perform *true* trustless and decentralized exchanges between any digital asset that is supported by the Blocknet Protocol via APIs ([view list](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets)). When paired with XRouter, any application can perform exchanges between any compatible blockchains using a decentralized SPV implementation. Unlike every other "decentralized" exchange protocols, no derivatives (proxy tokens or colored coins) are used and the entire process is done in a trustless manner by decentralizing the four components of an exchange: 
+XBridge provides the ability to perform *true* trustless and decentralized exchanges between any digital asset that is supported by the Blocknet Protocol via APIs ([view list](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets)). When paired with XRouter, any application can perform exchanges between any compatible blockchains using a decentralized SPV implementation. Unlike every other "decentralized" exchange protocols, XBridge doesn't use derivatives (proxy tokens or colored coins), the entire process is done in a trustless manner, and it decentralizes the four components of an exchange: 
 
-* __Storage of Funds__ - Trading occurs directly out of the client's wallet and funds are within the client's control throughout the entire process. 
+* __Storage of Funds__ - Trading is non-custodial and occurs directly out of the client's wallet. Funds remain within the client's control throughout the entire process. 
 * __Order Books__ - Orders are broadcasted directly peer-to-peer over the network. Each client compiles the order book themselves instead of relying on a central order book service. All integrators and services on the protocol share the orderbook and liquidity. Currently there is just support for a public order book, but there are plans for private order books and direct trading as well.
 * __Order Matching__ - This is performed peer-to-peer by the clients.
 * __Settlement__ - This is performed using BIP65 CLTV atomic swap contracts<sup>[1]</sup>. For blockchains that do not inherently support BIP65, such as Ethereum, similar methods are being emulated to extend the protocol to those blockchains and subsequent assets.
@@ -118,7 +118,7 @@ The flow of the diagram above is top-to-bottom, left-to-right:
 1. The order is broadcasted to the network.
 	* A network transaction fee for the maker asset's blockchain is charged to the maker.
 1. The Service Node network verifies the order is good.
-1. The order is added to the order books, which the Service Nodes sync.
+1. The order is added to the order books, which the Service Nodes relay.
 	* The order is put in `open` state.
 1. The taker client responds to take the order.
 	* A network transaction fee for the taker asset's blockchain is charged.
@@ -168,7 +168,7 @@ The flow of the diagram above is top-to-bottom, left-to-right:
 1. The order is broadcasted to the network.
 	* A network transaction fee for the maker asset's blockchain is charged to the maker.
 1. The Service Node network verifies the order is good.
-1. The order is added to the order books, which the Service Nodes sync.
+1. The order is added to the order books, which the Service Nodes relay.
 	* The order is put in `open` state.
 1. The taker client responds to take the order.
 	* A network transaction fee for the taker asset's blockchain is charged.
@@ -191,7 +191,7 @@ The flow of the diagram above is top-to-bottom, left-to-right:
 1. The order is broadcasted to the network.
 	* A network transaction fee for the maker asset's blockchain is charged to the maker.
 1. The Service Node network verifies the order is good.
-1. The order is added to the order books, which the Service Nodes sync.
+1. The order is added to the order books, which the Service Nodes relay.
 	* The order is put in `open` state.
 1. The taker client responds to take the order.
 	* A network transaction fee for the taker asset's blockchain is charged.
