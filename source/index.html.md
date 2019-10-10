@@ -11,7 +11,7 @@ toc_footers:
   - <a href="https://github.com/blocknetdx/blocknet/blob/master/CONTRIBUTING.md" target="_blank">Blocknet Core - Contributing</a>
   - <a href="https://github.com/blocknetdx/blocknet" target="_blank">Blocknet Core - Github</a>
   - <a href="https://docs.blocknet.co/" target="_blank">Documentation Portal</a>
-  - <a href="http://eepurl.com/dDjhYH" target="_blank">Developer Notifications</a>
+  - <a href="https://blocknet.us16.list-manage.com/subscribe?u=5d0a376e982034a2ddd6edb98&id=6ae2c503df" target="_blank">Developer Notifications</a>
   - <a href="https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets" target="_blank">XBridge Compatible Blockchains</a>
 
 
