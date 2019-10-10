@@ -1,6 +1,8 @@
 # XCloud API
 
-The following set of calls are used to communicate and interact with XCloud services remotely over the Blocknet network via XRouter. XCloud consists of services that are powered by XRouter and are therefore interacted with using a subset of commands from the [XRouter API](#xrouter-api).
+The following set of calls are used to communicate and interact with XCloud services remotely over the Blocknet network via XRouter. XCloud consists of services that are powered by XRouter and are therefore interacted with using a subset of commands from the [XRouter API](#xrouter-api). 
+
+You can use the [XCloud Services forum category](https://forum.blocknet.co/c/xcloud-services) as an alternative medium for discovering services, learning more about each service, and finding instructions on how to interact with the service. A simple list of services can also be found on [blockdx.co](https://blockdx.co/xcloud-services).
 
 See [XCloud Setup](#xcloud-setup) for instructions on setting up your environment for use with XCloud.
 

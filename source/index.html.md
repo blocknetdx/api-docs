@@ -21,6 +21,7 @@ includes:
 - xbridge
 - xrouter
 - xcloud
+- web
 - changelog
 
 search: true

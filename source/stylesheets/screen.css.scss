@@ -772,36 +772,55 @@ html, body {
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-  width: 11px;
-  height: 11px;
+  width: 10px;
+  height: 10px;
   background-color: transparent;
   -webkit-border-radius: 100px;
-}
-
-pre:hover::-webkit-scrollbar, pre:focus::-webkit-scrollbar {
-  // background-color: rgba(0, 0, 0, 0.1);
-  background-color: transparent;
-  border: 2px solid $dark-blue;
 }
 
 ::-webkit-scrollbar-thumb {
   -webkit-border-radius: 100px;
-  background-color: transparent;
+  //background-color: transparent;
+  background-color: rgba(0,0,0,0.12) !important;
+  border: 2px solid $light-grey;
 }
 
-::-webkit-scrollbar-thumb:active, pre:hover::-webkit-scrollbar-thumb, pre:focus::-webkit-scrollbar-thumb  {
-  background-color: rgba(248, 248, 248, 0.5);
-  border: 2px solid $dark-blue;
-  -webkit-border-radius: 100px;
+::-webkit-scrollbar-thumb:active, :hover::-webkit-scrollbar-thumb, :focus::-webkit-scrollbar-thumb  {
+  background-color: rgba(0,0,0,0.3);
+  border: 1px solid $light-grey;
+}
+
+.toc-wrapper::-webkit-scrollbar-thumb:active, .toc-wrapper:hover::-webkit-scrollbar-thumb, .toc-wrapper:focus::-webkit-scrollbar-thumb  {
+  background-color: rgba(0,0,0,0.12) !important;
+  border: 2px solid $light-grey;
 }
 
 ::-webkit-scrollbar-thumb:vertical {
-  min-height: 15px;
+  min-height: 25px;
 }
+
 ::-webkit-scrollbar-thumb:horizontal {
-  min-width: 15px;
+  min-width: 25px;
+}
+
+pre:hover::-webkit-scrollbar, pre:focus::-webkit-scrollbar {
+  background-color: transparent;
+  border: 2px solid $dark-blue;
+}
+
+pre::-webkit-scrollbar {
+  width: 10px !important;
+  height: 10px !important;
+}
+
+pre::-webkit-scrollbar-thumb {
+  background-color: transparent !important;
+  border: 2px solid transparent;
+}
+
+pre::-webkit-scrollbar-thumb:active, pre:hover::-webkit-scrollbar-thumb, pre:focus::-webkit-scrollbar-thumb  {
+  background-color: rgba(248, 248, 248, 0.5) !important;
+  border: 2px solid $dark-blue;
 }
 
 #wallet-version {
