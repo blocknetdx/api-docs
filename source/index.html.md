@@ -4,6 +4,8 @@ title: Blocknet | API Documentation
 language_tabs: # must be one of https://git.io/vQNgJ
   - cli
 
+wallet_version: 3.14.1
+
 toc_footers:
   # - <a href="https://docs.google.com/forms/d/e/1FAIpQLSeJ9AdLuOWrZi_lWPgEiwDrxrZpNxZWEUR9lO4cwFMS5m9xkw/viewform" target="_blank">API Feedback/Request Form</a>
   - <a href="https://discord.gg/T7AG8TK" target="_blank">Blocknet Discord</a>
