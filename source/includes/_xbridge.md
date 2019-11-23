@@ -4,24 +4,25 @@ The following set of calls are used to conduct decentralized and trustless excha
 
 See [XBridge Setup](#xbridge-setup) for instructions on setting up your environment for use with XBridge.
 
-Call                                      | Description
-------------------------------------------|---------------
-[dxMakeOrder](#dxmakeorder)               | Create an order
-[dxTakeOrder](#dxtakeorder)               | Take an existing order
-[dxCancelOrder](#dxcancelorder)           | Cancel your own order
-[dxGetOrder](#dxgetorder)                 | Returns order details by ID
-[dxGetOrders](#dxgetorders)               | Returns all orders with details
-[dxGetMyOrders](#dxgetmyorders)           | Returns all your own orders with details
-[dxGetOrderFills](#dxgetorderfills)       | Returns all recent filled orders
-[dxGetOrderHistory](#dxgetorderhistory)   | Returns the OHLCV data my market
-[dxGetLocalTokens](#dxgetlocaltokens)     | Returns all assets connected locally
-[dxGetNetworkTokens](#dxgetnetworktokens) | Returns all assets connected on the network
-[dxGetTokenBalances](#dxgettokenbalances) | Returns available balances for your assets
-[dxGetOrderBook](#dxgetorderbook)         | Returns open orders
-[dxLoadXBridgeConf](#dxloadxbridgeConf)   | Reloads the `xbridge.conf`
-[gettradingdata](#gettradingdata)         | Returns on-chain trading records
-[Status Codes](#status-codes)             | XBridge order status codes
-[Error Codes](#error-codes)               | Error codes
+Call                                          | Description
+----------------------------------------------|---------------
+[dxMakeOrder](#dxmakeorder)                   | Create an order
+[dxTakeOrder](#dxtakeorder)                   | Take an existing order
+[dxCancelOrder](#dxcancelorder)               | Cancel your own order
+[dxGetOrder](#dxgetorder)                     | Returns order details by ID
+[dxGetOrders](#dxgetorders)                   | Returns all orders with details
+[dxGetMyOrders](#dxgetmyorders)               | Returns all your own orders with details
+[dxGetOrderFills](#dxgetorderfills)           | Returns all recent filled orders
+[dxGetOrderHistory](#dxgetorderhistory)       | Returns the OHLCV data my market
+[dxGetLocalTokens](#dxgetlocaltokens)         | Returns all assets connected locally
+[dxGetNetworkTokens](#dxgetnetworktokens)     | Returns all assets connected on the network
+[dxGetTokenBalances](#dxgettokenbalances)     | Returns available balances for your assets
+[dxGetNewTokenAddress](#dxgetnewtokenaddress) | Returns a newly generated address
+[dxGetOrderBook](#dxgetorderbook)             | Returns open orders
+[dxLoadXBridgeConf](#dxloadxbridgeConf)       | Reloads the `xbridge.conf`
+[gettradingdata](#gettradingdata)             | Returns on-chain trading records
+[Status Codes](#status-codes)                 | XBridge order status codes
+[Error Codes](#error-codes)                   | Error codes
 
 
 
@@ -1359,6 +1360,112 @@ Object        | object        | Key-value object of the assets and respective ba
   "error": "Bad request",
   "code": 1004,
   "name": "dxGetTokenBalances"
+}
+```
+
+<aside class="warning">
+400 Bad Request
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+> Sample 500 Response
+
+```cli
+{
+  "error": "Internal error occurred",
+  "code": 1002,
+  "name": "dxGetTokenBalances"
+}
+```
+<aside class="warning">
+500 Internal Server Error
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+<aside class="warning">
+Error Codes
+</aside>
+
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1004  | 400   | Bad request
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
+
+
+
+
+
+
+
+
+
+
+## dxGetNewTokenAddress
+
+> Sample Data
+
+```cli
+{
+  "asset": "SYS"
+}
+```
+This call is used to generate a new address for the given asset. This call will only work for the assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknetdx-cli dxGetNewTokenAddress SYS
+```
+<code class="api-call">dxGetNewTokenAddress [asset]</code>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+asset         | string        | The ticker of the asset you want to generate an address for.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+[
+  "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK"
+]
+```
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+Array         | array         | An array containing the newly generated address for the given asset.
+
+
+> Sample 400 Response
+
+```cli
+{
+  "error": "Bad request",
+  "code": 1004,
+  "name": "dxGetNewTokenAddress"
 }
 ```
 
