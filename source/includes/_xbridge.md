@@ -41,10 +41,10 @@ Call                                          | Description
 {
   "maker": "SYS",
   "maker_size": "0.100",
-  "maker_address": "yFMXXUJF7pSKegHTkTYMjfNxyUGVt1uCrL",
+  "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
   "taker": "LTC",
   "taker_size": "0.01",
-  "taker_address": "yGDmuy8m1Li4ShNe7kGYusACw4oyiGiK5b",
+  "taker_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
   "type": "exact"
 }
 ```
@@ -58,7 +58,7 @@ There are no fees to make orders, but there are transaction fees for the maker a
 > Sample Request
 
 ```cli
-blocknetdx-cli dxMakeOrder SYS 0.100 yFMXXUJF7pSKegHTkTYMjfNxyUGVt1uCrL LTC 0.01 yGDmuy8m1Li4ShNe7kGYusACw4oyiGiK5b exact
+blocknetdx-cli dxMakeOrder SYS 0.100 SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK LTC 0.01 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z exact
 ```
 <code class="api-call">dxMakeOrder [maker] [maker_size] [maker_address] [taker] [taker_size] [taker_address] [type] [dryrun]\(optional)</code>
 
