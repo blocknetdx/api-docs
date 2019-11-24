@@ -26,6 +26,8 @@ reference: https://docs.pro.coinbase.com
 ------------|
 • Wallet v3.14.1 release |
 • Added [dxGetNewTokenAddress](#dxgetnewtokenaddress) call |
+• Updated [XBridge Setup](#xbridge-setup) to note that Segwit/Bech32 address and p2pk inputs are not yet compatible |
+• Updated [dxMakeOrder](#dxmakeorder) and [dxTakeOrder](#dxtakeorder) to note usage of funds are not restricted to the speficied address |
 
 
 8/2/2019    |
@@ -49,7 +51,7 @@ reference: https://docs.pro.coinbase.com
 
 5/9/2019    |
 ------------|
-• Updated Gihub links from `/BlocknetDX` to `/blocknetdx` |
+• Updated Github links from `/BlocknetDX` to `/blocknetdx` |
 • Updated Blocknet repo links from `/BlockDX` to `/blocknet` |
 
 
