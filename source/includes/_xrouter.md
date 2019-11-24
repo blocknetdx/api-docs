@@ -1761,7 +1761,7 @@ This call is used to retrieve block data for multiple block hashes on the specif
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetBlocks SYS 0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837,52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79 2
+blocknetdx-cli xrGetBlocks SYS "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837,52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79" 2
 ```
 <code class="api-call">xrGetBlocks [blockchain] [block_hash1,block_hash2,block_hashN] [node_count]\(optional)</code>
 
@@ -2565,7 +2565,7 @@ This call is used to retrieve transaction data for multiple transaction IDs (has
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetTransactions SYS f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd,f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e 2
+blocknetdx-cli xrGetTransactions SYS "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd,f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e" 2
 ```
 <code class="api-call">xrGetTransactions [blockchain] [txid1,txid2,txidN] [node_count]\(optional)</code>
 

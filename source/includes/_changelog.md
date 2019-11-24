@@ -28,6 +28,7 @@ reference: https://docs.pro.coinbase.com
 • Added [dxGetNewTokenAddress](#dxgetnewtokenaddress) call |
 • Updated [XBridge Setup](#xbridge-setup) to note that Segwit/Bech32 address and p2pk inputs are not yet compatible |
 • Updated [dxMakeOrder](#dxmakeorder) and [dxTakeOrder](#dxtakeorder) to note usage of funds are not restricted to the speficied address |
+• Corrected [xrGetBlocks](#xrgetblocks) and [xrGetTransactions](#xrgettransactions) to include quotes in the string array |
 
 
 8/2/2019    |
