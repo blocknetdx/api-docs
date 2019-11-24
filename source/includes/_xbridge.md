@@ -50,9 +50,9 @@ Call                                          | Description
 ```
 This call is used to create a new order. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
 
-There are no fees to make orders, but there are transaction fees for the maker asset's native network. 
+There are no fees to make orders, but there are transaction fees for the maker asset's native network.
 
-**Note**: XBridge will first attempt use funds from the specified maker address. If this address does not have sufficient funds to cover the order, then it will pull funds from other addresses in the wallet. Change is deposited to the address with the largest input used. There are plans to add the capability of strictly only using funds from the specified address. 
+**Note**: XBridge will first attempt use funds from the specified maker address. If this address does not have sufficient funds to cover the order, then it will pull funds from other addresses in the wallet. Change is deposited to the address with the largest input used. There are plans to add the capability of strictly only using funds from the specified address.
 
 
 ### Request Parameters
@@ -194,7 +194,9 @@ Code  | Type  | Error
 ```
 This call is used to take an order. Taking your own order is currently not supported. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
 
-Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the taker asset's native network. If the taker asset is BLOCK, there needs to be *at least* two UXTOs - one or more to cover the 0.015 BLOCK fee and one or more to cover the traded amount. 
+Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the taker asset's native network. If the taker asset is BLOCK, there needs to be *at least* two UXTOs - one or more to cover the 0.015 BLOCK fee and one or more to cover the traded amount.
+
+**Note**: XBridge will first attempt use funds from the specified send address. If this address does not have sufficient funds to cover the order, then it will pull funds from other addresses in the wallet. Change is deposited to the address with the largest input used. There are plans to add the capability of strictly only using funds from the specified address.
 
 
 ### Request Parameters
@@ -1117,7 +1119,7 @@ Code  | Type  | Error
 
 ## dxGetLocalTokens
 
-This call is used to retrieve all the assets supported by the local client. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). 
+This call is used to retrieve all the assets supported by the local client. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup).
 
 
 ### Request Parameters
@@ -1674,7 +1676,7 @@ Parameter     | Type          | Description
 detail        | int           | Detail level: `1`, `2`, `3`, `4`
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-max_orders    | int           | (Optional Parameter) Defaults to `50`.<br>The maximum total orders to display for bids and asks combined. Odd values are rounded up 1. Quantity is split evenly between bids and asks. 
+max_orders    | int           | (Optional Parameter) Defaults to `50`.<br>The maximum total orders to display for bids and asks combined. Odd values are rounded up 1. Quantity is split evenly between bids and asks.
 
 
 ### Response Parameters
