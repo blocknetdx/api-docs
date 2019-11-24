@@ -210,7 +210,7 @@ blocknetdx-cli dxTakeOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092 LVvFhzRoMRGTtGih
 
 Parameter       | Type          | Description
 ----------------|---------------|-------------
-id              | string        | ID of order being filled.
+id              | string        | UUID of order being filled.
 send_address    | string        | Taker address for sending the outgoing asset.
 receive_address | string        | Taker address for receiving the incoming asset.
 dryrun          | string        | (Optional Parameter) <br>`dryrun`: Receive a response without actually submitting the order to the network.
@@ -982,7 +982,7 @@ Code  | Type  | Error
   "granularity": 60
 }
 ```
-This call is used to retrieve the OHLCV data by a trade pair within a specified time range. It can return the history for any [compatible asset](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) since all trade history is stored on-chain.
+This call is used to retrieve the OHLCV data by a trade pair within a specified time range. It can return the order history for any [compatible asset](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) since all trade history is stored on-chain.
 
 
 ### Request Parameters
@@ -1119,7 +1119,7 @@ Code  | Type  | Error
 
 ## dxGetLocalTokens
 
-This call is used to retrieve all the assets supported by the local client. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup).
+This call is used to retrieve all the assets supported by the local client. You can only trade on markets with these assets. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup).
 
 
 ### Request Parameters
@@ -1320,6 +1320,8 @@ Code  | Type  | Error
 
 This call is used to retrieve the asset __*available*__ balances for all connected wallets on the local client. This will only return balances for the assets returned in [dxGetLocalTokens](#dxgetlocaltokens). If an asset is not showing and is not returned in or the value is showing 0, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup).
 
+**Note**: These balances do not include orders that are using locked UTXOs to support a pending or open order. XBridge works best with pre-sliced UTXOs so that your entire wallet balance is capable of multiple simultaneous trades.
+
 
 ### Request Parameters
 
@@ -1427,7 +1429,7 @@ Code  | Type  | Error
   "asset": "SYS"
 }
 ```
-This call is used to generate a new address for the given asset. This call will only work for the assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
+This call is used to generate a new address for the specified asset. This call will only work for the assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
 
 
 ### Request Parameters
@@ -1899,6 +1901,8 @@ Code  | Type  | Error
 ## dxLoadXBridgeConf
 
 This call is used to reload `xbridge.conf` to run newly configured settings without needing to restart the Blocknet client.
+
+**Note**: This may disrupt trades in progress.
 
 
 ### Request Parameters
