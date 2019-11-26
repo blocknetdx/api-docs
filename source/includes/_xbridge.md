@@ -86,7 +86,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Receive a resp
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
+  "id": "4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "maker": "SYS",
   "maker_size": "0.100",
   "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
@@ -102,7 +102,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Receive a resp
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
 maker_address | string        | Maker address for sending the outgoing asset.
@@ -111,7 +111,7 @@ taker_size    | string(float) | Taker trading size. String is used to preserve p
 taker_address | string        | Maker address for receiving the incoming asset.
 updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
 created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
-block_id      | string        | The UUID block hash of the current block on the Blocknet blockchain at the time the order was created.
+block_id      | string        | The block hash of the current block on the Blocknet blockchain at the time the order was created.
 status        | string        | [View order status codes](#status-codes)
 
 
@@ -186,7 +186,7 @@ Code  | Type  | Error
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
+  "id": "4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "send_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
   "receive_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
   "dryrun": "dryrun"
@@ -204,13 +204,13 @@ Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the t
 > Sample Request
 
 ```cli
-blocknetdx-cli dxTakeOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
+blocknetdx-cli dxTakeOrder 4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
 ```
 <code class="api-call">dxTakeOrder [order_id] [send_address] [receive_address] [dryrun]\(optional)</code>
 
 Parameter       | Type          | Description
 ----------------|---------------|-------------
-id              | string        | UUID of order being filled.
+id              | string        | ID of order being filled.
 send_address    | string        | Taker address for sending the outgoing asset.
 receive_address | string        | Taker address for receiving the incoming asset.
 dryrun          | string        | (Optional Parameter) <br>`dryrun`: Receive a response without actually submitting the order to the network.
@@ -226,7 +226,7 @@ dryrun          | string        | (Optional Parameter) <br>`dryrun`: Receive a r
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
+  "id": "4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "maker": "SYS",
   "maker_size": "0.100",
   "taker": "LTC",
@@ -239,7 +239,7 @@ dryrun          | string        | (Optional Parameter) <br>`dryrun`: Receive a r
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
@@ -320,7 +320,7 @@ Code  | Type  | Error
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092"
+  "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9"
 }
 ```
 This call is used to cancel one of your own orders, which automatically rolls back the order if a trade is in process.
@@ -331,7 +331,7 @@ This call is used to cancel one of your own orders, which automatically rolls ba
 > Sample Request
 
 ```cli
-blocknetdx-cli dxCancelOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092
+blocknetdx-cli dxCancelOrder 91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9
 ```
 <code class="api-call">dxCancelOrder [order_id]</code>
 
@@ -350,7 +350,7 @@ id            | string        | ID of order being cancelled.
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
+  "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9",
   "maker": "SYS",
   "maker_size": "0.100",
   "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
@@ -365,7 +365,7 @@ id            | string        | ID of order being cancelled.
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Sending asset of party cancelling the order.
 maker_size    | string(float) | Sending trading size. String is used to preserve precision.
 maker_address | string        | Address for sending the outgoing asset.
@@ -444,7 +444,7 @@ Code  | Type  | Error
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092"
+  "id": "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a"
 }
 ```
 This call is used to retrieve order info.
@@ -455,7 +455,7 @@ This call is used to retrieve order info.
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092
+blocknetdx-cli dxGetOrder 6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a
 ```
 <code class="api-call">dxGetOrder [order_id]</code>
 
@@ -474,7 +474,7 @@ id            | string        | ID of order of interest.
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
+  "id": "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a",
   "maker": "SYS",
   "maker_size": "0.100",
   "taker": "LTC",
@@ -487,7 +487,7 @@ id            | string        | ID of order of interest.
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
@@ -588,7 +588,7 @@ This call does not take parameters.
 ```cli
 [
   {
-    "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092", 
+    "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -598,7 +598,7 @@ This call does not take parameters.
     "status": "finished"
   },
   {
-    "id": "12b672d4-cc43-4941-8b35-b1d0ea110908", 
+    "id": "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -608,7 +608,7 @@ This call does not take parameters.
     "status": "finished"
   },
   {
-    "id": "01639dfa-db96-440c-85bd-6d4feda8ace6", 
+    "id": "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -623,7 +623,7 @@ This call does not take parameters.
 Parameter     | Type          | Description
 --------------|---------------|-------------
 Array         | array         | An array of all orders with each order having the following parameters.
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
@@ -721,7 +721,7 @@ This call does not take parameters.
 ```cli
 [
   {
-    "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092", 
+    "id": "91b7da4eda3e5d4a7de8a67d8e7a8d768ea567da5e467d4ea7a6d7a6d7a6d75a", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -731,7 +731,7 @@ This call does not take parameters.
     "status": "finished"
   },
   {
-    "id": "12b672d4-cc43-4941-8b35-b1d0ea110908", 
+    "id": "c3d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -741,7 +741,7 @@ This call does not take parameters.
     "status": "finished"
   },
   {
-    "id": "01639dfa-db96-440c-85bd-6d4feda8ace6", 
+    "id": "3ef40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -756,7 +756,7 @@ This call does not take parameters.
 Parameter     | Type          | Description
 --------------|---------------|-------------
 Array         | array         | An array of all orders with each order having the following parameters.
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
 maker_address | string        | Address for sending the outgoing asset.
@@ -869,7 +869,7 @@ combines      | boolean       | (Optional Parameter) Defaults to `true`.<br>`tru
 ```cli
 [
   {
-    "id": "00a2afce-4754-443e-93d6-1f600501e3ac",
+    "id": "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4",
     "time": "2018-01-16T13:15:05.12345Z",
     "maker": "SYS",
     "maker_size": "101.00000000",
@@ -877,7 +877,7 @@ combines      | boolean       | (Optional Parameter) Defaults to `true`.<br>`tru
     "taker_size": "0.01000000"
   },
   {
-    "id": "7de354c3-6c66-44e7-bf30-eaf942df5fcc",
+    "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9",
     "time": "2018-01-16T13:15:05.12345Z",
     "maker": "LTC",
     "maker_size": "0.01000000",
@@ -890,7 +890,7 @@ combines      | boolean       | (Optional Parameter) Defaults to `true`.<br>`tru
 Parameter     | Type          | Description
 --------------|---------------|-------------
 Array         | array         | Array of orders sorted by date descending (most recent filled trade first).
-id            | string        | The order UUID.
+id            | string        | The order ID.
 time          | string        | Time the order was filled.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
@@ -902,7 +902,7 @@ maker_txid    | string        | The transaction ID(hash) of maker asset on the a
   "maker_txid": "f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156",
 taker_txid    | string        | The transaction ID(hash) of taker asset on the asset's network.
   "taker_txid": "bcb7543c2f66777927899e701c8309be77904b9c0ef286791fb1a1813bb9099d",
-block_id      | string        | Blocknet block hash UUID at the time the order was filled.
+block_id      | string        | Blocknet block hash ID at the time the order was filled.
   "block_id": "69a1f3bc5031e55800a37062d3c74c017cf233730e7c00813f5cbe7d9d7d0230"
  -->
 
@@ -1032,9 +1032,9 @@ at_start means all orders that fall in the specified number up to the next time 
   //[ time, low, high, open, close, volume, id(s) ],
   [ "2018-01-16T13:15:05.12345Z", 1.10, 2.0, 1.10, 1.4, 1000, [ "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ] ],
   [ "2018-01-16T14:15:05.12345Z", 0, 0, 0, 0, 0, [] ],
-  [ "2018-01-16T15:15:05.12345Z", 1.12, 2.2, 1.10, 1.4, 1000, [ "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ] ],
-  [ "2018-01-16T16:15:05.12345Z", 1.14, 2.0, 1.10, 1.4, 1000, [ "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ] ],
-  [ "2018-01-16T17:15:05.12345Z", 1.15, 2.0, 1.10, 1.4, 1000, [ "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ] ]
+  [ "2018-01-16T15:15:05.12345Z", 1.12, 2.2, 1.10, 1.4, 1000, [ "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e", "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4" ] ],
+  [ "2018-01-16T16:15:05.12345Z", 1.14, 2.0, 1.10, 1.4, 1000, [ "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4" ] ],
+  [ "2018-01-16T17:15:05.12345Z", 1.15, 2.0, 1.10, 1.4, 1000, [ "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a" ] ]
 ]
 ```
 
@@ -1535,7 +1535,7 @@ Code  | Type  | Error
   "id": "f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156"
 }
 ```
-This call is used to retrieve the locked UTXOs for a specified order UUID.
+This call is used to retrieve the locked UTXOs for a specified order ID.
 
 
 ### Request Parameters
@@ -1549,7 +1549,7 @@ blocknetdx-cli dxGetLockedUtxos f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c6
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID to recieve the UTXOs for.
+id            | string        | The order ID to recieve the UTXOs for.
 
 
 ### Response Parameters
@@ -1575,10 +1575,10 @@ id            | string        | The order UUID to recieve the UTXOs for.
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID.
+id            | string        | The order ID.
 Object        | object        | Key-value object of the asset and UTXOs for the specified order.
 -- key        | string        | The asset symbol.
--- value      | array         | The UTXOs locked for the given order UUID.
+-- value      | array         | The UTXOs locked for the given order ID.
 
 > Sample 400 Response
 
@@ -1768,13 +1768,13 @@ asks          | array         | An array of asks.
   "taker": "SYS",
   "bids": [
     //[ price, size, order_id ],
-    [ "253.00", "15.00", "d1ebd0b8-5398-4278-8e20-d480ac1d5869" ]
+    [ "253.00", "15.00", "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ]
   ],
   "asks": [
     //[ price, size, order_id ],
-    [ "254.15", "15.01", "d93b735b-ae1b-4ac6-b96b-d92966dd6ea1" ],
-    [ "254.15", "15.01", "32f5a551-3da6-4ff0-8ae6-0b60535c5237" ],
-    [ "254.15", "15.01", "t8a64a7r-k47h-9fg4-24kf-j49f94mf83mf" ]
+    [ "254.15", "15.01", "b20f0028eb77b7b745c1953f7521cbef31f40d5543595196d7eb911db43c6434" ],
+    [ "254.15", "15.01", "920f53f7521cbef3c64343b0020d554196d7eb98eb7735911db45b7b745c11f4" ],
+    [ "254.15", "15.01", "1dbbf31f7b745c12120f0028eb7795196dbcbe4043c6434d554953f75357eb91" ]
   ]
 }
 ```
@@ -1790,11 +1790,11 @@ taker         | string        | Taker trading asset; the ticker of the asset bei
 bids          | array         | An array of bids.
 - price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
 - size        | string(float) | The size of the bid order. String is used to preserve precision.
-- order_id    | string        | The UUID of the bid order.
+- order_id    | string        | The ID of the bid order.
 asks          | array         | An array of asks.
 - price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
 - size        | string(float) | The size of the ask order. String is used to preserve precision.
-- order_id    | string        | The UUID of the ask order.
+- order_id    | string        | The ID of the ask order.
 
 
 > Sample 200 Response \(Detail 4)
@@ -1806,11 +1806,11 @@ asks          | array         | An array of asks.
   "taker": "SYS",
   "bids": [
     //[ price, size, [order_ids] ],
-    [ "253.00", "15", [ "d1ebd0b8-5398-4278-8e20-d480ac1d5869" ] ],
+    [ "253.00", "15", [ "920f53f7521cbef3c64343b0020d554196d7eb98eb7735911db45b7b745c11f4" ] ],
   ],
   "asks": [
     //[ price, size, [order_ids] ],
-    [ "254.00", "15", [ "32f5a551-3da6-4ff0-8ae6-0b60535c5237", "d93b735b-ae1b-4ac6-b96b-d92966dd6ea1", "32f5a551-3da6-4ff0-8ae6-0b60535c5237", "t8a64a7r-k47h-9fg4-24kf-j49f94mf83mf" ] ],
+    [ "254.00", "15", [ "32f5a551-3da6-4ff0-8ae6-0b60535c5237", "b20f0028eb77b7b745c1953f7521cbef31f40d5543595196d7eb911db43c6434", "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4", "1dbbf31f7b745c12120f0028eb7795196dbcbe4043c6434d554953f75357eb91" ] ],
   ]
 }
 ```
@@ -1826,11 +1826,11 @@ taker         | string        | Taker trading asset; the ticker of the asset bei
 bids          | array         | An array of the best bids.
 - price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
 - size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
-- order_ids   | array         | An array of UUID for bid orders at this price.
+- order_ids   | array         | An array of ID for bid orders at this price.
 asks          | array         | An array of the best asks.
 - price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
 - size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
-- order_ids   | array         | An array of UUID for ask orders at this price.
+- order_ids   | array         | An array of ID for ask orders at this price.
 
 
 > Sample 400 Response
