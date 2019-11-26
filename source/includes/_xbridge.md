@@ -4,27 +4,28 @@ The following set of calls are used to conduct decentralized and trustless excha
 
 See [XBridge Setup](#xbridge-setup) for instructions on setting up your environment for use with XBridge.
 
-Call                                          | Description
-----------------------------------------------|---------------
-[dxMakeOrder](#dxmakeorder)                   | Create an order
-[dxTakeOrder](#dxtakeorder)                   | Take an existing order
-[dxCancelOrder](#dxcancelorder)               | Cancel your own order
-[dxGetOrder](#dxgetorder)                     | Returns order details by ID
-[dxGetOrders](#dxgetorders)                   | Returns all orders with details
-[dxGetMyOrders](#dxgetmyorders)               | Returns all your own orders with details
-[dxGetOrderFills](#dxgetorderfills)           | Returns all recent filled orders
-[dxGetOrderHistory](#dxgetorderhistory)       | Returns the OHLCV data my market
-[dxGetLocalTokens](#dxgetlocaltokens)         | Returns all assets connected locally
-[dxGetNetworkTokens](#dxgetnetworktokens)     | Returns all assets connected on the network
-[dxGetTokenBalances](#dxgettokenbalances)     | Returns available balances for your assets
-[dxGetNewTokenAddress](#dxgetnewtokenaddress) | Returns a newly generated address
-[dxGetOrderBook](#dxgetorderbook)             | Returns open orders
-[dxLoadXBridgeConf](#dxloadxbridgeConf)       | Reloads the `xbridge.conf`
-[gettradingdata](#gettradingdata)             | Returns on-chain trading records
-[Status Codes](#status-codes)                 | XBridge order status codes
-[Error Codes](#error-codes)                   | Error codes
+Call                                              | Description
+--------------------------------------------------|---------------
+[dxMakeOrder](#dxmakeorder)                       | Create an order
+[dxTakeOrder](#dxtakeorder)                       | Take an existing order
+[dxCancelOrder](#dxcancelorder)                   | Cancel your own order
+[dxGetOrder](#dxgetorder)                         | Returns order details by ID
+[dxGetOrders](#dxgetorders)                       | Returns all orders with details
+[dxGetMyOrders](#dxgetmyorders)                   | Returns all your own orders with details
+[dxGetOrderFills](#dxgetorderfills)               | Returns all recent filled orders
+[dxGetOrderHistory](#dxgetorderhistory)           | Returns the OHLCV data my market
+[dxGetLocalTokens](#dxgetlocaltokens)             | Returns all assets connected locally
+[dxGetNetworkTokens](#dxgetnetworktokens)         | Returns all assets connected on the network
+[dxGetTokenBalances](#dxgettokenbalances)         | Returns available balances for your assets
+[dxGetNewTokenAddress](#dxgetnewtokenaddress)     | Returns a newly generated address
+[dxGetOrderBook](#dxgetorderbook)                 | Returns open orders
+[dxLoadXBridgeConf](#dxloadxbridgeConf)           | Reloads the `xbridge.conf`
+[gettradingdata](#gettradingdata)                 | Returns on-chain trading records
+[Status Codes](#status-codes)                     | XBridge order status codes
+[Error Codes](#error-codes)                       | Error codes
 
 
+<!-- [dxFlushCancelledOrders](#dxflushcancelledorders) | Removes your cancelled orders -->
 
 
 
@@ -827,6 +828,133 @@ Code  | Type  | Error
 
 
 
+<!-- 
+## dxFlushCancelledOrders 
+
+> Sample Data
+
+```cli
+{
+  "ageMillis": 600000
+}
+```
+This call is used to remove your cancelled orders that are older than the specified amount of time.
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknetdx-cli dxFlushCancelledOrders 600000
+```
+<code class="api-call">dxFlushCancelledOrders [ageMillis]\(optional)</code>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+ageMillis     | int           | (Optional Parameter) Defaults to `0`.<br>Remove cancelled orders older than this amount of milliseconds. If `0`, all cancelled orders will be removed.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+{
+  "ageMillis": 0,
+  "now": "20191126T024005.352285",
+  "durationMicrosec": 0,
+  "flushedOrders": [
+    {
+      "id": "582a02ada05c8a4bb39b34de0eb54767bcb95a7792e5865d3a0babece4715f47",
+      "txtime": "20191126T023945.855058",
+      "use_count": 1
+    },
+    {
+      "id": "a508cd8d110bdc0b1fd819a89d94cdbf702e3aa40edbe654af5d556ff3c43a0a",
+      "txtime": "20191126T023956.270409",
+      "use_count": 1
+    }
+  ]
+}
+```
+
+Parameter        | Type          | Description
+-----------------|---------------|-------------
+ageMillis        | int           | The millisecond value specified when making the call.
+now              | string        | ISO 8601 datetime, with microseconds, of when
+durationMicrosec | int           | The amount of time in milliseconds it took to process the call.
+flushedOrders    | array         | Array of cancelled orders that were removed.
+id               | string        | The order ID.
+txtime           | string        | ISO 8601 datetime, with microseconds, of when
+use_count        | int           | 
+
+
+> Sample 400 Response
+
+```cli
+{
+  "error": "Invalid parameters: ageMillis must be an integer >= 0",
+  "code": 1025,
+  "name": "dxFlushCancelledOrders"
+}
+```
+
+<aside class="warning">
+400 Bad Request
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+> Sample 500 Response
+
+```cli
+{
+  "error": "Internal error occurred",
+  "code": 1002,
+  "name": "dxFlushCancelledOrders"
+}
+```
+<aside class="warning">
+500 Internal Server Error
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+<aside class="warning">
+Error Codes
+</aside>
+
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1011  | 400   | Invalid maker symbol
+1012  | 400   | Invalid taker symbol
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
+ -->
+
+
+
+
+
+
+
+
 
 ## dxGetOrderFills 
 
@@ -1492,7 +1620,7 @@ name          | string        | Name of the RPC function
 {
   "error": "Internal error occurred",
   "code": 1002,
-  "name": "dxGetTokenBalances"
+  "name": "dxGetNewTokenAddress"
 }
 ```
 <aside class="warning">

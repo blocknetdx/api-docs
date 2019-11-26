@@ -29,7 +29,7 @@ reference: https://docs.pro.coinbase.com
 • Updated [XBridge Setup](#xbridge-setup) to note that Segwit/Bech32 address and p2pk inputs are not yet compatible |
 • Updated [dxMakeOrder](#dxmakeorder) and [dxTakeOrder](#dxtakeorder) to note usage of funds are not restricted to the speficied address |
 • Corrected [xrGetBlocks](#xrgetblocks) and [xrGetTransactions](#xrgettransactions) to include quotes in the string array |
-• Updated XBridge order ID examples to be representative of real IDs |
+• Updated XBridge order IDs in examples to be representative of real IDs |
 
 
 8/2/2019    |
