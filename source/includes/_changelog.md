@@ -22,32 +22,42 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
-8/2/2019	|
+11/26/2019  |
+------------|
+• Wallet v3.14.1 release |
+• Added [dxGetNewTokenAddress](#dxgetnewtokenaddress) call |
+• Updated [XBridge Setup](#xbridge-setup) to note that Segwit/Bech32 address and p2pk inputs are not yet compatible |
+• Updated [dxMakeOrder](#dxmakeorder) and [dxTakeOrder](#dxtakeorder) to note usage of funds are not restricted to the speficied address |
+• Corrected [xrGetBlocks](#xrgetblocks) and [xrGetTransactions](#xrgettransactions) to include quotes in the string array |
+• Updated XBridge order IDs in examples to be representative of real IDs |
+
+
+8/2/2019    |
 ------------|
 • Updated the [xrConnect](#xrconnect) output to include the added `fetchlimit` and timeout settings with the returned configs |
 • Updated the [ticker (1.0)](#ticker-2-0) call output to include `lastprice` and `timestamp` |
 • Added clarification [ticker (1.0)](#ticker-2-0) description on inverse market data inclusion |
 
 
-7/12/2019	|
+7/12/2019   |
 ------------|
 • Updated [XBridge Setup](#xbridge-setup) to reference the guide in the [documentation portal](https://docs.blocknet.co/protocol/xbridge/setup) |
 • Added [ticker (2.0)](#ticker-2-0) call |
 
 
-7/5/2019	|
+7/5/2019    |
 ------------|
 • Added [gettradingdata](#gettradingdata) call |
 • Added [Web API](#web-api) section and calls |
 
 
-5/9/2019	|
+5/9/2019    |
 ------------|
-• Updated Gihub links from `/BlocknetDX` to `/blocknetdx` |
+• Updated Github links from `/BlocknetDX` to `/blocknetdx` |
 • Updated Blocknet repo links from `/BlockDX` to `/blocknet` |
 
 
-4/18/2019	|
+4/18/2019   |
 ------------|
 • Updated [XRouter setup](#xrouter-setup) instructions |
 • Updated [XBridge setup](#xbridge-setup) instructions |
@@ -60,7 +70,7 @@ reference: https://docs.pro.coinbase.com
 • Added XCloud introduction |
 
 
-3/5/2019	|
+3/5/2019    |
 ------------|
 • Update links to Github to reflect change in repository names |
 • Updated link to [compatible blockchains](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) |
@@ -69,8 +79,7 @@ reference: https://docs.pro.coinbase.com
 • Updated language from `token` to `asset`  |
 
 
-
-12/7/2018	|
+12/7/2018   |
 ------------|
 • Updated Introduction Service Node description |
 • Updated 'coin' verbiage to 'token' |
@@ -90,18 +99,18 @@ reference: https://docs.pro.coinbase.com
 • Added historic versioning, which can be viewed next to each changelog date |
 • Corrected XRouter `confirmations` data type from 'string' to 'int' |
 
-8/31/2018	|
+8/31/2018   |
 ------------|
 • Updated XBridge design details and diagrams to reflect fee switch from maker to taker |
 • Updated mentions of XBridge from 0.005 BLOCK to 0.015 BLOCK |
 • Added reference for atomic swap type in XBridge introduction |
 
-8/21/2018	|
+8/21/2018   |
 ------------|
 • Added information on the design of XBridge and XRouter |
 • Added hyperlink to site branding leading to the site root |
 
-8/10/2018	|
+8/10/2018   |
 ------------|
 • Added additonal information on the Blocknet Protocol, XBridge, and XRouter |
 • Added information on configuration and setup needed to use the API |
@@ -114,11 +123,11 @@ reference: https://docs.pro.coinbase.com
 • Updated sidebar links |
 • Updated design |
 
-8/3/2018	|
+8/3/2018    |
 ------------|
 • Added documentation for XRouter CLI API calls |
 
-6/4/2018	|
+6/4/2018    |
 ------------|
 • API documentation went live |
 • Includes documentation for XBridge CLI API calls |

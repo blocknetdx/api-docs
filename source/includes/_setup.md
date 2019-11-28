@@ -45,6 +45,8 @@ rpcport=41414
 1. Using the command line(cli), [XBridge API calls](#xbridge-api) can now be made.
 1. If also using the XRouter API, see [XRouter Setup](#xrouter-setup).
 
+**Note**: Segwit and Bech32 addresses are not currently compatible. Staked (p2pk) inputs are not currently compatible. Integrations of these addresses and inputs are planned.
+
 
 
 

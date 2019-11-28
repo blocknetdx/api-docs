@@ -167,9 +167,11 @@ under the License.
         <% end %>
       </div>
     </div>
-    <div id="wallet-version">
-      <span>Wallet v3.14.x</span>
-    </div>
+    <% if current_page.data.wallet_version %>
+      <div id="wallet-version">
+        <span>Wallet v<%= current_page.data.wallet_version %></span>
+      </div>
+    <% end %>
     <div id="notification-bar">
       <!-- <div class="notification" data-expire="">
         <span class="message"><strong>Need support? <a href="https://discord.gg/2e6s7H8" target="_blank">Join our Discord!</a></strong></span>

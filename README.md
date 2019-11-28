@@ -1,6 +1,6 @@
 # Blocknet API Documentation
 
-This repository contains the source code for [Blocknet's API documentation](https://api.blocknet.co).
+This repository contains the source code for Blocknet's [API documentation website](https://api.blocknet.co).
 
 > Powered by [Slate Docs](https://github.com/lord/slate).
 

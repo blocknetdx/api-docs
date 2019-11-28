@@ -4,26 +4,28 @@ The following set of calls are used to conduct decentralized and trustless excha
 
 See [XBridge Setup](#xbridge-setup) for instructions on setting up your environment for use with XBridge.
 
-Call                                      | Description
-------------------------------------------|---------------
-[dxMakeOrder](#dxmakeorder)               | Create an order
-[dxTakeOrder](#dxtakeorder)               | Take an existing order
-[dxCancelOrder](#dxcancelorder)           | Cancel your own order
-[dxGetOrder](#dxgetorder)                 | Returns order details by ID
-[dxGetOrders](#dxgetorders)               | Returns all orders with details
-[dxGetMyOrders](#dxgetmyorders)           | Returns all your own orders with details
-[dxGetOrderFills](#dxgetorderfills)       | Returns all recent filled orders
-[dxGetOrderHistory](#dxgetorderhistory)   | Returns the OHLCV data my market
-[dxGetLocalTokens](#dxgetlocaltokens)     | Returns all assets connected locally
-[dxGetNetworkTokens](#dxgetnetworktokens) | Returns all assets connected on the network
-[dxGetTokenBalances](#dxgettokenbalances) | Returns available balances for your assets
-[dxGetOrderBook](#dxgetorderbook)         | Returns open orders
-[dxLoadXBridgeConf](#dxloadxbridgeConf)   | Reloads the `xbridge.conf`
-[gettradingdata](#gettradingdata)         | Returns on-chain trading records
-[Status Codes](#status-codes)             | XBridge order status codes
-[Error Codes](#error-codes)               | Error codes
+Call                                              | Description
+--------------------------------------------------|---------------
+[dxMakeOrder](#dxmakeorder)                       | Create an order
+[dxTakeOrder](#dxtakeorder)                       | Take an existing order
+[dxCancelOrder](#dxcancelorder)                   | Cancel your own order
+[dxGetOrder](#dxgetorder)                         | Returns order details by ID
+[dxGetOrders](#dxgetorders)                       | Returns all orders with details
+[dxGetMyOrders](#dxgetmyorders)                   | Returns all your own orders with details
+[dxGetOrderFills](#dxgetorderfills)               | Returns all recent filled orders
+[dxGetOrderHistory](#dxgetorderhistory)           | Returns the OHLCV data my market
+[dxGetLocalTokens](#dxgetlocaltokens)             | Returns all assets connected locally
+[dxGetNetworkTokens](#dxgetnetworktokens)         | Returns all assets connected on the network
+[dxGetTokenBalances](#dxgettokenbalances)         | Returns available balances for your assets
+[dxGetNewTokenAddress](#dxgetnewtokenaddress)     | Returns a newly generated address
+[dxGetOrderBook](#dxgetorderbook)                 | Returns open orders
+[dxLoadXBridgeConf](#dxloadxbridgeConf)           | Reloads the `xbridge.conf`
+[gettradingdata](#gettradingdata)                 | Returns on-chain trading records
+[Status Codes](#status-codes)                     | XBridge order status codes
+[Error Codes](#error-codes)                       | Error codes
 
 
+<!-- [dxFlushCancelledOrders](#dxflushcancelledorders) | Removes your cancelled orders -->
 
 
 
@@ -40,16 +42,18 @@ Call                                      | Description
 {
   "maker": "SYS",
   "maker_size": "0.100",
-  "maker_address": "yFMXXUJF7pSKegHTkTYMjfNxyUGVt1uCrL",
+  "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
   "taker": "LTC",
   "taker_size": "0.01",
-  "taker_address": "yGDmuy8m1Li4ShNe7kGYusACw4oyiGiK5b",
+  "taker_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
   "type": "exact"
 }
 ```
-This call is used to create a new order. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
+This call is used to create a new order. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
 
-There are no fees to make orders, but there are transaction fees for the maker asset's native network. 
+There are no fees to make orders, but there are transaction fees for the maker asset's native network.
+
+**Note**: XBridge will first attempt use funds from the specified maker address. If this address does not have sufficient funds to cover the order, then it will pull funds from other addresses in the wallet. Change is deposited to the address with the largest input used. There are plans to add the capability of strictly only using funds from the specified address.
 
 
 ### Request Parameters
@@ -57,7 +61,7 @@ There are no fees to make orders, but there are transaction fees for the maker a
 > Sample Request
 
 ```cli
-blocknetdx-cli dxMakeOrder SYS 0.100 yFMXXUJF7pSKegHTkTYMjfNxyUGVt1uCrL LTC 0.01 yGDmuy8m1Li4ShNe7kGYusACw4oyiGiK5b exact
+blocknetdx-cli dxMakeOrder SYS 0.100 SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK LTC 0.01 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z exact
 ```
 <code class="api-call">dxMakeOrder [maker] [maker_size] [maker_address] [taker] [taker_size] [taker_address] [type] [dryrun]\(optional)</code>
 
@@ -83,7 +87,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Receive a resp
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
+  "id": "4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "maker": "SYS",
   "maker_size": "0.100",
   "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
@@ -99,7 +103,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Receive a resp
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
 maker_address | string        | Maker address for sending the outgoing asset.
@@ -108,7 +112,7 @@ taker_size    | string(float) | Taker trading size. String is used to preserve p
 taker_address | string        | Maker address for receiving the incoming asset.
 updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
 created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
-block_id      | string        | The UUID block hash of the current block on the Blocknet blockchain at the time the order was created.
+block_id      | string        | The block hash of the current block on the Blocknet blockchain at the time the order was created.
 status        | string        | [View order status codes](#status-codes)
 
 
@@ -183,15 +187,17 @@ Code  | Type  | Error
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
+  "id": "4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "send_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
   "receive_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
   "dryrun": "dryrun"
 }
 ```
-This call is used to take an order. Taking your own order is currently not supported. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
+This call is used to take an order. Taking your own order is currently not supported. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
 
-Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the taker asset's native network. If the taker asset is BLOCK, there needs to be *at least* two UXTOs - one or more to cover the 0.015 BLOCK fee and one or more to cover the traded amount. 
+Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the taker asset's native network. If the taker asset is BLOCK, there needs to be *at least* two UXTOs - one or more to cover the 0.015 BLOCK fee and one or more to cover the traded amount.
+
+**Note**: XBridge will first attempt use funds from the specified send address. If this address does not have sufficient funds to cover the order, then it will pull funds from other addresses in the wallet. Change is deposited to the address with the largest input used. There are plans to add the capability of strictly only using funds from the specified address.
 
 
 ### Request Parameters
@@ -199,7 +205,7 @@ Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the t
 > Sample Request
 
 ```cli
-blocknetdx-cli dxTakeOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
+blocknetdx-cli dxTakeOrder 4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
 ```
 <code class="api-call">dxTakeOrder [order_id] [send_address] [receive_address] [dryrun]\(optional)</code>
 
@@ -221,7 +227,7 @@ dryrun          | string        | (Optional Parameter) <br>`dryrun`: Receive a r
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
+  "id": "4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "maker": "SYS",
   "maker_size": "0.100",
   "taker": "LTC",
@@ -234,7 +240,7 @@ dryrun          | string        | (Optional Parameter) <br>`dryrun`: Receive a r
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
@@ -315,7 +321,7 @@ Code  | Type  | Error
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092"
+  "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9"
 }
 ```
 This call is used to cancel one of your own orders, which automatically rolls back the order if a trade is in process.
@@ -326,7 +332,7 @@ This call is used to cancel one of your own orders, which automatically rolls ba
 > Sample Request
 
 ```cli
-blocknetdx-cli dxCancelOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092
+blocknetdx-cli dxCancelOrder 91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9
 ```
 <code class="api-call">dxCancelOrder [order_id]</code>
 
@@ -345,7 +351,7 @@ id            | string        | ID of order being cancelled.
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
+  "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9",
   "maker": "SYS",
   "maker_size": "0.100",
   "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
@@ -360,7 +366,7 @@ id            | string        | ID of order being cancelled.
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Sending asset of party cancelling the order.
 maker_size    | string(float) | Sending trading size. String is used to preserve precision.
 maker_address | string        | Address for sending the outgoing asset.
@@ -439,7 +445,7 @@ Code  | Type  | Error
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092"
+  "id": "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a"
 }
 ```
 This call is used to retrieve order info.
@@ -450,7 +456,7 @@ This call is used to retrieve order info.
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetOrder 2cd2a2ac-e6ff-4beb-9b45-d460bf83a092
+blocknetdx-cli dxGetOrder 6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a
 ```
 <code class="api-call">dxGetOrder [order_id]</code>
 
@@ -469,7 +475,7 @@ id            | string        | ID of order of interest.
 
 ```cli
 {
-  "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092",
+  "id": "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a",
   "maker": "SYS",
   "maker_size": "0.100",
   "taker": "LTC",
@@ -482,7 +488,7 @@ id            | string        | ID of order of interest.
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
@@ -583,7 +589,7 @@ This call does not take parameters.
 ```cli
 [
   {
-    "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092", 
+    "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -593,7 +599,7 @@ This call does not take parameters.
     "status": "finished"
   },
   {
-    "id": "12b672d4-cc43-4941-8b35-b1d0ea110908", 
+    "id": "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -603,7 +609,7 @@ This call does not take parameters.
     "status": "finished"
   },
   {
-    "id": "01639dfa-db96-440c-85bd-6d4feda8ace6", 
+    "id": "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -618,7 +624,7 @@ This call does not take parameters.
 Parameter     | Type          | Description
 --------------|---------------|-------------
 Array         | array         | An array of all orders with each order having the following parameters.
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
@@ -716,7 +722,7 @@ This call does not take parameters.
 ```cli
 [
   {
-    "id": "2cd2a2ac-e6ff-4beb-9b45-d460bf83a092", 
+    "id": "91b7da4eda3e5d4a7de8a67d8e7a8d768ea567da5e467d4ea7a6d7a6d7a6d75a", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -726,7 +732,7 @@ This call does not take parameters.
     "status": "finished"
   },
   {
-    "id": "12b672d4-cc43-4941-8b35-b1d0ea110908", 
+    "id": "c3d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -736,7 +742,7 @@ This call does not take parameters.
     "status": "finished"
   },
   {
-    "id": "01639dfa-db96-440c-85bd-6d4feda8ace6", 
+    "id": "3ef40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4", 
     "maker": "SYS",
     "maker_size": "0.100",
     "taker": "LTC",
@@ -751,7 +757,7 @@ This call does not take parameters.
 Parameter     | Type          | Description
 --------------|---------------|-------------
 Array         | array         | An array of all orders with each order having the following parameters.
-id            | string        | The order UUID.
+id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
 maker_address | string        | Address for sending the outgoing asset.
@@ -822,6 +828,133 @@ Code  | Type  | Error
 
 
 
+<!-- 
+## dxFlushCancelledOrders 
+
+> Sample Data
+
+```cli
+{
+  "ageMillis": 600000
+}
+```
+This call is used to remove your cancelled orders that are older than the specified amount of time.
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknetdx-cli dxFlushCancelledOrders 600000
+```
+<code class="api-call">dxFlushCancelledOrders [ageMillis]\(optional)</code>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+ageMillis     | int           | (Optional Parameter) Defaults to `0`.<br>Remove cancelled orders older than this amount of milliseconds. If `0`, all cancelled orders will be removed.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+{
+  "ageMillis": 0,
+  "now": "20191126T024005.352285",
+  "durationMicrosec": 0,
+  "flushedOrders": [
+    {
+      "id": "582a02ada05c8a4bb39b34de0eb54767bcb95a7792e5865d3a0babece4715f47",
+      "txtime": "20191126T023945.855058",
+      "use_count": 1
+    },
+    {
+      "id": "a508cd8d110bdc0b1fd819a89d94cdbf702e3aa40edbe654af5d556ff3c43a0a",
+      "txtime": "20191126T023956.270409",
+      "use_count": 1
+    }
+  ]
+}
+```
+
+Parameter        | Type          | Description
+-----------------|---------------|-------------
+ageMillis        | int           | The millisecond value specified when making the call.
+now              | string        | ISO 8601 datetime, with microseconds, of when
+durationMicrosec | int           | The amount of time in milliseconds it took to process the call.
+flushedOrders    | array         | Array of cancelled orders that were removed.
+id               | string        | The order ID.
+txtime           | string        | ISO 8601 datetime, with microseconds, of when
+use_count        | int           | 
+
+
+> Sample 400 Response
+
+```cli
+{
+  "error": "Invalid parameters: ageMillis must be an integer >= 0",
+  "code": 1025,
+  "name": "dxFlushCancelledOrders"
+}
+```
+
+<aside class="warning">
+400 Bad Request
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+> Sample 500 Response
+
+```cli
+{
+  "error": "Internal error occurred",
+  "code": 1002,
+  "name": "dxFlushCancelledOrders"
+}
+```
+<aside class="warning">
+500 Internal Server Error
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+<aside class="warning">
+Error Codes
+</aside>
+
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1011  | 400   | Invalid maker symbol
+1012  | 400   | Invalid taker symbol
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
+ -->
+
+
+
+
+
+
+
+
 
 ## dxGetOrderFills 
 
@@ -864,7 +997,7 @@ combines      | boolean       | (Optional Parameter) Defaults to `true`.<br>`tru
 ```cli
 [
   {
-    "id": "00a2afce-4754-443e-93d6-1f600501e3ac",
+    "id": "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4",
     "time": "2018-01-16T13:15:05.12345Z",
     "maker": "SYS",
     "maker_size": "101.00000000",
@@ -872,7 +1005,7 @@ combines      | boolean       | (Optional Parameter) Defaults to `true`.<br>`tru
     "taker_size": "0.01000000"
   },
   {
-    "id": "7de354c3-6c66-44e7-bf30-eaf942df5fcc",
+    "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9",
     "time": "2018-01-16T13:15:05.12345Z",
     "maker": "LTC",
     "maker_size": "0.01000000",
@@ -885,7 +1018,7 @@ combines      | boolean       | (Optional Parameter) Defaults to `true`.<br>`tru
 Parameter     | Type          | Description
 --------------|---------------|-------------
 Array         | array         | Array of orders sorted by date descending (most recent filled trade first).
-id            | string        | The order UUID.
+id            | string        | The order ID.
 time          | string        | Time the order was filled.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
@@ -897,7 +1030,7 @@ maker_txid    | string        | The transaction ID(hash) of maker asset on the a
   "maker_txid": "f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156",
 taker_txid    | string        | The transaction ID(hash) of taker asset on the asset's network.
   "taker_txid": "bcb7543c2f66777927899e701c8309be77904b9c0ef286791fb1a1813bb9099d",
-block_id      | string        | Blocknet block hash UUID at the time the order was filled.
+block_id      | string        | Blocknet block hash ID at the time the order was filled.
   "block_id": "69a1f3bc5031e55800a37062d3c74c017cf233730e7c00813f5cbe7d9d7d0230"
  -->
 
@@ -977,7 +1110,7 @@ Code  | Type  | Error
   "granularity": 60
 }
 ```
-This call is used to retrieve the OHLCV data by a trade pair within a specified time range. It can return the history for any [compatible asset](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) since all trade history is stored on-chain.
+This call is used to retrieve the OHLCV data by a trade pair within a specified time range. It can return the order history for any [compatible asset](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) since all trade history is stored on-chain.
 
 
 ### Request Parameters
@@ -1027,9 +1160,9 @@ at_start means all orders that fall in the specified number up to the next time 
   //[ time, low, high, open, close, volume, id(s) ],
   [ "2018-01-16T13:15:05.12345Z", 1.10, 2.0, 1.10, 1.4, 1000, [ "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ] ],
   [ "2018-01-16T14:15:05.12345Z", 0, 0, 0, 0, 0, [] ],
-  [ "2018-01-16T15:15:05.12345Z", 1.12, 2.2, 1.10, 1.4, 1000, [ "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ] ],
-  [ "2018-01-16T16:15:05.12345Z", 1.14, 2.0, 1.10, 1.4, 1000, [ "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ] ],
-  [ "2018-01-16T17:15:05.12345Z", 1.15, 2.0, 1.10, 1.4, 1000, [ "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ] ]
+  [ "2018-01-16T15:15:05.12345Z", 1.12, 2.2, 1.10, 1.4, 1000, [ "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e", "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4" ] ],
+  [ "2018-01-16T16:15:05.12345Z", 1.14, 2.0, 1.10, 1.4, 1000, [ "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4" ] ],
+  [ "2018-01-16T17:15:05.12345Z", 1.15, 2.0, 1.10, 1.4, 1000, [ "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a" ] ]
 ]
 ```
 
@@ -1114,7 +1247,7 @@ Code  | Type  | Error
 
 ## dxGetLocalTokens
 
-This call is used to retrieve all the assets supported by the local client. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). 
+This call is used to retrieve all the assets supported by the local client. You can only trade on markets with these assets. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup).
 
 
 ### Request Parameters
@@ -1315,6 +1448,8 @@ Code  | Type  | Error
 
 This call is used to retrieve the asset __*available*__ balances for all connected wallets on the local client. This will only return balances for the assets returned in [dxGetLocalTokens](#dxgetlocaltokens). If an asset is not showing and is not returned in or the value is showing 0, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup).
 
+**Note**: These balances do not include orders that are using locked UTXOs to support a pending or open order. XBridge works best with pre-sliced UTXOs so that your entire wallet balance is capable of multiple simultaneous trades.
+
 
 ### Request Parameters
 
@@ -1413,6 +1548,112 @@ Code  | Type  | Error
 
 
 
+## dxGetNewTokenAddress
+
+> Sample Data
+
+```cli
+{
+  "asset": "SYS"
+}
+```
+This call is used to generate a new address for the specified asset. This call will only work for the assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknetdx-cli dxGetNewTokenAddress SYS
+```
+<code class="api-call">dxGetNewTokenAddress [asset]</code>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+asset         | string        | The ticker of the asset you want to generate an address for.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+[
+  "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK"
+]
+```
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+Array         | array         | An array containing the newly generated address for the given asset.
+
+
+> Sample 400 Response
+
+```cli
+{
+  "error": "Bad request",
+  "code": 1004,
+  "name": "dxGetNewTokenAddress"
+}
+```
+
+<aside class="warning">
+400 Bad Request
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+> Sample 500 Response
+
+```cli
+{
+  "error": "Internal error occurred",
+  "code": 1002,
+  "name": "dxGetNewTokenAddress"
+}
+```
+<aside class="warning">
+500 Internal Server Error
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+<aside class="warning">
+Error Codes
+</aside>
+
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1004  | 400   | Bad request
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
+
+
+
+
+
+
+
+
+
+
 <!-- ## dxGetLockedUtxos
 
 > Sample Data
@@ -1422,7 +1663,7 @@ Code  | Type  | Error
   "id": "f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156"
 }
 ```
-This call is used to retrieve the locked UTXOs for a specified order UUID.
+This call is used to retrieve the locked UTXOs for a specified order ID.
 
 
 ### Request Parameters
@@ -1436,7 +1677,7 @@ blocknetdx-cli dxGetLockedUtxos f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c6
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID to recieve the UTXOs for.
+id            | string        | The order ID to recieve the UTXOs for.
 
 
 ### Response Parameters
@@ -1462,10 +1703,10 @@ id            | string        | The order UUID to recieve the UTXOs for.
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-id            | string        | The order UUID.
+id            | string        | The order ID.
 Object        | object        | Key-value object of the asset and UTXOs for the specified order.
 -- key        | string        | The asset symbol.
--- value      | array         | The UTXOs locked for the given order UUID.
+-- value      | array         | The UTXOs locked for the given order ID.
 
 > Sample 400 Response
 
@@ -1565,7 +1806,7 @@ Parameter     | Type          | Description
 detail        | int           | Detail level: `1`, `2`, `3`, `4`
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-max_orders    | int           | (Optional Parameter) Defaults to `50`.<br>The maximum total orders to display for bids and asks combined. Odd values are rounded up 1. Quantity is split evenly between bids and asks. 
+max_orders    | int           | (Optional Parameter) Defaults to `50`.<br>The maximum total orders to display for bids and asks combined. Odd values are rounded up 1. Quantity is split evenly between bids and asks.
 
 
 ### Response Parameters
@@ -1655,13 +1896,13 @@ asks          | array         | An array of asks.
   "taker": "SYS",
   "bids": [
     //[ price, size, order_id ],
-    [ "253.00", "15.00", "d1ebd0b8-5398-4278-8e20-d480ac1d5869" ]
+    [ "253.00", "15.00", "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ]
   ],
   "asks": [
     //[ price, size, order_id ],
-    [ "254.15", "15.01", "d93b735b-ae1b-4ac6-b96b-d92966dd6ea1" ],
-    [ "254.15", "15.01", "32f5a551-3da6-4ff0-8ae6-0b60535c5237" ],
-    [ "254.15", "15.01", "t8a64a7r-k47h-9fg4-24kf-j49f94mf83mf" ]
+    [ "254.15", "15.01", "b20f0028eb77b7b745c1953f7521cbef31f40d5543595196d7eb911db43c6434" ],
+    [ "254.15", "15.01", "920f53f7521cbef3c64343b0020d554196d7eb98eb7735911db45b7b745c11f4" ],
+    [ "254.15", "15.01", "1dbbf31f7b745c12120f0028eb7795196dbcbe4043c6434d554953f75357eb91" ]
   ]
 }
 ```
@@ -1677,11 +1918,11 @@ taker         | string        | Taker trading asset; the ticker of the asset bei
 bids          | array         | An array of bids.
 - price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
 - size        | string(float) | The size of the bid order. String is used to preserve precision.
-- order_id    | string        | The UUID of the bid order.
+- order_id    | string        | The ID of the bid order.
 asks          | array         | An array of asks.
 - price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
 - size        | string(float) | The size of the ask order. String is used to preserve precision.
-- order_id    | string        | The UUID of the ask order.
+- order_id    | string        | The ID of the ask order.
 
 
 > Sample 200 Response \(Detail 4)
@@ -1693,11 +1934,11 @@ asks          | array         | An array of asks.
   "taker": "SYS",
   "bids": [
     //[ price, size, [order_ids] ],
-    [ "253.00", "15", [ "d1ebd0b8-5398-4278-8e20-d480ac1d5869" ] ],
+    [ "253.00", "15", [ "920f53f7521cbef3c64343b0020d554196d7eb98eb7735911db45b7b745c11f4" ] ],
   ],
   "asks": [
     //[ price, size, [order_ids] ],
-    [ "254.00", "15", [ "32f5a551-3da6-4ff0-8ae6-0b60535c5237", "d93b735b-ae1b-4ac6-b96b-d92966dd6ea1", "32f5a551-3da6-4ff0-8ae6-0b60535c5237", "t8a64a7r-k47h-9fg4-24kf-j49f94mf83mf" ] ],
+    [ "254.00", "15", [ "32f5a551-3da6-4ff0-8ae6-0b60535c5237", "b20f0028eb77b7b745c1953f7521cbef31f40d5543595196d7eb911db43c6434", "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4", "1dbbf31f7b745c12120f0028eb7795196dbcbe4043c6434d554953f75357eb91" ] ],
   ]
 }
 ```
@@ -1713,11 +1954,11 @@ taker         | string        | Taker trading asset; the ticker of the asset bei
 bids          | array         | An array of the best bids.
 - price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
 - size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
-- order_ids   | array         | An array of UUID for bid orders at this price.
+- order_ids   | array         | An array of ID for bid orders at this price.
 asks          | array         | An array of the best asks.
 - price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
 - size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
-- order_ids   | array         | An array of UUID for ask orders at this price.
+- order_ids   | array         | An array of ID for ask orders at this price.
 
 
 > Sample 400 Response
@@ -1788,6 +2029,8 @@ Code  | Type  | Error
 ## dxLoadXBridgeConf
 
 This call is used to reload `xbridge.conf` to run newly configured settings without needing to restart the Blocknet client.
+
+**Note**: This may disrupt trades in progress.
 
 
 ### Request Parameters
