@@ -74,7 +74,7 @@ taker         | string        | Taker trading asset; the ticker of the asset bei
 taker_size    | string(float) | Taker trading size. String is used to preserve precision.
 taker_address | string        | Maker address for receiving the incoming asset.
 type          | string        | This is the order type.<br>`exact`: Matches a specific order. <br>`limit`: (not yet supported) <br>`market`: (not yet supported)
-dryrun        | string        | (Optional Parameter)<br>`dryrun`: Receive a response without actually submitting the order to the network.
+dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the order without actually submitting the order to the network.
 
 
 ### Response Parameters
@@ -214,7 +214,7 @@ Parameter       | Type          | Description
 id              | string        | ID of order being filled.
 send_address    | string        | Taker address for sending the outgoing asset.
 receive_address | string        | Taker address for receiving the incoming asset.
-dryrun          | string        | (Optional Parameter) <br>`dryrun`: Receive a response without actually submitting the order to the network.
+dryrun          | string        | (Optional Parameter) <br>`dryrun`: Validate the order without actually submitting the order to the network.
 
 
 ### Response Parameters
