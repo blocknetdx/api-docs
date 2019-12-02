@@ -61,7 +61,7 @@ There are no fees to make orders, but there are transaction fees for the maker a
 > Sample Request
 
 ```cli
-blocknetdx-cli dxMakeOrder SYS 0.100 SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK LTC 0.01 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z exact
+blocknet-cli dxMakeOrder SYS 0.100 SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK LTC 0.01 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z exact
 ```
 <code class="api-call">dxMakeOrder [maker] [maker_size] [maker_address] [taker] [taker_size] [taker_address] [type] [dryrun]\(optional)</code>
 
@@ -205,7 +205,7 @@ Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the t
 > Sample Request
 
 ```cli
-blocknetdx-cli dxTakeOrder 4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
+blocknet-cli dxTakeOrder 4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
 ```
 <code class="api-call">dxTakeOrder [order_id] [send_address] [receive_address] [dryrun]\(optional)</code>
 
@@ -332,7 +332,7 @@ This call is used to cancel one of your own orders, which automatically rolls ba
 > Sample Request
 
 ```cli
-blocknetdx-cli dxCancelOrder 91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9
+blocknet-cli dxCancelOrder 91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9
 ```
 <code class="api-call">dxCancelOrder [order_id]</code>
 
@@ -456,7 +456,7 @@ This call is used to retrieve order info.
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetOrder 6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a
+blocknet-cli dxGetOrder 6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a
 ```
 <code class="api-call">dxGetOrder [order_id]</code>
 
@@ -571,7 +571,7 @@ This call is used to retrieve all orders of every market pair. It will only retu
 > Request
 
 ```cli
-blocknetdx-cli dxGetOrders
+blocknet-cli dxGetOrders
 ```
 <code class="api-call">dxGetOrders</code>
 
@@ -704,7 +704,7 @@ This call is used to retrieve all of your orders (of all states) from the local 
 > Request
 
 ```cli
-blocknetdx-cli dxGetMyOrders
+blocknet-cli dxGetMyOrders
 ```
 <code class="api-call">dxGetMyOrders</code>
 
@@ -846,7 +846,7 @@ This call is used to remove your cancelled orders that are older than the specif
 > Sample Request
 
 ```cli
-blocknetdx-cli dxFlushCancelledOrders 600000
+blocknet-cli dxFlushCancelledOrders 600000
 ```
 <code class="api-call">dxFlushCancelledOrders [ageMillis]\(optional)</code>
 
@@ -976,7 +976,7 @@ This call is used to retrieve all recent filled orders by a given trade pair. It
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetOrderFills SYS LTC false
+blocknet-cli dxGetOrderFills SYS LTC false
 ```
 <code class="api-call">dxGetOrderFills [maker] [taker] [combined]\(optional)</code>
 
@@ -1119,7 +1119,7 @@ This call is used to retrieve the OHLCV data by a trade pair within a specified 
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetOrderHistory SYS LTC 1540660180 1540660420 60 true
+blocknet-cli dxGetOrderHistory SYS LTC 1540660180 1540660420 60 true
 ```
 
 <code class="api-call">dxGetOrderHistory [maker] [taker] [start_time] [end_time] [granularity] [order_ids]\(optional) [with_inverse]\(optional) [limit]\(optional)</code>
@@ -1256,7 +1256,7 @@ This call is used to retrieve all the assets supported by the local client. You 
 > Request
 
 ```cli
-blocknetdx-cli dxGetLocalTokens
+blocknet-cli dxGetLocalTokens
 ```
 <code class="api-call">dxGetLocalTokens</code>
 
@@ -1356,7 +1356,7 @@ This call is used to retrieve all the assets currently supported by the network.
 > Request
 
 ```cli
-blocknetdx-cli dxGetNetworkTokens
+blocknet-cli dxGetNetworkTokens
 ```
 <code class="api-call">dxGetNetworkTokens</code>
 
@@ -1457,7 +1457,7 @@ This call is used to retrieve the asset __*available*__ balances for all connect
 > Request
 
 ```cli
-blocknetdx-cli dxGetTokenBalances
+blocknet-cli dxGetTokenBalances
 ```
 <code class="api-call">dxGetTokenBalances</code>
 
@@ -1566,7 +1566,7 @@ This call is used to generate a new address for the specified asset. This call w
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetNewTokenAddress SYS
+blocknet-cli dxGetNewTokenAddress SYS
 ```
 <code class="api-call">dxGetNewTokenAddress [asset]</code>
 
@@ -1672,7 +1672,7 @@ This call is used to retrieve the locked UTXOs for a specified order ID.
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetLockedUtxos f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156
+blocknet-cli dxGetLockedUtxos f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156
 ```
 <code class="api-call">dxGetLockedUtxos [order_id]</code>
 
@@ -1798,7 +1798,7 @@ This call is used to retrieve open orders at various detail levels:
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetOrderBook 1 LTC SYS 100
+blocknet-cli dxGetOrderBook 1 LTC SYS 100
 ```
 <code class="api-call">dxGetOrderBook [detail] [maker] [taker] [max_orders]\(optional)</code>
 
@@ -2039,7 +2039,7 @@ This call is used to reload `xbridge.conf` to run newly configured settings with
 > Request
 
 ```cli
-blocknetdx-cli dxLoadXBridgeConf
+blocknet-cli dxLoadXBridgeConf
 ```
 <code class="api-call">dxLoadXBridgeConf</code>
 
@@ -2134,7 +2134,7 @@ This call returns the XBridge trading records. This information is pulled from o
 > Sample Request
 
 ```cli
-blocknetdx-cli gettradingdata 1440
+blocknet-cli gettradingdata 1440
 ```
 
 <code class="api-call">gettradingdata [blocks]\(optional)</code>

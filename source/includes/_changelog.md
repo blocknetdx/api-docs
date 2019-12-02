@@ -26,6 +26,8 @@ reference: https://docs.pro.coinbase.com
 ------------|
 • Wallet v4.0.0 release |
 • Added [dxFlushCancelledOrders](#dxflushcancelledorders) call |
+• Update `blocknetdx.conf` references to `blocknet.conf` |
+• Update `blocknetdx-cli` references to `blocknet-cli` |
 
 
 11/26/2019  |

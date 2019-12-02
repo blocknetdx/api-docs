@@ -8,7 +8,7 @@ The Blocknet Protocol currently requires a synced Blocknet wallet, as well as th
 
 ## Wallet Setup
 
-> Sample blocknetdx.conf
+> Sample blocknet.conf
 
 ```cli
 listen=1
@@ -23,8 +23,8 @@ rpcport=41414
 1. [Download and install](https://docs.blocknet.co/wallet/installation) the [latest Blocknet wallet](https://github.com/blocknetdx/blocknet/releases/latest).
 1. Open the wallet, [encrypt it](https://docs.blocknet.co/wallet/encrypting), and [sync the blockchain](https://docs.blocknet.co/wallet/syncing).
 	* A [bootstrap](https://github.com/blocknetdx/blocknet-blockchain-bootstrap) is also available for faster syncing.
-1. Compose `blocknetdx.conf` as seen in the sample.
-1. Set an RPC username and password in `blocknetdx.conf`.
+1. Compose `blocknet.conf` as seen in the sample.
+1. Set an RPC username and password in `blocknet.conf`.
 1. If using the XBridge API, see [XBridge Setup](#xbridge-setup).
 1. If using the XRouter API, see [XRouter Setup](#xrouter-setup).
 
@@ -60,7 +60,7 @@ rpcport=41414
 
 If you would like to operate a Service Node and monetize any microservice, blockchain, API, or cloud tech on your own hardware, in many cases without having to write any code, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
 
-> Sample blocknetdx.conf
+> Sample blocknet.conf
 
 ```cli
 xrouter=1
@@ -93,7 +93,7 @@ consensus=6
 maxfee=0.02
 ```
 
-1. In `blocknetdx.conf`:
+1. In `blocknet.conf`:
 	* Add `xrouter=1` to enables XRouter. A value of `0` means XRouter is disabled (*default*).
 	* Use `xrouterbanscore` to specify the score a Service Node must drop below before it is banned. The default value is `-200`. Service Nodes are banned for a 24hr period, after which they'll start with a score of `-25`.
 1. Restart the Blocknet wallet.

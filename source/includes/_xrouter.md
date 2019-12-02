@@ -45,7 +45,7 @@ This call is used to view the XRouter services currently supported on the networ
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetNetworkServices
+blocknet-cli xrGetNetworkServices
 ```
 <code class="api-call">xrGetNetworkServices</code>
 
@@ -124,13 +124,13 @@ This call is used to connect to XRouter nodes with the specified service and dow
 
 ```cli
 // Connect to one XRouter node supporting SYS
-blocknetdx-cli xrConnect xr::SYS
+blocknet-cli xrConnect xr::SYS
 
 // Connect to two XRouter nodes supporting SYS
-blocknetdx-cli xrConnect xr::SYS 2
+blocknet-cli xrConnect xr::SYS 2
 
 // Connect to one XRouter node supporting XCloud service twilio
-blocknetdx-cli xrConnect xrs::twilio
+blocknet-cli xrConnect xrs::twilio
 ```
 <code class="api-call">xrConnect [service] [node_count]\(optional)</code>
 
@@ -763,7 +763,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 reply           | array   | An array of nodes providing the specified service, along with their configs.
 nodepubkey      | string  | The node ID.
-score           | int     | The node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score           | int     | The node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 banned          | bool    | Signifies if the node is currently banned.<br>`true`: Node is banned.<br>`false`: Node is not banned. See [node scoring](#xrouter-node-scoring) for more details.
 paymentaddress  | string  | The node's payment address.
 spvwallets      | array   | An array of supported SPV wallets, represented by the asset's ticker.
@@ -805,7 +805,7 @@ This call is used to lists all the data about current and previously connected n
 > Sample Requests
 
 ```cli
-blocknetdx-cli xrConnectedNodes
+blocknet-cli xrConnectedNodes
 ```
 <code class="api-call">xrConnectedNodes</code>
 
@@ -1326,7 +1326,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 reply           | array   | An array of nodes providing the specified service.
 nodepubkey      | string  | The node ID.
-score           | int     | The node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score           | int     | The node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 banned          | bool    | Signifies if the node is currently banned.<br>`true`: Node is banned.<br>`false`: Node is not banned. See [node scoring](#xrouter-node-scoring) for more details.
 paymentaddress  | string  | The node's payment address.
 spvwallets      | array   | An array of supported SPV wallets, represented by the asset's ticker.
@@ -1375,7 +1375,7 @@ This call is used to retrieve the current block height of the longest chain for 
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetBlockCount SYS 2
+blocknet-cli xrGetBlockCount SYS 2
 ```
 <code class="api-call">xrGetBlockCount [blockchain] [node_count]\(optional)</code>
 
@@ -1417,7 +1417,7 @@ Parameter       | Type    | Description
 reply           | int     | The latest block number of the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | int     | The latest block number of the specified blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -1448,7 +1448,7 @@ This call is used to retrieve the block hash of the specified block and blockcha
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetBlockHash SYS 482107 2
+blocknet-cli xrGetBlockHash SYS 482107 2
 ```
 <code class="api-call">xrGetBlockHash [blockchain] [block_number] [node_count]\(optional)</code>
 
@@ -1491,7 +1491,7 @@ Parameter       | Type    | Description
 reply           | string  | The block hash of the specified block and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID. 
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | string  | The block hash of the specified block and blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -1522,7 +1522,7 @@ This call is used to retrieve the block data for the specified block hash and bl
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetBlock SYS 0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837 2
+blocknet-cli xrGetBlock SYS 0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837 2
 ```
 <code class="api-call">xrGetBlock [blockchain] [block_hash] [node_count]\(optional)</code>
 
@@ -1727,7 +1727,7 @@ Parameter       | Type    | Description
 reply           | object  | An object containing the block data for the specified block hash and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | object  | An object containing the block data for the specified block hash and blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -1761,7 +1761,7 @@ This call is used to retrieve block data for multiple block hashes on the specif
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetBlocks SYS "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837,52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79" 2
+blocknet-cli xrGetBlocks SYS "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837,52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79" 2
 ```
 <code class="api-call">xrGetBlocks [blockchain] [block_hash1,block_hash2,block_hashN] [node_count]\(optional)</code>
 
@@ -2155,7 +2155,7 @@ Parameter       | Type    | Description
 reply           | array   | An array containing objects with the block data for each the request block on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | array   | An array containing objects with the block data for each the request block on the specified blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -2187,7 +2187,7 @@ This call is used to decode a specified bockchain transaction HEX. It requires t
 > Sample Request
 
 ```cli
-blocknetdx-cli xrDecodeRawTransaction SYS 01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff640363b1082cfabe6d6df75a401bb4e29d77b2162d476557c4bc879380dad926e44c1b2a7c49893a3cc108000000f09f909f000f4d696e6564206279206c616e636163000000000000000000000000000000000000000000000000000000000500c5a00000000000000330952d4b000000001976a914c825a1ecf2a6830c4401620c3a16f1995057c2ab88ac00000000000000002f6a24aa21a9ed2ac560369b71e58f0618a79d2f03bcf7283945e20eef7813de376a6f503448c108000000000000000000000000000000002c6a4c2952534b424c4f434b3a81c66dc456024e97e518ac2ab3ec51bf85b294b9a140c6e9376a040607edc39ddc962c3b 2
+blocknet-cli xrDecodeRawTransaction SYS 01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff640363b1082cfabe6d6df75a401bb4e29d77b2162d476557c4bc879380dad926e44c1b2a7c49893a3cc108000000f09f909f000f4d696e6564206279206c616e636163000000000000000000000000000000000000000000000000000000000500c5a00000000000000330952d4b000000001976a914c825a1ecf2a6830c4401620c3a16f1995057c2ab88ac00000000000000002f6a24aa21a9ed2ac560369b71e58f0618a79d2f03bcf7283945e20eef7813de376a6f503448c108000000000000000000000000000000002c6a4c2952534b424c4f434b3a81c66dc456024e97e518ac2ab3ec51bf85b294b9a140c6e9376a040607edc39ddc962c3b 2
 ```
 <code class="api-call">xrDecodeRawTransaction [blockchain] [tx_hex] [node_count]\(optional)</code>
 
@@ -2365,7 +2365,7 @@ Parameter       | Type    | Description
 reply           | object  | An object containing the decoded transaction data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | object  | An object containing the decoded transaction data from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -2398,7 +2398,7 @@ This call is used to retrieve the transaction data for the specified transaction
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetTransaction SYS 9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51 2
+blocknet-cli xrGetTransaction SYS 9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51 2
 ```
 <code class="api-call">xrGetTransaction [blockchain] [txid] [node_count]\(optional)</code>
 
@@ -2531,7 +2531,7 @@ Parameter       | Type    | Description
 reply           | object  | An object containing the transaction data for the specified transaction ID and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | object  | An object containing the transaction data for the specified transaction ID and blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -2565,7 +2565,7 @@ This call is used to retrieve transaction data for multiple transaction IDs (has
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetTransactions SYS "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd,f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e" 2
+blocknet-cli xrGetTransactions SYS "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd,f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e" 2
 ```
 <code class="api-call">xrGetTransactions [blockchain] [txid1,txid2,txidN] [node_count]\(optional)</code>
 
@@ -2839,7 +2839,7 @@ Parameter       | Type    | Description
 reply           | array   | An array containing objects with the transaction data for each requested transaction on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | array   | An array containing objects with the transaction data for each requested transaction on the specified blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -2872,7 +2872,7 @@ This call is used to submit a locally signed transaction on the specified blockc
 > Sample Request
 
 ```cli
-blocknetdx-cli xrSendTransaction SYS 0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000
+blocknet-cli xrSendTransaction SYS 0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000
 ```
 <code class="api-call">xrSendTransaction [blockchain] [signed_tx]</code>
 
@@ -2928,7 +2928,7 @@ This call is used to send a request to an XCloud service. XCloud is a decentrali
 > Sample Request
 
 ```cli
-blocknetdx-cli xrService SYSgetbestblockhash
+blocknet-cli xrService SYSgetbestblockhash
 ```
 <code class="api-call">xrService [service] [param1 param2 paramN]</code>
 
@@ -2987,7 +2987,7 @@ This call is used to send a request to an XCloud service, along with a specified
 > Sample Request
 
 ```cli
-blocknetdx-cli xrServiceConsensus 1 SYSgetbestblockhash
+blocknet-cli xrServiceConsensus 1 SYSgetbestblockhash
 ```
 <code class="api-call">xrServiceConsensus [node_count] [service] [param1 param2 paramN]</code>
 
@@ -3032,7 +3032,7 @@ Parameter       | Type    | Description
 reply           | unknown | The service's response data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | array   | The service's response data from the respective node.
 error           | object  | The native error response if an error occurred, otherwise a successful response will contain a `null` error.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
@@ -3066,7 +3066,7 @@ This call is used to look up responses from previous XRouter calls without havin
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetReply 3243a24b-3e9d-40d1-8c33-37a57878ce85
+blocknet-cli xrGetReply 3243a24b-3e9d-40d1-8c33-37a57878ce85
 ```
 <code class="api-call">xrGetReply [uuid]</code>
 
@@ -3114,7 +3114,7 @@ This call is used to show the configurations received from all nodes as raw text
 > Sample Request
 
 ```cli
-blocknetdx-cli xrShowConfigs
+blocknet-cli xrShowConfigs
 ```
 <code class="api-call">xrShowConfigs</code>
 
@@ -3164,7 +3164,7 @@ This call is used to request the latest configuration files from all Service Nod
 > Sample Request
 
 ```cli
-blocknetdx-cli xrUpdateConfigs true
+blocknet-cli xrUpdateConfigs true
 ```
 <code class="api-call">xrUpdateConfigs [force_check]\(optional)</code>
 
@@ -3210,7 +3210,7 @@ This call is used to reload `xrouter.conf` and all associated plugin configs aft
 > Sample Request
 
 ```cli
-blocknetdx-cli xrReloadConfigs
+blocknet-cli xrReloadConfigs
 ```
 <code class="api-call">xrReloadConfigs</code>
 
@@ -3254,7 +3254,7 @@ This call is used to print your XRouter configuration and has two different outp
 > Sample Request
 
 ```cli
-blocknetdx-cli xrStatus
+blocknet-cli xrStatus
 ```
 <code class="api-call">xrStatus</code>
 
@@ -3453,7 +3453,7 @@ plugins         | object  | An object of each service you have setup and the raw
   > Sample Request
 
   ```cli
-  blocknetdx-cli xrGetBalance SYS SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP
+  blocknet-cli xrGetBalance SYS SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP
   ```
   <code class="api-call">xrGetBalance [blockchain] [address] [node_count]\(optional)</code>
 
@@ -3512,7 +3512,7 @@ plugins         | object  | An object of each service you have setup and the raw
   > Sample Request
 
   ```cli
-  blocknetdx-cli xrGetBalanceUpdate SYS SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP 125157
+  blocknet-cli xrGetBalanceUpdate SYS SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP 125157
   ```
   <code class="api-call">xrGetBalanceUpdate [blockchain] [address] [start_block]\(optional) [node_count]\(optional)</code>
 
@@ -3571,7 +3571,7 @@ plugins         | object  | An object of each service you have setup and the raw
   > Sample Request
 
   ```cli
-  blocknetdx-cli xrGenerateBloomFilter SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP 
+  blocknet-cli xrGenerateBloomFilter SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP 
   ```
   <code class="api-call">xrGenerateBloomFilter [address1] [address2...addressN] [node_count]\(optional)</code>
 
@@ -3631,7 +3631,7 @@ plugins         | object  | An object of each service you have setup and the raw
   > Sample Request
 
   ```cli
-  blocknetdx-cli xrGetTransactionsBloomFilter SYS 0000100800
+  blocknet-cli xrGetTransactionsBloomFilter SYS 0000100800
   ```
   <code class="api-call">xrGetTransactionsBloomFilter [blockchain] [bloom_filter] [start_block]\(optional) [node_count]\(optional)</code>
 
