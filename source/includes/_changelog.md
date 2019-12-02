@@ -25,6 +25,7 @@ reference: https://docs.pro.coinbase.com
 12/5/2019   |
 ------------|
 • Wallet v4.0.0 release |
+• Added [dxFlushCancelledOrders](#dxflushcancelledorders) call |
 
 
 11/26/2019  |

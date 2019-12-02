@@ -12,6 +12,7 @@ Call                                              | Description
 [dxGetOrder](#dxgetorder)                         | Returns order details by ID
 [dxGetOrders](#dxgetorders)                       | Returns all orders with details
 [dxGetMyOrders](#dxgetmyorders)                   | Returns all your own orders with details
+[dxFlushCancelledOrders](#dxflushcancelledorders) | Removes your cancelled orders
 [dxGetOrderFills](#dxgetorderfills)               | Returns all recent filled orders
 [dxGetOrderHistory](#dxgetorderhistory)           | Returns the OHLCV data my market
 [dxGetLocalTokens](#dxgetlocaltokens)             | Returns all assets connected locally
@@ -25,7 +26,6 @@ Call                                              | Description
 [Error Codes](#error-codes)                       | Error codes
 
 
-<!-- [dxFlushCancelledOrders](#dxflushcancelledorders) | Removes your cancelled orders -->
 
 
 
@@ -828,7 +828,7 @@ Code  | Type  | Error
 
 
 
-<!-- 
+
 ## dxFlushCancelledOrders 
 
 > Sample Data
@@ -883,16 +883,17 @@ ageMillis     | int           | (Optional Parameter) Defaults to `0`.<br>Remove 
 }
 ```
 
-Parameter        | Type          | Description
------------------|---------------|-------------
-ageMillis        | int           | The millisecond value specified when making the call.
-now              | string        | ISO 8601 datetime, with microseconds, of when
-durationMicrosec | int           | The amount of time in milliseconds it took to process the call.
-flushedOrders    | array         | Array of cancelled orders that were removed.
-id               | string        | The order ID.
-txtime           | string        | ISO 8601 datetime, with microseconds, of when
-use_count        | int           | 
+Parameter         | Type          | Description
+------------------|---------------|-------------
+ageMillis         | int           | The millisecond value specified when making the call.
+now*              | string        | ISO 8601 datetime, with microseconds, of when the call was executed.
+durationMicrosec* | int           | The amount of time in milliseconds it took to process the call.
+flushedOrders     | array         | Array of cancelled orders that were removed.
+id                | string        | The order ID.
+txtime            | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+use_count*        | int           | This value is strictly for debugging purposes.
 
+\* For debugging pruposes
 
 > Sample 400 Response
 
@@ -946,7 +947,7 @@ Code  | Type  | Error
 1012  | 400   | Invalid taker symbol
 1025  | 400   | Invalid parameters
 1002  | 500   | Internal server error
- -->
+
 
 
 
