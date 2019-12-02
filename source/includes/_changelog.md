@@ -22,6 +22,11 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+12/5/2019   |
+------------|
+• Wallet v4.0.0 release |
+
+
 11/26/2019  |
 ------------|
 • Wallet v3.14.1 release |
