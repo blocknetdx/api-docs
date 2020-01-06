@@ -111,7 +111,7 @@ blocknet-cli xrServiceConsensus 1 SYSgetbestblockhash
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-node_count      | int     | The number of nodes that will be used to route calls and use the majority response from for consensus.
+node_count      | int     | The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`.
 service         | string  | The service name without the namespace (*xcloud_service*, not *xrs::[xcloud_service]*).
 paramN          | unknown | (Optional Parameter)<br>Refer to service documentation for parameter requirements. Information about an XCloud service can be viewed in the service configuration. Use [xrConnect](#xrconnect) to find a node with the service, then use [xrConnectedNodes](#xrconnectednodes) to review the service information.
 

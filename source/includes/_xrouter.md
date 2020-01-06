@@ -137,7 +137,7 @@ blocknet-cli xrConnect xrs::twilio
 Parameter       | Type    | Description
 ----------------|---------|-------------
 service         | string  | Service name including the namespace (*xr::[spv_call]* or *xrs::[xcloud_service]*).
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes to pre-connect to that will be used to route calls and use the majority response from for consensus.  
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes to pre-connect to that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`.  
 
 
 ### Response Parameters
@@ -1382,7 +1382,7 @@ blocknet-cli xrGetBlockCount SYS 2
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus.
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`.
 
 
 ### Response Parameters
@@ -1456,7 +1456,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
 block_number    | string  | The block number or hex for the block hash of interest.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -1530,7 +1530,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
 block_hash      | string  | The block hash for the block of interest.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -1769,7 +1769,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
 block_hashN     | string  | The block hashes for the blocks of interest. The hashes must be separated by a comma with no spaces.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -2195,7 +2195,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
 tx_hex          | string  | The raw transaction HEX to decode.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus.
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`.
 
 
 ### Response Parameters
@@ -2406,7 +2406,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
 txid            | string  | The transaction ID(hash) for the transaction of interest.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -2573,7 +2573,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
 txidN           | string  | The transaction ID (hash) for the transactions of interest. The hashes must be separated by a comma with no spaces.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -2993,7 +2993,7 @@ blocknet-cli xrServiceConsensus 1 SYSgetbestblockhash
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-node_count      | int     | The number of nodes that will be used to route calls and use the majority response from for consensus.
+node_count      | int     | The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`.
 service         | string  | The service name without the namespace (*xcloud_service*, not *xrs::[xcloud_service]*).
 paramN          | unknown | (Optional Parameter)<br>Refer to service documentation for parameter requirements. Information about an XCloud service can be viewed in the service configuration. Use [xrConnect](#xrconnect) to find a node with the service, then use [xrConnectedNodes](#xrconnectednodes) to review the service information.
 
@@ -3461,7 +3461,7 @@ plugins         | object  | An object of each service you have setup and the raw
   ----------------|---------|-------------
   blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
   address         | string  | The address to retrieve the balance of.
-  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
   ### Response Parameters
@@ -3521,7 +3521,7 @@ plugins         | object  | An object of each service you have setup and the raw
   blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
   address         | string  | The address to retrieve the balance of.
   start_block     | int     | (Optional Parameter) Defaults to `0`.<br>The earliest block to retrieve transactions through. 
-  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
   ### Response Parameters
@@ -3578,7 +3578,7 @@ plugins         | object  | An object of each service you have setup and the raw
   Parameter       | Type    | Description
   ----------------|---------|-------------
   addresses       | array   | The addresses to retrieve the bloom filter HEX representation of.
-  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
   ### Response Parameters
@@ -3640,7 +3640,7 @@ plugins         | object  | An object of each service you have setup and the raw
   blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
   bloom_filter    | string  | The HEX representation of a bloom filter.
   start_block     | int     | (Optional Parameter) Defaults to `0`.<br>The earliest block to retrieve transactions through. 
-  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
   ### Response Parameters
