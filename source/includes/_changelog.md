@@ -22,12 +22,13 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
-12/5/2019   |
+1/9/2020    |
 ------------|
 • Wallet v4.0.0 release |
 • Added [dxFlushCancelledOrders](#dxflushcancelledorders) call |
 • Update `blocknetdx.conf` references to `blocknet.conf` |
 • Update `blocknetdx-cli` references to `blocknet-cli` |
+• Remove `xrUpdateConfigs` command, replaced by `servicenodesendping`
 
 
 11/26/2019  |
