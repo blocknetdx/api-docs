@@ -2152,11 +2152,11 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-reply           | array   | An array containing objects with the block data for each the request block on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
+reply           | array   | An array containing objects of the block data for each requested block on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
 score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
-reply*          | array   | An array containing objects with the block data for each the request block on the specified blockchain from the respective node.
+reply*          | array   | An array containing objects of the block data for each requested block on the specified blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
 \* This is only returned if using a `node_count` greater than `1`.
@@ -3226,14 +3226,12 @@ This call does not take parameters.
 > Sample 200 Response
 
 ```cli
-{
-  "reply": "Config requests have been sent"
-}
+true
 ```
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-reply           | string  | A confirmation that `xrouter.conf` has been reloaded.
+true            | bool    | A confirmation that `xrouter.conf` has been reloaded.
 
 
 

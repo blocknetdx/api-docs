@@ -151,7 +151,7 @@ reply           | unknown | The service's response data. If using a `node_count`
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
 score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See node scoring for more details.
-reply*          | array   | The service's response data from the respective node.
+reply*          | unknown | The service's response data from the respective node.
 error           | object  | The native error response if an error occurred, otherwise a successful response will contain a `null` error.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
