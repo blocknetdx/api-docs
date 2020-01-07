@@ -22,7 +22,6 @@ Call                                              | Description
 [xrServiceConsensus](#xrServiceconsensus)         | Use to interact with XCloud services with consensus
 [xrGetReply](#xrgetreply)                         | Returns prior response associated with UUID
 [xrShowConfigs](#xrshowconfigs)                   | Returns all node configs received as raw text
-[xrUpdateConfigs](#xrupdateconfigs)               | Requests latest configs from nodes
 [xrReloadConfigs](#xrreloadconfigs)               | Applies changes made to your configs
 [xrStatus](#xrstatus)                             | Returns your XRouter configurations
 
@@ -3144,52 +3143,6 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 Array           | array   | An array of objects containing the configurations for each node you are connected to.
 config          | string  | The raw text contents of `xrouter.conf`.
-
-
-
-
-
-
-
-
-
-
-## xrUpdateConfigs
-
-This call is used to request the latest configuration files from all Service Nodes.
-
-
-### Request Parameters
-
-> Sample Request
-
-```cli
-blocknet-cli xrUpdateConfigs true
-```
-<code class="api-call">xrUpdateConfigs [force_check]\(optional)</code>
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-force_check     | bool    | (Optional Parameter)<br>Defaults to `false`.<br>Signifies whether to force update regardless of rate limit checks.<br>`true`: Force update if rate limit exceeded.<br>`false`: Only update if within rate limit.
-
-
-### Response Parameters
-
-<aside class="success">
-200 OK
-</aside>
-
-> Sample 200 Response
-
-```cli
-{
-  "reply": "Config requests have been sent"
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-reply           | string  | A confirmation that the new configs have been requested.
 
 
 
