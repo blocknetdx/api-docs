@@ -3131,10 +3131,18 @@ This call does not take parameters.
 ```cli
 [
   {
-    "config": "[Main]\nwallets=SYS,MNP\nservices=SYSgetbestblockhash,SYSgetgovernanceinfo\ntimeout=30\nconsensus=1\nfee=0\nmaxfee=0.5\nclientrequestlimit=50\npaymentaddress=B8zc9PuDJC3XaF7UkQ2CnRDCmXiCs9bDuS\n[xrGetBlockCount]\nmaxfee=0.1\nclientrequestlimit=10\n[SYS::xrGetBlockCount]\nfee=0.1\nmaxfee=0.2\n[xrGetBlocks]\nfetchlimit=10\nfee=0.1\nmaxfee=0.2\n[MNP::xrGetBlocks]\nfetchlimit=1\nfee=0.1\n[MNP::xrGetTransactions]\nfetchlimit=3\nfee=0.1\n"
+    "nodepubkey" : "03ca15d619cf36fdc043892b12a3881dd08f2d3905e2ff399ac39cf34b28a995c7",
+    "paymentaddress" : "BiBbLf8wDyYcSAzsX1SNzZKrc2zZQjS2pa",
+    "config" : "[Main]\nwallets=BTC,ETH,LTC,BLOCK,CRW,MERGE,TRC\nmaxfee=0\n[BTC::xrGetBlocks]\n#fee=0.1\n#clientrequestlimit=-1\ndisabled=0\nfetchlimit=50\n\n\n",
+    "plugins" : {
+    }
   },
   {
-    "config": "[Main]\nwallets=SYS,LTC,BLOCK,BTC\nservices=BTCgetblockhash,BTCgetbestblockhash,BTCgettransaction,SYSgetbestblockhash\ntimeout=30\nclientrequestlimit=50\nmaxfee=0.1\nfee=0\npaymentaddress=BGyvu6uHJ9WLftPgwHeAU5HwmgGmpB3Juh\n[xrGetBlockCount]\nclientrequestlimit=-1\n[BTC]\nclientrequestlimit=100\nfee=0.2\n"
+    "nodepubkey" : "0252d7959e25a8f1a15b4e3e487d310211534dd71ca3316abe463d40a5cf0d67ca",
+    "paymentaddress" : "BXhndtvEEM5Yh9UEPzrzpBLksjZReGV6Kv",
+    "config" : "[Main]\nwallets=BLOCK,LTC,BTC,PIVX,MON\nmaxfee=0\nconsensus=1\ntimeout=30\npaymentaddress=BXhndtvEEM5Yh9UEPzrzpBLksjZReGV6Kv\n\n\n",
+    "plugins" : {
+    }
   }
 ]
 ```
@@ -3142,7 +3150,10 @@ This call does not take parameters.
 Parameter       | Type    | Description
 ----------------|---------|-------------
 Array           | array   | An array of objects containing the configurations for each node you are connected to.
+nodepubkey      | string  | The node ID.
+paymentaddress  | string  | The node's payment address, may also be specific per command.
 config          | string  | The raw text contents of `xrouter.conf`.
+plugins         | obj     | An object containing the raw configuration text contents for each of this node's plugins.
 
 
 
