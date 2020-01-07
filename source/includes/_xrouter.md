@@ -2873,12 +2873,13 @@ This call is used to submit a locally signed transaction on the specified blockc
 ```cli
 blocknet-cli xrSendTransaction SYS 0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000
 ```
-<code class="api-call">xrSendTransaction [blockchain] [signed_tx_hex]</code>
+<code class="api-call">xrSendTransaction [blockchain] [signed_tx_hex] [node_count]\(optional)</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
 signed_tx_hex   | string  | The signed transaction HEX.
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
