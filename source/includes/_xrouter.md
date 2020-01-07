@@ -1763,12 +1763,12 @@ This call is used to retrieve block data for multiple block hashes on the specif
 ```cli
 blocknet-cli xrGetBlocks SYS "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837,52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79" 2
 ```
-<code class="api-call">xrGetBlocks [blockchain] [block_hash1,block_hash2,block_hashN] [node_count]\(optional)</code>
+<code class="api-call">xrGetBlocks [blockchain] [block_hashes] [node_count]\(optional)</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
-block_hashN     | string  | The block hashes for the blocks of interest. The hashes must be separated by a comma with no spaces.
+block_hashes    | string  | A comma-demilited string of block hashes for the blocks of interest. The hashes must be separated by a comma with no spaces.
 node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
@@ -2387,7 +2387,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 ```cli
 {
   "blockchain": "SYS",
-  "txid": "9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51"
+  "tx_id": "9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51"
 }
 ```
 This call is used to retrieve the transaction data for the specified transaction ID (hash) and blockchain.
@@ -2400,12 +2400,12 @@ This call is used to retrieve the transaction data for the specified transaction
 ```cli
 blocknet-cli xrGetTransaction SYS 9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51 2
 ```
-<code class="api-call">xrGetTransaction [blockchain] [txid] [node_count]\(optional)</code>
+<code class="api-call">xrGetTransaction [blockchain] [tx_id] [node_count]\(optional)</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
-txid            | string  | The transaction ID(hash) for the transaction of interest.
+tx_id           | string  | The transaction ID (hash) for the transaction of interest.
 node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
@@ -2553,8 +2553,8 @@ uuid            | string  | The response ID, which can be used to view this resp
 ```cli
 {
   "blockchain": "SYS",
-  "txid1": "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd",
-  "txid2": "f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e",
+  "tx_id1": "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd",
+  "tx_id2": "f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e",
 }
 ```
 This call is used to retrieve transaction data for multiple transaction IDs (hashes) on the specified blockchain. Currently the maximum request is 50 transactions, although a node may set this limit to less.
@@ -2567,12 +2567,12 @@ This call is used to retrieve transaction data for multiple transaction IDs (has
 ```cli
 blocknet-cli xrGetTransactions SYS "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd,f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e" 2
 ```
-<code class="api-call">xrGetTransactions [blockchain] [txid1,txid2,txidN] [node_count]\(optional)</code>
+<code class="api-call">xrGetTransactions [blockchain] [tx_ids] [node_count]\(optional)</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
-txidN           | string  | The transaction ID (hash) for the transactions of interest. The hashes must be separated by a comma with no spaces.
+tx_ids          | string  | A comma-delimited list of transaction IDs (hashes) for the transactions of interest. The hashes must be separated by a comma with no spaces.
 node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
@@ -2861,7 +2861,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 ```cli
 {
   "blockchain": "SYS",
-  "signed_tx": "0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000"
+  "signed_tx_hex": "0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000"
 }
 ```
 This call is used to submit a locally signed transaction on the specified blockchain.
@@ -2874,12 +2874,12 @@ This call is used to submit a locally signed transaction on the specified blockc
 ```cli
 blocknet-cli xrSendTransaction SYS 0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000
 ```
-<code class="api-call">xrSendTransaction [blockchain] [signed_tx]</code>
+<code class="api-call">xrSendTransaction [blockchain] [signed_tx_hex]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
-signed_tx       | string  | The signed transaction HEX.
+signed_tx_hex   | string  | The signed transaction HEX.
 
 
 ### Response Parameters
