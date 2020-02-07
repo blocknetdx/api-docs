@@ -63,7 +63,6 @@ If you would like to operate a Service Node and monetize any microservice, block
 > Sample blocknet.conf
 
 ```cli
-xrouter=1
 xrouterbanscore=-200
 listen=1
 server=1
@@ -94,7 +93,6 @@ maxfee=0.02
 ```
 
 1. In `blocknet.conf`:
-	* Add `xrouter=1` to enables XRouter. A value of `0` means XRouter is disabled (*default*).
 	* Use `xrouterbanscore` to specify the score a Service Node must drop below before it is banned. The default value is `-200`. Service Nodes are banned for a 24hr period, after which they'll start with a score of `-25`.
 1. Restart the Blocknet wallet.
 1. Compose `xrouter.conf` as seen in the sample. All settings are optional.

@@ -30,7 +30,8 @@ reference: https://docs.pro.coinbase.com
 • Removed gettradingdata call, in progress towards being deprecated |
 • Update `blocknetdx.conf` references to `blocknet.conf` |
 • Update `blocknetdx-cli` references to `blocknet-cli` |
-• Remove `xrUpdateConfigs` command, replaced by `servicenodesendping`
+• Remove `xrUpdateConfigs` command, replaced by `servicenodesendping` |
+• Removex `xrouter=1` from XRouter setup |
 
 
 11/26/2019  |
