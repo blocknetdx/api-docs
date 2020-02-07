@@ -21,7 +21,7 @@ Call                                              | Description
 [dxGetNewTokenAddress](#dxgetnewtokenaddress)     | Returns a newly generated address
 [dxGetOrderBook](#dxgetorderbook)                 | Returns open orders
 [dxLoadXBridgeConf](#dxloadxbridgeConf)           | Reloads the `xbridge.conf`
-[gettradingdata](#gettradingdata)                 | Returns on-chain trading records
+[dxGetTradingData](#dxgettradingdata)             | Returns on-chain trading records
 [Status Codes](#status-codes)                     | XBridge order status codes
 [Error Codes](#error-codes)                       | Error codes
 
@@ -2124,7 +2124,7 @@ Code  | Type  | Error
 
 
 
-## gettradingdata
+## dxGetTradingData
 
 This call returns the XBridge trading records. This information is pulled from on-chain history so pulling a large amount of blocks will result in longer response times.
 
@@ -2134,14 +2134,15 @@ This call returns the XBridge trading records. This information is pulled from o
 > Sample Request
 
 ```cli
-blocknet-cli gettradingdata 1440
+blocknet-cli dxGetTradingData 1440
 ```
 
-<code class="api-call">gettradingdata [blocks]\(optional)</code>
+<code class="api-call">dxGetTradingData [blocks]\(optional)</code>
  
 Parameter     | Type          | Description
 --------------|---------------|-------------
 blocks        | int           | (Optional Parameter) Defaults to `43200`.<br>Number of blocks to return trade records for (60s block time).
+errors        | bool          | (Optional Parameter) Defaults to `false`.<br>Shows and error if there's an error detected. This may be useful if you're building a custom client and change the on-chain order history data format.
 
 
 ### Response Parameters
