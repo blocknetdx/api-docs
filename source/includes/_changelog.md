@@ -31,7 +31,8 @@ reference: https://docs.pro.coinbase.com
 • Update `blocknetdx.conf` references to `blocknet.conf` |
 • Update `blocknetdx-cli` references to `blocknet-cli` |
 • Remove `xrUpdateConfigs` command, replaced by `servicenodesendping` |
-• Removex `xrouter=1` from XRouter setup |
+• Remove `xrouter=1` from XRouter setup |
+• Added selective [Core API](#core-api) calls |
 
 
 11/26/2019  |

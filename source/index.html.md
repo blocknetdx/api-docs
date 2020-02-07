@@ -12,7 +12,7 @@ toc_footers:
   - <a href="https://github.com/blocknetdx/blocknet/blob/master/CONTRIBUTING.md" target="_blank">Blocknet Core - Contributing</a>
   - <a href="https://github.com/blocknetdx/blocknet" target="_blank">Blocknet Core - Github</a>
   - <a href="https://docs.blocknet.co/" target="_blank">Documentation Portal</a>
-  - <a href="http://eepurl.com/dDjhYH" target="_blank">Developer Notifications</a>
+  - <a href="http://eepurl.com/c5OJMj" target="_blank">Developer Notifications</a>
   - <a href="https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets" target="_blank">XBridge Compatible Blockchains</a>
 
 
@@ -22,6 +22,7 @@ includes:
 - xbridge
 - xrouter
 - xcloud
+- core
 - web
 - changelog
 
