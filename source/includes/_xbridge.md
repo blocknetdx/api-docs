@@ -2137,7 +2137,7 @@ This call returns the XBridge trading records. This information is pulled from o
 blocknet-cli dxGetTradingData 1440
 ```
 
-<code class="api-call">dxGetTradingData [blocks]\(optional)</code>
+<code class="api-call">dxGetTradingData [blocks]\(optional) [errors]\(optional)</code>
  
 Parameter     | Type          | Description
 --------------|---------------|-------------
