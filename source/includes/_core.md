@@ -88,7 +88,7 @@ This call does not take parameters.
 
 Parameter              | Type    | Description
 -----------------------|---------|-------------
-version                | int     | The wallet version, `4000100` = v4.0.1.
+version                | int     | The wallet version (i.e. `4000100` = v4.0.1.)
 subversion             | string  | The wallet version string.
 protocolversion        | int     | The staking protocol version.
 xbridgeprotocolversion | int     | The XBridge protocol version.
@@ -96,7 +96,7 @@ xrouterprotocolversion | int     | The XRouter protocol version.
 connections            | int     | The number of peers your client has.
 warnings               | string  | Any network of blockchain workings.
 
-\* Only select information from the response is listed.
+\* Only a limited portion of the response is described
 
 
 
@@ -200,8 +200,6 @@ timelastseenstr | string  | The ISO 8601 datetime the Service Node was last seen
 status          | string  | The status of the Service Node (`running`, `offline`).
 score           | array   | The Service Node's local reputation score.
 services        | string  | An array of services the Service Node is supporting.
-
-\* This is only returned if using a `node_count` greater than `1`.
 
 
 
