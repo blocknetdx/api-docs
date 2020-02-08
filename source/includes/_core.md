@@ -90,7 +90,7 @@ Parameter              | Type    | Description
 -----------------------|---------|-------------
 version                | int     | The wallet version (i.e. `4000100` = v4.0.1.)
 subversion             | string  | The wallet version string.
-protocolversion        | int     | The staking protocol version.
+protocolversion        | int     | The consensus protocol version.
 xbridgeprotocolversion | int     | The XBridge protocol version.
 xrouterprotocolversion | int     | The XRouter protocol version.
 connections            | int     | The number of peers your client has.
