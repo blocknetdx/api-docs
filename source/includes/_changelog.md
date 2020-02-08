@@ -22,6 +22,19 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+2/7/2020    |
+------------|
+• Wallet v4.0.x release |
+• Added [dxFlushCancelledOrders](#dxflushcancelledorders) call |
+• Added [dxGetTradingData](#dxgettradingdata) call |
+• Removed gettradingdata call, in progress towards being deprecated |
+• Update `blocknetdx.conf` references to `blocknet.conf` |
+• Update `blocknetdx-cli` references to `blocknet-cli` |
+• Remove `xrUpdateConfigs` command, replaced by `servicenodesendping` |
+• Remove `xrouter=1` from XRouter setup |
+• Added selective [Core API](#core-api) calls |
+
+
 11/26/2019  |
 ------------|
 • Wallet v3.14.1 release |

@@ -38,7 +38,7 @@ Call                                              | Description
   "service": "BTCgetbestblockhash"
 }
 ```
-This call is used to send a request to an XCloud service. XCloud is a decentralized microservice cloud network powered by XRouter that allows for interaction with microservices, blockchains, APIs, and cloud tech that's hosted by Service Nodes. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+This call is used to send a request to an XCloud service. XCloud is a decentralized oracle and microservice cloud network powered by XRouter that allows for interaction with microservices, blockchains, off-chain APIs, and cloud tech that's hosted by Service Nodes. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
 
 
 ### Request Parameters
@@ -46,7 +46,7 @@ This call is used to send a request to an XCloud service. XCloud is a decentrali
 > Sample Request
 
 ```cli
-blocknetdx-cli xrService SYSgetbestblockhash
+blocknet-cli xrService SYSgetbestblockhash
 ```
 <code class="api-call">xrService [service] [param1 param2 paramN]</code>
 
@@ -97,7 +97,7 @@ uuid            | string  | The response ID, which can be used to view this resp
   "service": "SYSgetbestblockhash"
 }
 ```
-This call is used to send a request to an XCloud service, along with a specified amount of nodes for consensus. XCloud is a decentralized microservice cloud network powered by XRouter that allows for interaction with microservices, blockchains, APIs, and cloud tech that's hosted by Service Nodes. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+This call is used to send a request to an XCloud service, along with a specified amount of nodes for consensus. XCloud is a decentralized oracle and microservice cloud network powered by XRouter that allows for interaction with microservices, blockchains, off-chain APIs, and cloud tech that's hosted by Service Nodes. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
 
 
 ### Request Parameters
@@ -105,13 +105,13 @@ This call is used to send a request to an XCloud service, along with a specified
 > Sample Request
 
 ```cli
-blocknetdx-cli xrServiceConsensus 1 SYSgetbestblockhash
+blocknet-cli xrServiceConsensus 1 SYSgetbestblockhash
 ```
 <code class="api-call">xrServiceConsensus [node_count] [service] [param1 param2 paramN]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-node_count      | int     | The number of nodes that will be used to route calls and use the majority response from for consensus.
+node_count      | int     | The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`.
 service         | string  | The service name without the namespace (*xcloud_service*, not *xrs::[xcloud_service]*).
 paramN          | unknown | (Optional Parameter)<br>Refer to service documentation for parameter requirements. Information about an XCloud service can be viewed in the service configuration. Use [xrConnect](#xrconnect) to find a node with the service, then use [xrConnectedNodes](#xrconnectednodes) to review the service information.
 
@@ -150,8 +150,8 @@ Parameter       | Type    | Description
 reply           | unknown | The service's response data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See node scoring for more details.
-reply*          | array   | The service's response data from the respective node.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See node scoring for more details.
+reply*          | unknown | The service's response data from the respective node.
 error           | object  | The native error response if an error occurred, otherwise a successful response will contain a `null` error.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
