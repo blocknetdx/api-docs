@@ -27,7 +27,7 @@ reference: https://docs.pro.coinbase.com
 • Wallet v4.0.x release |
 • Added [dxFlushCancelledOrders](#dxflushcancelledorders) call |
 • Added [dxGetTradingData](#dxgettradingdata) call |
-• Removed gettradingdata call, in progress towards being deprecated |
+• Removed `gettradingdata` call, in progress towards being deprecated |
 • Update `blocknetdx.conf` references to `blocknet.conf` |
 • Update `blocknetdx-cli` references to `blocknet-cli` |
 • Remove `xrUpdateConfigs` command, replaced by `servicenodesendping` |

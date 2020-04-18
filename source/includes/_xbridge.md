@@ -2128,6 +2128,8 @@ Code  | Type  | Error
 
 This call returns the XBridge trading records. This information is pulled from on-chain history so pulling a large amount of blocks will result in longer response times.
 
+**This call replaces the `gettradingdata` call, which will be deprecated. Please update to use `dxGetTradingData` as soon as possible**
+
 
 ### Request Parameters
 
