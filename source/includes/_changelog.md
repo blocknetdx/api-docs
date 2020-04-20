@@ -22,6 +22,12 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+4/20/2020    |
+------------|
+• Wallet v4.1.x release |
+• Added `status` to [listproposals](#listproposals) response details |
+
+
 2/7/2020    |
 ------------|
 • Wallet v4.0.x release |
