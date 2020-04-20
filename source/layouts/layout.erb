@@ -167,11 +167,29 @@ under the License.
         <% end %>
       </div>
     </div>
+
     <% if current_page.data.wallet_version %>
-      <div id="wallet-version">
-        <span>Wallet v<%= current_page.data.wallet_version %></span>
+      <div id="wallet-version" class="versions-dropdown">
+        <span>Wallet v<%= current_page.data.wallet_version %> &#x25BE;</span>
+        <div class="versions-dropdown-content">
+          <ul>
+            <li><a href="v/3-14/">4.0.x</a></li>
+            <li><a href="">3.14.x</a></li>
+            <li><a href="">3.13.x</a></li>
+            <li><a href="">3.12.x</a></li>
+            <li><a href="">4.0.x</a></li>
+            <li><a href="">3.14.x</a></li>
+            <li><a href="">3.13.x</a></li>
+            <li><a href="">3.12.x</a></li>
+            <li><a href="">4.0.x</a></li>
+            <li><a href="">3.14.x</a></li>
+            <li><a href="">3.13.x</a></li>
+            <li><a href="">3.12.x</a></li>
+          </ul>
+        </div>
       </div>
     <% end %>
+
     <div id="notification-bar">
       <!-- <div class="notification" data-expire="">
         <span class="message"><strong>Need support? <a href="https://discord.gg/2e6s7H8" target="_blank">Join our Discord!</a></strong></span>
@@ -183,8 +201,8 @@ under the License.
       </div>
       <div class="notification" data-id="3130-update" data-expire="1557294893">
         <span class="message"><strong>Required Wallet v3.13.0 Update! <a href="https://blocknet.co/#downloads" target="_blank">View downloads...</a></strong></span>
-        <span class="notification-close" onclick="this.parentElement.style.display = 'none'">✕</span> -->
-      </div>
+        <span class="notification-close" onclick="this.parentElement.style.display = 'none'">✕</span>
+      </div> -->
     </div>
   </body>
 </html>

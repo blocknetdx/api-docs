@@ -829,12 +829,52 @@ pre::-webkit-scrollbar-thumb:active, pre:hover::-webkit-scrollbar-thumb, pre:foc
   top: 0;
   left: calc(50vw - 50px);
   font-size: 0.95em;
-  width: 100px;
+  min-width: 100px;
   padding: 6px 15px;
   background-color: rgba(255,255,255,0.7);
   color: #333;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+  transition: all 0.1s;
+}
+
+#wallet-version span {
   text-align: center;
+}
+
+#wallet-version:hover {
+  background-color: rgba(255,255,255,1);
+}
+
+.versions-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.versions-dropdown .versions-dropdown-content {
+  display: none;
+  position: absolute;
+  background: #fff;
+  min-width: 98px;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
+  padding: 12px 16px;
+  z-index: 1;
+  left: 0px;
+  top: 26px;
+}
+
+.versions-dropdown:hover .versions-dropdown-content {
+  display: block;
+}
+
+.versions-dropdown .versions-dropdown-content ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 15px;
+  max-height: 100px;
+  overflow: auto;
+}
+.versions-dropdown .versions-dropdown-content li {
+  line-height: 1.8em;
 }
 
 #notification-bar {
