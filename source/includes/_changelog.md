@@ -23,7 +23,12 @@ reference: https://docs.pro.coinbase.com
 -->
 
 
-5/11/2020    |
+6/29/2020   |
+------------|
+• Wallet v4.3.x release |
+
+
+5/11/2020   |
 ------------|
 • Wallet v4.2.x release |
 • Added [dxgetorders](#dxgetorders-web) web endpoint |
@@ -34,7 +39,7 @@ reference: https://docs.pro.coinbase.com
 • Update [dxGetTradingData](#dxgettradingdata) output |
 
 
-4/20/2020    |
+4/20/2020   |
 ------------|
 • Wallet v4.1.x release |
 • Added `status` to [listproposals](#listproposals) response details |
