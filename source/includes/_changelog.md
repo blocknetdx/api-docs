@@ -31,6 +31,7 @@ reference: https://docs.pro.coinbase.com
 • Added [C++ library guide](https://github.com/blocknetdx/libxrouter-sampleproj-cpp) link |
 • Added `tls` setting to `xrouter.conf` setup |
 • Added `dxnowallets` and `ShowAllOrders` setting to the [XBridge Setup](#xbridge-setup) |
+• Update [dxGetTradingData](#dxgettradingdata) output |
 
 
 4/20/2020    |
