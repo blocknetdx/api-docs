@@ -97,23 +97,29 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the o
   "updated_at": "2018-01-16T00:00:00.00000Z",
   "created_at": "2018-01-15T18:15:30.12345Z",
   "block_id": "38729344720578447445023782734923740427863289632489723984723",
+  "order_type": "exact",
+  "partial_minimum": "0",
+  "partial_repost": false,
   "status": "created"
 }
 ```
 
-Parameter     | Type          | Description
---------------|---------------|-------------
-id            | string        | The order ID.
-maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size    | string(float) | Maker trading size. String is used to preserve precision.
-maker_address | string        | Maker address for sending the outgoing asset.
-taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size    | string(float) | Taker trading size. String is used to preserve precision.
-taker_address | string        | Maker address for receiving the incoming asset.
-updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
-created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
-block_id      | string        | The block hash of the current block on the Blocknet blockchain at the time the order was created.
-status        | string        | [View order status codes](#status-codes)
+Parameter       | Type          | Description
+----------------|---------------|-------------
+id              | string        | The order ID.
+maker           | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size      | string(float) | Maker trading size. String is used to preserve precision.
+maker_address   | string        | Maker address for sending the outgoing asset.
+taker           | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size      | string(float) | Taker trading size. String is used to preserve precision.
+taker_address   | string        | Maker address for receiving the incoming asset.
+updated_at      | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at      | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+block_id        | string        | The block hash of the current block on the Blocknet blockchain at the time the order was created.
+order_type      | string        | The order type.
+partial_minimum | string        | The minimum amount that can be taken. This applies to `partial` order types and will show `0` on `exact` order types. See [dxMakePartialOrder](#dxmakepartialorder) for more details.
+partial_repost  | bool          | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` on `exact` order types. See [dxMakePartialOrder](#dxmakepartialorder) for more details.
+status          | string        | [View order status codes](#status-codes)
 
 
 > Sample 400 Response

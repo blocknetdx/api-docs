@@ -26,6 +26,7 @@ reference: https://docs.pro.coinbase.com
 6/29/2020   |
 ------------|
 • Wallet v4.3.x release |
+• Update [dxMakeOrder](#dxmakeorder) output |
 
 
 5/11/2020   |
