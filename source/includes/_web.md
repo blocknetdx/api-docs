@@ -8,6 +8,7 @@ Call                                             | Description
 [ticker (2.0)](#ticker-2-0)                      | XBridge 24hr trade summary (dynamic list)
 [history](#history)                              | XBridge 24hr trade history
 [status](#status)                                | XBridge asset availability
+[servicenodelist](#servicenodelist-web)          | Returns a list of registered Service Nodes
 [dxgetnetworktokens](#dxgetnetworktokens-web)    | Returns online XBridge assets
 [dxgetorders](#dxgetorders-web)                  | Returns all network orders with details
 [xrgetnetworkservices](#xrgetnetworkservices-web)| Returns supported XRouter services
@@ -303,6 +304,114 @@ Object        | object        | An object with the ticker's blockchain name, ID,
 id            | int           | The asset's ID number.
 name          | string        | The asset's blockchain name.
 frozen        | bool          | Online status. If `0`, the asset is online. If `1`, the asset is offline. Both assets of a market pair must show `0` for the market to be available for trading.
+
+
+
+
+
+
+
+
+
+
+## servicenodelist (web)
+
+This call is used to retrieve a list of all Service Nodes registered on the Blocknet network.
+
+
+### Endpoint
+
+<code class="api-call">[https://data.blocknet.co/api/v1.0/servicenodelist](https://data.blocknet.co/api/v1.0/servicenodelist)</code>
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+[
+  {
+    "snodekey": "0b38bfac90cc5c683b6a27f952b2346a1009fc0f9c1a0790809f185ab27b14ecc6",
+    "tier": "SPV",
+    "address": "BUVqkvqD7GCtHRHmchhXVuHqzm77cLuXs1",
+    "timelastseen": 1581082882,
+    "timelastseenstr": "2020-02-07T13:41:22.000Z",
+    "exr": false,
+    "status": "offline",
+    "score": 0,
+    "services": [
+      "BLOCK",
+      "BTC",
+      "DASH",
+      "DGB",
+      "DYN",
+      "GIN",
+      "KLKS",
+      "xr",
+      "xr::BLOCK",
+      "xr::BTC",
+      "xr::LTC"
+    ]
+  },
+  {
+    "snodekey": "0d9f04d506df6a870b3d823ab209a281c95112c0c53afa1a222e051857822a9c95",
+    "tier": "SPV",
+    "address": "B1KELxido2Sqshd2pDvqr56VexPDRzSCi4",
+    "timelastseen": 1581087561,
+    "timelastseenstr": "2020-02-07T14:59:21.000Z",
+    "exr": true,
+    "status": "running",
+    "score": 0,
+    "services": [
+      "BLOCK",
+      "BTC",
+      "xr",
+      "xr::BLOCK",
+      "xr::BTC",,
+      "xr::ETH",
+      "xr::LTC",
+      "xr::XST",
+      "xr::ZEN",,
+      "xrs::eth_accounts",
+      "xrs::eth_blockNumber",
+      "xrs::eth_call",
+      "xrs::eth_chainId",
+      "xrs::eth_estimateGas",
+      "xrs::eth_gasPrice",
+      "xrs::eth_getBalance",
+      "xrs::eth_getBlockByHash",
+      "xrs::eth_getBlockByNumber",
+      "xrs::eth_getBlockTransactionCountByHash",
+      "xrs::eth_getBlockTransactionCountByNumber",
+      "xrs::ltc_getbestblockhash",
+      "xrs::sc_consensus",
+      "xrs::sc_consensusblock",
+      "xrs::xmr_get_block_count",
+      "xrs::xmr_on_get_block_hash",
+      "xrs::xst_getbestblockhash",
+      "xrs::zen_getbestblockhash"
+    ]
+  }
+]
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+Array           | array   | A list of information on all registered Service Nodes.
+Object          | object  | An object containing information on each respective Service Node.
+snodekey        | string  | The Service Node's pubkey.
+tier            | string  | The tier of this Service Node (currently only `SPV` is supported).
+address         | string  | The Service Node's BLOCK address.
+timelastseen    | int     | The Unix time the Service Node was last seen.
+timelastseenstr | string  | The ISO 8601 datetime the Service Node was last seen.
+exr             | bool    | Whether the Service Node is an Enterprise XRouter node. EXR nodes have greater throughput and service capabilities.
+status          | string  | The status of the Service Node (`running`, `offline`).
+score           | array   | The Service Node's local reputation score.
+services        | string  | An array of services the Service Node is supporting.
 
 
 
