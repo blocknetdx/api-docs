@@ -140,9 +140,17 @@ This call does not take parameters.
     "address": "BUVqkvqD7GCtHRHmchhXVuHqzm77cLuXs1",
     "timelastseen": 1581082882,
     "timelastseenstr": "2020-02-07T13:41:22.000Z",
+    "exr": false,
     "status": "offline",
     "score": 0,
     "services": [
+      "BLOCK",
+      "BTC",
+      "DASH",
+      "DGB",
+      "DYN",
+      "GIN",
+      "KLKS",
       "xr",
       "xr::BLOCK",
       "xr::BTC",
@@ -155,9 +163,12 @@ This call does not take parameters.
     "address": "B1KELxido2Sqshd2pDvqr56VexPDRzSCi4",
     "timelastseen": 1581087561,
     "timelastseenstr": "2020-02-07T14:59:21.000Z",
+    "exr": true,
     "status": "running",
     "score": 0,
     "services": [
+      "BLOCK",
+      "BTC",
       "xr",
       "xr::BLOCK",
       "xr::BTC",,
@@ -197,6 +208,7 @@ tier            | string  | The tier of this Service Node (currently only `SPV` 
 address         | string  | The Service Node's BLOCK address.
 timelastseen    | int     | The Unix time the Service Node was last seen.
 timelastseenstr | string  | The ISO 8601 datetime the Service Node was last seen.
+exr             | bool    | Whether the Service Node is an Enterprise XRouter node. EXR nodes have greater throughput and service capabilities.
 status          | string  | The status of the Service Node (`running`, `offline`).
 score           | array   | The Service Node's local reputation score.
 services        | string  | An array of services the Service Node is supporting.
