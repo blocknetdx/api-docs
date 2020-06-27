@@ -28,6 +28,7 @@ reference: https://docs.pro.coinbase.com
 • Wallet v4.3.x release |
 • Update [dxMakeOrder](#dxmakeorder) output |
 • Added [servicenodelist](#servicenodelist-web) web endpoint |
+• Update [servicenodelist](#servicenodelist) core output |
 
 
 5/11/2020   |
