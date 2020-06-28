@@ -330,7 +330,7 @@ Code  | Type  | Error
   "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9"
 }
 ```
-This call is used to cancel one of your own orders, which automatically rolls back the order if a trade is in process.
+This call is used to cancel one of your own orders, which automatically rolls back the order if a trade is in process. Upon closing the client, open orders are automatically cancelled.
 
 
 ### Request Parameters
