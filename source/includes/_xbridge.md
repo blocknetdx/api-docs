@@ -990,7 +990,7 @@ Parameter     | Type          | Description
 --------------|---------------|-------------
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-combines      | boolean       | (Optional Parameter) Defaults to `true`.<br>`true`: Receive filled orders for both the maker and taker assets as specified, as well as the inverse with the maker asset as the taker and the taker asset as the maker.<br>`false`: Receive filled orders only with the maker and taker assets as specified.
+combines      | bool          | (Optional Parameter) Defaults to `true`.<br>`true`: Receive filled orders for both the maker and taker assets as specified, as well as the inverse with the maker asset as the taker and the taker asset as the maker.<br>`false`: Receive filled orders only with the maker and taker assets as specified.
 
 
 ### Response Parameters

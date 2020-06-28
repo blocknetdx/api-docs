@@ -6,8 +6,8 @@ The following set of calls are select, useful core API calls used to interact wi
 Call                                              | Description
 --------------------------------------------------|---------------
 [getnetworkinfo](#getnetworkinfo)                 | Returns network info
-[servicenodelist](#servicenodelist)               | Returns a list of registered Service Nodes
 [listproposals](#listproposals)                   | Returns a list governance proposals
+[servicenodelist](#servicenodelist)               | Returns a list of registered Service Nodes
 
 
 
@@ -97,6 +97,83 @@ connections            | int     | The number of peers your client has.
 warnings               | string  | Any network of blockchain workings.
 
 \* Only a limited portion of the response is described
+
+
+
+
+
+
+
+
+
+
+## listproposals
+
+> Sample Data
+
+```cli
+{
+  "sinceblock": 45000
+}
+```
+This call is used to retrieves a list of proposals since the specified block. By default this returns proposals for the current and upcoming proposals.
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknet-cli listproposals 45000
+```
+<code class="api-call">listproposals [sinceblock]\(optional)</code>
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+sinceblock      | int     | (Optional Parameter)<br>Defaults to `0`<br>Specifies the block number of how far back to pull proposals from. A value of `0` will return the proposals for the current and upcoming Superblock.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+[  
+  {
+    "hash": "06dfa870ac90cc5c683b6a2752b2346a10012c0c3afa1a9fc0f9c1b3d823a209",
+    "name": "sample-proposal-name",
+    "superblock": 1339200,
+    "amount": 1200,
+    "address": "Bc6Vqzdo2hdexPDRELxVuH2pDvqhiCtHRz",
+    "url": "https://google.com",
+    "description": "This is a sample proposal for an example.",
+    "votes_yes": 87,
+    "votes_no": 3,
+    "votes_abstain": 0,
+    "status": "passing"
+  }
+]
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+Array           | array   | A list of details on all returned proposals.
+Object          | object  | An object containing the details of each respective proposal.
+hash            | string  | The HEX string of the proposal hash.
+name            | string  | The name of the proposal.
+superblock      | int     | The Superblock the proposal has been submitted for.
+amount          | int     | The amount of BLOCK funding being requested by the proposal.
+address         | string  | The address that your propsal will be paid out to if it passes.
+url             | string  | The URL of your proposal description.
+description     | string  | A short description of the proposal.
+votes_yes       | int     | The number of yes votes.
+votes_no        | int     | The number of no votes.
+votes_abstain   | int     | The number of abstained votes.
+status          | string  | The current status of the proposal.<br>`passing`: Active and passing. <br>`failing`: Active and failing. <br>`passed`: Finished and passed. <br>`failed`: Finished and failed. <br>`pending`: Active future proposal.
 
 
 
@@ -212,83 +289,6 @@ exr             | bool    | Whether the Service Node is an Enterprise XRouter no
 status          | string  | The status of the Service Node (`running`, `offline`).
 score           | array   | The Service Node's local reputation score.
 services        | string  | An array of services the Service Node is supporting.
-
-
-
-
-
-
-
-
-
-
-## listproposals
-
-> Sample Data
-
-```cli
-{
-  "sinceblock": 45000
-}
-```
-This call is used to retrieves a list of proposals since the specified block. By default this returns proposals for the current and upcoming proposals.
-
-
-### Request Parameters
-
-> Sample Request
-
-```cli
-blocknet-cli listproposals 45000
-```
-<code class="api-call">listproposals [sinceblock]\(optional)</code>
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-sinceblock      | int     | (Optional Parameter)<br>Defaults to `0`<br>Specifies the block number of how far back to pull proposals from. A value of `0` will return the proposals for the current and upcoming Superblock.
-
-
-### Response Parameters
-
-<aside class="success">
-200 OK
-</aside>
-
-> Sample 200 Response
-
-```cli
-[  
-  {
-    "hash": "06dfa870ac90cc5c683b6a2752b2346a10012c0c3afa1a9fc0f9c1b3d823a209",
-    "name": "sample-proposal-name",
-    "superblock": 1339200,
-    "amount": 1200,
-    "address": "Bc6Vqzdo2hdexPDRELxVuH2pDvqhiCtHRz",
-    "url": "https://google.com",
-    "description": "This is a sample proposal for an example.",
-    "votes_yes": 87,
-    "votes_no": 3,
-    "votes_abstain": 0,
-    "status": "passing"
-  }
-]
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-Array           | array   | A list of details on all returned proposals.
-Object          | object  | An object containing the details of each respective proposal.
-hash            | string  | The HEX string of the proposal hash.
-name            | string  | The name of the proposal.
-superblock      | int     | The Superblock the proposal has been submitted for.
-amount          | int     | The amount of BLOCK funding being requested by the proposal.
-address         | string  | The address that your propsal will be paid out to if it passes.
-url             | string  | The URL of your proposal description.
-description     | string  | A short description of the proposal.
-votes_yes       | int     | The number of yes votes.
-votes_no        | int     | The number of no votes.
-votes_abstain   | int     | The number of abstained votes.
-status          | string  | The current status of the proposal.<br>`passing`: Active and passing. <br>`failing`: Active and failing. <br>`passed`: Finished and passed. <br>`failed`: Finished and failed. <br>`pending`: Active future proposal.
 
 
 
