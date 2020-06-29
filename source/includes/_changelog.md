@@ -29,6 +29,7 @@ reference: https://docs.pro.coinbase.com
 • Update [dxMakeOrder](#dxmakeorder) output |
 • Added [servicenodelist](#servicenodelist-web) web endpoint |
 • Update [servicenodelist](#servicenodelist) core output |
+• Update [dxGetOrders](#dxgetorders) output |
 
 
 5/11/2020   |
