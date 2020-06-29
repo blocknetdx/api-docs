@@ -31,6 +31,7 @@ reference: https://docs.pro.coinbase.com
 • Update [servicenodelist](#servicenodelist) core output |
 • Update [dxGetOrders](#dxgetorders) output |
 • Update [dxGetOrder](#dxgetorder) output |
+• Update [dxGetMyOrders](#dxgetmyorders) output |
 
 
 5/11/2020   |
