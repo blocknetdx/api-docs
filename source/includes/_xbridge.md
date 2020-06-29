@@ -597,47 +597,59 @@ This call does not take parameters.
   {
     "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", 
     "maker": "SYS",
-    "maker_size": "0.100",
+    "maker_size": "100.000000",
     "taker": "LTC",
-    "taker_size": "0.01",
+    "taker_size": "10.500000",
     "updated_at": "2018-01-15T18:25:05.12345Z", 
-    "created_at": "2018-01-15T18:15:30.12345Z", 
-    "status": "finished"
+    "created_at": "2018-01-15T18:15:30.12345Z",
+    "order_type": "partial",
+    "partial_minimum": "10.000000",
+    "partial_repost": false, 
+    "status": "open"
   },
   {
     "id": "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4", 
     "maker": "SYS",
-    "maker_size": "0.100",
+    "maker_size": "0.100000",
     "taker": "LTC",
-    "taker_size": "0.01",
+    "taker_size": "0.010000",
     "updated_at": "2018-01-15T18:25:05.12345Z", 
     "created_at": "2018-01-15T18:15:30.12345Z", 
-    "status": "finished"
+    "order_type": "exact",
+    "partial_minimum": "0.000000",
+    "partial_repost": false,
+    "status": "open"
   },
   {
     "id": "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a", 
     "maker": "SYS",
-    "maker_size": "0.100",
+    "maker_size": "4.000000",
     "taker": "LTC",
-    "taker_size": "0.01",
+    "taker_size": "0.400000",
     "updated_at": "2018-01-15T18:25:05.12345Z", 
     "created_at": "2018-01-15T18:15:30.12345Z", 
-    "status": "finished"
+    "order_type": "partial",
+    "partial_minimum": "0.400000",
+    "partial_repost": false,
+    "status": "open"
   }
 ]
 ```
 
-Parameter     | Type          | Description
---------------|---------------|-------------
-Array         | array         | An array of all orders with each order having the following parameters.
-id            | string        | The order ID.
-maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size    | string(float) | Maker trading size. String is used to preserve precision.
-taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size    | string(float) | Taker trading size. String is used to preserve precision.
-updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
-created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
-status        | string        | [View order status codes](#status-codes)
+Parameter       | Type          | Description
+----------------|---------------|-------------
+Array           | array         | An array of all orders with each order having the following parameters.
+id              | string        | The order ID.
+maker           | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size      | string(float) | Maker trading size. String is used to preserve precision.
+taker           | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size      | string(float) | Taker trading size. String is used to preserve precision.
+updated_at      | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at      | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+order_type      | string        | The order type.
+partial_minimum | string        | The minimum amount that can be taken. This applies to `partial` order types and will show `0` on `exact` order types.
+partial_repost  | bool          | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` if you are not the maker of this order.
+status          | string        | [View order status codes](#status-codes)
 
 
 > Sample 400 Response
