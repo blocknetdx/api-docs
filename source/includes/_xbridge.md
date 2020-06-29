@@ -488,20 +488,26 @@ id            | string        | ID of order of interest.
   "taker_size": "0.01",
   "updated_at": "1970-01-01T00:00:00.00000Z",
   "created_at": "2018-01-15T18:15:30.12345Z",
+  "order_type": "exact",
+  "partial_minimum": "0.000000",
+  "partial_repost": false,
   "status": "open"
 }
 ```
 
-Parameter     | Type          | Description
---------------|---------------|-------------
-id            | string        | The order ID.
-maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size    | string(float) | Maker trading size. String is used to preserve precision.
-taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size    | string(float) | Taker trading size. String is used to preserve precision.
-updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
-created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
-status        | string        | [View order status codes](#status-codes)
+Parameter       | Type          | Description
+----------------|---------------|-------------
+id              | string        | The order ID.
+maker           | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size      | string(float) | Maker trading size. String is used to preserve precision.
+taker           | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size      | string(float) | Taker trading size. String is used to preserve precision.
+updated_at      | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at      | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+order_type      | string        | The order type.
+partial_minimum | string        | The minimum amount that can be taken. This applies to `partial` order types and will show `0` on `exact` order types.
+partial_repost  | bool          | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` if you are not the maker of this order.
+status          | string        | [View order status codes](#status-codes)
 
 
 > Sample 400 Response

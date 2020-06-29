@@ -30,6 +30,7 @@ reference: https://docs.pro.coinbase.com
 • Added [servicenodelist](#servicenodelist-web) web endpoint |
 • Update [servicenodelist](#servicenodelist) core output |
 • Update [dxGetOrders](#dxgetorders) output |
+• Update [dxGetOrder](#dxgetorder) output |
 
 
 5/11/2020   |
