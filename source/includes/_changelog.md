@@ -27,6 +27,7 @@ reference: https://docs.pro.coinbase.com
 ------------|
 • Wallet v4.3.x release |
 • Updated [dxMakeOrder](#dxmakeorder) response details |
+• Updated [dxTakeOrder](#dxtakeorder) response details |
 • Added [servicenodelist](#servicenodelist-web) web endpoint |
 • Updated [servicenodelist](#servicenodelist) core response details |
 • Updated [dxGetOrders](#dxgetorders) response details |

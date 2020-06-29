@@ -240,7 +240,10 @@ dryrun          | string        | (Optional Parameter) <br>`dryrun`: Validate th
   "taker_size": "0.01",
   "updated_at": "1970-01-01T00:00:00.00000Z",
   "created_at": "2018-01-15T18:15:30.12345Z",
-  "status": "finished"
+  "order_type": "exact",
+  "partial_minimum": "0.000000",
+  "partial_repost": false,
+  "status": "accepting"
 }
 ```
 
