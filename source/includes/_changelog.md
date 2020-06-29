@@ -26,12 +26,12 @@ reference: https://docs.pro.coinbase.com
 6/29/2020   |
 ------------|
 • Wallet v4.3.x release |
-• Update [dxMakeOrder](#dxmakeorder) output |
+• Updated [dxMakeOrder](#dxmakeorder) response details |
 • Added [servicenodelist](#servicenodelist-web) web endpoint |
-• Update [servicenodelist](#servicenodelist) core output |
-• Update [dxGetOrders](#dxgetorders) output |
-• Update [dxGetOrder](#dxgetorder) output |
-• Update [dxGetMyOrders](#dxgetmyorders) output |
+• Updated [servicenodelist](#servicenodelist) core response details |
+• Updated [dxGetOrders](#dxgetorders) response details |
+• Updated [dxGetOrder](#dxgetorder) response details |
+• Updated [dxGetMyOrders](#dxgetmyorders) response details |
 
 
 5/11/2020   |
@@ -42,7 +42,7 @@ reference: https://docs.pro.coinbase.com
 • Added [C++ library guide](https://github.com/blocknetdx/libxrouter-sampleproj-cpp) link |
 • Added `tls` setting to `xrouter.conf` setup |
 • Added `dxnowallets` and `ShowAllOrders` setting to the [XBridge Setup](#xbridge-setup) |
-• Update [dxGetTradingData](#dxgettradingdata) output |
+• Updated [dxGetTradingData](#dxgettradingdata) response details |
 
 
 4/20/2020   |
@@ -57,9 +57,9 @@ reference: https://docs.pro.coinbase.com
 • Added [dxFlushCancelledOrders](#dxflushcancelledorders) call |
 • Added [dxGetTradingData](#dxgettradingdata) call |
 • Removed `gettradingdata` call, in progress towards being deprecated |
-• Update `blocknetdx.conf` references to `blocknet.conf` |
-• Update `blocknetdx-cli` references to `blocknet-cli` |
-• Remove `xrUpdateConfigs` command, replaced by `servicenodesendping` |
+• Updated `blocknetdx.conf` references to `blocknet.conf` |
+• Updated `blocknetdx-cli` references to `blocknet-cli` |
+• Remove `xrUpdateConfigs` call, replaced by `servicenodesendping` |
 • Remove `xrouter=1` from XRouter setup |
 • Added selective [Core API](#core-api) calls |
 
@@ -114,7 +114,7 @@ reference: https://docs.pro.coinbase.com
 
 3/5/2019    |
 ------------|
-• Update links to Github to reflect change in repository names |
+• Updated links to Github to reflect change in repository names |
 • Updated link to [compatible blockchains](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) |
 • Updated XRouter [confirmations] to [node_count] |
 • Updated XRouter [block] to [block_number] |
