@@ -29,6 +29,7 @@ reference: https://docs.pro.coinbase.com
 • Added [dxMakePartialOrder](#dxmakepartialorder) call |
 • Added [dxGetUtxos](#dxgetutxos) call |
 • Added [dxSplitAddress](#dxsplitaddress) call |
+• Added [dxSplitInputs](#dxsplitinputs) call |
 • Added [servicenodelist](#servicenodelist-web) web endpoint |
 • Updated [xrConnect](#xrconnect) description to note it's no longer required |
 • Updated [dxMakeOrder](#dxmakeorder) response details |
