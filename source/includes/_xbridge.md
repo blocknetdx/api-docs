@@ -2232,7 +2232,7 @@ Returns all compatible and unlocked UTXOs for the specified asset. This call is 
 ```cli
 blocknet-cli dxGetUtxos BLOCK
 ```
-<code class="api-call">dxGetUtxos [asset] [include_used](optional)</code>
+<code class="api-call">dxGetUtxos [asset] [include_used]\(optional)</code>
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
@@ -2372,7 +2372,7 @@ Splits unused coin in the given address into the specified size. Left over amoun
 ```cli
 blocknet-cli dxSplitAddress BLOCK 4 BWQrvmuHB4C68KH5V7fcn9bFtWN8y5hBmR
 ```
-<code class="api-call">dxSplitAddress [asset] [split_amount] [address] [include_fees](optional) [show_rawtx](optional) [submit](optional)</code>
+<code class="api-call">dxSplitAddress [asset] [split_amount] [address] [include_fees]\(optional) [show_rawtx]\(optional) [submit]\(optional)</code>
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
