@@ -114,7 +114,7 @@ uuid            | string  | The response ID, which can be used to view this resp
   "service": "SYS"
 }
 ```
-This call is used to connect to XRouter nodes with the specified service and download their configs. This command is useful to determine how much nodes are charging for services. It's also useful to "warm up" connections. By connecting to nodes immediately before making a large request it can speed up the reponse time (since those connections will be open). However, XRouter nodes close inactive connections after 15 seconds, so keep that in mind. After connecting, call [xrConnectedNodes](#xrconnectednodes) to display information about these XRouter nodes.
+This optional call is used to connect to XRouter nodes with the specified service. It is no longer needed to use this command prior to making a call. All node configs are now automatically downloaded. See [xrConnectedNodes](#xrconnectednodes) to review a detailed list of nodes, their service offerings, and how much they are charging for their services.
 
 
 ### Request Parameters
@@ -796,7 +796,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 ## xrConnectedNodes
 
-This call is used to lists all the data about current and previously connected nodes. This information includes supported SPV wallets, SPV calls, services, fees, and other service settings.
+This call is used to list all the data about current and previously connected nodes. This information includes supported SPV wallets, SPV calls, services, fees, and other service settings.
 
 
 ### Request Parameters
