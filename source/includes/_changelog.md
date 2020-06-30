@@ -43,6 +43,7 @@ reference: https://docs.pro.coinbase.com
 ------------|
 • Wallet v4.3.x release |
 • Added [dxMakePartialOrder](#dxmakepartialorder) call |
+• Added [dxGetUtxos](#dxgetutxos) call |
 • Added [servicenodelist](#servicenodelist-web) web endpoint |
 • Updated [dxMakeOrder](#dxmakeorder) response details |
 • Updated [dxTakeOrder](#dxtakeorder) response details |
