@@ -23,6 +23,7 @@ Call                                              | Description
 [dxGetTokenBalances](#dxgettokenbalances)         | Returns available balances for your assets
 [dxGetNewTokenAddress](#dxgetnewtokenaddress)     | Returns a newly generated address
 [dxGetUtxos](#dxgetutxos)                         | Returns compatible UTXOs for asset
+[dxSplitAddress](#dxsplitaddress)                 | Splits UTXOs in a specified address
 [dxLoadXBridgeConf](#dxloadxbridgeConf)           | Reloads the `xbridge.conf`
 [Status Codes](#status-codes)                     | XBridge order status codes
 [Error Codes](#error-codes)                       | Error codes
@@ -2317,6 +2318,132 @@ name          | string        | Name of the RPC function
   "error": "Internal error occurred",
   "code": 1002,
   "name": "dxGetUtxos"
+}
+```
+<aside class="warning">
+500 Internal Server Error
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+<aside class="warning">
+Error Codes
+</aside>
+
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1018  | 400   | Unable to connect to wallet
+1002  | 500   | Internal server error
+
+
+
+
+
+
+
+
+
+
+## dxSplitAddress
+
+> Sample Data
+
+```cli
+{
+  "asset": "BLOCK",
+  "split_amount": "4",
+  "address": "BWQrvmuHB4C68KH5V7fcn9bFtWN8y5hBmR"
+}
+```
+Splits unused coin in the given address into the specified size. Left over amounts end up in change. UTXOs being used in existing orders will not be included by the splitter (see [dxGetUtxos](#dxgetutxos)).
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknet-cli dxSplitAddress BLOCK 4 BWQrvmuHB4C68KH5V7fcn9bFtWN8y5hBmR
+```
+<code class="api-call">dxSplitAddress [asset] [split_amount] [address] [include_fees](optional) [show_rawtx](optional) [submit](optional)</code>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+asset         | string        | The ticker of the asset you want to view UTXOs for.
+split_amount  | string        | The desired output size. For example, an address with a balance of 10 and split amount of 2.5 would yield 4 UTXOs at 2.5 each.
+address       | string        | The address to split UTXOs in. Only coin in this address will be split.
+include_fees  | bool          | (Optional Parameter) Defaults to `true`.<br>`true`: Include the trade P2SH deposit fees in the split UTXO.<br>`false`: Ignore the deposit fees and make the split UTXO exactly for the `split_amount`.
+show_rawtx    | bool          | (Optional Parameter) Defaults to `false`.<br>`true`: Include the raw transaction in the response (can be submitted manually).<br>`false`: Omit the raw transaction from the response.
+submit        | bool          | (Optional Parameter) Defaults to `true`.<br>`true`: Submit the raw transaction to the network.<br>`false`: Do not submit the raw transaction to the network.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+{
+  "token": "BLOCK",
+  "include_fees": true,
+  "split_amount_requested": "4.0",
+  "split_amount_with_fees": "4.00040000",
+  "split_utxo_count": 6,
+  "split_total": "24.44852981",
+  "txid": "7f87cba104b3c19f6e25fbc82b3cde5d73714e01d6a54943d3c8fb07ce315db4",
+  "rawtx": ""
+}
+```
+
+Parameter              | Type          | Description
+-----------------------|---------------|-------------
+token                  | string        | The asset you are splitting UTXOs for.
+include_fees           | bool          | Whether you requested to include the fees.
+split_amount_requested | string        | The requested split amount.
+split_amount_with_fees | string(float) | The requested split amount with fees included.
+split_utxo_count       | int           | The amount of resulting split UTXOs.
+split_total            | string(float) | The total amount of in the address prior to splitting.
+txid                   | string        | The hex string of the splitting transaction.
+rawtx                  | string        | The hex string of the raw splitting transaction.
+
+
+> Sample 400 Response
+
+```cli
+{
+  "error": "Unable to connect to wallet",
+  "code": 1018,
+  "name": "dxSplitAddress"
+}
+```
+
+<aside class="warning">
+400 Bad Request
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+> Sample 500 Response
+
+```cli
+{
+  "error": "Internal error occurred",
+  "code": 1002,
+  "name": "dxSplitAddress"
 }
 ```
 <aside class="warning">
