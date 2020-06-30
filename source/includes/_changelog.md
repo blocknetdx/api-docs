@@ -23,12 +23,13 @@ reference: https://docs.pro.coinbase.com
 -->
 
 
-6/29/2020   |
+7/1/2020    |
 ------------|
 • Wallet v4.3.x release |
 • Added [dxMakePartialOrder](#dxmakepartialorder) call |
 • Added [dxGetUtxos](#dxgetutxos) call |
 • Added [servicenodelist](#servicenodelist-web) web endpoint |
+• Updated [xrConnect](#xrconnect) description to note it's no longer required |
 • Updated [dxMakeOrder](#dxmakeorder) response details |
 • Updated [dxTakeOrder](#dxtakeorder) response details |
 • Updated [servicenodelist](#servicenodelist) core response details |
