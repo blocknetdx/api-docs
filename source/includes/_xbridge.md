@@ -12,18 +12,18 @@ Call                                              | Description
 [dxCancelOrder](#dxcancelorder)                   | Cancel your own order
 [dxGetOrder](#dxgetorder)                         | Returns order details by ID
 [dxGetOrders](#dxgetorders)                       | Returns all orders with details
+[dxGetOrderBook](#dxgetorderbook)                 | Returns open orders
 [dxGetMyOrders](#dxgetmyorders)                   | Returns all your own orders with details
-[dxGetUtxos](#dxgetutxos)                         | Returns compatible UTXOs for asset
 [dxFlushCancelledOrders](#dxflushcancelledorders) | Removes your cancelled orders
 [dxGetOrderFills](#dxgetorderfills)               | Returns all recent filled orders
 [dxGetOrderHistory](#dxgetorderhistory)           | Returns the OHLCV data my market
+[dxGetTradingData](#dxgettradingdata)             | Returns on-chain trading records
 [dxGetLocalTokens](#dxgetlocaltokens)             | Returns all assets connected locally
 [dxGetNetworkTokens](#dxgetnetworktokens)         | Returns all assets connected on the network
 [dxGetTokenBalances](#dxgettokenbalances)         | Returns available balances for your assets
 [dxGetNewTokenAddress](#dxgetnewtokenaddress)     | Returns a newly generated address
-[dxGetOrderBook](#dxgetorderbook)                 | Returns open orders
+[dxGetUtxos](#dxgetutxos)                         | Returns compatible UTXOs for asset
 [dxLoadXBridgeConf](#dxloadxbridgeConf)           | Reloads the `xbridge.conf`
-[dxGetTradingData](#dxgettradingdata)             | Returns on-chain trading records
 [Status Codes](#status-codes)                     | XBridge order status codes
 [Error Codes](#error-codes)                       | Error codes
 
@@ -374,7 +374,7 @@ Code  | Type  | Error
   "dryrun": "dryrun"
 }
 ```
-This call is used to take an order. Taking your own order is currently not supported. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
+This call is used to take an order. Taking your own order is not supported. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
 
 Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the taker asset's native network. If the taker asset is BLOCK, there needs to be *at least* two UXTOs - one or more to cover the 0.015 BLOCK fee and one or more to cover the traded amount.
 
@@ -751,9 +751,9 @@ Code  | Type  | Error
 
 ## dxGetOrders
 
-This call is used to retrieve all orders of every market pair. It will only return orders for assets returned in dxGetLocalTokens.
+This call is used to retrieve all orders of every market pair. It will only return orders for assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
 
-**Note**: This call will only return orders for markets with both assets returned in dxGetLocalTokens.
+**Note**: This call will only return orders for markets with both assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
 
 
 ### Request Parameters
@@ -884,6 +884,262 @@ Error Codes
 Code  | Type  | Error
 ------|-------|------------
 1001  | 401   | Unauthorized
+1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
+
+
+
+
+
+
+
+
+
+
+## dxGetOrderBook
+
+> Sample Data
+
+```cli
+{
+  "detail": 1,
+  "maker": "LTC",
+  "taker": "SYS",
+  "max_orders": 100
+}
+```
+This call is used to retrieve open orders at various detail levels:
+<br><b>Detail 1</b> - Retrieves the best bid and ask.
+<br><b>Detail 2</b> - Retrieves a list of aggregated orders. This is useful for charting.
+<br><b>Detail 3</b> - Retrieves a list of non-aggregated orders. This is useful for bot trading.
+<br><b>Detail 4</b> - Retrieves the best bid and ask with the order GUIDs.
+<br>
+
+**Note**: This call will only return orders for markets with both assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknet-cli dxGetOrderBook 1 LTC SYS 100
+```
+<code class="api-call">dxGetOrderBook [detail] [maker] [taker] [max_orders]\(optional)</code>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+detail        | int           | Detail level: `1`, `2`, `3`, `4`
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+max_orders    | int           | (Optional Parameter) Defaults to `50`.<br>The maximum total orders to display for bids and asks combined. Odd values are rounded up 1. Quantity is split evenly between bids and asks.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response \(Detail 1)
+
+```cli
+{
+  "detail": 1,
+  "maker": "LTC",
+  "taker": "SYS",
+  "bids": [
+    //[ price, size, quantity ],
+    [ "253", "15", 1 ],
+  ],
+  "asks": [
+    //[ price, size, quantity ],
+    [ "253.01", "15", 3 ],
+  ]
+}
+```
+
+<br><b>Detail 1</b><br>
+Retrieves the best bid and ask.
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+detail        | int           | Detail level: `1`
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+bids          | array         | An array of the best bids.
+- price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
+- quantity    | int           | The total bid orders at this price.
+asks          | array         | An array of the best asks.
+- price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
+- quantity    | int           | The total ask orders at this price.
+
+
+> Sample 200 Response \(Detail 2)
+
+```cli
+{
+  "detail": 2,
+  "maker": "LTC",
+  "taker": "SYS",
+  "bids": [
+    //[ price, size, quantity ],
+    [ "253.00", "15.00", 1 ]
+  ],
+  "asks": [
+    //[ price, size, quantity ],
+    [ "254.15", "15.01", 3 ]
+  ]
+}
+```
+
+<br><b>Detail 2</b><br>
+Retrieves a list of aggregated orders. This is useful for charting.
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+detail        | int           | Detail level: `2`
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+bids          | array         | An array of bids.
+- price       | string(float) | The bid price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
+- quantity    | int           | The total bid orders at this price.
+asks          | array         | An array of asks.
+- price       | string(float) | The ask price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
+- quantity    | int           | The total ask orders at this price.
+
+
+> Sample 200 Response \(Detail 3)
+
+```cli
+{
+  "detail": 3,
+  "maker": "LTC",
+  "taker": "SYS",
+  "bids": [
+    //[ price, size, order_id ],
+    [ "253.00", "15.00", "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ]
+  ],
+  "asks": [
+    //[ price, size, order_id ],
+    [ "254.15", "15.01", "b20f0028eb77b7b745c1953f7521cbef31f40d5543595196d7eb911db43c6434" ],
+    [ "254.15", "15.01", "920f53f7521cbef3c64343b0020d554196d7eb98eb7735911db45b7b745c11f4" ],
+    [ "254.15", "15.01", "1dbbf31f7b745c12120f0028eb7795196dbcbe4043c6434d554953f75357eb91" ]
+  ]
+}
+```
+
+<br><b>Detail 3</b><br>
+Retrieves a list of non-aggregated orders. This is useful for bot trading.
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+detail        | int           | Detail level: `3`
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+bids          | array         | An array of bids.
+- price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of the bid order. String is used to preserve precision.
+- order_id    | string        | The ID of the bid order.
+asks          | array         | An array of asks.
+- price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of the ask order. String is used to preserve precision.
+- order_id    | string        | The ID of the ask order.
+
+
+> Sample 200 Response \(Detail 4)
+
+```cli
+{
+  "detail": 4,
+  "maker": "LTC",
+  "taker": "SYS",
+  "bids": [
+    //[ price, size, [order_ids] ],
+    [ "253.00", "15", [ "920f53f7521cbef3c64343b0020d554196d7eb98eb7735911db45b7b745c11f4" ] ],
+  ],
+  "asks": [
+    //[ price, size, [order_ids] ],
+    [ "254.00", "15", [ "32f5a551-3da6-4ff0-8ae6-0b60535c5237", "b20f0028eb77b7b745c1953f7521cbef31f40d5543595196d7eb911db43c6434", "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4", "1dbbf31f7b745c12120f0028eb7795196dbcbe4043c6434d554953f75357eb91" ] ],
+  ]
+}
+```
+
+<br><b>Detail 4</b><br>
+Retrieves the best bid and ask with the order GUIDs.
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+detail        | int           | Detail level: `4`
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+bids          | array         | An array of the best bids.
+- price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
+- order_ids   | array         | An array of ID for bid orders at this price.
+asks          | array         | An array of the best asks.
+- price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
+- size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
+- order_ids   | array         | An array of ID for ask orders at this price.
+
+
+> Sample 400 Response
+
+```cli
+{
+  "error": "Invalid detail level",
+  "code": 1015,
+  "name": "dxGetOrderBook"
+}
+```
+
+<aside class="warning">
+400 Bad Request
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+> Sample 500 Response
+
+```cli
+{
+  "error": "Internal error occurred",
+  "code": 1002,
+  "name": "dxGetOrderBook"
+}
+```
+
+<aside class="warning">
+500 Internal Server Error
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+<aside class="warning">
+Error Codes
+</aside>
+
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1004  | 400   | Bad request
+1011  | 400   | Invalid maker symbol
+1012  | 400   | Invalid taker symbol
+1015  | 400   | Invalid detail level
 1025  | 400   | Invalid parameters
 1002  | 500   | Internal server error
 
@@ -1032,144 +1288,6 @@ Code  | Type  | Error
 ------|-------|------------
 1001  | 401   | Unauthorized
 1025  | 400   | Invalid parameters
-1002  | 500   | Internal server error
-
-
-
-
-
-
-
-
-
-
-## dxGetUtxos
-
-> Sample Data
-
-```cli
-{
-  "asset": "BLOCK"
-}
-```
-Returns all compatible and unlocked UTXOs for the specified asset.
-
-
-### Request Parameters
-
-> Sample Request
-
-```cli
-blocknet-cli dxGetUtxos BLOCK
-```
-<code class="api-call">dxGetUtxos [asset] [include_used](optional)</code>
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-asset         | string        | The ticker of the asset you want to view UTXOs for.
-include_used  | bool          | (Optional Parameter) Defaults to `false`.<br>`true`: Include UTXOs used in existing orders.<br>`false`: Only show UXTOs not used in existing orders.
-
-
-### Response Parameters
-
-<aside class="success">
-200 OK
-</aside>
-
-> Sample 200 Response
-
-```cli
-[
-  {
-    "txid": "c019edf2a71efcfc9b1ec50cd0d9db54c55b74acd0bcc81cefd6ffbba359a210",
-    "vout": 2,
-    "amount": "3.26211780",
-    "address": "BrPHj12ZSm7roD2gvrjRG2gD4TzeP1YDXG",
-    "scriptPubKey": "7b1ef56a92cec50cd0d147876a914ffd6fcbb4c5724a4057de",
-    "confirmations": 11904,
-    "inorder": false
-  },
-  {
-    "txid": "a91c224c0725745cd0bcc81cefd6ffbba3f6cc36956cd566c50cd0d9db5c55b7",
-    "vout": 0,
-    "amount": "2.44485198",
-    "address": "BJYS5dd4Mx5bFxfYDX136SLrv5kGCZaUtF",
-    "scriptPubKey": "7e36ab914fc645b2b9fd5ce704f54bc34a59a56c9671eb355b",
-    "confirmations": 20690,
-    "inorder": false
-  },
-  {
-    "txid": "01f74e6d7e5eade3e555fea978ec1be1cd9006406a4054ba1f74e6d349c67586",
-    "vout": 0,
-    "amount": "0.18996410",
-    "address": "BZJjXdv3XSJcJc132gDi136SLrv5kdd4Mx",
-    "scriptPubKey": "7a47f87fb0bcc81cefd6ffbeb596b786fcfe45878d41fe2110",
-    "confirmations": 142995,
-    "inorder": false
-  }
-]
-```
-
-Parameter       | Type          | Description
-----------------|---------------|-------------
-txid            | string        | Transaction ID of the UTXO.
-vout            | int           | Vout index of the UTXO.
-amount          | string        | UTXO amount.
-address         | string        | UTXO address.
-scriptPubKey    | string        | UTXO address script pubkey.
-confirmations   | int           | UTXO blockchain confirmation count.
-inorder         | bool          | Whether UTXO is currently being used in an order.
-
-
-> Sample 400 Response
-
-```cli
-{
-  "error": "Unable to connect to wallet",
-  "code": 1018,
-  "name": "dxGetUtxos"
-}
-```
-
-<aside class="warning">
-400 Bad Request
-</aside>
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-error         | string        | Error message
-code          | int           | Error code
-name          | string        | Name of the RPC function
-
-
-> Sample 500 Response
-
-```cli
-{
-  "error": "Internal error occurred",
-  "code": 1002,
-  "name": "dxGetUtxos"
-}
-```
-<aside class="warning">
-500 Internal Server Error
-</aside>
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-error         | string        | Error message
-code          | int           | Error code
-name          | string        | Name of the RPC function
-
-
-<aside class="warning">
-Error Codes
-</aside>
-
-Code  | Type  | Error
-------|-------|------------
-1001  | 401   | Unauthorized
-1018  | 400   | Unable to connect to wallet
 1002  | 500   | Internal server error
 
 
@@ -1598,6 +1716,92 @@ Code  | Type  | Error
 
 
 
+## dxGetTradingData
+
+This call returns the XBridge trading records. This information is pulled from on-chain history so pulling a large amount of blocks will result in longer response times.
+
+**This call replaces the `gettradingdata` call, which will be deprecated. Please update to use `dxGetTradingData` as soon as possible**
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknet-cli dxGetTradingData 1440
+```
+
+<code class="api-call">dxGetTradingData [blocks]\(optional) [errors]\(optional)</code>
+ 
+Parameter     | Type          | Description
+--------------|---------------|-------------
+blocks        | int           | (Optional Parameter) Defaults to `43200`.<br>Number of blocks to return trade records for (60s block time).
+errors        | bool          | (Optional Parameter) Defaults to `false`.<br>Shows and error if there's an error detected. This may be useful if you're building a custom client and change the on-chain order history data format.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+[
+  {
+    "timestamp" : 1559970139,
+    "fee_txid" : "4b409e5c5fb1986930cf7c19afec2c89ac2ad4fddc13c1d5479b66ddf4a8fefb",
+    "nodepubkey" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
+    "id" : "9eb57bac331eab34f3daefd8364cdb2bb05259c407d805d0bd0c",
+    "taker" : "BLOCK",
+    "taker_size" : 0.001111,
+    "maker" : "SYS",
+    "maker_size" : 0.001000
+  },
+  {
+    "timestamp" : 1559970139,
+    "fee_txid" : "3de7479e8a88ebed986d3b7e7e135291d3fd10e4e6d4c6238663db42c5019286",
+    "nodepubkey" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
+    "id" : "fd0fed3ee9fe557d5735768c9bdcd4ab2908165353e0f0cef0d5",
+    "taker" : "BLOCK",
+    "taker_size" : 0.001577,
+    "maker" : "SYS",
+    "maker_size" : 0.001420
+  },
+  {
+    "timestamp" : 1559970139,
+    "fee_txid" : "9cc4a0dae46f2f1849b3ab6f93ea1c59aeaf0e95662d90398814113f12127eae",
+    "nodepubkey" : "BbrQKtutGBLuWHvq26EmHKuNaztnfBFWVB",
+    "id" : "f74c614489bd77efe545c239d1f9a57363c5428e7401b2018d350",
+    "taker" : "BLOCK",
+    "taker_size" : 0.000231,
+    "maker" : "SYS",
+    "maker_size" : 0.001100
+  }
+]
+```
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+timestamp     | int           | Unix epoch timestamp of when the trade took place.
+fee_txid      | string        | The Blocknet trade fee transaction ID.
+nodepubkey    | string        | Service Node that received the trade fee.
+id            | string        | XBridge transaction ID.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | int           | Taker trading size.
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | int           | Maker trading size.
+
+
+
+
+
+
+
+
+
+
 ## dxGetLocalTokens
 
 This call is used to retrieve all the assets supported by the local client. You can only trade on markets with these assets. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup).
@@ -2007,6 +2211,144 @@ Code  | Type  | Error
 
 
 
+## dxGetUtxos
+
+> Sample Data
+
+```cli
+{
+  "asset": "BLOCK"
+}
+```
+Returns all compatible and unlocked UTXOs for the specified asset. This call is only comptabile with assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknet-cli dxGetUtxos BLOCK
+```
+<code class="api-call">dxGetUtxos [asset] [include_used](optional)</code>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+asset         | string        | The ticker of the asset you want to view UTXOs for.
+include_used  | bool          | (Optional Parameter) Defaults to `false`.<br>`true`: Include UTXOs used in existing orders.<br>`false`: Only show UXTOs not used in existing orders.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+[
+  {
+    "txid": "c019edf2a71efcfc9b1ec50cd0d9db54c55b74acd0bcc81cefd6ffbba359a210",
+    "vout": 2,
+    "amount": "3.26211780",
+    "address": "BrPHj12ZSm7roD2gvrjRG2gD4TzeP1YDXG",
+    "scriptPubKey": "7b1ef56a92cec50cd0d147876a914ffd6fcbb4c5724a4057de",
+    "confirmations": 11904,
+    "inorder": false
+  },
+  {
+    "txid": "a91c224c0725745cd0bcc81cefd6ffbba3f6cc36956cd566c50cd0d9db5c55b7",
+    "vout": 0,
+    "amount": "2.44485198",
+    "address": "BJYS5dd4Mx5bFxfYDX136SLrv5kGCZaUtF",
+    "scriptPubKey": "7e36ab914fc645b2b9fd5ce704f54bc34a59a56c9671eb355b",
+    "confirmations": 20690,
+    "inorder": false
+  },
+  {
+    "txid": "01f74e6d7e5eade3e555fea978ec1be1cd9006406a4054ba1f74e6d349c67586",
+    "vout": 0,
+    "amount": "0.18996410",
+    "address": "BZJjXdv3XSJcJc132gDi136SLrv5kdd4Mx",
+    "scriptPubKey": "7a47f87fb0bcc81cefd6ffbeb596b786fcfe45878d41fe2110",
+    "confirmations": 142995,
+    "inorder": false
+  }
+]
+```
+
+Parameter       | Type          | Description
+----------------|---------------|-------------
+txid            | string        | Transaction ID of the UTXO.
+vout            | int           | Vout index of the UTXO.
+amount          | string        | UTXO amount.
+address         | string        | UTXO address.
+scriptPubKey    | string        | UTXO address script pubkey.
+confirmations   | int           | UTXO blockchain confirmation count.
+inorder         | bool          | Whether UTXO is currently being used in an order.
+
+
+> Sample 400 Response
+
+```cli
+{
+  "error": "Unable to connect to wallet",
+  "code": 1018,
+  "name": "dxGetUtxos"
+}
+```
+
+<aside class="warning">
+400 Bad Request
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+> Sample 500 Response
+
+```cli
+{
+  "error": "Internal error occurred",
+  "code": 1002,
+  "name": "dxGetUtxos"
+}
+```
+<aside class="warning">
+500 Internal Server Error
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+<aside class="warning">
+Error Codes
+</aside>
+
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1018  | 400   | Unable to connect to wallet
+1002  | 500   | Internal server error
+
+
+
+
+
+
+
+
+
+
 <!-- ## dxGetLockedUtxos
 
 > Sample Data
@@ -2123,262 +2465,6 @@ Code  | Type  | Error
 
 
 
-## dxGetOrderBook
-
-> Sample Data
-
-```cli
-{
-  "detail": 1,
-  "maker": "LTC",
-  "taker": "SYS",
-  "max_orders": 100
-}
-```
-This call is used to retrieve open orders at various detail levels:
-<br><b>Detail 1</b> - Retrieves the best bid and ask.
-<br><b>Detail 2</b> - Retrieves a list of aggregated orders. This is useful for charting.
-<br><b>Detail 3</b> - Retrieves a list of non-aggregated orders. This is useful for bot trading.
-<br><b>Detail 4</b> - Retrieves the best bid and ask with the order GUIDs.
-<br>
-
-**Note**: This call will only return orders for markets with both assets returned in dxGetLocalTokens.
-
-
-### Request Parameters
-
-> Sample Request
-
-```cli
-blocknet-cli dxGetOrderBook 1 LTC SYS 100
-```
-<code class="api-call">dxGetOrderBook [detail] [maker] [taker] [max_orders]\(optional)</code>
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-detail        | int           | Detail level: `1`, `2`, `3`, `4`
-maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
-taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-max_orders    | int           | (Optional Parameter) Defaults to `50`.<br>The maximum total orders to display for bids and asks combined. Odd values are rounded up 1. Quantity is split evenly between bids and asks.
-
-
-### Response Parameters
-
-<aside class="success">
-200 OK
-</aside>
-
-> Sample 200 Response \(Detail 1)
-
-```cli
-{
-  "detail": 1,
-  "maker": "LTC",
-  "taker": "SYS",
-  "bids": [
-    //[ price, size, quantity ],
-    [ "253", "15", 1 ],
-  ],
-  "asks": [
-    //[ price, size, quantity ],
-    [ "253.01", "15", 3 ],
-  ]
-}
-```
-
-<br><b>Detail 1</b><br>
-Retrieves the best bid and ask.
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-detail        | int           | Detail level: `1`
-maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
-taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-bids          | array         | An array of the best bids.
-- price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
-- size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
-- quantity    | int           | The total bid orders at this price.
-asks          | array         | An array of the best asks.
-- price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
-- size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
-- quantity    | int           | The total ask orders at this price.
-
-
-> Sample 200 Response \(Detail 2)
-
-```cli
-{
-  "detail": 2,
-  "maker": "LTC",
-  "taker": "SYS",
-  "bids": [
-    //[ price, size, quantity ],
-    [ "253.00", "15.00", 1 ]
-  ],
-  "asks": [
-    //[ price, size, quantity ],
-    [ "254.15", "15.01", 3 ]
-  ]
-}
-```
-
-<br><b>Detail 2</b><br>
-Retrieves a list of aggregated orders. This is useful for charting.
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-detail        | int           | Detail level: `2`
-maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
-taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-bids          | array         | An array of bids.
-- price       | string(float) | The bid price for the asset. String is used to preserve precision.
-- size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
-- quantity    | int           | The total bid orders at this price.
-asks          | array         | An array of asks.
-- price       | string(float) | The ask price for the asset. String is used to preserve precision.
-- size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
-- quantity    | int           | The total ask orders at this price.
-
-
-> Sample 200 Response \(Detail 3)
-
-```cli
-{
-  "detail": 3,
-  "maker": "LTC",
-  "taker": "SYS",
-  "bids": [
-    //[ price, size, order_id ],
-    [ "253.00", "15.00", "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ]
-  ],
-  "asks": [
-    //[ price, size, order_id ],
-    [ "254.15", "15.01", "b20f0028eb77b7b745c1953f7521cbef31f40d5543595196d7eb911db43c6434" ],
-    [ "254.15", "15.01", "920f53f7521cbef3c64343b0020d554196d7eb98eb7735911db45b7b745c11f4" ],
-    [ "254.15", "15.01", "1dbbf31f7b745c12120f0028eb7795196dbcbe4043c6434d554953f75357eb91" ]
-  ]
-}
-```
-
-<br><b>Detail 3</b><br>
-Retrieves a list of non-aggregated orders. This is useful for bot trading.
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-detail        | int           | Detail level: `3`
-maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
-taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-bids          | array         | An array of bids.
-- price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
-- size        | string(float) | The size of the bid order. String is used to preserve precision.
-- order_id    | string        | The ID of the bid order.
-asks          | array         | An array of asks.
-- price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
-- size        | string(float) | The size of the ask order. String is used to preserve precision.
-- order_id    | string        | The ID of the ask order.
-
-
-> Sample 200 Response \(Detail 4)
-
-```cli
-{
-  "detail": 4,
-  "maker": "LTC",
-  "taker": "SYS",
-  "bids": [
-    //[ price, size, [order_ids] ],
-    [ "253.00", "15", [ "920f53f7521cbef3c64343b0020d554196d7eb98eb7735911db45b7b745c11f4" ] ],
-  ],
-  "asks": [
-    //[ price, size, [order_ids] ],
-    [ "254.00", "15", [ "32f5a551-3da6-4ff0-8ae6-0b60535c5237", "b20f0028eb77b7b745c1953f7521cbef31f40d5543595196d7eb911db43c6434", "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4", "1dbbf31f7b745c12120f0028eb7795196dbcbe4043c6434d554953f75357eb91" ] ],
-  ]
-}
-```
-
-<br><b>Detail 4</b><br>
-Retrieves the best bid and ask with the order GUIDs.
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-detail        | int           | Detail level: `4`
-maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
-taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-bids          | array         | An array of the best bids.
-- price       | string(float) | The highest bid price for the asset. String is used to preserve precision.
-- size        | string(float) | The size of bid orders at this price. String is used to preserve precision.
-- order_ids   | array         | An array of ID for bid orders at this price.
-asks          | array         | An array of the best asks.
-- price       | string(float) | The lowest ask price for the asset. String is used to preserve precision.
-- size        | string(float) | The size of ask orders at this price. String is used to preserve precision.
-- order_ids   | array         | An array of ID for ask orders at this price.
-
-
-> Sample 400 Response
-
-```cli
-{
-  "error": "Invalid detail level",
-  "code": 1015,
-  "name": "dxGetOrderBook"
-}
-```
-
-<aside class="warning">
-400 Bad Request
-</aside>
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-error         | string        | Error message
-code          | int           | Error code
-name          | string        | Name of the RPC function
-
-
-> Sample 500 Response
-
-```cli
-{
-  "error": "Internal error occurred",
-  "code": 1002,
-  "name": "dxGetOrderBook"
-}
-```
-
-<aside class="warning">
-500 Internal Server Error
-</aside>
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-error         | string        | Error message
-code          | int           | Error code
-name          | string        | Name of the RPC function
-
-
-<aside class="warning">
-Error Codes
-</aside>
-
-Code  | Type  | Error
-------|-------|------------
-1001  | 401   | Unauthorized
-1004  | 400   | Bad request
-1011  | 400   | Invalid maker symbol
-1012  | 400   | Invalid taker symbol
-1015  | 400   | Invalid detail level
-1025  | 400   | Invalid parameters
-1002  | 500   | Internal server error
-
-
-
-
-
-
-
-
-
-
 ## dxLoadXBridgeConf
 
 This call is used to reload `xbridge.conf` to run newly configured settings without needing to restart the Blocknet client.
@@ -2466,92 +2552,6 @@ Code  | Type  | Error
 1004  | 400   | Bad request
 1025  | 400   | Invalid parameters
 1002  | 500   | Internal server error
-
-
-
-
-
-
-
-
-
-
-## dxGetTradingData
-
-This call returns the XBridge trading records. This information is pulled from on-chain history so pulling a large amount of blocks will result in longer response times.
-
-**This call replaces the `gettradingdata` call, which will be deprecated. Please update to use `dxGetTradingData` as soon as possible**
-
-
-### Request Parameters
-
-> Sample Request
-
-```cli
-blocknet-cli dxGetTradingData 1440
-```
-
-<code class="api-call">dxGetTradingData [blocks]\(optional) [errors]\(optional)</code>
- 
-Parameter     | Type          | Description
---------------|---------------|-------------
-blocks        | int           | (Optional Parameter) Defaults to `43200`.<br>Number of blocks to return trade records for (60s block time).
-errors        | bool          | (Optional Parameter) Defaults to `false`.<br>Shows and error if there's an error detected. This may be useful if you're building a custom client and change the on-chain order history data format.
-
-
-### Response Parameters
-
-<aside class="success">
-200 OK
-</aside>
-
-> Sample 200 Response
-
-```cli
-[
-  {
-    "timestamp" : 1559970139,
-    "fee_txid" : "4b409e5c5fb1986930cf7c19afec2c89ac2ad4fddc13c1d5479b66ddf4a8fefb",
-    "nodepubkey" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
-    "id" : "9eb57bac331eab34f3daefd8364cdb2bb05259c407d805d0bd0c",
-    "taker" : "BLOCK",
-    "taker_size" : 0.001111,
-    "maker" : "SYS",
-    "maker_size" : 0.001000
-  },
-  {
-    "timestamp" : 1559970139,
-    "fee_txid" : "3de7479e8a88ebed986d3b7e7e135291d3fd10e4e6d4c6238663db42c5019286",
-    "nodepubkey" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
-    "id" : "fd0fed3ee9fe557d5735768c9bdcd4ab2908165353e0f0cef0d5",
-    "taker" : "BLOCK",
-    "taker_size" : 0.001577,
-    "maker" : "SYS",
-    "maker_size" : 0.001420
-  },
-  {
-    "timestamp" : 1559970139,
-    "fee_txid" : "9cc4a0dae46f2f1849b3ab6f93ea1c59aeaf0e95662d90398814113f12127eae",
-    "nodepubkey" : "BbrQKtutGBLuWHvq26EmHKuNaztnfBFWVB",
-    "id" : "f74c614489bd77efe545c239d1f9a57363c5428e7401b2018d350",
-    "taker" : "BLOCK",
-    "taker_size" : 0.000231,
-    "maker" : "SYS",
-    "maker_size" : 0.001100
-  }
-]
-```
-
-Parameter     | Type          | Description
---------------|---------------|-------------
-timestamp     | int           | Unix epoch timestamp of when the trade took place.
-fee_txid      | string        | The Blocknet trade fee transaction ID.
-nodepubkey    | string        | Service Node that received the trade fee.
-id            | string        | XBridge transaction ID.
-taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-taker_size    | int           | Taker trading size.
-maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
-maker_size    | int           | Maker trading size.
 
 
 
