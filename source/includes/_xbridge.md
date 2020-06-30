@@ -6,7 +6,8 @@ See [XBridge Setup](#xbridge-setup) for instructions on setting up your environm
 
 Call                                              | Description
 --------------------------------------------------|---------------
-[dxMakeOrder](#dxmakeorder)                       | Create an order
+[dxMakeOrder](#dxmakeorder)                       | Create an exact order
+[dxMakePartialOrder](#dxmakepartialorder)         | Create a partial order
 [dxTakeOrder](#dxtakeorder)                       | Take an existing order
 [dxCancelOrder](#dxcancelorder)                   | Cancel your own order
 [dxGetOrder](#dxgetorder)                         | Returns order details by ID
@@ -49,11 +50,16 @@ Call                                              | Description
   "type": "exact"
 }
 ```
-This call is used to create a new order. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
+This call is used to create a new exact order. Exact orders must be taken for the full order amount. For partial orders, see [dxMakePartialOrder](#dxmakepartialorder).
 
-There are no fees to make orders, but there are transaction fees for the maker asset's native network.
-
+### Input Selection
 **Note**: XBridge will first attempt use funds from the specified maker address. If this address does not have sufficient funds to cover the order, then it will pull funds from other addresses in the wallet. Change is deposited to the address with the largest input used. There are plans to add the capability of strictly only using funds from the specified address.
+
+### Tradeable Assets
+Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
+
+### Fees
+There are no fees to make orders, but there are transaction fees for the maker asset's native network.
 
 
 ### Request Parameters
@@ -73,7 +79,7 @@ maker_address | string        | Maker address for sending the outgoing asset.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
 taker_size    | string(float) | Taker trading size. String is used to preserve precision.
 taker_address | string        | Maker address for receiving the incoming asset.
-type          | string        | This is the order type.<br>`exact`: Matches a specific order. <br>`limit`: (not yet supported) <br>`market`: (not yet supported)
+type          | string        | This is the order type.<br>`exact`: Matches a specific order. <br>For partial orders, see [dxMakePartialOrder](#dxmakepartialorder).
 dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the order without actually submitting the order to the network.
 
 
@@ -98,7 +104,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the o
   "created_at": "2018-01-15T18:15:30.12345Z",
   "block_id": "38729344720578447445023782734923740427863289632489723984723",
   "order_type": "exact",
-  "partial_minimum": "0",
+  "partial_minimum": "0.000000",
   "partial_repost": false,
   "status": "created"
 }
@@ -118,7 +124,7 @@ created_at      | string        | ISO 8601 datetime, with microseconds, of when 
 block_id        | string        | The block hash of the current block on the Blocknet blockchain at the time the order was created.
 order_type      | string        | The order type.
 partial_minimum | string        | The minimum amount that can be taken. This applies to `partial` order types and will show `0` on `exact` order types. See [dxMakePartialOrder](#dxmakepartialorder) for more details.
-partial_repost  | bool          | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` for `exact` order types. See [dxMakePartialOrder](#dxmakepartialorder) for more details.
+partial_repost  | string        | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` for `exact` order types. See [dxMakePartialOrder](#dxmakepartialorder) for more details.
 status          | string        | [View order status codes](#status-codes)
 
 
@@ -150,6 +156,176 @@ name          | string        | Name of the RPC function
   "error": "Internal error occurred",
   "code": 1002,
   "name": "dxMakeOrder"
+}
+```
+<aside class="warning">
+500 Internal Server Error
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+<aside class="warning">
+Error Codes
+</aside>
+
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1011  | 400   | Invalid maker symbol
+1012  | 400   | Invalid taker symbol
+1018  | 400   | Unable to connect to wallet
+1024  | 400   | Size must be greater than 0
+1025  | 400   | Invalid parameters
+1026  | 400   | Bad address
+1002  | 500   | Internal server error
+
+
+
+
+
+
+
+
+
+
+## dxMakePartialOrder
+
+> Sample Data
+
+```cli
+{
+  "maker": "SYS",
+  "maker_size": "1",
+  "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
+  "taker": "LTC",
+  "taker_size": "0.1",
+  "taker_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
+  "minimum_size": "0.2",
+  "repost": true
+}
+```
+This call is used to create a new partial order. Partial orders don't require the entire order to be filled. For exact orders, see [dxMakeOrder](#dxmakeorder).
+
+### Input Creation/Selection
+
+When a partial order is created, 10 inputs will selected or generated (see details below). Using multiple inputs is optimal for allowing partial orders of varying sizes while minimizing the amount of change. This maximizes the amount remaining that can be immediately reposted.
+
+The way input selection/generation is done depends on your total `maker_size` and `minimum_size`. The sizes will be one input equal to the `minimum_size` (+ the tx fee) and nine inputs equal to (`maker_size`-`minimum_size`)/9 (+ the tx fee). For example, if your `maker_size` is 10 and your `minimum_size` is 4, the target inputs will be one input of ~4.002 and nine inputs of ~0.67 (6 divided by 9).
+
+XBridge will first attempt to find existing inputs that are properly sized for the order. If needed, existing inputs will automatically be split into the proper size at the time the order is posted. While the inputs are being generated, the order will remain in the `new` state. Once the generated inputs have 1 confirmation the order will proceed to the `open` state. [View order states](#status-codes)
+
+It is planned to extend this call to allow you to specify exactly which inputs you would like to use in an order so you can utilize your own strategies and pre-generate inputs so you can post orders immediately.
+
+**Note**: XBridge will first attempt use funds from the specified maker address. If this address does not have sufficient funds to cover the order, then it will pull funds from other addresses in the wallet. Change is deposited to the address with the largest input used. There are plans to add the capability of strictly only using funds from the specified address.
+
+### Tradeable Assets
+Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
+
+### Fees
+There are no fees to make orders, but there are transaction fees for the maker asset's native network.
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknet-cli dxMakePartialOrder SYS 1 SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK LTC 0.1 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z 0.2 true
+```
+<code class="api-call">dxMakePartialOrder [maker] [maker_size] [maker_address] [taker] [taker_size] [taker_address] [minimum_size] [repost]\(optional) [dryrun]\(optional)</code>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | string(float) | Maker trading size. String is used to preserve precision.
+maker_address | string        | Maker address for sending the outgoing asset.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | string(float) | Taker trading size. String is used to preserve precision.
+taker_address | string        | Maker address for receiving the incoming asset.
+minimum_size  | string(float) | The minimum maker amount allowed to be partially taken.
+repost        | string        | (Optional Parameter) Defaults to `true`.<br>`true`: Receive filled orders for both the maker and taker assets as specified, as well as the inverse with the maker asset as the taker and the taker asset as the maker.
+When the order is partially taken, the remainder will be reposted. This will happen continuously as long as the remaining size is greater than the specified `minimum_size`.<br>`false`: When the order is partially taken, the remaining amount will not be reposted.
+dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the order without actually submitting the order to the network.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+{
+  "id": "4306aa07113c4562afa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
+  "maker": "SYS",
+  "maker_size": "1.000000",
+  "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
+  "taker": "LTC",
+  "taker_size": "0.100000",
+  "taker_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
+  "updated_at": "2018-01-16T00:00:00.00000Z",
+  "created_at": "2018-01-15T18:15:30.12345Z",
+  "block_id": "38729344720548447445023782734923740427863289632489723984723",
+  "order_type": "partial",
+  "partial_minimum": "0.200000",
+  "partial_repost": true,
+  "status": "created"
+}
+```
+
+Parameter       | Type          | Description
+----------------|---------------|-------------
+id              | string        | The order ID.
+maker           | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size      | string(float) | Maker trading size. String is used to preserve precision.
+maker_address   | string        | Maker address for sending the outgoing asset.
+taker           | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size      | string(float) | Taker trading size. String is used to preserve precision.
+taker_address   | string        | Maker address for receiving the incoming asset.
+updated_at      | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at      | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+block_id        | string        | The block hash of the current block on the Blocknet blockchain at the time the order was created.
+order_type      | string        | The order type.
+partial_minimum | string        | The minimum amount that can be taken. This applies to `partial` order types and will show `0` on `exact` order types. See [dxMakePartialOrder](#dxmakepartialorder) for more details.
+partial_repost  | string        | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` for `exact` order types. See [dxMakePartialOrder](#dxmakepartialorder) for more details.
+status          | string        | [View order status codes](#status-codes)
+
+
+> Sample 400 Response
+
+```cli
+{
+  "error": "Invalid parameters: Minimum supported size is 0.000001",
+  "code": 1025,
+  "name": "dxMakePartialOrder"
+}
+```
+
+<aside class="warning">
+400 Bad Request
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+> Sample 500 Response
+
+```cli
+{
+  "error": "Internal error occurred",
+  "code": 1002,
+  "name": "dxMakePartialOrder"
 }
 ```
 <aside class="warning">
@@ -509,7 +685,7 @@ updated_at      | string        | ISO 8601 datetime, with microseconds, of the l
 created_at      | string        | ISO 8601 datetime, with microseconds, of when the order was created.
 order_type      | string        | The order type.
 partial_minimum | string        | The minimum amount that can be taken. This applies to `partial` order types and will show `0` on `exact` order types.
-partial_repost  | bool          | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` if you are not the maker of this order.
+partial_repost  | string        | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` if you are not the maker of this order.
 status          | string        | [View order status codes](#status-codes)
 
 
@@ -657,7 +833,7 @@ updated_at      | string        | ISO 8601 datetime, with microseconds, of the l
 created_at      | string        | ISO 8601 datetime, with microseconds, of when the order was created.
 order_type      | string        | The order type.
 partial_minimum | string        | The minimum amount that can be taken. This applies to `partial` order types and will show `0` on `exact` order types.
-partial_repost  | bool          | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` if you are not the maker of this order.
+partial_repost  | string        | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` if you are not the maker of this order.
 status          | string        | [View order status codes](#status-codes)
 
 
@@ -804,7 +980,7 @@ updated_at      | string        | ISO 8601 datetime, with microseconds, of the l
 created_at      | string        | ISO 8601 datetime, with microseconds, of when the order was created.
 order_type      | string        | The order type.
 partial_minimum | string        | The minimum amount that can be taken. This applies to `partial` order types and will show `0` on `exact` order types.
-partial_repost  | bool          | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` for `exact` order types.
+partial_repost  | string        | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` for `exact` order types.
 status          | string        | [View order status codes](#status-codes)
 
 

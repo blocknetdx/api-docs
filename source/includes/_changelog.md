@@ -42,9 +42,10 @@ reference: https://docs.pro.coinbase.com
 6/29/2020   |
 ------------|
 • Wallet v4.3.x release |
+• Added [dxMakePartialOrder](#dxmakepartialorder) call |
+• Added [servicenodelist](#servicenodelist-web) web endpoint |
 • Updated [dxMakeOrder](#dxmakeorder) response details |
 • Updated [dxTakeOrder](#dxtakeorder) response details |
-• Added [servicenodelist](#servicenodelist-web) web endpoint |
 • Updated [servicenodelist](#servicenodelist) core response details |
 • Updated [dxGetOrders](#dxgetorders) response details |
 • Updated [dxGetOrder](#dxgetorder) response details |
