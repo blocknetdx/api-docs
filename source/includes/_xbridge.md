@@ -13,6 +13,7 @@ Call                                              | Description
 [dxGetOrder](#dxgetorder)                         | Returns order details by ID
 [dxGetOrders](#dxgetorders)                       | Returns all orders with details
 [dxGetMyOrders](#dxgetmyorders)                   | Returns all your own orders with details
+[dxGetUtxos](#dxgetutxos)                         | Returns compatible UTXOs for asset
 [dxFlushCancelledOrders](#dxflushcancelledorders) | Removes your cancelled orders
 [dxGetOrderFills](#dxgetorderfills)               | Returns all recent filled orders
 [dxGetOrderHistory](#dxgetorderhistory)           | Returns the OHLCV data my market
@@ -1031,6 +1032,144 @@ Code  | Type  | Error
 ------|-------|------------
 1001  | 401   | Unauthorized
 1025  | 400   | Invalid parameters
+1002  | 500   | Internal server error
+
+
+
+
+
+
+
+
+
+
+## dxGetUtxos
+
+> Sample Data
+
+```cli
+{
+  "asset": "BLOCK"
+}
+```
+Returns all compatible and unlocked UTXOs for the specified asset.
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknet-cli dxGetUtxos BLOCK
+```
+<code class="api-call">dxGetUtxos [asset] [include_used](optional)</code>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+asset         | string        | The ticker of the asset you want to view UTXOs for.
+include_used  | bool          | (Optional Parameter) Defaults to `false`.<br>`true`: Include UTXOs used in existing orders.<br>`false`: Only show UXTOs not used in existing orders.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+[
+  {
+    "txid": "c019edf2a71efcfc9b1ec50cd0d9db54c55b74acd0bcc81cefd6ffbba359a210",
+    "vout": 2,
+    "amount": "3.26211780",
+    "address": "BrPHj12ZSm7roD2gvrjRG2gD4TzeP1YDXG",
+    "scriptPubKey": "7b1ef56a92cec50cd0d147876a914ffd6fcbb4c5724a4057de",
+    "confirmations": 11904,
+    "inorder": false
+  },
+  {
+    "txid": "a91c224c0725745cd0bcc81cefd6ffbba3f6cc36956cd566c50cd0d9db5c55b7",
+    "vout": 0,
+    "amount": "2.44485198",
+    "address": "BJYS5dd4Mx5bFxfYDX136SLrv5kGCZaUtF",
+    "scriptPubKey": "7e36ab914fc645b2b9fd5ce704f54bc34a59a56c9671eb355b",
+    "confirmations": 20690,
+    "inorder": false
+  },
+  {
+    "txid": "01f74e6d7e5eade3e555fea978ec1be1cd9006406a4054ba1f74e6d349c67586",
+    "vout": 0,
+    "amount": "0.18996410",
+    "address": "BZJjXdv3XSJcJc132gDi136SLrv5kdd4Mx",
+    "scriptPubKey": "7a47f87fb0bcc81cefd6ffbeb596b786fcfe45878d41fe2110",
+    "confirmations": 142995,
+    "inorder": false
+  }
+]
+```
+
+Parameter       | Type          | Description
+----------------|---------------|-------------
+txid            | string        | Transaction ID of the UTXO.
+vout            | int           | Vout index of the UTXO.
+amount          | string        | UTXO amount.
+address         | string        | UTXO address.
+scriptPubKey    | string        | UTXO address script pubkey.
+confirmations   | int           | UTXO blockchain confirmation count.
+inorder         | bool          | Whether UTXO is currently being used in an order.
+
+
+> Sample 400 Response
+
+```cli
+{
+  "error": "Unable to connect to wallet",
+  "code": 1018,
+  "name": "dxGetUtxos"
+}
+```
+
+<aside class="warning">
+400 Bad Request
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+> Sample 500 Response
+
+```cli
+{
+  "error": "Internal error occurred",
+  "code": 1002,
+  "name": "dxGetUtxos"
+}
+```
+<aside class="warning">
+500 Internal Server Error
+</aside>
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+error         | string        | Error message
+code          | int           | Error code
+name          | string        | Name of the RPC function
+
+
+<aside class="warning">
+Error Codes
+</aside>
+
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1018  | 400   | Unable to connect to wallet
 1002  | 500   | Internal server error
 
 
