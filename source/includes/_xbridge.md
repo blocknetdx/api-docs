@@ -213,11 +213,9 @@ This call is used to create a new partial order. Partial orders don't require th
 
 ### Input Creation/Selection
 
-When a partial order is created, 10 inputs will selected or generated (see details below). Using multiple inputs is optimal for allowing partial orders of varying sizes while minimizing the amount of change. This maximizes the amount remaining that can be immediately reposted.
+When a partial order is created, multiple inputs will be selected or generated (see details below). Using multiple inputs is optimal for allowing partial orders of varying sizes while minimizing the amount of change (change is not reposted). This maximizes the amount remaining that can be immediately reposted.
 
-The way input selection/generation is done depends on your total `maker_size` and `minimum_size`. The sizes will be one input equal to the `minimum_size` (+ the tx fee) and nine inputs equal to (`maker_size`-`minimum_size`)/9 (+ the tx fee). For example, if your `maker_size` is 10 and your `minimum_size` is 4, the target inputs will be one input of ~4.002 and nine inputs of ~0.67 (6 divided by 9).
-
-XBridge will first attempt to find existing inputs that are properly sized for the order. If needed, existing inputs will automatically be split into the proper size at the time the order is posted. While the inputs are being generated, the order will remain in the `new` state. Once the generated inputs have 1 confirmation the order will proceed to the `open` state. [View order states](#status-codes)
+The way input selection/generation is done depends on your total `maker_size` and `minimum_size`. XBridge will first attempt to find existing inputs that are properly sized for the order. If needed, existing inputs will automatically be split into the proper size at the time the order is posted. While the inputs are being generated, the order will remain in the `new` state. Once the generated inputs have 1 confirmation the order will proceed to the `open` state. [View order states](#status-codes).
 
 It is planned to extend this call to allow you to specify exactly which inputs you would like to use in an order so you can utilize your own strategies and pre-generate inputs so you can post orders immediately.
 
@@ -247,7 +245,7 @@ maker_address | string        | Maker address for sending the outgoing asset.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
 taker_size    | string(float) | Taker trading size. String is used to preserve precision.
 taker_address | string        | Maker address for receiving the incoming asset.
-minimum_size  | string(float) | The minimum maker amount allowed to be partially taken.
+minimum_size  | string(float) | The minimum maker amount that can be traded in the partial order.
 repost        | string        | (Optional Parameter) Defaults to `true`.<br>`true`: Receive filled orders for both the maker and taker assets as specified, as well as the inverse with the maker asset as the taker and the taker asset as the maker.
 When the order is partially taken, the remainder will be reposted. This will happen continuously as long as the remaining size is greater than the specified `minimum_size`.<br>`false`: When the order is partially taken, the remaining amount will not be reposted.
 dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the order without actually submitting the order to the network.
