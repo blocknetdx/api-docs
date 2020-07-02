@@ -78,7 +78,7 @@ Parameter     | Type          | Description
 --------------|---------------|-------------
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size    | string(float) | Maker trading size. String is used to preserve precision.
-maker_address | string        | Maker address for sending the outgoing asset.
+maker_address | string        | Maker address containing the outgoing asset.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
 taker_size    | string(float) | Taker trading size. String is used to preserve precision.
 taker_address | string        | Maker address for receiving the incoming asset.
@@ -264,13 +264,13 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the o
 
 ```cli
 {
-  "id": "4306aa07113c4562afa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
+  "id": "4306a107113c4562afa6273ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "maker": "SYS",
   "maker_size": "1.000000",
-  "maker_address": "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK",
+  "maker_address": "SVTbaYZ8olpVn3uNyImst3GKyrvfzXQgdK",
   "taker": "LTC",
   "taker_size": "0.100000",
-  "taker_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
+  "taker_address": "LVvFhZroMRGTtg1hHp7jVew3YoZRX8y35Z",
   "updated_at": "2018-01-16T00:00:00.00000Z",
   "created_at": "2018-01-15T18:15:30.12345Z",
   "block_id": "38729344720548447445023782734923740427863289632489723984723",
@@ -433,7 +433,7 @@ taker         | string        | Taker trading asset; the ticker of the asset bei
 taker_size    | string(float) | Taker trading size. String is used to preserve precision.
 updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
 created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
-status        | string        | Order status: `finished`
+status        | string        | [View order status codes](#status-codes).
 
 
 > Sample 400 Response
@@ -1365,7 +1365,7 @@ id                | string        | The order ID.
 txtime            | string        | ISO 8601 datetime, with microseconds, of when the order was created.
 use_count*        | int           | This value is strictly for debugging purposes.
 
-\* For debugging pruposes
+\* For debugging purposes
 
 > Sample 400 Response
 
@@ -1583,7 +1583,7 @@ Code  | Type  | Error
   "granularity": 60
 }
 ```
-This call is used to retrieve the OHLCV data by a trade pair within a specified time range. It can return the order history for any [compatible asset](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) since all trade history is stored on-chain.
+This call is used to retrieve the OHLCV data by trade pair for a specified time range and interval. It can return the order history for any [compatible asset](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) since all trade history is stored on-chain.
 
 
 ### Request Parameters
@@ -1738,7 +1738,7 @@ blocknet-cli dxGetTradingData 1440
 Parameter     | Type          | Description
 --------------|---------------|-------------
 blocks        | int           | (Optional Parameter) Defaults to `43200`.<br>Number of blocks to return trade records for (60s block time).
-errors        | bool          | (Optional Parameter) Defaults to `false`.<br>Shows and error if there's an error detected. This may be useful if you're building a custom client and change the on-chain order history data format.
+errors        | bool          | (Optional Parameter) Defaults to `false`.<br>Shows an error if an error is detected. This may be useful if you're building a custom client and change the on-chain order history data format.
 
 
 ### Response Parameters
@@ -2376,7 +2376,7 @@ blocknet-cli dxSplitAddress BLOCK 4 BWQrvmuHB4C68KH5V7fcn9bFtWN8y5hBmR
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-asset         | string        | The ticker of the asset you want to view UTXOs for.
+asset         | string        | The ticker of the asset you want to split UTXOs for.
 split_amount  | string        | The desired output size. For example, an address with a balance of 10 and split amount of 2.5 would yield 4 UTXOs at 2.5 each.
 address       | string        | The address to split UTXOs in. Only coin in this address will be split.
 include_fees  | bool          | (Optional Parameter) Defaults to `true`.<br>`true`: Include the trade P2SH deposit fees in the split UTXO.<br>`false`: Ignore the deposit fees and make the split UTXO exactly for the `split_amount`.
@@ -2506,7 +2506,7 @@ blocknet-cli dxSplitInputs BLOCK 4 BWQrvmuHB4C68KH5V7fcn9bFtWN8y5hBmR true false
 
 Parameter     | Type          | Description
 --------------|---------------|-------------
-asset         | string        | The ticker of the asset you want to view UTXOs for.
+asset         | string        | The ticker of the asset you want to split UTXOs for.
 split_amount  | string        | The desired output size. For example, an address with a balance of 10 and split amount of 2.5 would yield 4 UTXOs at 2.5 each.
 address       | string        | The address split UTXOs and change will be sent to.
 include_fees  | bool          | `true`: Include the trade P2SH deposit fees in the split UTXO.<br>`false`: Ignore the deposit fees and make the split UTXO exactly for the `split_amount`.
