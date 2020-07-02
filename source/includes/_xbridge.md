@@ -283,7 +283,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the o
 
 Parameter       | Type          | Description
 ----------------|---------------|-------------
-id              | string        | The order ID.
+id              | string        | The order ID. When partial orders are reposted they are given a new order ID.
 maker           | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 maker_size      | string(float) | Maker trading size. String is used to preserve precision.
 maker_address   | string        | Maker address for sending the outgoing asset.
@@ -294,8 +294,8 @@ updated_at      | string        | ISO 8601 datetime, with microseconds, of the l
 created_at      | string        | ISO 8601 datetime, with microseconds, of when the order was created.
 block_id        | string        | The block hash of the current block on the Blocknet blockchain at the time the order was created.
 order_type      | string        | The order type.
-partial_minimum | string        | The minimum amount that can be taken. This applies to `partial` order types and will show `0` on `exact` order types. See [dxMakePartialOrder](#dxmakepartialorder) for more details.
-partial_repost  | string        | Whether the order will be reposted or not. This applies to `partial` order types and will show `false` for `exact` order types. See [dxMakePartialOrder](#dxmakepartialorder) for more details.
+partial_minimum | string        | The minimum amount that can be taken. This applies to `partial` order types and will show `0` on `exact` order types.
+partial_repost  | string        | Whether the order will be reposted or not. This only applies to `partial` order types and will always show `false` if you are not the maker.
 status          | string        | [View order status codes](#status-codes)
 
 
