@@ -2257,7 +2257,7 @@ include_used  | bool          | (Optional Parameter) Defaults to `false`.<br>`tr
     "address": "BrPHj12ZSm7roD2gvrjRG2gD4TzeP1YDXG",
     "scriptPubKey": "7b1ef56a92cec50cd0d147876a914ffd6fcbb4c5724a4057de",
     "confirmations": 11904,
-    "inorder": false
+    "orderid": ""
   },
   {
     "txid": "a91c224c0725745cd0bcc81cefd6ffbba3f6cc36956cd566c50cd0d9db5c55b7",
@@ -2266,7 +2266,7 @@ include_used  | bool          | (Optional Parameter) Defaults to `false`.<br>`tr
     "address": "BJYS5dd4Mx5bFxfYDX136SLrv5kGCZaUtF",
     "scriptPubKey": "7e36ab914fc645b2b9fd5ce704f54bc34a59a56c9671eb355b",
     "confirmations": 20690,
-    "inorder": false
+    "orderid": "e1b0f4bf05e6c47506abf5d717c95baa1b6de79dd1758673a8cdd171ddad6578"
   },
   {
     "txid": "01f74e6d7e5eade3e555fea978ec1be1cd9006406a4054ba1f74e6d349c67586",
@@ -2275,7 +2275,7 @@ include_used  | bool          | (Optional Parameter) Defaults to `false`.<br>`tr
     "address": "BZJjXdv3XSJcJc132gDi136SLrv5kdd4Mx",
     "scriptPubKey": "7a47f87fb0bcc81cefd6ffbeb596b786fcfe45878d41fe2110",
     "confirmations": 142995,
-    "inorder": false
+    "orderid": ""
   }
 ]
 ```
@@ -2288,7 +2288,7 @@ amount          | string        | UTXO amount.
 address         | string        | UTXO address.
 scriptPubKey    | string        | UTXO address script pubkey.
 confirmations   | int           | UTXO blockchain confirmation count.
-inorder         | bool          | Whether UTXO is currently being used in an order.
+orderid         | string        | The order ID if the UTXO is currently being used in an order.
 
 
 > Sample 400 Response
