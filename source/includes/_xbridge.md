@@ -2222,7 +2222,7 @@ Code  | Type  | Error
   "asset": "BLOCK"
 }
 ```
-Returns all compatible and unlocked UTXOs for the specified asset. This call is only comptabile with assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
+Returns all compatible and unlocked UTXOs for the specified asset. This call is only comptabile with assets returned in [dxGetLocalTokens](#dxgetlocaltokens). Currently only P2PKH UTXOs are supported (Segwit UTXOs not supported).
 
 
 ### Request Parameters
