@@ -59,7 +59,7 @@ This call is used to create a new exact order. Exact orders must be taken for th
 **Note**: XBridge will first attempt use funds from the specified maker address. If this address does not have sufficient funds to cover the order, then it will pull funds from other addresses in the wallet. Change is deposited to the address with the largest input used. There are plans to add the capability of strictly only using funds from the specified address.
 
 ### Tradeable Assets
-Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
+You can only create orders for assets supported by your node (view with [dxGetLocalTokens](#dxgetlocaltokens)) *and* the network (view with [dxGetNetworkTokens](#dxgetnetworktokens)). If an asset is not showing for [dxGetLocalTokens](#dxgetlocaltokens), it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)).
 
 ### Fees
 There are no fees to make orders, but there are transaction fees for the maker asset's native network.
@@ -225,7 +225,7 @@ It is planned to extend this call to allow you to specify exactly which inputs y
 **Note**: XBridge will first attempt use funds from the specified maker address. If this address does not have sufficient funds to cover the order, then it will pull funds from other addresses in the wallet. Change is deposited to the address with the largest input used. There are plans to add the capability of strictly only using funds from the specified address.
 
 ### Tradeable Assets
-Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
+You can only create orders for assets supported by your node (view with [dxGetLocalTokens](#dxgetlocaltokens)) *and* the network (view with [dxGetNetworkTokens](#dxgetnetworktokens)). If an asset is not showing for [dxGetLocalTokens](#dxgetlocaltokens), it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)).
 
 ### Fees
 There are no fees to make orders, but there are transaction fees for the maker asset's native network.
@@ -376,7 +376,7 @@ Code  | Type  | Error
   "dryrun": "dryrun"
 }
 ```
-This call is used to take an order. Taking your own order is not supported. Only assets returned in [dxGetLocalTokens](#dxgetlocaltokens) can be used for the maker and taker asset. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup). Use [dxGetNetworkTokens](#dxgetnetworktokens) to view all the assets currently supported on the network.
+This call is used to take an order. Taking your own order is not supported. You can only take orders if the maker and taker assets are supported by your node (view with [dxGetLocalTokens](#dxgetlocaltokens)). If an asset is not showing for [dxGetLocalTokens](#dxgetlocaltokens), it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)).
 
 Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the taker asset's native network. If the taker asset is BLOCK, there needs to be *at least* two UXTOs - one or more to cover the 0.015 BLOCK fee and one or more to cover the traded amount.
 
@@ -390,13 +390,14 @@ Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the t
 ```cli
 blocknet-cli dxTakeOrder 4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
 ```
-<code class="api-call">dxTakeOrder [order_id] [send_address] [receive_address] [dryrun]\(optional)</code>
+<code class="api-call">dxTakeOrder [order_id] [send_address] [receive_address] [amount]\(optional) [dryrun]\(optional)</code>
 
 Parameter       | Type          | Description
 ----------------|---------------|-------------
-id              | string        | ID of order being filled.
+order_id        | string        | ID of order being filled.
 send_address    | string        | Taker address for sending the outgoing asset.
 receive_address | string        | Taker address for receiving the incoming asset.
+amount          | string        | (Optional Parameter) <br>The amount to take (only applies to [partial orders](#dxmakepartialorder)).
 dryrun          | string        | (Optional Parameter) <br>`dryrun`: Validate the order without actually submitting the order to the network.
 
 
@@ -753,9 +754,9 @@ Code  | Type  | Error
 
 ## dxGetOrders
 
-This call is used to retrieve all orders of every market pair. It will only return orders for assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
+This call is used to retrieve all orders of every market pair.
 
-**Note**: This call will only return orders for markets with both assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
+**Note**: This call will only return orders for markets with both assets supported by your node (view with [dxGetLocalTokens](#dxgetlocaltokens)). To bypass this and view all orders, set `ShowAllOrders=true` in your `xbridge.conf` header and reload it with [dxLoadXBridgeConf](#dxloadxbridgeconf).
 
 
 ### Request Parameters
@@ -917,7 +918,7 @@ This call is used to retrieve open orders at various detail levels:
 <br><b>Detail 4</b> - Retrieves the best bid and ask with the order GUIDs.
 <br>
 
-**Note**: This call will only return orders for markets with both assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
+**Note**: This call will only return orders for markets with both assets supported by your node (view with [dxGetLocalTokens](#dxgetlocaltokens)). To bypass this and view all orders, set `ShowAllOrders=true` in your `xbridge.conf` header and reload it with [dxLoadXBridgeConf](#dxloadxbridgeconf).
 
 
 ### Request Parameters
@@ -1604,8 +1605,8 @@ Parameter     | Type          | Description
 --------------|---------------|-------------
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
 taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-start_time    | int           | Start time(Unix time) representing the lower boundary to search.
-end_time      | int           | End time(Unix time) representing the upper boundary to search.
+start_time    | int           | The Unix time in seconds for the start time boundary to search.
+end_time      | int           | End Unix time in seconds for the end time boundary to search.
 granularity   | int           | Time interval slice in seconds: <br>`60`, `300`, `900`, `3600`, `21600`, `86400`
 order_ids     | bool          | (Optional Parameter) Defaults to `false`.<br>`true`: Receive the GUIDs of all filled orders in each slice.<br>`false`: Do not receive the order GUIDs.
 with_inverse  | bool          | (Optional Parameter) Defaults to `false`.<br>`false`: Returns the orders in the specified market pair.<br>`true`: Returns the orders in the inverse pair too, e.g. LTC SYS -> SYS LTC would be returned as well.
@@ -1806,7 +1807,7 @@ maker_size    | int           | Maker trading size.
 
 ## dxGetLocalTokens
 
-This call is used to retrieve all the assets supported by the local client. You can only trade on markets with these assets. If an asset is not showing, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup).
+This call is used to retrieve all the assets supported by your node. If an asset is not showing for [dxGetLocalTokens](#dxgetlocaltokens), it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)).
 
 
 ### Request Parameters
@@ -1831,10 +1832,10 @@ This call does not take parameters.
 
 ```cli
 [
+  "BLOCK",
   "LTC",
-  "SYS",
   "MONA",
-  "BLOCK"
+  "SYS"
 ]
 ```
 
@@ -2005,9 +2006,9 @@ Code  | Type  | Error
 
 ## dxGetTokenBalances
 
-This call is used to retrieve the asset __*available*__ balances for all connected wallets on the local client. This will only return balances for the assets returned in [dxGetLocalTokens](#dxgetlocaltokens). If an asset is not showing and is not returned in or the value is showing 0, it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup).
+This call is used to retrieve the asset __*available*__ balances for all connected wallets on the local client. This will only return balances for the assets supported by your node (view with [dxGetLocalTokens](#dxgetlocaltokens)). If an asset is not showing for [dxGetLocalTokens](#dxgetlocaltokens), it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)).
 
-**Note**: These balances do not include orders that are using locked UTXOs to support a pending or open order. XBridge works best with pre-sliced UTXOs so that your entire wallet balance is capable of multiple simultaneous trades.
+**Note**: These balances do not include Segwit UTXOs or those being used in open or in process orders. XBridge works best with pre-sliced UTXOs so that your entire wallet balance is capable of multiple simultaneous trades. Use [dxSplitInputs](#dxsplitinputs) or [dxSplitAddress](#dxsplitaddress) to generate trading inputs.
 
 
 ### Request Parameters
@@ -2116,7 +2117,9 @@ Code  | Type  | Error
   "asset": "SYS"
 }
 ```
-This call is used to generate a new address for the specified asset. This call will only work for the assets returned in [dxGetLocalTokens](#dxgetlocaltokens).
+This call is used to generate a new address for the specified asset. 
+
+**Note**: This call will only work for the assets supported by your node (view with [dxGetLocalTokens](#dxgetlocaltokens)). If an asset is not showing for [dxGetLocalTokens](#dxgetlocaltokens), it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)).
 
 
 ### Request Parameters
@@ -2222,7 +2225,9 @@ Code  | Type  | Error
   "asset": "BLOCK"
 }
 ```
-Returns all compatible and unlocked UTXOs for the specified asset. This call is only comptabile with assets returned in [dxGetLocalTokens](#dxgetlocaltokens). Currently only P2PKH UTXOs are supported (Segwit UTXOs not supported).
+Returns all compatible and unlocked UTXOs for the specified asset. Currently only P2PKH UTXOs are supported (Segwit UTXOs not supported). 
+
+**Note**: You can only view UTXOs for assets supported by your node (view with [dxGetLocalTokens](#dxgetlocaltokens)). If an asset is not showing for [dxGetLocalTokens](#dxgetlocaltokens), it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)).
 
 
 ### Request Parameters
@@ -2364,6 +2369,8 @@ Code  | Type  | Error
 ```
 Splits unused coin in the given address into the specified size. Left over amounts end up in change. UTXOs being used in existing orders will not be included by the splitter (see [dxGetUtxos](#dxgetutxos)).
 
+**Note**: You can only split UTXOs for assets supported by your node (view with [dxGetLocalTokens](#dxgetlocaltokens)). If an asset is not showing for [dxGetLocalTokens](#dxgetlocaltokens), it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)).
+
 
 ### Request Parameters
 
@@ -2379,7 +2386,7 @@ Parameter     | Type          | Description
 asset         | string        | The ticker of the asset you want to split UTXOs for.
 split_amount  | string        | The desired output size. For example, an address with a balance of 10 and split amount of 2.5 would yield 4 UTXOs at 2.5 each.
 address       | string        | The address to split UTXOs in. Only coin in this address will be split.
-include_fees  | bool          | (Optional Parameter) Defaults to `true`.<br>`true`: Include the trade P2SH deposit fees in the split UTXO.<br>`false`: Ignore the deposit fees and make the split UTXO exactly for the `split_amount`.
+include_fees  | bool          | (Optional Parameter) Defaults to `true`.<br>`true`: Include the trade P2SH deposit fees in the split UTXO (add deposit fee to `spit_amount` value.<br>`false`: Ignore the deposit fees and make the split UTXO exactly for the `split_amount`.
 show_rawtx    | bool          | (Optional Parameter) Defaults to `false`.<br>`true`: Include the raw transaction in the response (can be submitted manually).<br>`false`: Omit the raw transaction from the response.
 submit        | bool          | (Optional Parameter) Defaults to `true`.<br>`true`: Submit the raw transaction to the network.<br>`false`: Do not submit the raw transaction to the network.
 
@@ -2494,6 +2501,8 @@ Code  | Type  | Error
 ```
 Splits specified UTXOs into the given size and address. Left over amounts end up in change. UTXOs being used in existing orders will not be included by the splitter (see [dxGetUtxos](#dxgetutxos)).
 
+**Note**: You can only split UTXOs for assets supported by your node (view with [dxGetLocalTokens](#dxgetlocaltokens)). If an asset is not showing for [dxGetLocalTokens](#dxgetlocaltokens), it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)).
+
 
 ### Request Parameters
 
@@ -2509,7 +2518,7 @@ Parameter     | Type          | Description
 asset         | string        | The ticker of the asset you want to split UTXOs for.
 split_amount  | string        | The desired output size. For example, an address with a balance of 10 and split amount of 2.5 would yield 4 UTXOs at 2.5 each.
 address       | string        | The address split UTXOs and change will be sent to.
-include_fees  | bool          | `true`: Include the trade P2SH deposit fees in the split UTXO.<br>`false`: Ignore the deposit fees and make the split UTXO exactly for the `split_amount`.
+include_fees  | bool          | `true`: Include the trade P2SH deposit fees in the split UTXO (add deposit fee to `spit_amount` value.<br>`false`: Ignore the deposit fees and make the split UTXO exactly for the `split_amount`.
 show_rawtx    | bool          | `true`: Include the raw transaction in the response (can be submitted manually).<br>`false`: Omit the raw transaction from the response.
 submit        | bool          | `true`: Submit the raw transaction to the network.<br>`false`: Do not submit the raw transaction to the network.
 utxos         | array         | A JSON array of UTXO input objects.
@@ -2619,7 +2628,7 @@ Code  | Type  | Error
   "id": "f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156"
 }
 ```
-This call is used to retrieve the locked UTXOs for a specified order ID.
+This call is used to retrieve the locked UTXOs for a specified order ID. You can only use this call if you have a Service Node setup.
 
 
 ### Request Parameters
