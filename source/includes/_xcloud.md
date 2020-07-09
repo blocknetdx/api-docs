@@ -7,18 +7,19 @@ You can use the [XCloud Services forum category](https://forum.blocknet.co/c/xcl
 See [XCloud Setup](#xcloud-setup) for instructions on setting up your environment for use with XCloud.
 
 
-Call                                              | Description
---------------------------------------------------|---------------
-[xrGetNetworkServices](#xrgetnetworkservices)     | Returns supported services
-[xrConnect](#xrconnect)                           | Pre-connect to XRouter nodes
-[xrConnectedNodes](#xrconnectednodes)             | Returns connected node services and fees
-[xrService](#xrservice)*                          | Use to interact with XCloud services
-[xrServiceConsensus](#xrServiceconsensus)*        | Use to interact with XCloud services with consensus
-[xrGetReply](#xrgetreply)                         | Returns prior response associated with UUID
-[xrShowConfigs](#xrshowconfigs)                   | Returns all node configs received as raw text
-[xrUpdateConfigs](#xrupdateconfigs)               | Requests latest configs from nodes
-[xrReloadConfigs](#xrreloadconfigs)               | Applies changes made to your configs
-[xrStatus](#xrstatus)                             | Returns your XRouter configurations
+Call                                               | Description
+---------------------------------------------------|---------------
+[xrGetNetworkServices](#xrgetnetworkservices)      | Returns supported services
+[xrUpdateNetworkServices](#xrupdatenetworkservices)| Returns latest Service Node list
+[xrConnect](#xrconnect)                            | Pre-connect to XRouter nodes
+[xrConnectedNodes](#xrconnectednodes)              | Returns connected node services and fees
+[xrService](#xrservice)*                           | Use to interact with XCloud services
+[xrServiceConsensus](#xrServiceconsensus)*         | Use to interact with XCloud services with consensus
+[xrGetReply](#xrgetreply)                          | Returns prior response associated with UUID
+[xrShowConfigs](#xrshowconfigs)                    | Returns all node configs received as raw text
+[xrUpdateConfigs](#xrupdateconfigs)                | Requests latest configs from nodes
+[xrReloadConfigs](#xrreloadconfigs)                | Applies changes made to your configs
+[xrStatus](#xrstatus)                              | Returns your XRouter configurations
 
 
 
