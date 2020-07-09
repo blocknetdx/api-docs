@@ -113,7 +113,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the o
 }
 ```
 
-Parameter       | Type          | Description
+Key             | Type          | Description
 ----------------|---------------|-------------
 id              | string        | The order ID.
 maker           | string        | Maker trading asset; the ticker of the asset being sold by the maker.
@@ -145,7 +145,7 @@ status          | string        | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -165,7 +165,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -281,7 +281,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the o
 }
 ```
 
-Parameter       | Type          | Description
+Key             | Type          | Description
 ----------------|---------------|-------------
 id              | string        | The order ID. When partial orders are reposted they are given a new order ID.
 maker           | string        | Maker trading asset; the ticker of the asset being sold by the maker.
@@ -313,7 +313,7 @@ status          | string        | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -333,7 +333,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -425,7 +425,7 @@ dryrun          | string        | (Optional Parameter) <br>`dryrun`: Validate th
 }
 ```
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 id            | string        | The order ID.
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
@@ -451,7 +451,7 @@ status        | string        | [View order status codes](#status-codes).
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -471,7 +471,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -551,7 +551,7 @@ id            | string        | ID of order being cancelled.
 }
 ```
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 id            | string        | The order ID.
 maker         | string        | Sending asset of party cancelling the order.
@@ -579,7 +579,7 @@ status        | string        | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -599,7 +599,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -676,7 +676,7 @@ id            | string        | ID of order of interest.
 }
 ```
 
-Parameter       | Type          | Description
+Key             | Type          | Description
 ----------------|---------------|-------------
 id              | string        | The order ID.
 maker           | string        | Maker trading asset; the ticker of the asset being sold by the maker.
@@ -705,7 +705,7 @@ status          | string        | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -725,7 +725,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -823,7 +823,7 @@ This call does not take parameters.
 ]
 ```
 
-Parameter       | Type          | Description
+Key             | Type          | Description
 ----------------|---------------|-------------
 Array           | array         | An array of all orders with each order having the following parameters.
 id              | string        | The order ID.
@@ -853,7 +853,7 @@ status          | string        | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -873,7 +873,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -965,7 +965,7 @@ max_orders    | int           | (Optional Parameter) Defaults to `50`.<br>The ma
 <br><b>Detail 1</b><br>
 Retrieves the best bid and ask.
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 detail        | int           | Detail level: `1`
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
@@ -1001,7 +1001,7 @@ asks          | array         | An array of the best asks.
 <br><b>Detail 2</b><br>
 Retrieves a list of aggregated orders. This is useful for charting.
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 detail        | int           | Detail level: `2`
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
@@ -1039,7 +1039,7 @@ asks          | array         | An array of asks.
 <br><b>Detail 3</b><br>
 Retrieves a list of non-aggregated orders. This is useful for bot trading.
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 detail        | int           | Detail level: `3`
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
@@ -1075,7 +1075,7 @@ asks          | array         | An array of asks.
 <br><b>Detail 4</b><br>
 Retrieves the best bid and ask with the order GUIDs.
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 detail        | int           | Detail level: `4`
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
@@ -1104,7 +1104,7 @@ asks          | array         | An array of the best asks.
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1125,7 +1125,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1224,7 +1224,7 @@ This call does not take parameters.
 ]
 ```
 
-Parameter       | Type          | Description
+Key             | Type          | Description
 ----------------|---------------|-------------
 Array           | array         | An array of all orders with each order having the following parameters.
 id              | string        | The order ID.
@@ -1256,7 +1256,7 @@ status          | string        | [View order status codes](#status-codes)
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1276,7 +1276,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1356,7 +1356,7 @@ ageMillis     | int           | (Optional Parameter) Defaults to `0`.<br>Remove 
 }
 ```
 
-Parameter         | Type          | Description
+Key               | Type          | Description
 ------------------|---------------|-------------
 ageMillis         | int           | The millisecond value specified when making the call.
 now*              | string        | ISO 8601 datetime, with microseconds, of when the call was executed.
@@ -1382,7 +1382,7 @@ use_count*        | int           | This value is strictly for debugging purpose
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1402,7 +1402,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1489,7 +1489,7 @@ combines      | bool          | (Optional Parameter) Defaults to `true`.<br>`tru
 ]
 ```
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 Array         | array         | Array of orders sorted by date descending (most recent filled trade first).
 id            | string        | The order ID.
@@ -1523,7 +1523,7 @@ block_id      | string        | Blocknet block hash ID at the time the order was
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1543,7 +1543,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1640,7 +1640,7 @@ at_start means all orders that fall in the specified number up to the next time 
 ]
 ```
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 time          | string        | ISO 8601 datetime, with microseconds, of the time at the beginning of the time slice.
 low           | float64       | Exchange rate lower bound within the time slice.
@@ -1665,7 +1665,7 @@ order_ids     | array         | Array of GUIDs of all filled orders within the t
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1686,7 +1686,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1785,7 +1785,7 @@ errors        | bool          | (Optional Parameter) Defaults to `false`.<br>Sho
 ]
 ```
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 timestamp     | int           | Unix epoch timestamp of when the trade took place.
 fee_txid      | string        | The Blocknet trade fee transaction ID.
@@ -1839,7 +1839,7 @@ This call does not take parameters.
 ]
 ```
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 Array         | array         | An array of all the assets supported by the local client.
 
@@ -1858,7 +1858,7 @@ Array         | array         | An array of all the assets supported by the loca
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1878,7 +1878,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1939,7 +1939,7 @@ This call does not take parameters.
 ]
 ```
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 Array         | array         | An array of all the assets supported by the network.
 
@@ -1957,7 +1957,7 @@ Array         | array         | An array of all the assets supported by the netw
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -1977,7 +1977,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2040,7 +2040,7 @@ This call does not take parameters.
 }
 ```
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 Object        | object        | Key-value object of the assets and respective balances.
 -- key        | string        | The asset symbol.
@@ -2061,7 +2061,7 @@ Object        | object        | Key-value object of the assets and respective ba
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2081,7 +2081,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2150,7 +2150,7 @@ asset         | string        | The ticker of the asset you want to generate an 
 ]
 ```
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 Array         | array         | An array containing the newly generated address for the given asset.
 
@@ -2169,7 +2169,7 @@ Array         | array         | An array containing the newly generated address 
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2189,7 +2189,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2285,7 +2285,7 @@ include_used  | bool          | (Optional Parameter) Defaults to `false`.<br>`tr
 ]
 ```
 
-Parameter       | Type          | Description
+Key             | Type          | Description
 ----------------|---------------|-------------
 txid            | string        | Transaction ID of the UTXO.
 vout            | int           | Vout index of the UTXO.
@@ -2310,7 +2310,7 @@ orderid         | string        | The order ID if the UTXO is currently being us
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2330,7 +2330,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2412,7 +2412,7 @@ submit        | bool          | (Optional Parameter) Defaults to `true`.<br>`tru
 }
 ```
 
-Parameter              | Type          | Description
+Key                    | Type          | Description
 -----------------------|---------------|-------------
 token                  | string        | The asset you are splitting UTXOs for.
 include_fees           | bool          | Whether you requested to include the fees.
@@ -2438,7 +2438,7 @@ rawtx                  | string        | The hex string of the raw splitting tra
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2458,7 +2458,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2547,7 +2547,7 @@ utxos         | array         | A JSON array of UTXO input objects.
 }
 ```
 
-Parameter              | Type          | Description
+Key                    | Type          | Description
 -----------------------|---------------|-------------
 token                  | string        | The asset you are splitting UTXOs for.
 include_fees           | bool          | Whether you requested to include the fees.
@@ -2573,7 +2573,7 @@ rawtx                  | string        | The hex string of the raw splitting tra
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2593,7 +2593,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2666,7 +2666,7 @@ id            | string        | The order ID to recieve the UTXOs for.
 ]
 ```
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 id            | string        | The order ID.
 Object        | object        | Key-value object of the asset and UTXOs for the specified order.
@@ -2687,7 +2687,7 @@ Object        | object        | Key-value object of the asset and UTXOs for the 
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2708,7 +2708,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2785,7 +2785,7 @@ bool          | `true`: Successfully reloaded file.
 400 Bad Request
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code
@@ -2805,7 +2805,7 @@ name          | string        | Name of the RPC function
 500 Internal Server Error
 </aside>
 
-Parameter     | Type          | Description
+Key           | Type          | Description
 --------------|---------------|-------------
 error         | string        | Error message
 code          | int           | Error code

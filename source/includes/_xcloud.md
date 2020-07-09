@@ -73,7 +73,7 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | unknown | The service's response data.
 error           | object  | The native error response if an error occurred, otherwise a successful response will contain a `null` error.
@@ -145,7 +145,7 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | unknown | The service's response data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
