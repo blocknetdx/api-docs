@@ -5,25 +5,26 @@ The following set of calls are used to communicate and interact with blockchains
 See [XRouter Setup](#xrouter-setup) for instructions on setting up your environment for use with XRouter.
 
 
-Call                                              | Description
---------------------------------------------------|---------------
-[xrGetNetworkServices](#xrgetnetworkservices)     | Returns supported XRouter services
-[xrConnect](#xrconnect)                           | Pre-connect to XRouter nodes
-[xrConnectedNodes](#xrconnectednodes)             | Returns connected node services and fees
-[xrGetBlockCount](#xrgetblockcount)               | Returns a blockchain's block height
-[xrGetBlockHash](#xrgetblockHash)                 | Returns a block number's hash
-[xrGetBlock](#xrgetblock)                         | Returns a block hash's block number
-[xrGetBlocks](#xrgetblocks)                       | Returns block hashes for multiple block numbers
-[xrDecodeRawTransaction](#xrdecoderawtransaction) | Returns decoded transaction HEX
-[xrGetTransaction](#xrgettransaction)             | Returns transaction data for transaction ID
-[xrGetTransactions](#xrgettransactions)           | Returns transaction data for multiple transaction IDs
-[xrSendTransaction](#xrsendtransaction)           | Submit a signed transaction to the network
-[xrService](#xrservice)                           | Use to interact with XCloud services
-[xrServiceConsensus](#xrServiceconsensus)         | Use to interact with XCloud services with consensus
-[xrGetReply](#xrgetreply)                         | Returns prior response associated with UUID
-[xrShowConfigs](#xrshowconfigs)                   | Returns all node configs received as raw text
-[xrReloadConfigs](#xrreloadconfigs)               | Applies changes made to your configs
-[xrStatus](#xrstatus)                             | Returns your XRouter configurations
+Call                                               | Description
+---------------------------------------------------|---------------
+[xrGetNetworkServices](#xrgetnetworkservices)      | Returns supported XRouter services
+[xrUpdateNetworkServices](#xrupdatenetworkservices)| Returns latest Service Node list
+[xrConnect](#xrconnect)                            | Pre-connect to XRouter nodes
+[xrConnectedNodes](#xrconnectednodes)              | Returns connected node services and fees
+[xrGetBlockCount](#xrgetblockcount)                | Returns a blockchain's block height
+[xrGetBlockHash](#xrgetblockHash)                  | Returns a block number's hash
+[xrGetBlock](#xrgetblock)                          | Returns a block hash's block number
+[xrGetBlocks](#xrgetblocks)                        | Returns block hashes for multiple block numbers
+[xrDecodeRawTransaction](#xrdecoderawtransaction)  | Returns decoded transaction HEX
+[xrGetTransaction](#xrgettransaction)              | Returns transaction data for transaction ID
+[xrGetTransactions](#xrgettransactions)            | Returns transaction data for multiple transaction IDs
+[xrSendTransaction](#xrsendtransaction)            | Submit a signed transaction to the network
+[xrService](#xrservice)                            | Use to interact with XCloud services
+[xrServiceConsensus](#xrServiceconsensus)          | Use to interact with XCloud services with consensus
+[xrGetReply](#xrgetreply)                          | Returns prior response associated with UUID
+[xrShowConfigs](#xrshowconfigs)                    | Returns all node configs received as raw text
+[xrReloadConfigs](#xrreloadconfigs)                | Applies changes made to your configs
+[xrStatus](#xrstatus)                              | Returns your XRouter configurations
 
 
 
@@ -95,6 +96,50 @@ nodecounts      | object  | An object of supported SPV wallets and XCloud servic
 -- key          | string  | The SPV wallet or XCloud service with it's namespace.
 -- value        | int     | The amount of nodes supporting each respective service.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
+
+
+
+
+
+
+
+
+
+
+## xrUpdateNetworkServices
+
+This call is used to query a random set of connected peers for the latest Service Node list. If `node_count` is specified the call will query up to the specified number. By default 1 service node is queried for services. If fewer service nodes with the ability to share the list are found then only those found will be queried.
+
+
+### Request Parameters
+
+> Sample Request
+
+```cli
+blocknet-cli xrUpdateNetworkServices 5
+```
+<code class="api-call">xrUpdateNetworkServices [node_count]\(optional)</code>
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+true
+```
+
+Type    | Description
+--------|-------------
+bool    | A confirmation that the latest Service Node list was received.
 
 
 
