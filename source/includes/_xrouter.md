@@ -86,7 +86,7 @@ This call does not take parameters.
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | object  | An object containing information on supported services.
 spvwallets      | array   | An array of supported SPV wallets, represented by the asset's ticker.
@@ -758,7 +758,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | array   | An array of nodes providing the specified service, along with their configs.
 nodepubkey      | string  | The node ID.
@@ -1321,7 +1321,7 @@ This call does not take parameters.
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | array   | An array of nodes providing the specified service.
 nodepubkey      | string  | The node ID.
@@ -1411,7 +1411,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | int     | The latest block number of the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
@@ -1485,7 +1485,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | string  | The block hash of the specified block and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
@@ -1721,7 +1721,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | object  | An object containing the block data for the specified block hash and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
@@ -2149,7 +2149,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | array   | An array containing objects of the block data for each requested block on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
@@ -2359,7 +2359,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | object  | An object containing the decoded transaction data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
@@ -2525,7 +2525,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | object  | An object containing the transaction data for the specified transaction ID and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
@@ -2833,7 +2833,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | array   | An array containing objects with the transaction data for each requested transaction on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
@@ -2897,7 +2897,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | object  | The transaction hash of the sent transaction.
 
@@ -2955,7 +2955,7 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | unknown | The service's response data.
 error           | object  | The native error response if an error occurred, otherwise a successful response will contain a `null` error.
@@ -3027,7 +3027,7 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | unknown | The service's response data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
@@ -3090,7 +3090,7 @@ uuid            | string  | The UUID of the response you want to look up.
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | array   | The response for the previous call associated with the UUID.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
@@ -3148,7 +3148,7 @@ This call does not take parameters.
 ]
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 Array           | array   | An array of objects containing the configurations for each node you are connected to.
 nodepubkey      | string  | The node ID.
@@ -3194,7 +3194,7 @@ This call does not take parameters.
 true
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 true            | bool    | A confirmation that `xrouter.conf` has been reloaded.
 
@@ -3242,7 +3242,7 @@ This call does not take parameters.
 
 ### User Client
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 xrouter         | bool    | Signifies XRouter activation.<br>`true`: XRouter is enabled.<br>`false`: XRouter is disabled.
 servicenode     | bool    | Signifies if your client is a Service Node.<br>`true`: Client is a Service Node.<br>`false`: Client is not a Service Node.
@@ -3357,7 +3357,7 @@ config          | string  | The raw text contents of your `xrouter.conf`.
 
 This is the output presented from a Service Node client.
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 nodepubkey      | string  | Your node ID.
 score           | int     | Not applicable when viewing your own score.
@@ -3441,7 +3441,7 @@ plugins         | object  | An object of each service you have setup and the raw
   }
   ```
 
-  Parameter       | Type    | Description
+  Key             | Type    | Description
   ----------------|---------|-------------
   reply           | object  | The balance with a precision of X.XXXXXX of the given address for the specified blockchain.
   uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
@@ -3501,7 +3501,7 @@ plugins         | object  | An object of each service you have setup and the raw
   }
   ```
 
-  Parameter       | Type    | Description
+  Key             | Type    | Description
   ----------------|---------|-------------
   reply           | string  | The addresses net change in balance since the given block on the specified blockchain.
   uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
@@ -3560,7 +3560,7 @@ plugins         | object  | An object of each service you have setup and the raw
   }
   ```
 
-  Parameter       | Type    | Description
+  Key             | Type    | Description
   ----------------|---------|-------------
   hex             | string  | The HEX representation of the address's bloom filter. 
   uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
@@ -3622,7 +3622,7 @@ plugins         | object  | An object of each service you have setup and the raw
   }
   ```
 
-  Parameter       | Type    | Description
+  Key             | Type    | Description
   ----------------|---------|-------------
   reply           | object  |  
   uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
