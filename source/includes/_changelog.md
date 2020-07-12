@@ -39,7 +39,7 @@ reference: https://docs.pro.coinbase.com
 • Added [Hydra Getting Started](#hydra-setup) |
 • Added [Hydra API Docs](#hydra-api) |
 
-7/10/2020    |
+7/20/2020   |
 ------------|
 • Wallet v4.3.x release |
 • Added [dxMakePartialOrder](#dxmakepartialorder) call |
@@ -55,6 +55,8 @@ reference: https://docs.pro.coinbase.com
 • Updated [dxGetOrders](#dxgetorders) response details |
 • Updated [dxGetOrder](#dxgetorder) response details |
 • Updated [dxGetMyOrders](#dxgetmyorders) response details |
+• Updated [xrGetReply](#xrgetreply) response to include `all_replies` |
+• Updated all XRouter call responses to remove `all_replies` (added to [xrGetReply](#xrgetreply)) |
 
 
 5/11/2020   |

@@ -1440,32 +1440,16 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 ```shell
 {
   "reply": 482107,
-  "allreplies": [
-    {
-      "nodepubkey": "02c6c79a75846fd9bb064788b03145e347fa5464558fa9030ebb009df2833369f0",
-      "score": 48,
-      "reply": 482107
-    },
-    {
-      "nodepubkey": "0370874cad6252bb94afa9a253c90122760ce2862e623b515e57bfe0697f3fc515",
-      "score": 52,
-      "reply": 482107
-    }
-  ],
   "uuid": "34d0998e-a950-4fd8-b1d6-7571c83abb50"
 }
 ```
 
 Key             | Type    | Description
 ----------------|---------|-------------
-reply           | int     | The latest block number of the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
-allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
-nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
-reply*          | int     | The latest block number of the specified blockchain from the respective node.
+reply           | int     | The latest block number of the specified blockchain. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
-\* This is only returned if using a `node_count` greater than `1`.
+
 
 
 
@@ -1514,32 +1498,14 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 ```shell
 {
   "reply": "52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79",
-  "allreplies": [
-    {
-      "nodepubkey": "02c6c79a75846fd9bb064788b03145e347fa5464558fa9030ebb009df2833369f0",
-      "score": 238,
-      "reply": "52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79"
-    },
-    {
-      "nodepubkey": "0370874cad6252bb94afa9a253c90122760ce2862e623b515e57bfe0697f3fc515",
-      "score": 288,
-      "reply": "52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79"
-    }
-  ],
   "uuid": "3c84d025-8a03-4b64-848f-99892fe481ff"
 }
 ```
 
 Key             | Type    | Description
 ----------------|---------|-------------
-reply           | string  | The block hash of the specified block and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
-allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
-nodepubkey*     | string  | The node ID. 
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
-reply*          | string  | The block hash of the specified block and blockchain from the respective node.
+reply           | string  | The block hash of the specified block and blockchain. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
-
-\* This is only returned if using a `node_count` greater than `1`.
 
 
 
@@ -1587,195 +1553,67 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 ```shell
 {
-  "reply": [
-    {
-      "hash": "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837",
-      "confirmations": 390700,
-      "size": 734,
-      "height": 91510,
-      "version": 805306624,
-      "versionHex": "30000100",
-      "merkleroot": "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f",
-      "tx": [ "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f" ],
-      "time": 1530894673,
-      "mediantime": 1530894336,
-      "nonce": 0,
-      "bits": "180761db",
-      "difficulty": 148937676133.261200,
-      "chainwork": "00000000000000000000000000000000000000000028ad56864c458781e21970",
-      "auxpow": {
-        "tx": {
-          "hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff5703dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200ffffffff01c051824a000000001976a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac00000000",
-          "txid": "c8fc123672fffb3c6a45b94bdd30afc114f282742338809380bc84fe8666d489",
-          "size": 172,
-          "version": 1,
-          "locktime": 0,
-          "vin": [
-            {
-              "coinbase": "03dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200",
-              "sequence": 4294967295
+  "reply": {
+    "hash": "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837",
+    "confirmations": 390700,
+    "size": 734,
+    "height": 91510,
+    "version": 805306624,
+    "versionHex": "30000100",
+    "merkleroot": "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f",
+    "tx": [ "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f" ],
+    "time": 1530894673,
+    "mediantime": 1530894336,
+    "nonce": 0,
+    "bits": "180761db",
+    "difficulty": 148937676133.261200,
+    "chainwork": "00000000000000000000000000000000000000000028ad56864c458781e21970",
+    "auxpow": {
+      "tx": {
+        "hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff5703dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200ffffffff01c051824a000000001976a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac00000000",
+        "txid": "c8fc123672fffb3c6a45b94bdd30afc114f282742338809380bc84fe8666d489",
+        "size": 172,
+        "version": 1,
+        "locktime": 0,
+        "vin": [
+          {
+            "coinbase": "03dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200",
+            "sequence": 4294967295
+          }
+        ],
+        "vout": [
+          {
+            "value": 12.500546,
+            "valueSat": 1250054592,
+            "n": 0,
+            "scriptPubKey": {
+              "asm": "OP_DUP OP_HASH160 f1c075a01882ae0972f95d3a4177c86c852b7d91 OP_EQUALVERIFY OP_CHECKSIG",
+              "hex": "76a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac",
+              "reqSigs": 1,
+              "type": "pubkeyhash",
+              "addresses": [ "SjLGSPfmF3kVPA6A213hShYc4aRtiWZ8Wu" ]
             }
-          ],
-          "vout": [
-            {
-              "value": 12.500546,
-              "valueSat": 1250054592,
-              "n": 0,
-              "scriptPubKey": {
-                "asm": "OP_DUP OP_HASH160 f1c075a01882ae0972f95d3a4177c86c852b7d91 OP_EQUALVERIFY OP_CHECKSIG",
-                "hex": "76a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac",
-                "reqSigs": 1,
-                "type": "pubkeyhash",
-                "addresses": [ "SjLGSPfmF3kVPA6A213hShYc4aRtiWZ8Wu" ]
-              }
-            }
-          ],
-          "blockhash": "000000000000000004bdb8e3fdf28ffc528f4e6b1871a6177579cbd4dabde955"
-        },
-        "index": 0,
-        "chainindex": 2,
-        "merklebranch": [ "a67d749dfa7006b9d66d2284b20a64ebcb8c2e5aae18e355c790b90a060a30c1", "9ab5c057ecf43aa0552c21be4f86b1c9b248fe2dd0821bee38e5a25a22c49c25", "ec11fd79e02fe98bf9f4b624e5460a3221dbae27d24f36c9988dcc5beaf3c592", "dbc42b7360a7165b277f73094a366e951d3ac6d6a1e9493d838d35372e5e846b", "c7260dbfb6b196bd2e4e4dbde1799592627a3e6fa384e6692be8387a9251e5e2" ],
-        "chainmerklebranch": [ "89af0bc973bc0308f14c5c50c3d75f68783eab40a4688064cd56cfaed977d138", "5360cbf0991b4b0e09d589631c232d1f229104faad9e65375695230c47bc2493" ],
-        "parentblock": "0000002024653d98f3eace4b66b6269fa9205e08b647e23cf7880e0000000000000000003feae4c877b2f8b73f6f92a589ed8870fe98abb3551f1539373597f5b44514ada9993f5bb1830118d5793688"
+          }
+        ],
+        "blockhash": "000000000000000004bdb8e3fdf28ffc528f4e6b1871a6177579cbd4dabde955"
       },
-      "previousblockhash": "ba53d715abf76ac8adc025120ffb48b2331f3a1b9b7d01167ffd7dcd23934390",
-      "nextblockhash": "cd3a236542491089bffd8ba49cbe1d11a20dd4c4ad188307027e60c710732409"
-    }
-  ],
-  "allreplies": [
-    {
-      "nodepubkey": "02c6c79a75846fd9bb064788b03145e347fa5464558fa9030ebb009df2833369f0",
-      "score": 242,
-      "reply": [
-        {
-          "hash": "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837",
-          "confirmations": 390700,
-          "size": 734,
-          "height": 91510,
-          "version": 805306624,
-          "versionHex": "30000100",
-          "merkleroot": "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f",
-          "tx": [ "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f" ],
-          "time": 1530894673,
-          "mediantime": 1530894336,
-          "nonce": 0,
-          "bits": "180761db",
-          "difficulty": 148937676133.261200,
-          "chainwork": "00000000000000000000000000000000000000000028ad56864c458781e21970",
-          "auxpow": {
-            "tx": {
-              "hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff5703dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200ffffffff01c051824a000000001976a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac00000000",
-              "txid": "c8fc123672fffb3c6a45b94bdd30afc114f282742338809380bc84fe8666d489",
-              "size": 172,
-              "version": 1,
-              "locktime": 0,
-              "vin": [
-                {
-                  "coinbase": "03dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200",
-                  "sequence": 4294967295
-                }
-              ],
-              "vout": [
-                {
-                  "value": 12.500546,
-                  "valueSat": 1250054592,
-                  "n": 0,
-                  "scriptPubKey": {
-                    "asm": "OP_DUP OP_HASH160 f1c075a01882ae0972f95d3a4177c86c852b7d91 OP_EQUALVERIFY OP_CHECKSIG",
-                    "hex": "76a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac",
-                    "reqSigs": 1,
-                    "type": "pubkeyhash",
-                    "addresses": [ "SjLGSPfmF3kVPA6A213hShYc4aRtiWZ8Wu" ]
-                  }
-                }
-              ],
-                "blockhash": "000000000000000004bdb8e3fdf28ffc528f4e6b1871a6177579cbd4dabde955"
-            },
-            "index": 0,
-            "chainindex": 2,
-            "merklebranch": [ "a67d749dfa7006b9d66d2284b20a64ebcb8c2e5aae18e355c790b90a060a30c1", "9ab5c057ecf43aa0552c21be4f86b1c9b248fe2dd0821bee38e5a25a22c49c25", "ec11fd79e02fe98bf9f4b624e5460a3221dbae27d24f36c9988dcc5beaf3c592", "dbc42b7360a7165b277f73094a366e951d3ac6d6a1e9493d838d35372e5e846b", "c7260dbfb6b196bd2e4e4dbde1799592627a3e6fa384e6692be8387a9251e5e2" ],
-            "chainmerklebranch": [ "89af0bc973bc0308f14c5c50c3d75f68783eab40a4688064cd56cfaed977d138", "5360cbf0991b4b0e09d589631c232d1f229104faad9e65375695230c47bc2493" ],
-            "parentblock": "0000002024653d98f3eace4b66b6269fa9205e08b647e23cf7880e0000000000000000003feae4c877b2f8b73f6f92a589ed8870fe98abb3551f1539373597f5b44514ada9993f5bb1830118d5793688"
-          },
-          "previousblockhash": "ba53d715abf76ac8adc025120ffb48b2331f3a1b9b7d01167ffd7dcd23934390",
-          "nextblockhash": "cd3a236542491089bffd8ba49cbe1d11a20dd4c4ad188307027e60c710732409"
-        }
-      ]
+      "index": 0,
+      "chainindex": 2,
+      "merklebranch": [ "a67d749dfa7006b9d66d2284b20a64ebcb8c2e5aae18e355c790b90a060a30c1", "9ab5c057ecf43aa0552c21be4f86b1c9b248fe2dd0821bee38e5a25a22c49c25", "ec11fd79e02fe98bf9f4b624e5460a3221dbae27d24f36c9988dcc5beaf3c592", "dbc42b7360a7165b277f73094a366e951d3ac6d6a1e9493d838d35372e5e846b", "c7260dbfb6b196bd2e4e4dbde1799592627a3e6fa384e6692be8387a9251e5e2" ],
+      "chainmerklebranch": [ "89af0bc973bc0308f14c5c50c3d75f68783eab40a4688064cd56cfaed977d138", "5360cbf0991b4b0e09d589631c232d1f229104faad9e65375695230c47bc2493" ],
+      "parentblock": "0000002024653d98f3eace4b66b6269fa9205e08b647e23cf7880e0000000000000000003feae4c877b2f8b73f6f92a589ed8870fe98abb3551f1539373597f5b44514ada9993f5bb1830118d5793688"
     },
-    {
-      "nodepubkey": "0370874cad6252bb94afa9a253c90122760ce2862e623b515e57bfe0697f3fc515",
-      "score": 292,
-      "reply": [
-        {
-          "hash": "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837",
-          "confirmations": 390700,
-          "size": 734,
-          "height": 91510,
-          "version": 805306624,
-          "versionHex": "30000100",
-          "merkleroot": "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f",
-          "tx": [ "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f" ],
-          "time": 1530894673,
-          "mediantime": 1530894336,
-          "nonce": 0,
-          "bits": "180761db",
-          "difficulty": 148937676133.261200,
-          "chainwork": "00000000000000000000000000000000000000000028ad56864c458781e21970",
-          "auxpow": {
-            "tx": {
-              "hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff5703dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200ffffffff01c051824a000000001976a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac00000000",
-              "txid": "c8fc123672fffb3c6a45b94bdd30afc114f282742338809380bc84fe8666d489",
-              "size": 172,
-              "version": 1,
-              "locktime": 0,
-              "vin": [
-                {
-                  "coinbase": "03dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200",
-                  "sequence": 4294967295
-                }
-              ],
-              "vout": [
-                {
-                  "value": 12.500546,
-                  "valueSat": 1250054592,
-                  "n": 0,
-                  "scriptPubKey": {
-                    "asm": "OP_DUP OP_HASH160 f1c075a01882ae0972f95d3a4177c86c852b7d91 OP_EQUALVERIFY OP_CHECKSIG",
-                    "hex": "76a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac",
-                    "reqSigs": 1,
-                    "type": "pubkeyhash",
-                    "addresses": [ "SjLGSPfmF3kVPA6A213hShYc4aRtiWZ8Wu" ]
-                  }
-                }
-              ],
-              "blockhash": "000000000000000004bdb8e3fdf28ffc528f4e6b1871a6177579cbd4dabde955"
-            },
-            "index": 0,
-            "chainindex": 2,
-            "merklebranch": [ "a67d749dfa7006b9d66d2284b20a64ebcb8c2e5aae18e355c790b90a060a30c1", "9ab5c057ecf43aa0552c21be4f86b1c9b248fe2dd0821bee38e5a25a22c49c25", "ec11fd79e02fe98bf9f4b624e5460a3221dbae27d24f36c9988dcc5beaf3c592", "dbc42b7360a7165b277f73094a366e951d3ac6d6a1e9493d838d35372e5e846b", "c7260dbfb6b196bd2e4e4dbde1799592627a3e6fa384e6692be8387a9251e5e2" ],
-            "chainmerklebranch": [ "89af0bc973bc0308f14c5c50c3d75f68783eab40a4688064cd56cfaed977d138", "5360cbf0991b4b0e09d589631c232d1f229104faad9e65375695230c47bc2493" ],
-            "parentblock": "0000002024653d98f3eace4b66b6269fa9205e08b647e23cf7880e0000000000000000003feae4c877b2f8b73f6f92a589ed8870fe98abb3551f1539373597f5b44514ada9993f5bb1830118d5793688"
-          },
-          "previousblockhash": "ba53d715abf76ac8adc025120ffb48b2331f3a1b9b7d01167ffd7dcd23934390",
-          "nextblockhash": "cd3a236542491089bffd8ba49cbe1d11a20dd4c4ad188307027e60c710732409"
-        }
-      ]
-    }
-  ],
+    "previousblockhash": "ba53d715abf76ac8adc025120ffb48b2331f3a1b9b7d01167ffd7dcd23934390",
+    "nextblockhash": "cd3a236542491089bffd8ba49cbe1d11a20dd4c4ad188307027e60c710732409"
+  },
   "uuid": "5404cc31-2b01-48eb-8599-e6adcd8f9216"
 }
 ```
 
 Key             | Type    | Description
 ----------------|---------|-------------
-reply           | object  | An object containing the block data for the specified block hash and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
-allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
-nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
-reply*          | object  | An object containing the block data for the specified block hash and blockchain from the respective node.
+reply           | object  | An object containing the block data for the specified block hash and blockchain. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
-
-\* This is only returned if using a `node_count` greater than `1`.
 
 
 
@@ -1944,266 +1782,14 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
       "nextblockhash": "2d7adca3fe7a51018b909aa1c63a7669a75a6729a2da66a08de19d4f13e66032"
     }
   ],
-  "allreplies": [
-    {
-      "nodepubkey": "02c6c79a75846fd9bb064788b03145e347fa5464558fa9030ebb009df2833369f0",
-      "score": 242,
-      "reply": [
-        {
-          "hash": "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837",
-          "confirmations": 390700,
-          "size": 734,
-          "height": 91510,
-          "version": 805306624,
-          "versionHex": "30000100",
-          "merkleroot": "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f",
-          "tx": [ "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f" ],
-          "time": 1530894673,
-          "mediantime": 1530894336,
-          "nonce": 0,
-          "bits": "180761db",
-          "difficulty": 148937676133.261200,
-          "chainwork": "00000000000000000000000000000000000000000028ad56864c458781e21970",
-          "auxpow": {
-            "tx": {
-              "hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff5703dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200ffffffff01c051824a000000001976a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac00000000",
-              "txid": "c8fc123672fffb3c6a45b94bdd30afc114f282742338809380bc84fe8666d489",
-              "size": 172,
-              "version": 1,
-              "locktime": 0,
-              "vin": [
-                {
-                  "coinbase": "03dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200",
-                  "sequence": 4294967295
-                }
-              ],
-              "vout": [
-                {
-                  "value": 12.500546,
-                  "valueSat": 1250054592,
-                  "n": 0,
-                  "scriptPubKey": {
-                    "asm": "OP_DUP OP_HASH160 f1c075a01882ae0972f95d3a4177c86c852b7d91 OP_EQUALVERIFY OP_CHECKSIG",
-                    "hex": "76a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac",
-                    "reqSigs": 1,
-                    "type": "pubkeyhash",
-                    "addresses": [ "SjLGSPfmF3kVPA6A213hShYc4aRtiWZ8Wu" ]
-                  }
-                }
-              ],
-                "blockhash": "000000000000000004bdb8e3fdf28ffc528f4e6b1871a6177579cbd4dabde955"
-            },
-            "index": 0,
-            "chainindex": 2,
-            "merklebranch": [ "a67d749dfa7006b9d66d2284b20a64ebcb8c2e5aae18e355c790b90a060a30c1", "9ab5c057ecf43aa0552c21be4f86b1c9b248fe2dd0821bee38e5a25a22c49c25", "ec11fd79e02fe98bf9f4b624e5460a3221dbae27d24f36c9988dcc5beaf3c592", "dbc42b7360a7165b277f73094a366e951d3ac6d6a1e9493d838d35372e5e846b", "c7260dbfb6b196bd2e4e4dbde1799592627a3e6fa384e6692be8387a9251e5e2" ],
-            "chainmerklebranch": [ "89af0bc973bc0308f14c5c50c3d75f68783eab40a4688064cd56cfaed977d138", "5360cbf0991b4b0e09d589631c232d1f229104faad9e65375695230c47bc2493" ],
-            "parentblock": "0000002024653d98f3eace4b66b6269fa9205e08b647e23cf7880e0000000000000000003feae4c877b2f8b73f6f92a589ed8870fe98abb3551f1539373597f5b44514ada9993f5bb1830118d5793688"
-          },
-          "previousblockhash": "ba53d715abf76ac8adc025120ffb48b2331f3a1b9b7d01167ffd7dcd23934390",
-          "nextblockhash": "cd3a236542491089bffd8ba49cbe1d11a20dd4c4ad188307027e60c710732409"
-        },
-        {
-          "hash": "52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79",
-          "confirmations": 115,
-          "size": 1073,
-          "height": 482107,
-          "version": 805306624,
-          "versionHex": "30000100",
-          "merkleroot": "d1de796d10826dcc97af3d9683711da0f8e8aad996277034bd9b11631ce0d1f2",
-          "tx": [ "d1de796d10826dcc97af3d9683711da0f8e8aad996277034bd9b11631ce0d1f2" ],
-          "time": 1555482589,
-          "mediantime": 1555482282,
-          "nonce": 0,
-          "bits": "1805ec8b",
-          "difficulty": 185600202264.865814,
-          "chainwork": "000000000000000000000000000000000000000000f8bf3057c91ffc80efc4fc",
-          "auxpow": {
-            "tx": {
-              "hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff5b0355ba08182f5669614254432f4d696e65642062792067656e6469722f2cfabe6d6daa2651dfd7b34e3cf5b87fd5ab3b70a78d23194d2269c502280de7193d73790f10000000000000001056691e0c261e0b871f9d92be0000259bffffffff0206baf84b000000001976a914536ffa992491508dca0354e52f32a3a7a679a53a88ac0000000000000000266a24aa21a9ed6e46f58e0097a34b65b4d332ebde4a0cedb300fab27549b3ee1c09fd2d7875d300000000",
-              "txid": "94ce9c796176df4cbe67695c0bfcd63587b1b664e23b716233980dc07d2874d7",
-              "size": 223,
-              "version": 1,
-              "locktime": 0,
-              "vin": [
-                {
-                  "coinbase": "0355ba08182f5669614254432f4d696e65642062792067656e6469722f2cfabe6d6daa2651dfd7b34e3cf5b87fd5ab3b70a78d23194d2269c502280de7193d73790f10000000000000001056691e0c261e0b871f9d92be0000259b",
-                  "sequence": 4294967295
-                }
-              ],
-              "vout": [
-                {
-                  "value": 12.745918,
-                  "valueSat": 1274591750,
-                  "n": 0,
-                  "scriptPubKey": {
-                    "asm": "OP_DUP OP_HASH160 536ffa992491508dca0354e52f32a3a7a679a53a OP_EQUALVERIFY OP_CHECKSIG",
-                    "hex": "76a914536ffa992491508dca0354e52f32a3a7a679a53a88ac",
-                    "reqSigs": 1,
-                    "type": "pubkeyhash",
-                    "addresses": [ "SUuBGCD7Ff3C2ozR6osYguPeXNho98S5qR" ]
-                  }
-                },
-                {
-                  "value": 0.000000,
-                  "valueSat": 0,
-                  "n": 1,
-                  "scriptPubKey": {
-                    "asm": "OP_RETURN aa21a9ed6e46f58e0097a34b65b4d332ebde4a0cedb300fab27549b3ee1c09fd2d7875d3",
-                    "hex": "6a24aa21a9ed6e46f58e0097a34b65b4d332ebde4a0cedb300fab27549b3ee1c09fd2d7875d3",
-                    "type": "nulldata"
-                  }
-                }
-              ],
-              "blockhash": "000000000000000000bcf15d287a324f073b1e0239452a6d4d513c27dc73150a"
-            },
-            "index": 0,
-            "chainindex": 14,
-            "merklebranch": [ "b468e6225dbecfbbf9f86cc8414afb70ae1fade27008e5f8080f74341dbc103c", "c5ec7ac7fb9405564c2afffcd0279c8237a883f0e414011cfe4439572fd8f476", "72731cb13f6ef60cc4647c5c98a48a67ae83a8b2db8e6fcc3ffc2e5cb33e45e3", "3975f42ce7c1be1dfd2118fd7bce4bc2b67993a5f03f6389089e86446e391533", "1fa4527c16a1fd05735914c568d0265ec92e9608890d22ece6f1edcb989fad1a", "018223df5ec9acd3a1ce30e445477d8ca368a6a1dcba8616f5178c9e41287f42", "86dff2db9b12c6afd1cdcd60415e5d19356eaffe5d938fbc2b6147c2430363f5", "77d0cb1a7e0d3cebc57380bd3546a45923107aff5b8bb969d0272d2fd6709280", "04a2a80fdd3a2ccf24642fec547bbb7415922ee6348a0c5b8efbe25611120258", "822ee423a7c096e070117f7573824922c2d612027278d8f330977abf75657ddc", "b7bb4ddf8d79219e9e0e8bb599c23e943317e3c4d8f0e31bd712a08edaace138", "47828c64e2141a2417f271a22dc80fa716604ce044fc0db1827a9a3818c0ca22" ],
-            "chainmerklebranch": [ "0000000000000000000000000000000000000000000000000000000000000000", "f98c4e9736d8eb8bb46299798906695c755369a3df99a93ffdded1713f1cf6e2", "36e70e1ae90b14efb14d594dff72647f862e97c4f704ad0d609041bb7d73aaa5", "63e9f83bff026dcfa4d967e727ceb35dbdf7e02225d88f2ce2f3842f10c16481" ],
-            "parentblock": "000000208100da1ca9afee2f159a537c64aa7fcfce77dbdce07009000000000000000000d63acfaac8ae4bc195f8ba076f306c45ec06a8a740a182263e96732d842984cee6c7b65c1d072c174919714b"
-          },
-          "previousblockhash": "abe70792116fd7806b211b6d67cc6bfa1490aa0dea71587d0bbbe9ee435c9c2a",
-          "nextblockhash": "2d7adca3fe7a51018b909aa1c63a7669a75a6729a2da66a08de19d4f13e66032"
-        }
-      ]
-    },
-    {
-      "nodepubkey": "0370874cad6252bb94afa9a253c90122760ce2862e623b515e57bfe0697f3fc515",
-      "score": 292,
-      "reply": [
-        {
-          "hash": "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837",
-          "confirmations": 390700,
-          "size": 734,
-          "height": 91510,
-          "version": 805306624,
-          "versionHex": "30000100",
-          "merkleroot": "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f",
-          "tx": [ "55554df0ea7f66552beffe433d2c2f620bada79063a343ffc23c60c67cdf028f" ],
-          "time": 1530894673,
-          "mediantime": 1530894336,
-          "nonce": 0,
-          "bits": "180761db",
-          "difficulty": 148937676133.261200,
-          "chainwork": "00000000000000000000000000000000000000000028ad56864c458781e21970",
-          "auxpow": {
-            "tx": {
-              "hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff5703dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200ffffffff01c051824a000000001976a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac00000000",
-              "txid": "c8fc123672fffb3c6a45b94bdd30afc114f282742338809380bc84fe8666d489",
-              "size": 172,
-              "version": 1,
-              "locktime": 0,
-              "vin": [
-                {
-                  "coinbase": "03dd3408142f5669614254432f626d67706f6f6c2e636f6d2f2cfabe6d6d75654ab7a6b163e7a04e56e43f8e7ca0087f11e8bd6c3c72c69732e849532878040000000000000010d51dbb0b9301409ff96ef9f588c50200",
-                  "sequence": 4294967295
-                }
-              ],
-              "vout": [
-                {
-                  "value": 12.500546,
-                  "valueSat": 1250054592,
-                  "n": 0,
-                  "scriptPubKey": {
-                    "asm": "OP_DUP OP_HASH160 f1c075a01882ae0972f95d3a4177c86c852b7d91 OP_EQUALVERIFY OP_CHECKSIG",
-                    "hex": "76a914f1c075a01882ae0972f95d3a4177c86c852b7d9188ac",
-                    "reqSigs": 1,
-                    "type": "pubkeyhash",
-                    "addresses": [ "SjLGSPfmF3kVPA6A213hShYc4aRtiWZ8Wu" ]
-                  }
-                }
-              ],
-              "blockhash": "000000000000000004bdb8e3fdf28ffc528f4e6b1871a6177579cbd4dabde955"
-            },
-            "index": 0,
-            "chainindex": 2,
-            "merklebranch": [ "a67d749dfa7006b9d66d2284b20a64ebcb8c2e5aae18e355c790b90a060a30c1", "9ab5c057ecf43aa0552c21be4f86b1c9b248fe2dd0821bee38e5a25a22c49c25", "ec11fd79e02fe98bf9f4b624e5460a3221dbae27d24f36c9988dcc5beaf3c592", "dbc42b7360a7165b277f73094a366e951d3ac6d6a1e9493d838d35372e5e846b", "c7260dbfb6b196bd2e4e4dbde1799592627a3e6fa384e6692be8387a9251e5e2" ],
-            "chainmerklebranch": [ "89af0bc973bc0308f14c5c50c3d75f68783eab40a4688064cd56cfaed977d138", "5360cbf0991b4b0e09d589631c232d1f229104faad9e65375695230c47bc2493" ],
-            "parentblock": "0000002024653d98f3eace4b66b6269fa9205e08b647e23cf7880e0000000000000000003feae4c877b2f8b73f6f92a589ed8870fe98abb3551f1539373597f5b44514ada9993f5bb1830118d5793688"
-          },
-          "previousblockhash": "ba53d715abf76ac8adc025120ffb48b2331f3a1b9b7d01167ffd7dcd23934390",
-          "nextblockhash": "cd3a236542491089bffd8ba49cbe1d11a20dd4c4ad188307027e60c710732409"
-        },
-        {
-          "hash": "52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79",
-          "confirmations": 115,
-          "size": 1073,
-          "height": 482107,
-          "version": 805306624,
-          "versionHex": "30000100",
-          "merkleroot": "d1de796d10826dcc97af3d9683711da0f8e8aad996277034bd9b11631ce0d1f2",
-          "tx": [ "d1de796d10826dcc97af3d9683711da0f8e8aad996277034bd9b11631ce0d1f2" ],
-          "time": 1555482589,
-          "mediantime": 1555482282,
-          "nonce": 0,
-          "bits": "1805ec8b",
-          "difficulty": 185600202264.865814,
-          "chainwork": "000000000000000000000000000000000000000000f8bf3057c91ffc80efc4fc",
-          "auxpow": {
-            "tx": {
-              "hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff5b0355ba08182f5669614254432f4d696e65642062792067656e6469722f2cfabe6d6daa2651dfd7b34e3cf5b87fd5ab3b70a78d23194d2269c502280de7193d73790f10000000000000001056691e0c261e0b871f9d92be0000259bffffffff0206baf84b000000001976a914536ffa992491508dca0354e52f32a3a7a679a53a88ac0000000000000000266a24aa21a9ed6e46f58e0097a34b65b4d332ebde4a0cedb300fab27549b3ee1c09fd2d7875d300000000",
-              "txid": "94ce9c796176df4cbe67695c0bfcd63587b1b664e23b716233980dc07d2874d7",
-              "size": 223,
-              "version": 1,
-              "locktime": 0,
-              "vin": [
-                {
-                  "coinbase": "0355ba08182f5669614254432f4d696e65642062792067656e6469722f2cfabe6d6daa2651dfd7b34e3cf5b87fd5ab3b70a78d23194d2269c502280de7193d73790f10000000000000001056691e0c261e0b871f9d92be0000259b",
-                  "sequence": 4294967295
-                }
-              ],
-              "vout": [
-                {
-                  "value": 12.745918,
-                  "valueSat": 1274591750,
-                  "n": 0,
-                  "scriptPubKey": {
-                    "asm": "OP_DUP OP_HASH160 536ffa992491508dca0354e52f32a3a7a679a53a OP_EQUALVERIFY OP_CHECKSIG",
-                    "hex": "76a914536ffa992491508dca0354e52f32a3a7a679a53a88ac",
-                    "reqSigs": 1,
-                    "type": "pubkeyhash",
-                    "addresses": [ "SUuBGCD7Ff3C2ozR6osYguPeXNho98S5qR" ]
-                  }
-                },
-                {
-                  "value": 0.000000,
-                  "valueSat": 0,
-                  "n": 1,
-                  "scriptPubKey": {
-                    "asm": "OP_RETURN aa21a9ed6e46f58e0097a34b65b4d332ebde4a0cedb300fab27549b3ee1c09fd2d7875d3",
-                    "hex": "6a24aa21a9ed6e46f58e0097a34b65b4d332ebde4a0cedb300fab27549b3ee1c09fd2d7875d3",
-                    "type": "nulldata"
-                  }
-                }
-              ],
-              "blockhash": "000000000000000000bcf15d287a324f073b1e0239452a6d4d513c27dc73150a"
-            },
-            "index": 0,
-            "chainindex": 14,
-            "merklebranch": [ "b468e6225dbecfbbf9f86cc8414afb70ae1fade27008e5f8080f74341dbc103c", "c5ec7ac7fb9405564c2afffcd0279c8237a883f0e414011cfe4439572fd8f476", "72731cb13f6ef60cc4647c5c98a48a67ae83a8b2db8e6fcc3ffc2e5cb33e45e3", "3975f42ce7c1be1dfd2118fd7bce4bc2b67993a5f03f6389089e86446e391533", "1fa4527c16a1fd05735914c568d0265ec92e9608890d22ece6f1edcb989fad1a", "018223df5ec9acd3a1ce30e445477d8ca368a6a1dcba8616f5178c9e41287f42", "86dff2db9b12c6afd1cdcd60415e5d19356eaffe5d938fbc2b6147c2430363f5", "77d0cb1a7e0d3cebc57380bd3546a45923107aff5b8bb969d0272d2fd6709280", "04a2a80fdd3a2ccf24642fec547bbb7415922ee6348a0c5b8efbe25611120258", "822ee423a7c096e070117f7573824922c2d612027278d8f330977abf75657ddc", "b7bb4ddf8d79219e9e0e8bb599c23e943317e3c4d8f0e31bd712a08edaace138", "47828c64e2141a2417f271a22dc80fa716604ce044fc0db1827a9a3818c0ca22" ],
-            "chainmerklebranch": [ "0000000000000000000000000000000000000000000000000000000000000000", "f98c4e9736d8eb8bb46299798906695c755369a3df99a93ffdded1713f1cf6e2", "36e70e1ae90b14efb14d594dff72647f862e97c4f704ad0d609041bb7d73aaa5", "63e9f83bff026dcfa4d967e727ceb35dbdf7e02225d88f2ce2f3842f10c16481" ],
-            "parentblock": "000000208100da1ca9afee2f159a537c64aa7fcfce77dbdce07009000000000000000000d63acfaac8ae4bc195f8ba076f306c45ec06a8a740a182263e96732d842984cee6c7b65c1d072c174919714b"
-          },
-          "previousblockhash": "abe70792116fd7806b211b6d67cc6bfa1490aa0dea71587d0bbbe9ee435c9c2a",
-          "nextblockhash": "2d7adca3fe7a51018b909aa1c63a7669a75a6729a2da66a08de19d4f13e66032"
-        }
-      ]
-    }
-  ],
   "uuid": "5404cc31-2b01-48eb-8599-e6adcd8f9216"
 }
 ```
 
 Key             | Type    | Description
 ----------------|---------|-------------
-reply           | array   | An array containing objects of the block data for each requested block on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
-allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
-nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
-reply*          | array   | An array containing objects of the block data for each requested block on the specified blockchain from the respective node.
+reply           | array   | An array containing objects of the block data for each requested block on the specified blockchain. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
-
-\* This is only returned if using a `node_count` greater than `1`.
 
 
 
@@ -2298,122 +1884,14 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
       }
     ]
   },
-  "allreplies": [
-    {
-      "nodepubkey": "02c6c79a75846fd9bb064788b03145e347fa5464558fa9030ebb009df2833369f0",
-      "score": 250,
-      "reply": {
-        "txid": "aa1838dee180e5c4ad5041ded25aa5d88c41bedb1c339b42f54dbad0e7563c5e",
-        "size": 294,
-        "version": 1,
-        "locktime": 992777948,
-        "vin": [
-          {
-            "coinbase": "0363b1082cfabe6d6df75a401bb4e29d77b2162d476557c4bc879380dad926e44c1b2a7c49893a3cc108000000f09f909f000f4d696e6564206279206c616e636163000000000000000000000000000000000000000000000000000000000500c5a00000",
-            "sequence": 0
-          }
-        ],
-        "vout": [
-          {
-            "value": 12.612785,
-            "valueSat": 1261278512,
-            "n": 0,
-            "scriptPubKey": {
-              "asm": "OP_DUP OP_HASH160 c825a1ecf2a6830c4401620c3a16f1995057c2ab OP_EQUALVERIFY OP_CHECKSIG",
-              "hex": "76a914c825a1ecf2a6830c4401620c3a16f1995057c2ab88ac",
-              "reqSigs": 1,
-                "type": "pubkeyhash",
-                  "addresses": [ "SfYHFxiGv4mRtUfQVHxfMWknEt53Bjj286" ]
-                }
-            },
-          {
-            "value": 0.000000,
-            "valueSat": 0,
-            "n": 1,
-            "scriptPubKey": {
-              "asm": "OP_RETURN aa21a9ed2ac560369b71e58f0618a79d2f03bcf7283945e20eef7813de376a6f503448c1 0000000000000000",
-              "hex": "6a24aa21a9ed2ac560369b71e58f0618a79d2f03bcf7283945e20eef7813de376a6f503448c1080000000000000000",
-              "type": "nulldata"
-            }
-          },
-          {
-            "value": 0.000000,
-            "valueSat": 0,
-            "n": 2,
-            "scriptPubKey": {
-              "asm": "OP_RETURN 52534b424c4f434b3a81c66dc456024e97e518ac2ab3ec51bf85b294b9a140c6e9376a040607edc39d",
-              "hex": "6a4c2952534b424c4f434b3a81c66dc456024e97e518ac2ab3ec51bf85b294b9a140c6e9376a040607edc39d",
-              "type": "nulldata"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "nodepubkey": "0370874cad6252bb94afa9a253c90122760ce2862e623b515e57bfe0697f3fc515",
-      "score": 300,
-      "reply": {
-        "txid": "aa1838dee180e5c4ad5041ded25aa5d88c41bedb1c339b42f54dbad0e7563c5e",
-        "size": 294,
-        "version": 1,
-        "locktime": 992777948,
-        "vin": [
-          {
-            "coinbase": "0363b1082cfabe6d6df75a401bb4e29d77b2162d476557c4bc879380dad926e44c1b2a7c49893a3cc108000000f09f909f000f4d696e6564206279206c616e636163000000000000000000000000000000000000000000000000000000000500c5a00000",
-            "sequence": 0
-          }
-        ],
-        "vout": [
-          {
-            "value": 12.612785,
-            "valueSat": 1261278512,
-            "n": 0,
-            "scriptPubKey": {
-              "asm": "OP_DUP OP_HASH160 c825a1ecf2a6830c4401620c3a16f1995057c2ab OP_EQUALVERIFY OP_CHECKSIG",
-              "hex": "76a914c825a1ecf2a6830c4401620c3a16f1995057c2ab88ac",
-              "reqSigs": 1,
-                "type": "pubkeyhash",
-                  "addresses": [ "SfYHFxiGv4mRtUfQVHxfMWknEt53Bjj286" ]
-                }
-            },
-          {
-            "value": 0.000000,
-            "valueSat": 0,
-            "n": 1,
-            "scriptPubKey": {
-              "asm": "OP_RETURN aa21a9ed2ac560369b71e58f0618a79d2f03bcf7283945e20eef7813de376a6f503448c1 0000000000000000",
-              "hex": "6a24aa21a9ed2ac560369b71e58f0618a79d2f03bcf7283945e20eef7813de376a6f503448c1080000000000000000",
-              "type": "nulldata"
-            }
-          },
-          {
-            "value": 0.000000,
-            "valueSat": 0,
-            "n": 2,
-            "scriptPubKey": {
-              "asm": "OP_RETURN 52534b424c4f434b3a81c66dc456024e97e518ac2ab3ec51bf85b294b9a140c6e9376a040607edc39d",
-              "hex": "6a4c2952534b424c4f434b3a81c66dc456024e97e518ac2ab3ec51bf85b294b9a140c6e9376a040607edc39d",
-              "type": "nulldata"
-            }
-          }
-        ]
-      }
-    }
-  ],
   "uuid": "95e612f1-3505-493d-8097-452052223417"
 }
 ```
 
 Key             | Type    | Description
 ----------------|---------|-------------
-reply           | object  | An object containing the decoded transaction data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
-allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
-nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
-reply*          | object  | An object containing the decoded transaction data from the respective node.
+reply           | object  | An object containing the decoded transaction data. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
-
-\* This is only returned if using a `node_count` greater than `1`.
 
 
 
@@ -2494,92 +1972,14 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
       }
     ]
   },
-  "allreplies": [
-    {
-      "nodepubkey": "02c6c79a75846fd9bb064788b03145e347fa5464558fa9030ebb009df2833369f0",
-      "score": 250,
-      "reply": {
-        "txid": "9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51",
-        "size": 192,
-        "version": 2,
-        "locktime": 0,
-        "vin": [
-          {
-            "txid": "10f28315098fff366e2dfba23afacc10ddb5ac30a403d6396cc2d35739f06a79",
-            "vout": 1,
-            "scriptSig": {
-              "asm": "30450221008d807ad2585d4775e57c105d16f12f5eb7925a3f8f66b077f7944ec74e421ed9022067105602af2705d4456ccd68db8b4eb327cdb5e55e7de98d7ba9f1213a75a1ad[ALL] 02e927a2a1d4a613ed3fa73bf1169beaf4e95a6348afac6613e283d80b9bf2abba",
-              "hex": "4830450221008d807ad2585d4775e57c105d16f12f5eb7925a3f8f66b077f7944ec74e421ed9022067105602af2705d4456ccd68db8b4eb327cdb5e55e7de98d7ba9f1213a75a1ad012102e927a2a1d4a613ed3fa73bf1169beaf4e95a6348afac6613e283d80b9bf2abba"
-            },
-            "sequence": 4294967295
-          }
-        ],
-        "vout": [
-          {
-            "value": 1.430000,
-            "valueSat": 143000000,
-            "n": 0,
-            "scriptPubKey": {
-              "asm": "OP_DUP OP_HASH160 7be755600f2fd9f3518be6ededb38e2498f51ff5 OP_EQUALVERIFY OP_CHECKSIG",
-              "hex": "76a9147be755600f2fd9f3518be6ededb38e2498f51ff588ac",
-              "reqSigs": 1,
-              "type": "pubkeyhash",
-              "addresses": [ "SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP" ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "nodepubkey": "0370874cad6252bb94afa9a253c90122760ce2862e623b515e57bfe0697f3fc515",
-      "score": 300,
-      "reply": {
-        "txid": "9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51",
-        "size": 192,
-        "version": 2,
-        "locktime": 0,
-        "vin": [
-          {
-            "txid": "10f28315098fff366e2dfba23afacc10ddb5ac30a403d6396cc2d35739f06a79",
-            "vout": 1,
-            "scriptSig": {
-              "asm": "30450221008d807ad2585d4775e57c105d16f12f5eb7925a3f8f66b077f7944ec74e421ed9022067105602af2705d4456ccd68db8b4eb327cdb5e55e7de98d7ba9f1213a75a1ad[ALL] 02e927a2a1d4a613ed3fa73bf1169beaf4e95a6348afac6613e283d80b9bf2abba",
-              "hex": "4830450221008d807ad2585d4775e57c105d16f12f5eb7925a3f8f66b077f7944ec74e421ed9022067105602af2705d4456ccd68db8b4eb327cdb5e55e7de98d7ba9f1213a75a1ad012102e927a2a1d4a613ed3fa73bf1169beaf4e95a6348afac6613e283d80b9bf2abba"
-            },
-            "sequence": 4294967295
-          }
-        ],
-        "vout": [
-          {
-            "value": 1.430000,
-            "valueSat": 143000000,
-            "n": 0,
-            "scriptPubKey": {
-              "asm": "OP_DUP OP_HASH160 7be755600f2fd9f3518be6ededb38e2498f51ff5 OP_EQUALVERIFY OP_CHECKSIG",
-              "hex": "76a9147be755600f2fd9f3518be6ededb38e2498f51ff588ac",
-              "reqSigs": 1,
-              "type": "pubkeyhash",
-              "addresses": [ "SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP" ]
-            }
-          }
-        ]
-      }
-    }
-  ],
   "uuid": "cd7c9b1a-8fd5-46a7-84af-98c0f8850148"
 }
 ```
 
 Key             | Type    | Description
 ----------------|---------|-------------
-reply           | object  | An object containing the transaction data for the specified transaction ID and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
-allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
-nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
-reply*          | object  | An object containing the transaction data for the specified transaction ID and blockchain from the respective node.
+reply           | object  | An object containing the transaction data for the specified transaction ID and blockchain. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
-
-\* This is only returned if using a `node_count` greater than `1`.
 
 
 
@@ -2708,186 +2108,14 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
       ]
     }
   ],
-  "allreplies": [
-    {
-      "nodepubkey": "02c6c79a75846fd9bb064788b03145e347fa5464558fa9030ebb009df2833369f0",
-      "score": 250,
-      "reply": [
-        {
-          "txid": "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd",
-          "size": 135,
-          "version": 2,
-          "locktime": 0,
-          "vin": [
-            {
-              "coinbase": "03dc1a070101",
-              "sequence": 4294967295
-            }
-          ],
-          "vout": [
-            {
-              "value": 8.662500,
-              "valueSat": 866250000,
-              "n": 0,
-              "scriptPubKey": {
-                "asm": "02bcff8305d8bb9e536c5bc31c4ad74cbd15ac9d138d5d756f12099c96d541f14c OP_CHECKSIG",
-                "hex": "2102bcff8305d8bb9e536c5bc31c4ad74cbd15ac9d138d5d756f12099c96d541f14cac",
-                "reqSigs": 1,
-                "type": "pubkey",
-                "addresses": [ "SiibszzNJSGAFTAKqWZKyEkkf4Wq4pYH7c" ]
-              }
-            },
-            {
-              "value": 25.987500,
-              "valueSat": 2598750000,
-              "n": 1,
-              "scriptPubKey": {
-                "asm": "OP_DUP OP_HASH160 a47209c6649cf99e6db2e1bde99b44ce10c76e52 OP_EQUALVERIFY OP_CHECKSIG",
-                "hex": "76a914a47209c6649cf99e6db2e1bde99b44ce10c76e5288ac",
-                "reqSigs": 1,
-                "type": "pubkeyhash",
-                "addresses": [ "ScHWTpAFNo93Jv1RAfMBFp9VZCjpLq82Rf" ]
-              }
-            }
-          ]
-        },
-        {
-          "txid": "f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e",
-          "size": 135,
-          "version": 2,
-          "locktime": 0,
-          "vin": [
-            {
-              "coinbase": "03dd1a070101",
-              "sequence": 4294967295
-            }
-          ],
-          "vout": [
-            {
-              "value": 8.662500,
-              "valueSat": 866250000,
-              "n": 0,
-              "scriptPubKey": {
-                "asm": "0248d791d1b048e8fc79da7ba9f6c0a44fe14641d13a772ff25dc60103580d1a3e OP_CHECKSIG",
-                "hex": "210248d791d1b048e8fc79da7ba9f6c0a44fe14641d13a772ff25dc60103580d1a3eac",
-                "reqSigs": 1,
-                "type": "pubkey",
-                "addresses": [ "ScdSb9g4b77DsA9vLipDYP8V1zEP1ru4d8" ]
-              }
-            },
-            {
-              "value": 27.546750,
-              "valueSat": 2754675000,
-              "n": 1,
-              "scriptPubKey": {
-                "asm": "OP_DUP OP_HASH160 3ed09824728101512565c187fdd061df0cc1cac5 OP_EQUALVERIFY OP_CHECKSIG",
-                "hex": "76a9143ed09824728101512565c187fdd061df0cc1cac588ac",
-                "reqSigs": 1,
-                "type": "pubkeyhash",
-                "addresses": [ "ST28p81wqsSL6of7Em9mZGvVonVBfM36wX" ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "nodepubkey": "0370874cad6252bb94afa9a253c90122760ce2862e623b515e57bfe0697f3fc515",
-      "score": 300,
-      "reply": [
-        {
-          "txid": "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd",
-          "size": 135,
-          "version": 2,
-          "locktime": 0,
-          "vin": [
-            {
-              "coinbase": "03dc1a070101",
-              "sequence": 4294967295
-            }
-          ],
-          "vout": [
-            {
-              "value": 8.662500,
-              "valueSat": 866250000,
-              "n": 0,
-              "scriptPubKey": {
-                "asm": "02bcff8305d8bb9e536c5bc31c4ad74cbd15ac9d138d5d756f12099c96d541f14c OP_CHECKSIG",
-                "hex": "2102bcff8305d8bb9e536c5bc31c4ad74cbd15ac9d138d5d756f12099c96d541f14cac",
-                "reqSigs": 1,
-                "type": "pubkey",
-                "addresses": [ "SiibszzNJSGAFTAKqWZKyEkkf4Wq4pYH7c" ]
-              }
-            },
-            {
-              "value": 25.987500,
-              "valueSat": 2598750000,
-              "n": 1,
-              "scriptPubKey": {
-                "asm": "OP_DUP OP_HASH160 a47209c6649cf99e6db2e1bde99b44ce10c76e52 OP_EQUALVERIFY OP_CHECKSIG",
-                "hex": "76a914a47209c6649cf99e6db2e1bde99b44ce10c76e5288ac",
-                "reqSigs": 1,
-                "type": "pubkeyhash",
-                "addresses": [ "ScHWTpAFNo93Jv1RAfMBFp9VZCjpLq82Rf" ]
-              }
-            }
-          ]
-        },
-        {
-          "txid": "f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e",
-          "size": 135,
-          "version": 2,
-          "locktime": 0,
-          "vin": [
-            {
-              "coinbase": "03dd1a070101",
-              "sequence": 4294967295
-            }
-          ],
-          "vout": [
-            {
-              "value": 8.662500,
-              "valueSat": 866250000,
-              "n": 0,
-              "scriptPubKey": {
-                "asm": "0248d791d1b048e8fc79da7ba9f6c0a44fe14641d13a772ff25dc60103580d1a3e OP_CHECKSIG",
-                "hex": "210248d791d1b048e8fc79da7ba9f6c0a44fe14641d13a772ff25dc60103580d1a3eac",
-                "reqSigs": 1,
-                "type": "pubkey",
-                "addresses": [ "ScdSb9g4b77DsA9vLipDYP8V1zEP1ru4d8" ]
-              }
-            },
-            {
-              "value": 27.546750,
-              "valueSat": 2754675000,
-              "n": 1,
-              "scriptPubKey": {
-                "asm": "OP_DUP OP_HASH160 3ed09824728101512565c187fdd061df0cc1cac5 OP_EQUALVERIFY OP_CHECKSIG",
-                "hex": "76a9143ed09824728101512565c187fdd061df0cc1cac588ac",
-                "reqSigs": 1,
-                "type": "pubkeyhash",
-                "addresses": [ "ST28p81wqsSL6of7Em9mZGvVonVBfM36wX" ]
-              }
-            }
-          ]
-        }
-      ]
-    }
-  ],
   "uuid": "c778c124-af28-48b6-b3c4-22f2c5518b8b"
 }
 ```
 
 Key             | Type    | Description
 ----------------|---------|-------------
-reply           | array   | An array containing objects with the transaction data for each requested transaction on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
-allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
-nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
-reply*          | array   | An array containing objects with the transaction data for each requested transaction on the specified blockchain from the respective node.
+reply           | array   | An array containing objects with the transaction data for each requested transaction on the specified blockchain. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
-
-\* This is only returned if using a `node_count` greater than `1`.
 
 
 
@@ -2995,7 +2223,6 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 {
   "reply": "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2",
   "error": null,
-  "id": 1,
   "uuid": "54b6ec00-8b06-4c2c-9e56-acdff4da69fe"
 }
 ```
@@ -3054,31 +2281,14 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 ```shell
 {
   "reply": "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2",
-  "allreplies": [
-    {
-      "nodepubkey": "02c6c79a75846fd9bb064788b03145e347fa5464558fa9030ebb009df2833369f0",
-      "score": 250,
-      "reply": "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2"
-    },
-    {
-      "nodepubkey": "0370874cad6252bb94afa9a253c90122760ce2862e623b515e57bfe0697f3fc515",
-      "score": 300,
-      "reply": "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2"
-    }
-  ],
   "error": null,
-  "id": 1,
   "uuid": "54b6ec00-8b06-4c2c-9e56-acdff4da69fe"
 }
 ```
 
 Key             | Type    | Description
 ----------------|---------|-------------
-reply           | unknown | The service's response data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
-allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
-nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
-reply*          | array   | The service's response data from the respective node.
+reply           | unknown | The service's response data. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
 error           | object  | The native error response if an error occurred, otherwise a successful response will contain a `null` error.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -3130,14 +2340,38 @@ uuid            | string  | The UUID of the response you want to look up.
 
 ```shell
 {
-  "reply": "464931",
-  "uuid": "3243a24b-3e9d-40d1-8c33-37a57878ce85"
+  "allreplies": [
+    {
+      "reply": "00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048",
+      "nodepubkey": "02c6c79a75846fd9bb064788b03145e347fa5464558fa9030ebb009df2833369f0",
+      "score": 35,
+      "address": "BqCtHRHmUVqkvqD7GhXVuHchzm77cLuXs1",
+      "exr": true
+    },
+    {
+      "reply": "00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048",
+      "nodepubkey": "0370874cad6252bb94afa9a253c90122760ce2862e623b515e57bfe0697f3fc515",
+      "score": 80,
+      "address": "Bqshd156VexPDKELxido2S2pDvqrRzSCi4",
+      "exr": true
+    }
+  ],
+  "mostcommon": "00000000839a8e6886ab5951d76f411475428afc90947ee320161bbf18eb6048",
+  "mostcommoncount": 2,
+  "uuid": "3c84d025-8a03-4b64-848f-99892fe481ff"
 }
 ```
 
 Key             | Type    | Description
 ----------------|---------|-------------
-reply           | array   | The response for the previous call associated with the UUID.
+allreplies      | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis or filtering of the responses.
+reply           | int     | The node's response for the respective UUID call.
+nodepubkey      | string  | The node ID.
+score           | int     | The respective nodes score based on quality of service A score of -200 will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in blocknet.conf.
+address         | string  | The Service Node's payment address.
+exr             | bool    | Whether the Service Node is an Enterprise XRouter node EXR nodes have greater throughput and service capabilities.
+mostcommon      | string  | The most common response (i.e. the response with the most consensus). This is the value returned for `reply` when making the originating call.
+mostcommoncount | int     | The amount of nodes that responded with the `mostcommon` reply.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
 
@@ -3488,7 +2722,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   Key             | Type    | Description
   ----------------|---------|-------------
-  reply           | object  | The balance with a precision of X.XXXXXX of the given address for the specified blockchain.
+  reply           | object  | The balance with a precision of X.XXXXXX of the given address for the specified blockchain. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
   uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 -->
 
@@ -3548,7 +2782,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   Key             | Type    | Description
   ----------------|---------|-------------
-  reply           | string  | The addresses net change in balance since the given block on the specified blockchain.
+  reply           | string  | The addresses net change in balance since the given block on the specified blockchain. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
   uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 -->
 
@@ -3607,7 +2841,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   Key             | Type    | Description
   ----------------|---------|-------------
-  hex             | string  | The HEX representation of the address's bloom filter. 
+  reply           | string  | The HEX representation of the address's bloom filter. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
   uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 -->
 
