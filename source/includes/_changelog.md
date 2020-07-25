@@ -39,6 +39,11 @@ reference: https://docs.pro.coinbase.com
 • Added [Hydra Getting Started](#hydra-setup) |
 • Added [Hydra API Docs](#hydra-api) |
 
+7/25/2020   |
+------------|
+• Wallet v4.3.1 release |
+
+
 7/20/2020   |
 ------------|
 • Wallet v4.3.x release |
