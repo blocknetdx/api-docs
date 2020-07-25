@@ -26,6 +26,7 @@ reference: https://docs.pro.coinbase.com
 7/25/2020   |
 ------------|
 • Wallet v4.3.1 release |
+• Updated [dxCancelOrder](#dxcancelorder) description to note when you can't cancel orders |
 
 
 7/20/2020   |

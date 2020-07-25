@@ -513,6 +513,8 @@ Code  | Type  | Error
 ```
 This call is used to cancel one of your own orders, which automatically rolls back the order if a trade is in process. Upon closing the client, open orders are automatically cancelled.
 
+**Note**: An order can't be cancelled once it goes into `created` state.
+
 
 ### Request Parameters
 
