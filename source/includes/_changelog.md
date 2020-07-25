@@ -23,6 +23,11 @@ reference: https://docs.pro.coinbase.com
 -->
 
 
+7/25/2020   |
+------------|
+• Wallet v4.3.1 release |
+
+
 7/20/2020   |
 ------------|
 • Wallet v4.3.x release |
