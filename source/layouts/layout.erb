@@ -124,6 +124,8 @@ under the License.
               <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">BETA</span></a>
             <% elsif h1[:id] == "xcloud-api" %>
               <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">BETA</span></a>
+            <% elsif h1[:id] == "hydra" %>
+              <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">BETA</span></a>
             <% else %>
               <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %></a>
             <% end %>
