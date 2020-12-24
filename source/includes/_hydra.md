@@ -156,7 +156,7 @@ Returns the current web3 client version.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -198,7 +198,7 @@ Returns Keccak-256 (not the standardized SHA3-256) of the given data.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -240,7 +240,7 @@ Returns `true` if client is actively listening for network connections.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -278,7 +278,7 @@ Returns number of peers currenly connected to the client.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -316,7 +316,7 @@ Returns the current network protocol version.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -354,7 +354,7 @@ Returns a list of addresses owned by the client.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -394,7 +394,7 @@ Returns the number of the most recent block.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -448,7 +448,7 @@ Executes a new message call immediately without creating a transaction on the bl
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -496,7 +496,7 @@ Returns the EIP155 chain ID used for transaction signing at the current best blo
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -550,7 +550,7 @@ Makes a call or transaction, which won’t be added to the blockchain and return
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -608,7 +608,7 @@ Returns the balance of the account of given address.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -662,7 +662,7 @@ Returns information about a block by hash.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -970,7 +970,7 @@ Returns information about a block by block number.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1276,7 +1276,7 @@ Returns the number of transactions in a block from a block matching the given bl
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1327,7 +1327,7 @@ Returns the number of transactions in the block with the given block number.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1379,7 +1379,7 @@ Returns code at a given address.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1434,7 +1434,7 @@ Returns an array of all logs matching a given filter object.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1505,7 +1505,7 @@ Returns the value from a storage position at a given address.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1559,7 +1559,7 @@ Returns information about a transaction by block hash and transaction index posi
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1653,7 +1653,7 @@ Returns information about a transaction by block number and transaction index po
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1746,7 +1746,7 @@ Returns the information about a transaction requested by transaction hash.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1839,7 +1839,7 @@ Returns the number of transactions sent from an address.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1896,7 +1896,7 @@ Returns the receipt of a transaction by transaction hash.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1976,7 +1976,7 @@ Returns information about a uncle of a block by hash and uncle index position.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2079,7 +2079,7 @@ Returns information about a uncle of a block by number and uncle index position.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2179,7 +2179,7 @@ Returns information about a uncle of a block by number and uncle index position.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2230,7 +2230,7 @@ Returns the number of uncles in a block from a block matching the given block nu
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2272,7 +2272,7 @@ Returns the hash of the current block, the seedHash, and the boundary condition 
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2314,7 +2314,7 @@ Returns the number of hashes per second that the node is mining with.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2356,7 +2356,7 @@ Returns `true` if client is actively mining new blocks.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2398,7 +2398,7 @@ Returns the current Ethereum protocol version.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2447,7 +2447,7 @@ Submits a signed transaction to the Ethereum network.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2499,7 +2499,7 @@ Used for submitting a proof-of-work solution.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2546,7 +2546,7 @@ Returns an object with data about the sync status or `false`.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2604,7 +2604,7 @@ Polling method for a filter, which returns an array of logs which occurred since
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2676,7 +2676,7 @@ Returns an array of all logs matching filter with given id.
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2749,7 +2749,7 @@ Creates a filter in the node, to notify when a new block arrives. To check if th
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2803,7 +2803,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2849,7 +2849,7 @@ Creates a filter in the node, to notify when new pending transactions arrive. To
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2901,7 +2901,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2947,7 +2947,7 @@ Uninstalls a filter with given id. Should always be called when watch is no long
 > Sample Request
 
 ```http
-curl https://api.oracleminer.com/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
