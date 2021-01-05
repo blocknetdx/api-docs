@@ -1,7 +1,60 @@
 # Hydra API
 
+## Request Project
+### request_project
+
+Request Hydra Project, this creates a Project-ID in database of the provider and returns ETH address for payment.
+
+> Sample Request
+
+```http
+curl https://<PROJECT-URL>/xrs/eth_passthrough \
+      -X POST \
+      -H "Content-Type: application/json" \
+      -d '{"jsonrpc":"2.0","method":"request_project","params": [],"id":1}'
+```
+<code class="api-call">request_project</code>
+
+This call does not take parameters.
+
+#### Responses
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```http
+{
+  "error":0,
+  "result":
+    {
+      "api_key":"uiF_scQgopWWhgDFT7AMbM2Vf2b66xlfnVrJe6e1gUE",
+      "expiry_time":"2020-11-19 22:17:53 EST",
+      "payment_address":"0x0x0xxx",
+      "payment_amount_tier1":0.073597,
+      "payment_amount_tier2":0.420557,
+      "project_id":"85f1641d-f8ab-4acb-aa00-5d19601a9dd7"
+    }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+error           | integer  | Error code.
+result          | object   | Object of the result.
+api_key         | string    | API Key of the Hydra Project.
+expiry_time     | string    | Expiry time of the Hydra Project request.
+payment_address | string     | The Ethereum address to send the payment to.
+payment_amount_tier1 | number | The amount of ETH to pay for a standard Ethereum node
+payment_amount_tier2 | number  | The amount of ETH to pay for an archival ethereum node.
+project-id      | string | The project ID needed as a path parameter for all ETH methods.
+
+\* The returned PROJECT-ID should be passed as a path parameter to the Hydra Node you have paid for.
 ## Authentication
 
+## Payment
 ## Pub/Sub Methods
 
 Call                                              | Description
@@ -47,12 +100,23 @@ This call does not take parameters.
 > Sample 200 Response
 
 ```http
-
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "params": {
+    "subscription": "string",
+    "result": "string"
+  }
+}
 ```
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-reply           | object  | test.
+jsonrpc           | string  | JSON RPC version.
+params           | string  | Parameters Object
+subscription  | string | ID of the newly created subscription of the node
+result        | string  | eth_subscriptionResult (string) or eth_subscriptionNewHeads (object) or Log (object) or eth_subscriptionNewPendingTransaction (object) or eth_subscriptionSyncing (object)
+id           | int  | ID number.
 
 ### eth_unsubscribe
 
@@ -144,7 +208,6 @@ Call                                              | Description
 [eth_protocolVersion](#eth_protocolVersion)                             | Returns the current ethereum protocol version.
 [eth_sendRawTransaction](#eth_sendRawTransaction)                             | Creates new message call transaction or a contract creation for signed transactions.
 [eth_submitWork](#eth_submitWork)                             | Used for submitting a proof-of-work solution.
-event. For every event that matches the subscription a JSON-RPC notification with event details and subscription ID will be sent to a client.
 [eth_syncing](#eth_syncing)                             | Returns an object with data about the sync status or `false`.
 
 ### web3_clientVersion
