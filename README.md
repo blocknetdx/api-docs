@@ -11,7 +11,7 @@ This repository contains the source code for Blocknet's [API documentation websi
 
 Using Windows 10:
 
-Download & install ruby+devkkit 2.4.7 x64 from here https://rubyinstaller.org/downloads/archives/.
+Download & install ruby+devkit 2.4.7 x64 from here https://rubyinstaller.org/downloads/archives/.
 
 Download & install nodejs from here https://nodejs.org/en/
 
