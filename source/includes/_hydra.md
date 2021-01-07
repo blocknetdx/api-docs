@@ -1,14 +1,27 @@
 # Hydra API
+## Hydra Nodes
 
-## Request Project
+Available hydra nodes in the hydra network.
+
+Hydra Node       | Node URL    | 
+----------------|---------|
+Cloudchains Inc.           | [https://eth-api.core.cloudchainsinc.com](https://eth-api.core.cloudchainsinc.com)
+Oracle Miner               | [https://api.oracleminer.com](https://api.oracleminer.com)
+
+The Node URL is henceforth referred to as `<NODE-URL>` in the rest of the documentation.
+
+## Generate A Project
+As a client it is necessary to create a project at your Hydra node. A payment in ETH or aBLOCK is necessary for the project to become active. 
+
+Create a project as follows with the `request_project` call.
 ### request_project
 
-Request Hydra Project, this creates a Project-ID in database of the provider and returns ETH address for payment.
+Request a Hydra Project, this creates a project ID (`project_id`) in the database of the hydra node and returns an ETH address for payment.
 
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough \
+curl https://<NODE-URL>/xrs/eth_passthrough \
       -X POST \
       -H "Content-Type: application/json" \
       -d '{"jsonrpc":"2.0","method":"request_project","params": [],"id":1}'
@@ -49,12 +62,50 @@ expiry_time     | string    | Expiry time of the Hydra Project request.
 payment_address | string     | The Ethereum address to send the payment to.
 payment_amount_tier1 | number | The amount of ETH to pay for a standard Ethereum node
 payment_amount_tier2 | number  | The amount of ETH to pay for an archival ethereum node.
-project-id      | string | The project ID needed as a path parameter for all ETH methods.
+project_id      | string | The project ID needed as a path parameter for all ETH methods.
 
-\* The returned PROJECT-ID should be passed as a path parameter to the Hydra Node you have paid for.
+The returned `project_id` should be passed as a path parameter to the Hydra Node you have paid for. Henceforth from now `project-id` is referred as `<PROJECT-ID>` in the rest of the documentation.
+
+The returned `api_key` should be passed in the request body of the POST request. Henceforth from now `api_key` is referred as `<API-KEY>` in the rest of the documentation.
+
 ## Authentication
+Hydra's Ethereum API requires a valid `Project ID` to be included with your request. This identifier should be appended to the request URL as a path parameter.
 
-## Payment
+`curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID>`
+
+In order to authenticate, it is necessary to include a `<API_KEY>` in the `Api-Key` header of a request.
+
+```
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" 
+```
+
+## Make Requests
+
+### JSON-RPC Methods
+On the right there is a quick command line example using `curl`:
+
+```
+# Be sure to replace YOUR-PROJECT-ID with a Project ID from the generated project
+$ curl -X POST \
+-H "Content-Type: application/json" \
+-H "Api-Key: <API-KEY>" \
+-d '{"jsonrpc": "2.0", "id": 1, "method": "eth_blockNumber", "params": []}' \
+"https://<NODE-URL>/v3/YOUR-PROJECT-ID"
+```
+
+The response should look something like the following:
+
+```
+{"jsonrpc": "2.0","result": "0x657abc", "id":1}
+```
+
+### Subscriptions and Filters
+
+TODO
+
 ## Pub/Sub Methods
 
 Call                                              | Description
@@ -79,7 +130,7 @@ Starts a subscription (on WebSockets / IPC / TCP transports) to a particular eve
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -134,7 +185,7 @@ Unsubscribes from a subscription.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -219,7 +270,7 @@ Returns the current web3 client version.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -261,7 +312,7 @@ Returns Keccak-256 (not the standardized SHA3-256) of the given data.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -303,7 +354,7 @@ Returns `true` if client is actively listening for network connections.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -341,7 +392,7 @@ Returns number of peers currenly connected to the client.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -379,7 +430,7 @@ Returns the current network protocol version.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -417,7 +468,7 @@ Returns a list of addresses owned by the client.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -457,7 +508,7 @@ Returns the number of the most recent block.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -511,7 +562,7 @@ Executes a new message call immediately without creating a transaction on the bl
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -559,7 +610,7 @@ Returns the EIP155 chain ID used for transaction signing at the current best blo
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -613,7 +664,7 @@ Makes a call or transaction, which won’t be added to the blockchain and return
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -671,7 +722,7 @@ Returns the balance of the account of given address.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -725,7 +776,7 @@ Returns information about a block by hash.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1033,7 +1084,7 @@ Returns information about a block by block number.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1339,7 +1390,7 @@ Returns the number of transactions in a block from a block matching the given bl
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1390,7 +1441,7 @@ Returns the number of transactions in the block with the given block number.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1442,7 +1493,7 @@ Returns code at a given address.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1497,7 +1548,7 @@ Returns an array of all logs matching a given filter object.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1568,7 +1619,7 @@ Returns the value from a storage position at a given address.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1622,7 +1673,7 @@ Returns information about a transaction by block hash and transaction index posi
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1716,7 +1767,7 @@ Returns information about a transaction by block number and transaction index po
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1809,7 +1860,7 @@ Returns the information about a transaction requested by transaction hash.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1902,7 +1953,7 @@ Returns the number of transactions sent from an address.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1959,7 +2010,7 @@ Returns the receipt of a transaction by transaction hash.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2039,7 +2090,7 @@ Returns information about a uncle of a block by hash and uncle index position.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2142,7 +2193,7 @@ Returns information about a uncle of a block by number and uncle index position.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2242,7 +2293,7 @@ Returns information about a uncle of a block by number and uncle index position.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2293,7 +2344,7 @@ Returns the number of uncles in a block from a block matching the given block nu
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2335,7 +2386,7 @@ Returns the hash of the current block, the seedHash, and the boundary condition 
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2377,7 +2428,7 @@ Returns the number of hashes per second that the node is mining with.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2419,7 +2470,7 @@ Returns `true` if client is actively mining new blocks.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2461,7 +2512,7 @@ Returns the current Ethereum protocol version.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2510,7 +2561,7 @@ Submits a signed transaction to the Ethereum network.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2562,7 +2613,7 @@ Used for submitting a proof-of-work solution.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2609,7 +2660,7 @@ Returns an object with data about the sync status or `false`.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2667,7 +2718,7 @@ Polling method for a filter, which returns an array of logs which occurred since
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2739,7 +2790,7 @@ Returns an array of all logs matching filter with given id.
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2812,7 +2863,7 @@ Creates a filter in the node, to notify when a new block arrives. To check if th
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2866,7 +2917,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2912,7 +2963,7 @@ Creates a filter in the node, to notify when new pending transactions arrive. To
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2964,7 +3015,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3010,7 +3061,7 @@ Uninstalls a filter with given id. Should always be called when watch is no long
 > Sample Request
 
 ```http
-curl https://<PROJECT-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
