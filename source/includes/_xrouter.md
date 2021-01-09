@@ -22,7 +22,6 @@ Call                                              | Description
 [xrServiceConsensus](#xrServiceconsensus)         | Use to interact with XCloud services with consensus
 [xrGetReply](#xrgetreply)                         | Returns prior response associated with UUID
 [xrShowConfigs](#xrshowconfigs)                   | Returns all node configs received as raw text
-[xrUpdateConfigs](#xrupdateconfigs)               | Requests latest configs from nodes
 [xrReloadConfigs](#xrreloadconfigs)               | Applies changes made to your configs
 [xrStatus](#xrstatus)                             | Returns your XRouter configurations
 
@@ -45,7 +44,7 @@ This call is used to view the XRouter services currently supported on the networ
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetNetworkServices
+blocknet-cli xrGetNetworkServices
 ```
 <code class="api-call">xrGetNetworkServices</code>
 
@@ -124,20 +123,20 @@ This call is used to connect to XRouter nodes with the specified service and dow
 
 ```cli
 // Connect to one XRouter node supporting SYS
-blocknetdx-cli xrConnect xr::SYS
+blocknet-cli xrConnect xr::SYS
 
 // Connect to two XRouter nodes supporting SYS
-blocknetdx-cli xrConnect xr::SYS 2
+blocknet-cli xrConnect xr::SYS 2
 
 // Connect to one XRouter node supporting XCloud service twilio
-blocknetdx-cli xrConnect xrs::twilio
+blocknet-cli xrConnect xrs::twilio
 ```
 <code class="api-call">xrConnect [service] [node_count]\(optional)</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 service         | string  | Service name including the namespace (*xr::[spv_call]* or *xrs::[xcloud_service]*).
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes to pre-connect to that will be used to route calls and use the majority response from for consensus.  
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes to pre-connect to that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`.  
 
 
 ### Response Parameters
@@ -763,7 +762,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 reply           | array   | An array of nodes providing the specified service, along with their configs.
 nodepubkey      | string  | The node ID.
-score           | int     | The node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score           | int     | The node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 banned          | bool    | Signifies if the node is currently banned.<br>`true`: Node is banned.<br>`false`: Node is not banned. See [node scoring](#xrouter-node-scoring) for more details.
 paymentaddress  | string  | The node's payment address.
 spvwallets      | array   | An array of supported SPV wallets, represented by the asset's ticker.
@@ -805,7 +804,7 @@ This call is used to lists all the data about current and previously connected n
 > Sample Requests
 
 ```cli
-blocknetdx-cli xrConnectedNodes
+blocknet-cli xrConnectedNodes
 ```
 <code class="api-call">xrConnectedNodes</code>
 
@@ -1326,7 +1325,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 reply           | array   | An array of nodes providing the specified service.
 nodepubkey      | string  | The node ID.
-score           | int     | The node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score           | int     | The node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 banned          | bool    | Signifies if the node is currently banned.<br>`true`: Node is banned.<br>`false`: Node is not banned. See [node scoring](#xrouter-node-scoring) for more details.
 paymentaddress  | string  | The node's payment address.
 spvwallets      | array   | An array of supported SPV wallets, represented by the asset's ticker.
@@ -1375,14 +1374,14 @@ This call is used to retrieve the current block height of the longest chain for 
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetBlockCount SYS 2
+blocknet-cli xrGetBlockCount SYS 2
 ```
 <code class="api-call">xrGetBlockCount [blockchain] [node_count]\(optional)</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus.
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`.
 
 
 ### Response Parameters
@@ -1417,7 +1416,7 @@ Parameter       | Type    | Description
 reply           | int     | The latest block number of the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | int     | The latest block number of the specified blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -1448,7 +1447,7 @@ This call is used to retrieve the block hash of the specified block and blockcha
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetBlockHash SYS 482107 2
+blocknet-cli xrGetBlockHash SYS 482107 2
 ```
 <code class="api-call">xrGetBlockHash [blockchain] [block_number] [node_count]\(optional)</code>
 
@@ -1456,7 +1455,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
 block_number    | string  | The block number or hex for the block hash of interest.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -1491,7 +1490,7 @@ Parameter       | Type    | Description
 reply           | string  | The block hash of the specified block and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID. 
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | string  | The block hash of the specified block and blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -1522,7 +1521,7 @@ This call is used to retrieve the block data for the specified block hash and bl
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetBlock SYS 0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837 2
+blocknet-cli xrGetBlock SYS 0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837 2
 ```
 <code class="api-call">xrGetBlock [blockchain] [block_hash] [node_count]\(optional)</code>
 
@@ -1530,7 +1529,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
 block_hash      | string  | The block hash for the block of interest.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -1727,7 +1726,7 @@ Parameter       | Type    | Description
 reply           | object  | An object containing the block data for the specified block hash and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | object  | An object containing the block data for the specified block hash and blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -1761,15 +1760,15 @@ This call is used to retrieve block data for multiple block hashes on the specif
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetBlocks SYS 0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837,52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79 2
+blocknet-cli xrGetBlocks SYS "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837,52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79" 2
 ```
-<code class="api-call">xrGetBlocks [blockchain] [block_hash1,block_hash2,block_hashN] [node_count]\(optional)</code>
+<code class="api-call">xrGetBlocks [blockchain] [block_hashes] [node_count]\(optional)</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
-block_hashN     | string  | The block hashes for the blocks of interest. The hashes must be separated by a comma with no spaces.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+block_hashes    | string  | A comma-demilited string of block hashes for the blocks of interest. The hashes must be separated by a comma with no spaces.
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -2152,11 +2151,11 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-reply           | array   | An array containing objects with the block data for each the request block on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
+reply           | array   | An array containing objects of the block data for each requested block on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
-reply*          | array   | An array containing objects with the block data for each the request block on the specified blockchain from the respective node.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+reply*          | array   | An array containing objects of the block data for each requested block on the specified blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
 \* This is only returned if using a `node_count` greater than `1`.
@@ -2187,7 +2186,7 @@ This call is used to decode a specified bockchain transaction HEX. It requires t
 > Sample Request
 
 ```cli
-blocknetdx-cli xrDecodeRawTransaction SYS 01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff640363b1082cfabe6d6df75a401bb4e29d77b2162d476557c4bc879380dad926e44c1b2a7c49893a3cc108000000f09f909f000f4d696e6564206279206c616e636163000000000000000000000000000000000000000000000000000000000500c5a00000000000000330952d4b000000001976a914c825a1ecf2a6830c4401620c3a16f1995057c2ab88ac00000000000000002f6a24aa21a9ed2ac560369b71e58f0618a79d2f03bcf7283945e20eef7813de376a6f503448c108000000000000000000000000000000002c6a4c2952534b424c4f434b3a81c66dc456024e97e518ac2ab3ec51bf85b294b9a140c6e9376a040607edc39ddc962c3b 2
+blocknet-cli xrDecodeRawTransaction SYS 01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff640363b1082cfabe6d6df75a401bb4e29d77b2162d476557c4bc879380dad926e44c1b2a7c49893a3cc108000000f09f909f000f4d696e6564206279206c616e636163000000000000000000000000000000000000000000000000000000000500c5a00000000000000330952d4b000000001976a914c825a1ecf2a6830c4401620c3a16f1995057c2ab88ac00000000000000002f6a24aa21a9ed2ac560369b71e58f0618a79d2f03bcf7283945e20eef7813de376a6f503448c108000000000000000000000000000000002c6a4c2952534b424c4f434b3a81c66dc456024e97e518ac2ab3ec51bf85b294b9a140c6e9376a040607edc39ddc962c3b 2
 ```
 <code class="api-call">xrDecodeRawTransaction [blockchain] [tx_hex] [node_count]\(optional)</code>
 
@@ -2195,7 +2194,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
 tx_hex          | string  | The raw transaction HEX to decode.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus.
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`.
 
 
 ### Response Parameters
@@ -2365,7 +2364,7 @@ Parameter       | Type    | Description
 reply           | object  | An object containing the decoded transaction data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | object  | An object containing the decoded transaction data from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -2387,7 +2386,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 ```cli
 {
   "blockchain": "SYS",
-  "txid": "9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51"
+  "tx_id": "9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51"
 }
 ```
 This call is used to retrieve the transaction data for the specified transaction ID (hash) and blockchain.
@@ -2398,15 +2397,15 @@ This call is used to retrieve the transaction data for the specified transaction
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetTransaction SYS 9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51 2
+blocknet-cli xrGetTransaction SYS 9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51 2
 ```
-<code class="api-call">xrGetTransaction [blockchain] [txid] [node_count]\(optional)</code>
+<code class="api-call">xrGetTransaction [blockchain] [tx_id] [node_count]\(optional)</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
-txid            | string  | The transaction ID(hash) for the transaction of interest.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+tx_id           | string  | The transaction ID (hash) for the transaction of interest.
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -2531,7 +2530,7 @@ Parameter       | Type    | Description
 reply           | object  | An object containing the transaction data for the specified transaction ID and blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | object  | An object containing the transaction data for the specified transaction ID and blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -2553,8 +2552,8 @@ uuid            | string  | The response ID, which can be used to view this resp
 ```cli
 {
   "blockchain": "SYS",
-  "txid1": "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd",
-  "txid2": "f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e",
+  "tx_id1": "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd",
+  "tx_id2": "f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e",
 }
 ```
 This call is used to retrieve transaction data for multiple transaction IDs (hashes) on the specified blockchain. Currently the maximum request is 50 transactions, although a node may set this limit to less.
@@ -2565,15 +2564,15 @@ This call is used to retrieve transaction data for multiple transaction IDs (has
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetTransactions SYS f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd,f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e 2
+blocknet-cli xrGetTransactions SYS "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd,f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e" 2
 ```
-<code class="api-call">xrGetTransactions [blockchain] [txid1,txid2,txidN] [node_count]\(optional)</code>
+<code class="api-call">xrGetTransactions [blockchain] [tx_ids] [node_count]\(optional)</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
-txidN           | string  | The transaction ID (hash) for the transactions of interest. The hashes must be separated by a comma with no spaces.
-node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+tx_ids          | string  | A comma-delimited list of transaction IDs (hashes) for the transactions of interest. The hashes must be separated by a comma with no spaces.
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -2839,7 +2838,7 @@ Parameter       | Type    | Description
 reply           | array   | An array containing objects with the transaction data for each requested transaction on the specified blockchain. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | array   | An array containing objects with the transaction data for each requested transaction on the specified blockchain from the respective node.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
 
@@ -2861,7 +2860,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 ```cli
 {
   "blockchain": "SYS",
-  "signed_tx": "0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000"
+  "signed_tx_hex": "0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000"
 }
 ```
 This call is used to submit a locally signed transaction on the specified blockchain.
@@ -2872,14 +2871,15 @@ This call is used to submit a locally signed transaction on the specified blockc
 > Sample Request
 
 ```cli
-blocknetdx-cli xrSendTransaction SYS 0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000
+blocknet-cli xrSendTransaction SYS 0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000
 ```
-<code class="api-call">xrSendTransaction [blockchain] [signed_tx]</code>
+<code class="api-call">xrSendTransaction [blockchain] [signed_tx_hex] [node_count]\(optional)</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
-signed_tx       | string  | The signed transaction HEX.
+signed_tx_hex   | string  | The signed transaction HEX.
+node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
 ### Response Parameters
@@ -2928,7 +2928,7 @@ This call is used to send a request to an XCloud service. XCloud is a decentrali
 > Sample Request
 
 ```cli
-blocknetdx-cli xrService SYSgetbestblockhash
+blocknet-cli xrService SYSgetbestblockhash
 ```
 <code class="api-call">xrService [service] [param1 param2 paramN]</code>
 
@@ -2987,13 +2987,13 @@ This call is used to send a request to an XCloud service, along with a specified
 > Sample Request
 
 ```cli
-blocknetdx-cli xrServiceConsensus 1 SYSgetbestblockhash
+blocknet-cli xrServiceConsensus 1 SYSgetbestblockhash
 ```
 <code class="api-call">xrServiceConsensus [node_count] [service] [param1 param2 paramN]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-node_count      | int     | The number of nodes that will be used to route calls and use the majority response from for consensus.
+node_count      | int     | The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`.
 service         | string  | The service name without the namespace (*xcloud_service*, not *xrs::[xcloud_service]*).
 paramN          | unknown | (Optional Parameter)<br>Refer to service documentation for parameter requirements. Information about an XCloud service can be viewed in the service configuration. Use [xrConnect](#xrconnect) to find a node with the service, then use [xrConnectedNodes](#xrconnectednodes) to review the service information.
 
@@ -3032,7 +3032,7 @@ Parameter       | Type    | Description
 reply           | unknown | The service's response data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
 allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
 nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknetdx.conf`. See [node scoring](#xrouter-node-scoring) for more details.
+score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See [node scoring](#xrouter-node-scoring) for more details.
 reply*          | array   | The service's response data from the respective node.
 error           | object  | The native error response if an error occurred, otherwise a successful response will contain a `null` error.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
@@ -3066,7 +3066,7 @@ This call is used to look up responses from previous XRouter calls without havin
 > Sample Request
 
 ```cli
-blocknetdx-cli xrGetReply 3243a24b-3e9d-40d1-8c33-37a57878ce85
+blocknet-cli xrGetReply 3243a24b-3e9d-40d1-8c33-37a57878ce85
 ```
 <code class="api-call">xrGetReply [uuid]</code>
 
@@ -3114,7 +3114,7 @@ This call is used to show the configurations received from all nodes as raw text
 > Sample Request
 
 ```cli
-blocknetdx-cli xrShowConfigs
+blocknet-cli xrShowConfigs
 ```
 <code class="api-call">xrShowConfigs</code>
 
@@ -3132,10 +3132,18 @@ This call does not take parameters.
 ```cli
 [
   {
-    "config": "[Main]\nwallets=SYS,MNP\nservices=SYSgetbestblockhash,SYSgetgovernanceinfo\ntimeout=30\nconsensus=1\nfee=0\nmaxfee=0.5\nclientrequestlimit=50\npaymentaddress=B8zc9PuDJC3XaF7UkQ2CnRDCmXiCs9bDuS\n[xrGetBlockCount]\nmaxfee=0.1\nclientrequestlimit=10\n[SYS::xrGetBlockCount]\nfee=0.1\nmaxfee=0.2\n[xrGetBlocks]\nfetchlimit=10\nfee=0.1\nmaxfee=0.2\n[MNP::xrGetBlocks]\nfetchlimit=1\nfee=0.1\n[MNP::xrGetTransactions]\nfetchlimit=3\nfee=0.1\n"
+    "nodepubkey" : "03ca15d619cf36fdc043892b12a3881dd08f2d3905e2ff399ac39cf34b28a995c7",
+    "paymentaddress" : "BiBbLf8wDyYcSAzsX1SNzZKrc2zZQjS2pa",
+    "config" : "[Main]\nwallets=BTC,ETH,LTC,BLOCK,CRW,MERGE,TRC\nmaxfee=0\n[BTC::xrGetBlocks]\n#fee=0.1\n#clientrequestlimit=-1\ndisabled=0\nfetchlimit=50\n\n\n",
+    "plugins" : {
+    }
   },
   {
-    "config": "[Main]\nwallets=SYS,LTC,BLOCK,BTC\nservices=BTCgetblockhash,BTCgetbestblockhash,BTCgettransaction,SYSgetbestblockhash\ntimeout=30\nclientrequestlimit=50\nmaxfee=0.1\nfee=0\npaymentaddress=BGyvu6uHJ9WLftPgwHeAU5HwmgGmpB3Juh\n[xrGetBlockCount]\nclientrequestlimit=-1\n[BTC]\nclientrequestlimit=100\nfee=0.2\n"
+    "nodepubkey" : "0252d7959e25a8f1a15b4e3e487d310211534dd71ca3316abe463d40a5cf0d67ca",
+    "paymentaddress" : "BXhndtvEEM5Yh9UEPzrzpBLksjZReGV6Kv",
+    "config" : "[Main]\nwallets=BLOCK,LTC,BTC,PIVX,MON\nmaxfee=0\nconsensus=1\ntimeout=30\npaymentaddress=BXhndtvEEM5Yh9UEPzrzpBLksjZReGV6Kv\n\n\n",
+    "plugins" : {
+    }
   }
 ]
 ```
@@ -3143,53 +3151,10 @@ This call does not take parameters.
 Parameter       | Type    | Description
 ----------------|---------|-------------
 Array           | array   | An array of objects containing the configurations for each node you are connected to.
+nodepubkey      | string  | The node ID.
+paymentaddress  | string  | The node's payment address, may also be specific per command.
 config          | string  | The raw text contents of `xrouter.conf`.
-
-
-
-
-
-
-
-
-
-
-## xrUpdateConfigs
-
-This call is used to request the latest configuration files from all Service Nodes.
-
-
-### Request Parameters
-
-> Sample Request
-
-```cli
-blocknetdx-cli xrUpdateConfigs true
-```
-<code class="api-call">xrUpdateConfigs [force_check]\(optional)</code>
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-force_check     | bool    | (Optional Parameter)<br>Defaults to `false`.<br>Signifies whether to force update regardless of rate limit checks.<br>`true`: Force update if rate limit exceeded.<br>`false`: Only update if within rate limit.
-
-
-### Response Parameters
-
-<aside class="success">
-200 OK
-</aside>
-
-> Sample 200 Response
-
-```cli
-{
-  "reply": "Config requests have been sent"
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-reply           | string  | A confirmation that the new configs have been requested.
+plugins         | obj     | An object containing the raw configuration text contents for each of this node's plugins.
 
 
 
@@ -3210,7 +3175,7 @@ This call is used to reload `xrouter.conf` and all associated plugin configs aft
 > Sample Request
 
 ```cli
-blocknetdx-cli xrReloadConfigs
+blocknet-cli xrReloadConfigs
 ```
 <code class="api-call">xrReloadConfigs</code>
 
@@ -3226,14 +3191,12 @@ This call does not take parameters.
 > Sample 200 Response
 
 ```cli
-{
-  "reply": "Config requests have been sent"
-}
+true
 ```
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-reply           | string  | A confirmation that `xrouter.conf` has been reloaded.
+true            | bool    | A confirmation that `xrouter.conf` has been reloaded.
 
 
 
@@ -3254,7 +3217,7 @@ This call is used to print your XRouter configuration and has two different outp
 > Sample Request
 
 ```cli
-blocknetdx-cli xrStatus
+blocknet-cli xrStatus
 ```
 <code class="api-call">xrStatus</code>
 
@@ -3453,7 +3416,7 @@ plugins         | object  | An object of each service you have setup and the raw
   > Sample Request
 
   ```cli
-  blocknetdx-cli xrGetBalance SYS SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP
+  blocknet-cli xrGetBalance SYS SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP
   ```
   <code class="api-call">xrGetBalance [blockchain] [address] [node_count]\(optional)</code>
 
@@ -3461,7 +3424,7 @@ plugins         | object  | An object of each service you have setup and the raw
   ----------------|---------|-------------
   blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
   address         | string  | The address to retrieve the balance of.
-  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
   ### Response Parameters
@@ -3512,7 +3475,7 @@ plugins         | object  | An object of each service you have setup and the raw
   > Sample Request
 
   ```cli
-  blocknetdx-cli xrGetBalanceUpdate SYS SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP 125157
+  blocknet-cli xrGetBalanceUpdate SYS SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP 125157
   ```
   <code class="api-call">xrGetBalanceUpdate [blockchain] [address] [start_block]\(optional) [node_count]\(optional)</code>
 
@@ -3521,7 +3484,7 @@ plugins         | object  | An object of each service you have setup and the raw
   blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
   address         | string  | The address to retrieve the balance of.
   start_block     | int     | (Optional Parameter) Defaults to `0`.<br>The earliest block to retrieve transactions through. 
-  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
   ### Response Parameters
@@ -3571,14 +3534,14 @@ plugins         | object  | An object of each service you have setup and the raw
   > Sample Request
 
   ```cli
-  blocknetdx-cli xrGenerateBloomFilter SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP 
+  blocknet-cli xrGenerateBloomFilter SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP 
   ```
   <code class="api-call">xrGenerateBloomFilter [address1] [address2...addressN] [node_count]\(optional)</code>
 
   Parameter       | Type    | Description
   ----------------|---------|-------------
   addresses       | array   | The addresses to retrieve the bloom filter HEX representation of.
-  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
   ### Response Parameters
@@ -3631,7 +3594,7 @@ plugins         | object  | An object of each service you have setup and the raw
   > Sample Request
 
   ```cli
-  blocknetdx-cli xrGetTransactionsBloomFilter SYS 0000100800
+  blocknet-cli xrGetTransactionsBloomFilter SYS 0000100800
   ```
   <code class="api-call">xrGetTransactionsBloomFilter [blockchain] [bloom_filter] [start_block]\(optional) [node_count]\(optional)</code>
 
@@ -3640,7 +3603,7 @@ plugins         | object  | An object of each service you have setup and the raw
   blockchain      | string  | The blockchain, represented by the asset's ticker (BTC, LTC, SYS, etc.).
   bloom_filter    | string  | The HEX representation of a bloom filter.
   start_block     | int     | (Optional Parameter) Defaults to `0`.<br>The earliest block to retrieve transactions through. 
-  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls and use the majority response from for consensus. 
+  node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `consensus=` setting in `xrouter.conf`.<br>The number of nodes that will be used to route calls. The most common response (i.e. the response with the most consensus) will be returned as `reply`. 
 
 
   ### Response Parameters
