@@ -9,6 +9,7 @@ Call                                             | Description
 [history](#history)                              | XBridge 24hr trade history
 [status](#status)                                | XBridge asset availability
 [dxgetnetworktokens](#dxgetnetworktokens-web)    | Returns online XBridge assets
+[dxgetorders](#dxgetorders-web)                  | Returns all network orders with details
 [xrgetnetworkservices](#xrgetnetworkservices-web)| Returns supported XRouter services
 
 
@@ -342,6 +343,80 @@ This call is used to retrieve all the assets currently supported by the network 
 Parameter     | Type          | Description
 --------------|---------------|-------------
 Array         | array         | An array of all the assets supported by the network for trading.
+
+
+
+
+
+
+
+
+
+
+## dxgetorders (web)
+
+This call is used to retrieve all orders of every market pair. Unlike with [dxGetOrders](), it will return all orders on the network.
+
+
+### Endpoint
+
+<code class="api-call">[https://data.blocknet.co/api/v2.0/dxgetorders](https://data.blocknet.co/api/v2.0/dxgetorders)</code>
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```cli
+[
+  {
+    "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", 
+    "maker": "SYS",
+    "maker_size": "0.100",
+    "taker": "LTC",
+    "taker_size": "0.01",
+    "updated_at": "2018-01-15T18:25:05.12345Z", 
+    "created_at": "2018-01-15T18:15:30.12345Z", 
+    "status": "finished"
+  },
+  {
+    "id": "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4", 
+    "maker": "SYS",
+    "maker_size": "0.100",
+    "taker": "LTC",
+    "taker_size": "0.01",
+    "updated_at": "2018-01-15T18:25:05.12345Z", 
+    "created_at": "2018-01-15T18:15:30.12345Z", 
+    "status": "finished"
+  },
+  {
+    "id": "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a", 
+    "maker": "SYS",
+    "maker_size": "0.100",
+    "taker": "LTC",
+    "taker_size": "0.01",
+    "updated_at": "2018-01-15T18:25:05.12345Z", 
+    "created_at": "2018-01-15T18:15:30.12345Z", 
+    "status": "finished"
+  }
+]
+```
+
+Parameter     | Type          | Description
+--------------|---------------|-------------
+Array         | array         | An array of all orders with each order having the following parameters.
+id            | string        | The order ID.
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | string(float) | Maker trading size. String is used to preserve precision.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | string(float) | Taker trading size. String is used to preserve precision.
+updated_at    | string        | ISO 8601 datetime, with microseconds, of the last time the order was updated.
+created_at    | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+status        | string        | [View order status codes](#status-codes)
 
 
 

@@ -12,6 +12,7 @@ Call                                              | Description
 [dxGetOrder](#dxgetorder)                         | Returns order details by ID
 [dxGetOrders](#dxgetorders)                       | Returns all orders with details
 [dxGetMyOrders](#dxgetmyorders)                   | Returns all your own orders with details
+[dxFlushCancelledOrders](#dxflushcancelledorders) | Removes your cancelled orders
 [dxGetOrderFills](#dxgetorderfills)               | Returns all recent filled orders
 [dxGetOrderHistory](#dxgetorderhistory)           | Returns the OHLCV data my market
 [dxGetLocalTokens](#dxgetlocaltokens)             | Returns all assets connected locally
@@ -20,12 +21,11 @@ Call                                              | Description
 [dxGetNewTokenAddress](#dxgetnewtokenaddress)     | Returns a newly generated address
 [dxGetOrderBook](#dxgetorderbook)                 | Returns open orders
 [dxLoadXBridgeConf](#dxloadxbridgeConf)           | Reloads the `xbridge.conf`
-[gettradingdata](#gettradingdata)                 | Returns on-chain trading records
+[dxGetTradingData](#dxgettradingdata)             | Returns on-chain trading records
 [Status Codes](#status-codes)                     | XBridge order status codes
 [Error Codes](#error-codes)                       | Error codes
 
 
-<!-- [dxFlushCancelledOrders](#dxflushcancelledorders) | Removes your cancelled orders -->
 
 
 
@@ -61,7 +61,7 @@ There are no fees to make orders, but there are transaction fees for the maker a
 > Sample Request
 
 ```cli
-blocknetdx-cli dxMakeOrder SYS 0.100 SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK LTC 0.01 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z exact
+blocknet-cli dxMakeOrder SYS 0.100 SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK LTC 0.01 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z exact
 ```
 <code class="api-call">dxMakeOrder [maker] [maker_size] [maker_address] [taker] [taker_size] [taker_address] [type] [dryrun]\(optional)</code>
 
@@ -74,7 +74,7 @@ taker         | string        | Taker trading asset; the ticker of the asset bei
 taker_size    | string(float) | Taker trading size. String is used to preserve precision.
 taker_address | string        | Maker address for receiving the incoming asset.
 type          | string        | This is the order type.<br>`exact`: Matches a specific order. <br>`limit`: (not yet supported) <br>`market`: (not yet supported)
-dryrun        | string        | (Optional Parameter)<br>`dryrun`: Receive a response without actually submitting the order to the network.
+dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the order without actually submitting the order to the network.
 
 
 ### Response Parameters
@@ -205,7 +205,7 @@ Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the t
 > Sample Request
 
 ```cli
-blocknetdx-cli dxTakeOrder 4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
+blocknet-cli dxTakeOrder 4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
 ```
 <code class="api-call">dxTakeOrder [order_id] [send_address] [receive_address] [dryrun]\(optional)</code>
 
@@ -214,7 +214,7 @@ Parameter       | Type          | Description
 id              | string        | ID of order being filled.
 send_address    | string        | Taker address for sending the outgoing asset.
 receive_address | string        | Taker address for receiving the incoming asset.
-dryrun          | string        | (Optional Parameter) <br>`dryrun`: Receive a response without actually submitting the order to the network.
+dryrun          | string        | (Optional Parameter) <br>`dryrun`: Validate the order without actually submitting the order to the network.
 
 
 ### Response Parameters
@@ -332,7 +332,7 @@ This call is used to cancel one of your own orders, which automatically rolls ba
 > Sample Request
 
 ```cli
-blocknetdx-cli dxCancelOrder 91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9
+blocknet-cli dxCancelOrder 91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9
 ```
 <code class="api-call">dxCancelOrder [order_id]</code>
 
@@ -456,7 +456,7 @@ This call is used to retrieve order info.
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetOrder 6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a
+blocknet-cli dxGetOrder 6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a
 ```
 <code class="api-call">dxGetOrder [order_id]</code>
 
@@ -571,7 +571,7 @@ This call is used to retrieve all orders of every market pair. It will only retu
 > Request
 
 ```cli
-blocknetdx-cli dxGetOrders
+blocknet-cli dxGetOrders
 ```
 <code class="api-call">dxGetOrders</code>
 
@@ -704,7 +704,7 @@ This call is used to retrieve all of your orders (of all states) from the local 
 > Request
 
 ```cli
-blocknetdx-cli dxGetMyOrders
+blocknet-cli dxGetMyOrders
 ```
 <code class="api-call">dxGetMyOrders</code>
 
@@ -828,7 +828,7 @@ Code  | Type  | Error
 
 
 
-<!-- 
+
 ## dxFlushCancelledOrders 
 
 > Sample Data
@@ -846,7 +846,7 @@ This call is used to remove your cancelled orders that are older than the specif
 > Sample Request
 
 ```cli
-blocknetdx-cli dxFlushCancelledOrders 600000
+blocknet-cli dxFlushCancelledOrders 600000
 ```
 <code class="api-call">dxFlushCancelledOrders [ageMillis]\(optional)</code>
 
@@ -883,16 +883,17 @@ ageMillis     | int           | (Optional Parameter) Defaults to `0`.<br>Remove 
 }
 ```
 
-Parameter        | Type          | Description
------------------|---------------|-------------
-ageMillis        | int           | The millisecond value specified when making the call.
-now              | string        | ISO 8601 datetime, with microseconds, of when
-durationMicrosec | int           | The amount of time in milliseconds it took to process the call.
-flushedOrders    | array         | Array of cancelled orders that were removed.
-id               | string        | The order ID.
-txtime           | string        | ISO 8601 datetime, with microseconds, of when
-use_count        | int           | 
+Parameter         | Type          | Description
+------------------|---------------|-------------
+ageMillis         | int           | The millisecond value specified when making the call.
+now*              | string        | ISO 8601 datetime, with microseconds, of when the call was executed.
+durationMicrosec* | int           | The amount of time in milliseconds it took to process the call.
+flushedOrders     | array         | Array of cancelled orders that were removed.
+id                | string        | The order ID.
+txtime            | string        | ISO 8601 datetime, with microseconds, of when the order was created.
+use_count*        | int           | This value is strictly for debugging purposes.
 
+\* For debugging pruposes
 
 > Sample 400 Response
 
@@ -946,7 +947,7 @@ Code  | Type  | Error
 1012  | 400   | Invalid taker symbol
 1025  | 400   | Invalid parameters
 1002  | 500   | Internal server error
- -->
+
 
 
 
@@ -975,7 +976,7 @@ This call is used to retrieve all recent filled orders by a given trade pair. It
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetOrderFills SYS LTC false
+blocknet-cli dxGetOrderFills SYS LTC false
 ```
 <code class="api-call">dxGetOrderFills [maker] [taker] [combined]\(optional)</code>
 
@@ -1118,7 +1119,7 @@ This call is used to retrieve the OHLCV data by a trade pair within a specified 
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetOrderHistory SYS LTC 1540660180 1540660420 60 true
+blocknet-cli dxGetOrderHistory SYS LTC 1540660180 1540660420 60 true
 ```
 
 <code class="api-call">dxGetOrderHistory [maker] [taker] [start_time] [end_time] [granularity] [order_ids]\(optional) [with_inverse]\(optional) [limit]\(optional)</code>
@@ -1255,7 +1256,7 @@ This call is used to retrieve all the assets supported by the local client. You 
 > Request
 
 ```cli
-blocknetdx-cli dxGetLocalTokens
+blocknet-cli dxGetLocalTokens
 ```
 <code class="api-call">dxGetLocalTokens</code>
 
@@ -1355,7 +1356,7 @@ This call is used to retrieve all the assets currently supported by the network.
 > Request
 
 ```cli
-blocknetdx-cli dxGetNetworkTokens
+blocknet-cli dxGetNetworkTokens
 ```
 <code class="api-call">dxGetNetworkTokens</code>
 
@@ -1456,7 +1457,7 @@ This call is used to retrieve the asset __*available*__ balances for all connect
 > Request
 
 ```cli
-blocknetdx-cli dxGetTokenBalances
+blocknet-cli dxGetTokenBalances
 ```
 <code class="api-call">dxGetTokenBalances</code>
 
@@ -1565,7 +1566,7 @@ This call is used to generate a new address for the specified asset. This call w
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetNewTokenAddress SYS
+blocknet-cli dxGetNewTokenAddress SYS
 ```
 <code class="api-call">dxGetNewTokenAddress [asset]</code>
 
@@ -1671,7 +1672,7 @@ This call is used to retrieve the locked UTXOs for a specified order ID.
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetLockedUtxos f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156
+blocknet-cli dxGetLockedUtxos f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156
 ```
 <code class="api-call">dxGetLockedUtxos [order_id]</code>
 
@@ -1797,7 +1798,7 @@ This call is used to retrieve open orders at various detail levels:
 > Sample Request
 
 ```cli
-blocknetdx-cli dxGetOrderBook 1 LTC SYS 100
+blocknet-cli dxGetOrderBook 1 LTC SYS 100
 ```
 <code class="api-call">dxGetOrderBook [detail] [maker] [taker] [max_orders]\(optional)</code>
 
@@ -2038,7 +2039,7 @@ This call is used to reload `xbridge.conf` to run newly configured settings with
 > Request
 
 ```cli
-blocknetdx-cli dxLoadXBridgeConf
+blocknet-cli dxLoadXBridgeConf
 ```
 <code class="api-call">dxLoadXBridgeConf</code>
 
@@ -2123,9 +2124,11 @@ Code  | Type  | Error
 
 
 
-## gettradingdata
+## dxGetTradingData
 
 This call returns the XBridge trading records. This information is pulled from on-chain history so pulling a large amount of blocks will result in longer response times.
+
+**This call replaces the `gettradingdata` call, which will be deprecated. Please update to use `dxGetTradingData` as soon as possible**
 
 
 ### Request Parameters
@@ -2133,14 +2136,15 @@ This call returns the XBridge trading records. This information is pulled from o
 > Sample Request
 
 ```cli
-blocknetdx-cli gettradingdata 1440
+blocknet-cli dxGetTradingData 1440
 ```
 
-<code class="api-call">gettradingdata [blocks]\(optional)</code>
+<code class="api-call">dxGetTradingData [blocks]\(optional) [errors]\(optional)</code>
  
 Parameter     | Type          | Description
 --------------|---------------|-------------
 blocks        | int           | (Optional Parameter) Defaults to `43200`.<br>Number of blocks to return trade records for (60s block time).
+errors        | bool          | (Optional Parameter) Defaults to `false`.<br>Shows and error if there's an error detected. This may be useful if you're building a custom client and change the on-chain order history data format.
 
 
 ### Response Parameters
@@ -2155,33 +2159,33 @@ blocks        | int           | (Optional Parameter) Defaults to `43200`.<br>Num
 [
   {
     "timestamp" : 1559970139,
-    "txid" : "4b409e5c5fb1986930cf7c19afec2c89ac2ad4fddc13c1d5479b66ddf4a8fefb",
-    "to" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
-    "xid" : "9eb57bac331eab34f3daefd8364cdb2bb05259c407d805d0bd0c",
-    "from" : "BLOCK",
-    "fromAmount" : 0.001111,
-    "to" : "SYS",
-    "toAmount" : 0.001000
+    "fee_txid" : "4b409e5c5fb1986930cf7c19afec2c89ac2ad4fddc13c1d5479b66ddf4a8fefb",
+    "nodepubkey" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
+    "id" : "9eb57bac331eab34f3daefd8364cdb2bb05259c407d805d0bd0c",
+    "taker" : "BLOCK",
+    "taker_size" : 0.001111,
+    "maker" : "SYS",
+    "maker_size" : 0.001000
   },
   {
     "timestamp" : 1559970139,
-    "txid" : "3de7479e8a88ebed986d3b7e7e135291d3fd10e4e6d4c6238663db42c5019286",
-    "to" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
-    "xid" : "fd0fed3ee9fe557d5735768c9bdcd4ab2908165353e0f0cef0d5",
-    "from" : "BLOCK",
-    "fromAmount" : 0.001577,
-    "to" : "SYS",
-    "toAmount" : 0.001420
+    "fee_txid" : "3de7479e8a88ebed986d3b7e7e135291d3fd10e4e6d4c6238663db42c5019286",
+    "nodepubkey" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
+    "id" : "fd0fed3ee9fe557d5735768c9bdcd4ab2908165353e0f0cef0d5",
+    "taker" : "BLOCK",
+    "taker_size" : 0.001577,
+    "maker" : "SYS",
+    "maker_size" : 0.001420
   },
   {
     "timestamp" : 1559970139,
-    "txid" : "9cc4a0dae46f2f1849b3ab6f93ea1c59aeaf0e95662d90398814113f12127eae",
-    "to" : "BbrQKtutGBLuWHvq26EmHKuNaztnfBFWVB",
-    "xid" : "f74c614489bd77efe545c239d1f9a57363c5428e7401b2018d350",
-    "from" : "BLOCK",
-    "fromAmount" : 0.000231,
-    "to" : "SYS",
-    "toAmount" : 0.001100
+    "fee_txid" : "9cc4a0dae46f2f1849b3ab6f93ea1c59aeaf0e95662d90398814113f12127eae",
+    "nodepubkey" : "BbrQKtutGBLuWHvq26EmHKuNaztnfBFWVB",
+    "id" : "f74c614489bd77efe545c239d1f9a57363c5428e7401b2018d350",
+    "taker" : "BLOCK",
+    "taker_size" : 0.000231,
+    "maker" : "SYS",
+    "maker_size" : 0.001100
   }
 ]
 ```
@@ -2189,13 +2193,13 @@ blocks        | int           | (Optional Parameter) Defaults to `43200`.<br>Num
 Parameter     | Type          | Description
 --------------|---------------|-------------
 timestamp     | int           | Unix epoch timestamp of when the trade took place.
-txid          | string        | The Blocknet trade fee transaction ID.
-to            | string        | Service Node that received the trade fee.
-xid           | string        | XBridge transaction ID.
-from          | string        | Taker trading asset; the ticker of the asset being sold by the taker.
-fromAmount    | int           | Taker trading size.
-to            | string        | Maker trading asset; the ticker of the asset being sold by the maker.
-toAmount      | int           | Maker trading size.
+fee_txid      | string        | The Blocknet trade fee transaction ID.
+nodepubkey    | string        | Service Node that received the trade fee.
+id            | string        | XBridge transaction ID.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | int           | Taker trading size.
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | int           | Maker trading size.
 
 
 

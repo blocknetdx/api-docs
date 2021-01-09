@@ -22,6 +22,37 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+
+5/11/2020    |
+------------|
+• Wallet v4.2.x release |
+• Added [dxgetorders](#dxgetorders-web) web endpoint |
+• Added [XRouter Service Explorer](https://service-explorer.core.cloudchainsinc.com/#/) link |
+• Added [C++ library guide](https://github.com/blocknetdx/libxrouter-sampleproj-cpp) link |
+• Added `tls` setting to `xrouter.conf` setup |
+• Added `dxnowallets` and `ShowAllOrders` setting to the [XBridge Setup](#xbridge-setup) |
+• Update [dxGetTradingData](#dxgettradingdata) output |
+
+
+4/20/2020    |
+------------|
+• Wallet v4.1.x release |
+• Added `status` to [listproposals](#listproposals) response details |
+
+
+2/7/2020    |
+------------|
+• Wallet v4.0.x release |
+• Added [dxFlushCancelledOrders](#dxflushcancelledorders) call |
+• Added [dxGetTradingData](#dxgettradingdata) call |
+• Removed `gettradingdata` call, in progress towards being deprecated |
+• Update `blocknetdx.conf` references to `blocknet.conf` |
+• Update `blocknetdx-cli` references to `blocknet-cli` |
+• Remove `xrUpdateConfigs` command, replaced by `servicenodesendping` |
+• Remove `xrouter=1` from XRouter setup |
+• Added selective [Core API](#core-api) calls |
+
+
 11/26/2019  |
 ------------|
 • Wallet v3.14.1 release |
