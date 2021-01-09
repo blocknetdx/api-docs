@@ -88,15 +88,15 @@ This call does not take parameters.
 
 Parameter              | Type    | Description
 -----------------------|---------|-------------
-version                | int     | The wallet version, `4000100` = v4.0.1.
+version                | int     | The wallet version (i.e. `4000100` = v4.0.1.)
 subversion             | string  | The wallet version string.
-protocolversion        | int     | The staking protocol version.
+protocolversion        | int     | The consensus protocol version.
 xbridgeprotocolversion | int     | The XBridge protocol version.
 xrouterprotocolversion | int     | The XRouter protocol version.
 connections            | int     | The number of peers your client has.
 warnings               | string  | Any network of blockchain workings.
 
-\* Only select information from the response is listed.
+\* Only a limited portion of the response is described
 
 
 
@@ -201,8 +201,6 @@ status          | string  | The status of the Service Node (`running`, `offline`
 score           | array   | The Service Node's local reputation score.
 services        | string  | An array of services the Service Node is supporting.
 
-\* This is only returned if using a `node_count` greater than `1`.
-
 
 
 
@@ -258,7 +256,8 @@ sinceblock      | int     | (Optional Parameter)<br>Defaults to `0`<br>Specifies
     "description": "This is a sample proposal for an example.",
     "votes_yes": 87,
     "votes_no": 3,
-    "votes_abstain": 0
+    "votes_abstain": 0,
+    "status": "passing"
   }
 ]
 ```
@@ -277,6 +276,7 @@ description     | string  | A short description of the proposal.
 votes_yes       | int     | The number of yes votes.
 votes_no        | int     | The number of no votes.
 votes_abstain   | int     | The number of abstained votes.
+status          | string  | The current status of the proposal.<br>`passing`: Active and passing. <br>`failing`: Active and failing. <br>`passed`: Finished and passed. <br>`failed`: Finished and failed. <br>`pending`: Active future proposal.
 
 
 

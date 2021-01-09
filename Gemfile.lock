@@ -25,11 +25,13 @@ GEM
       http_parser.rb (~> 0.6.0)
     erubis (2.7.0)
     eventmachine (1.2.5)
+    eventmachine (1.2.5-x64-mingw32)
     execjs (2.7.0)
     fast_blank (1.0.0)
     fastimage (2.0.1)
       addressable (~> 2)
     ffi (1.9.17)
+    ffi (1.9.17-x64-mingw32)
     haml (4.0.7)
       tilt
     hamster (3.0.0)
@@ -120,9 +122,11 @@ GEM
       thread_safe (~> 0.1)
     uglifier (3.0.4)
       execjs (>= 0.3.0, < 3)
+    wdm (0.1.1)
 
 PLATFORMS
   ruby
+  x64-mingw32
 
 DEPENDENCIES
   middleman (~> 4.2.1)
@@ -133,6 +137,7 @@ DEPENDENCIES
   nokogiri (~> 1.10.8)
   redcarpet (~> 3.4.0)
   rouge (~> 2.0.5)
+  wdm (>= 0.1.0)
 
 RUBY VERSION
    ruby 2.3.3p222
