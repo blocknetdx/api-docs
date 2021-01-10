@@ -20,7 +20,7 @@ Request a Hydra Project, this creates a project ID (`project_id`) in the databas
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough \
       -X POST \
       -H "Content-Type: application/json" \
@@ -38,7 +38,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "error":0,
   "result":
@@ -82,14 +82,14 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -H "Api-Key: <API-KEY>" 
 ```
 
-## Make Requests
+<!-- ## Make Requests
 
 ### JSON-RPC Methods
 On the right there is a quick command line example using `curl`:
 
 ```
 # Be sure to replace YOUR-PROJECT-ID with a Project ID from the generated project
-$ curl -X POST \
+curl -X POST \
 -H "Content-Type: application/json" \
 -H "Api-Key: <API-KEY>" \
 -d '{"jsonrpc": "2.0", "id": 1, "method": "eth_blockNumber", "params": []}' \
@@ -100,7 +100,7 @@ The response should look something like the following:
 
 ```
 {"jsonrpc": "2.0","result": "0x657abc", "id":1}
-```
+``` -->
 
 ### Subscriptions and Filters
 
@@ -121,7 +121,7 @@ Starts a subscription (on WebSockets / IPC / TCP transports) to a particular eve
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "param": ""
 }
@@ -129,7 +129,7 @@ Starts a subscription (on WebSockets / IPC / TCP transports) to a particular eve
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -150,7 +150,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -176,7 +176,7 @@ Unsubscribes from a subscription.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "subscription_id": "0xb53c4832f1dca4a5"
 }
@@ -184,7 +184,7 @@ Unsubscribes from a subscription.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -207,7 +207,7 @@ subscription_id           | string  | Subscription ID.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": true,
@@ -269,7 +269,7 @@ Returns the current web3 client version.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -289,7 +289,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "Geth/v1.9.23-stable-8c2f2715/linux-amd64/go1.15.3",
@@ -311,7 +311,7 @@ Returns Keccak-256 (not the standardized SHA3-256) of the given data.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -333,7 +333,7 @@ sha3_data           | string  | The data to convert into a SHA3 hash.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x47173285a8d7341e5e972fc677286384f802f8ef42a5ec5f03bbfa254cb01fad",
@@ -353,7 +353,7 @@ Returns `true` if client is actively listening for network connections.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -371,7 +371,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": true,
@@ -391,7 +391,7 @@ Returns number of peers currenly connected to the client.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -409,7 +409,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x19",
@@ -429,7 +429,7 @@ Returns the current network protocol version.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -447,7 +447,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "1",
@@ -467,7 +467,7 @@ Returns a list of addresses owned by the client.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -487,7 +487,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": ["string"],
@@ -507,7 +507,7 @@ Returns the number of the most recent block.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -527,7 +527,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x895cc6",
@@ -547,7 +547,7 @@ Executes a new message call immediately without creating a transaction on the bl
 
 > Sample Data
 
-```http
+```shell
 {
   "from": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "to": 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
@@ -561,7 +561,7 @@ Executes a new message call immediately without creating a transaction on the bl
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -589,7 +589,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x",
@@ -609,7 +609,7 @@ Returns the EIP155 chain ID used for transaction signing at the current best blo
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -629,7 +629,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -650,7 +650,7 @@ Makes a call or transaction, which won’t be added to the blockchain and return
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "from": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "to": 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
@@ -663,7 +663,7 @@ Makes a call or transaction, which won’t be added to the blockchain and return
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -691,7 +691,7 @@ data | string | Hash of the method signature and encoded parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x5cec",
@@ -712,7 +712,7 @@ Returns the balance of the account of given address.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "address": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "block_parameter": "latest"
@@ -721,7 +721,7 @@ Returns the balance of the account of given address.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -745,7 +745,7 @@ block_parameter	| string | Integer block number, or the string 'latest', 'earlie
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -766,7 +766,7 @@ Returns information about a block by hash.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "block_hash": "0x5bc28118ff3f15c4ae1cd14548c9a89c87405c5a9f0536c517f5955ace4b1011",
   "show_tx_details: "false"
@@ -775,7 +775,7 @@ Returns information about a block by hash.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -798,7 +798,7 @@ show_tx_details	| string | If `true` it returns the full transaction objects, if
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": {
@@ -1074,7 +1074,7 @@ Returns information about a block by block number.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "block_parameter": "0x899eef",
   "show_tx_details: "false"
@@ -1083,7 +1083,7 @@ Returns information about a block by block number.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -1106,7 +1106,7 @@ show_tx_details | boolean | If `true` it returns the full transaction objects, i
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": {
@@ -1381,7 +1381,7 @@ Returns the number of transactions in a block from a block matching the given bl
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "block_hash": "0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe"
 }
@@ -1389,7 +1389,7 @@ Returns the number of transactions in a block from a block matching the given bl
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -1411,7 +1411,7 @@ block_hash           | string  | Hash of a block.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0xef",
@@ -1432,7 +1432,7 @@ Returns the number of transactions in the block with the given block number.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "block_parameter": "latest"
 }
@@ -1440,7 +1440,7 @@ Returns the number of transactions in the block with the given block number.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -1462,7 +1462,7 @@ block_parameter	| string  | Integer block number, or the string 'latest', 'earli
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0xac",
@@ -1483,7 +1483,7 @@ Returns code at a given address.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "address": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
   "block_parameter": "latest"
@@ -1492,7 +1492,7 @@ Returns code at a given address.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -1514,7 +1514,7 @@ block_parameter	| string  | Integer block number, or the string 'latest', 'earli
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x",
@@ -1536,7 +1536,7 @@ Returns an array of all logs matching a given filter object.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "fromBlock": "0x1",
   "toBlock": 0x2",
@@ -1547,7 +1547,7 @@ Returns an array of all logs matching a given filter object.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -1573,7 +1573,7 @@ topics | Array | Topics are order-dependent. It’s possible to pass in null to 
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": [
@@ -1608,7 +1608,7 @@ Returns the value from a storage position at a given address.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "address": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "storage_position": "0x0",
@@ -1618,7 +1618,7 @@ Returns the value from a storage position at a given address.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -1643,7 +1643,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -1663,7 +1663,7 @@ Returns information about a transaction by block hash and transaction index posi
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "block_hash": "0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe",
   "tx_index_position": "0x0"
@@ -1672,7 +1672,7 @@ Returns information about a transaction by block hash and transaction index posi
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -1695,7 +1695,7 @@ tx_index_position | string | Integer of the transaction index position.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": {
@@ -1757,7 +1757,7 @@ Returns information about a transaction by block number and transaction index po
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "block_parameter": "latest",
   "tx_index_position": "0x0"
@@ -1766,7 +1766,7 @@ Returns information about a transaction by block number and transaction index po
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -1789,7 +1789,7 @@ tx_index_position | string | Integer of the transaction index position.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": {
@@ -1851,7 +1851,7 @@ Returns the information about a transaction requested by transaction hash.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "tx_hash": "0x091e312f48b184fc86c1d14f6dac5ffad3e49e10752d59d4de4e87655d0156f4"
 }
@@ -1859,7 +1859,7 @@ Returns the information about a transaction requested by transaction hash.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -1881,7 +1881,7 @@ tx_hash           | string  | Hash of a transaction.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": {
@@ -1943,7 +1943,7 @@ Returns the number of transactions sent from an address.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "address": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "block_parameter": "latest"
@@ -1952,7 +1952,7 @@ Returns the number of transactions sent from an address.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -1976,7 +1976,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -2001,7 +2001,7 @@ Returns the receipt of a transaction by transaction hash.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "tx_hash": "0x091e312f48b184fc86c1d14f6dac5ffad3e49e10752d59d4de4e87655d0156f4"
 }
@@ -2009,7 +2009,7 @@ Returns the receipt of a transaction by transaction hash.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2031,7 +2031,7 @@ tx_hash           | string  | Hash of a transaction.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2080,7 +2080,7 @@ Returns information about a uncle of a block by hash and uncle index position.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "block_hash": "0xb3b20624f8f0f86eb50dd04688409e5cea4bd02d700bf6e79e9384d47d6a5a35",
   "uncleindex_position": "0x0"
@@ -2089,7 +2089,7 @@ Returns information about a uncle of a block by hash and uncle index position.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2112,7 +2112,7 @@ uncle_index_position |	string |	Integer of the uncle index position.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2183,7 +2183,7 @@ Returns information about a uncle of a block by number and uncle index position.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "block_parameter": "0x29c",
   "uncle_index_position": "0x0"
@@ -2192,7 +2192,7 @@ Returns information about a uncle of a block by number and uncle index position.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2215,7 +2215,7 @@ uncle_index_position |	string |	Integer of the uncle index position.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2284,7 +2284,7 @@ Returns information about a uncle of a block by number and uncle index position.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "block_hash": "0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe"
 }
@@ -2292,7 +2292,7 @@ Returns information about a uncle of a block by number and uncle index position.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2314,7 +2314,7 @@ block_hash	| string |	Hash of a block.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -2335,7 +2335,7 @@ Returns the number of uncles in a block from a block matching the given block nu
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "block_parameter": "latest"
 }
@@ -2343,7 +2343,7 @@ Returns the number of uncles in a block from a block matching the given block nu
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2365,7 +2365,7 @@ block_parameter	| string |	Integer block number, or the string 'latest', 'earlie
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -2385,7 +2385,7 @@ Returns the hash of the current block, the seedHash, and the boundary condition 
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2405,7 +2405,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": [
@@ -2427,7 +2427,7 @@ Returns the number of hashes per second that the node is mining with.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2447,7 +2447,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -2469,7 +2469,7 @@ Returns `true` if client is actively mining new blocks.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2489,7 +2489,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": false,
@@ -2511,7 +2511,7 @@ Returns the current Ethereum protocol version.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2531,7 +2531,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "64",
@@ -2552,7 +2552,7 @@ Submits a signed transaction to the Ethereum network.
 
 > Sample Data
 
-```http
+```shell
 {
   "tx_data": "0xf86c8085098bca5a008307a1209437ede5f23cdcecfba18331126668ef705ea78489872386f26fc100008025a04058f161da3a3b028d2a0cbb98f3d22045f97a41150506cb9a52cbf0238622e8a077b6880c0d4c2c1c4ebe23c51d86954aebafaa766cd38806d299997f3face0dd"
 }
@@ -2560,7 +2560,7 @@ Submits a signed transaction to the Ethereum network.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2582,7 +2582,7 @@ tx_data           | string  | The signed transaction data
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0xbb4e52e164889e0f9a7228792ab18ba866a32934f0f136e0e563fdfaaefd34dc",
@@ -2602,7 +2602,7 @@ Used for submitting a proof-of-work solution.
 
 > Sample Data
 
-```http
+```shell
 {
   "nonce": "0x0000000000000001",
   "pow_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
@@ -2612,7 +2612,7 @@ Used for submitting a proof-of-work solution.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2636,7 +2636,7 @@ mix_digest |	string |	The mix digest (256 bits).
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": false,
@@ -2659,7 +2659,7 @@ Returns an object with data about the sync status or `false`.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2679,7 +2679,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": false,
@@ -2709,7 +2709,7 @@ Polling method for a filter, which returns an array of logs which occurred since
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "filter_id": "0x16"
 }
@@ -2717,7 +2717,7 @@ Polling method for a filter, which returns an array of logs which occurred since
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2740,7 +2740,7 @@ filter_id           | string  | Filter ID.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": [
@@ -2781,7 +2781,7 @@ Returns an array of all logs matching filter with given id.
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "filter_id": "0x16"
 }
@@ -2789,7 +2789,7 @@ Returns an array of all logs matching filter with given id.
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2812,7 +2812,7 @@ filter_id           | string  | Filter ID.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": [
@@ -2854,7 +2854,7 @@ Creates a filter in the node, to notify when a new block arrives. To check if th
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "filter_id": "0x16"
 }
@@ -2862,7 +2862,7 @@ Creates a filter in the node, to notify when a new block arrives. To check if th
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2883,7 +2883,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -2905,7 +2905,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "fromBlock": "0x1",
   "toBlock": 0x2",
@@ -2916,7 +2916,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2941,7 +2941,7 @@ topics | array | Topics are order-dependent. It’s possible to pass in null to 
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -2962,7 +2962,7 @@ Creates a filter in the node, to notify when new pending transactions arrive. To
 #### Request Parameters
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -2982,7 +2982,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x3",
@@ -3003,7 +3003,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 #### Request Parameters
 > Sample Data
 
-```http
+```shell
 {
   "fromBlock": "0x1",
   "toBlock": 0x2",
@@ -3014,7 +3014,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -3039,7 +3039,7 @@ topics | array | Topics are order-dependent. It’s possible to pass in null to 
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -3060,7 +3060,7 @@ Uninstalls a filter with given id. Should always be called when watch is no long
 #### Request Parameters
 > Sample Request
 
-```http
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
@@ -3082,7 +3082,7 @@ filter_id           | string  | Filter id.
 
 > Sample 200 Response
 
-```http
+```shell
 {
   "jsonrpc": "2.0",
   "result": true,

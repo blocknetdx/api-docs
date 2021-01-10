@@ -27,7 +27,7 @@ This call is used to retrieve an object containing various state info regarding 
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli getnetworkinfo
 ```
 <code class="api-call">getnetworkinfo</code>
@@ -43,7 +43,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "version": 4000100,
   "subversion": "/Blocknet:4.0.1/",
@@ -116,7 +116,7 @@ This call is used to retrieve a list of all Service Nodes registered on the Bloc
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli servicenodelist
 ```
 <code class="api-call">servicenodelist</code>
@@ -132,7 +132,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "snodekey": "0b38bfac90cc5c683b6a27f952b2346a1009fc0f9c1a0790809f185ab27b14ecc6",
@@ -214,7 +214,7 @@ services        | string  | An array of services the Service Node is supporting.
 
 > Sample Data
 
-```cli
+```shell
 {
   "sinceblock": 45000
 }
@@ -226,7 +226,7 @@ This call is used to retrieves a list of proposals since the specified block. By
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli listproposals 45000
 ```
 <code class="api-call">listproposals [sinceblock]\(optional)</code>
@@ -244,7 +244,7 @@ sinceblock      | int     | (Optional Parameter)<br>Defaults to `0`<br>Specifies
 
 > Sample 200 Response
 
-```cli
+```shell
 [  
   {
     "hash": "06dfa870ac90cc5c683b6a2752b2346a10012c0c3afa1a9fc0f9c1b3d823a209",
