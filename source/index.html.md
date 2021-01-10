@@ -3,8 +3,9 @@ title: Blocknet | API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - cli
+  - http
 
-wallet_version: 4.2.x
+wallet_version: 4.3.1
 
 toc_footers:
   - <a href="https://discord.gg/T7AG8TK" target="_blank">Blocknet Discord</a>
@@ -22,6 +23,7 @@ includes:
 - xbridge
 - xrouter
 - xcloud
+- hydra
 - core
 - web
 - changelog
