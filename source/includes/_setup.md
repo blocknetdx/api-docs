@@ -10,7 +10,7 @@ The Blocknet Protocol currently requires a synced Blocknet wallet, as well as th
 
 > Sample blocknet.conf
 
-```cli
+```
 listen=1
 server=1
 rpcallowip=127.0.0.1
@@ -63,7 +63,7 @@ If you would like to operate a Service Node and monetize any microservice, block
 
 > Sample blocknet.conf
 
-```cli
+```
 xrouterbanscore=-200
 listen=1
 server=1
@@ -76,7 +76,7 @@ rpcport=41414
 
 > Sample xrouter.conf
 
-```cli
+```
 [Main]
 timeout=30
 consensus=1
@@ -124,7 +124,7 @@ If you would like to operate a Service Node and monetize any microservice, block
 
 > Sample xrouter.conf
 
-```cli
+```
 [Main]
 timeout=30
 consensus=1
@@ -148,6 +148,67 @@ consensus=5
 
 
 
+## Hydra Setup
+
+### TL;DR
+The easiest way to get started is by using the [docker-compose file](https://github.com/blocknetdx/exrproxy-env) on the `blocknetdx/exrproxy-env` GitHub repository.
+
+### Requirements
+The following requirements have to be met in order to install Hydra:
+
+- Servicenode Private key (How to setup a servicenode [here](https://docs.blocknet.co/service-nodes/setup))
+- Geth synced
+- Port 80 must be opened on the host
+
+Operators should use the [docker-compose file](https://github.com/blocknetdx/exrproxy-env) to setup Hydra. There are three types of setup:
+
+1) `./deploy.sh` (Using geth in the deployment)
+
+2) `./deploy.sh gethexternal` (Using a local geth node outside of the deployment)
+
+3) Manual Usage with setting environment variables.
+
+More advanced operators could edit the existing `docker-compose.yml` file for their own specialized setup.
+
+Running option 1 or 2 will prompt operators to install Docker and Docker-compose, and ask for input to fill out the xbrdige, xrouter and uWSGI configuration files.
+
+> Deployment option 1
+
+```shell
+./deploy.sh
+```
+
+> Deployment option 2 
+
+```shell
+./deploy.sh gethexternal
+```
+
+> Deployment input prompt
+
+```shell
+Install Docker? [y/n] n
+Not installing Docker...
+Your Public IP Address: x.x.x.x
+Servicenode Name: example
+Servicenode Private Key: example
+Servicenode Address: example
+
+Please specify an user and password for the new servicenode
+RPC Username: example
+RPC Password: example
+```
+
+### Payment Processor
+
+Hydra is using PostgreSQL as the backend DB to keep track of payments, API counts, expirary dates. The `eth-payment-processor` container connects to the operators geth through the WebSocket. The payment processor has a block ingestor that monitors each new incoming ETH block for any payments coming in. The payment processor also keeps API counts and send this data to the Postgres DB.
+
+When everything is up and running, the operator needs to provide clients with a way to request a new project. The below (seen on github) shows how this is done.
+
+
+### Scaling up
+
+uWSGI processor/thread count and postgres connection... (WIP)
 
 
 
