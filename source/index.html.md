@@ -2,8 +2,7 @@
 title: Blocknet | API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - cli
-  - http
+  - shell
 
 wallet_version: 4.3.1
 
@@ -29,6 +28,7 @@ includes:
 - changelog
 
 search: true
+code_clipboard: true
 ---
 
 
