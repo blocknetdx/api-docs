@@ -36,19 +36,19 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
-  "error":0,
+  "error": 0,
   "result":
     {
-      "api_key":"uiF_scQgopWWhgDFT7AMbM2Vf2b66xlfnVrJe6e1gUE",
-      "expiry_time":"2020-11-19 22:17:53 EST",
-      "payment_address":"0x0x0xxx",
-      "payment_amount_tier1":0.073597,
-      "payment_amount_tier2":0.420557,
-      "project_id":"85f1641d-f8ab-4acb-aa00-5d19601a9dd7"
+      "api_key": "uiF_scQgopWWhgDFT7AMbM2Vf2b66xlfnVrJe6e1gUE",
+      "expiry_time": "2020-11-19 22:17:53 EST",
+      "payment_address": "0x0x0xxx",
+      "payment_amount_tier1": 0.073597,
+      "payment_amount_tier2": 0.420557,
+      "project_id": "85f1641d-f8ab-4acb-aa00-5d19601a9dd7"
     }
 }
 ```
@@ -69,59 +69,283 @@ The returned `project_id` should be passed as a path parameter to the Hydra Node
 The returned `api_key` should be passed in the request body of the POST request. Henceforth from now `api_key` is referred as `<API-KEY>` in the rest of the documentation.
 
 ## Authentication
-Hydra's Ethereum API requires a valid `Project ID` to be included with your request. This identifier should be appended to the request URL as a path parameter.
+### Authenticating using a Project ID
 
-`curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID>`
+> Authentication headers
 
-In order to authenticate, it is necessary to include a `<API_KEY>` in the `Api-Key` header of a request.
-
-```
+```shell
 curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" 
 ```
 
+Hydra's Ethereum API requires a valid `Project ID` to be included with your request. This identifier should be appended to the request URL as a path parameter.
+
+`curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID>`
+
+In order to authenticate, it is necessary to include a `<API_KEY>` in the `Api-Key` header of a request.
+
+
+
+### Error Codes
+
+If an authentication error is returned after a `eth_passthrough` request, the `error` field in the response object must be an error number and the `message` field must be a string. The following table displays all error codes and its associated messages.
+
+Error Code  | Error Name  | Message 
+------|-------|------------ 
+1 |	MISSING_API_KEY	| API_KEY header missing or project-id missing.
+2 |	MISSING_PROJECT_ID	| Missing project-id in url.
+3 | PROJECT_NOT_EXIST |	Bad API_KEY or project-id does not exist.
+4 |	PROJECT_EXPIRED |	Project has expired. Please request a new project and api key.
+5 | API_TOKENS_EXCEEDED |	API calls exceeded!
+6 |	MISSING_PAYMENT |	Payment not received yet. Please submit payment or wait until payment confirms.
+7 |	API_KEY_DISABLED | API key is disabled.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError MISSING_API_KEY
+
+```shell
+{
+  "message": "API_KEY header missing or project-id missing",
+  "error": 1
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError MISSING_PROJECT_ID
+
+```shell
+{
+  "message": "Missing project-id in url",
+  "error": 2
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError PROJECT_NOT_EXIST
+
+```shell
+{
+  "message": "Bad API_KEY or project-id does not exist",
+  "error": 3
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError PROJECT_EXPIRED
+
+```shell
+{
+  "message": "Project has expired. Please request a new project and api key",
+  "error": 4
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error Message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError API_TOKENS_EXCEEDED
+
+```shell
+{
+  "message": "Project has expired. Please request a new project and api key",
+  "error": 5
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error Message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError MISSING_PAYMENT
+
+```shell
+{
+  "message": "Payment not received yet. Please submit payment or wait until payment confirms",
+  "error": 6
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error Message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError API_KEY_DISABLED
+
+```shell
+{
+  "message": "API key is disabled",
+  "error": 7
+}
+```
+
+Field       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error Message.
+error        | number | Authentication error code.
+
 ## Make Requests
+Ethereum JSON-RPC requests are made via the `/xrs/eth_passthrough/<PROJECT-ID>` route. A JSON-RPC request should have a request body containing the `method` (string) and optionally `params` (string array).
 
-### JSON-RPC Methods
-On the right there is a quick command line example using `curl`:
+<code class="api-call">method [params]</code>
 
-```
+Parameter       | Type    | Description
+----------------|---------|-------------
+method       | string | Ethereum JSON-RPC method.
+params        | string array | Parameters of Ethereum JSON-RPC method.
+### An example
+On the right there is a quick command line example using `curl` where `method` = `eth_blockNumber` and `params` = [].
+
+> Sample Ethereum JSON-RPC Request
+
+```shell
 # Be sure to replace YOUR-PROJECT-ID with a Project ID from the generated project
-curl -X POST \
--H "Content-Type: application/json" \
--H "Api-Key: <API-KEY>" \
--d '{"jsonrpc": "2.0", "id": 1, "method": "eth_blockNumber", "params": []}' \
-"https://<NODE-URL>/v3/YOUR-PROJECT-ID"
+curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}'
 ```
 
-The response should look something like the following:
+<code class="api-call">eth_blockNumber</code>
 
-```
-{"jsonrpc": "2.0","result": "0x657abc", "id":1}
+This call does not take parameters.
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample Ethereum JSON-RPC Response Body
+
+```shell
+{
+  "jsonrpc": "2.0",
+  "result": "0x895cc6",
+  "id": 1
+}
 ```
 
-## Error Codes
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+result           | string  | Integer of the current block number the client is on.
+id           | int  | ID number.
+
+
+### Error codes
+If one of the inputs (`method` and/or `params`) are malformed, then the client may receive one the following error responses:
+
+<aside class="success">
+200 OK
+</aside>
+
+> MalformedJSONData Response Headers
+
+```shell
+PROJECT-ID: <PROJECT-ID>
+API-TOKENS: <API Token Count>
+API-TOKENS-USED: <API Tokens Used Count>
+API-TOKENS-REMAINING: <API Tokens Remaining Count>
+```
+
+> MalformedJSONData Response Body
+
+```shell
+{
+  "message": "malformed json post data"
+  "error": 1000
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message      | string | Request contains malformed JSON POST data.
+error        | number | Error code.
+
+<aside class="warning">
+400 Bad Request
+</aside>
+
+> MissingParameters Response Body
+
+```shell
+{
+  "error": "missing parameters"
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+error        | string | Request misses parameters.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> DisallowedMethod Response Body
+
+```shell
+{
+  "error": "disallowed method <method>"
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+error        | string | Disallowed JSON-RPC eth method.
+
+
+
+## Ethereum Error Codes
+If the request body input for the `eth_passthrough` route is correct, then the following errors may be returned by the `geth` client.
 
 If an error is returned after a Ethereum JSON-RPC request, the `error` field in the response object **MUST** be an object which contains a `code` and `message` field. The following table displays all error codes and its associated messages.
 
-Code  | Message  | Description | Category
-------|-------|------------
--32700 |	Parse error	| Invalid JSON	standard
--32600 |	Invalid request	| JSON is not a valid request object	standard
--32601 |	Method not found |	Method does not exist	standard
--32602 |	Invalid params |	Invalid method parameters	standard
--32603 |	Internal error |	Internal JSON-RPC error	standard
--32000 |	Invalid input |	Missing or invalid parameters	non-standard
--32001 |	Resource not found | Requested resource not found	non-standard
--32002 |	Resource unavailable |	Requested resource not available	non-standard
--32003 |	Transaction rejected |	Transaction creation failed	non-standard
--32004 |	Method not supported |	Method is not implemented	non-standard
--32005 |	Limit exceeded |	Request exceeds defined limit	non-standard
--32006 |	JSON-RPC version not supported |	Version of JSON-RPC protocol is not supported	non-standard
-
-Example error message:
+> Sample Error Response Body
 
 ```shell
 {
@@ -133,6 +357,23 @@ Example error message:
     }
 }
 ```
+
+Code  | Message  | Description | Object Name
+------|-------|------------ | ---------
+-32700 |	Parse error	| Invalid JSON	| ParseError
+-32600 |	Invalid request	| JSON is not a valid request object |	InvalidRequest
+-32601 |	Method not found |	Method does not exist |	MethodNotFound
+-32602 |	Invalid params |	Invalid method parameters |	InvalidParams
+-32603 |	Internal error |	Internal JSON-RPC error	| InternalError
+-32000 |	Invalid input |	Missing or invalid parameters	| InvalidInput
+-32001 |	Resource not found | Requested resource not found |	ResourceNotFound
+-32002 |	Resource unavailable |	Requested resource not available |	ResourceUnavailable
+-32003 |	Transaction rejected |	Transaction creation failed |	TransactionRejected
+-32004 |	Method not supported |	Method is not implemented	| MethodNotSupported
+-32005 |	Limit exceeded |	Request exceeds defined limit	| LimitExceeded
+-32006 |	JSON-RPC version not supported |	Version of JSON-RPC protocol is not supported | Json-rpcVersionNotSupported
+
+
 
 ## Pub/Sub Methods
 
@@ -151,7 +392,7 @@ Starts a subscription (on WebSockets / IPC / TCP transports) to a particular eve
 
 ```shell
 {
-  "param": ""
+  "events": "logs"
 }
 ```
 
@@ -162,12 +403,14 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_subscribe","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_subscribe","params": ["logs"],"id":1}'
 ```
 
-<code class="api-call">eth_subscribe</code>
+<code class="api-call">eth_subscribe [events]</code>
 
-This call does not take parameters.
+Parameter       | Type    | Description
+----------------|---------|-------------
+events           | string  | Event to be subscribed on.
 
 
 #### Responses
@@ -176,7 +419,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -196,6 +439,29 @@ params           | string  | Parameters Object
 subscription  | string | ID of the newly created subscription of the node
 result        | string  | eth_subscriptionResult (string) or eth_subscriptionNewHeads (object) or Log (object) or eth_subscriptionNewPendingTransaction (object) or eth_subscriptionSyncing (object)
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_unsubscribe
 
@@ -233,7 +499,7 @@ subscription_id           | string  | Subscription ID.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -249,6 +515,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | boolean  | `true` if the subscription was cancelled successful.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ## JSON-RPC Methods
 
@@ -315,7 +604,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -331,11 +620,42 @@ jsonrpc           | string  | JSON RPC version.
 result           | string  | The current client version.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
+
 ### web3_sha3
 
 Returns Keccak-256 (not the standardized SHA3-256) of the given data.
 
 #### Request Parameters
+
+> Sample Data
+
+```shell
+{
+  "sha3_data": "0x68656c6c6f20776f726c64"
+}
+```
 
 > Sample Request
 
@@ -359,7 +679,7 @@ sha3_data           | string  | The data to convert into a SHA3 hash.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -374,6 +694,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | string  | The Keccak-256 hash of the given string.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### net_listening
 
@@ -391,13 +734,15 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 <code class="api-call">net_listening</code>
 
+This call does not take parameters.
+
 #### Responses
 
 <aside class="success">
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -412,6 +757,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | boolean  | `true` when listening, otherwise `false`.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### net_peerCount
 
@@ -429,13 +797,15 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 <code class="api-call">net_peerCount</code>
 
+This call does not take parameters.
+
 #### Responses
 
 <aside class="success">
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -450,6 +820,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | string  | Integer of the number of connected peers.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### net_version
 
@@ -467,13 +860,15 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 <code class="api-call">net_version</code>
 
+This call does not take parameters.
+
 #### Responses
 
 <aside class="success">
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -488,6 +883,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | string  | The current network protocol version.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_accounts
 
@@ -513,7 +931,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -528,6 +946,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | array  | List of addresses owned by the client.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_blockNumber
 
@@ -553,7 +994,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -568,6 +1009,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | string  | Integer of the current block number the client is on.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_call
 
@@ -615,7 +1079,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -630,6 +1094,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | string  | The return value of the executed contract.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_chainId
 
@@ -655,7 +1142,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -670,6 +1157,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | string  | EIP 155 Chain ID, or `null` if not available.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_estimateGas
 
@@ -717,7 +1227,7 @@ data | string | Hash of the method signature and encoded parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -732,6 +1242,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | string  | The amount of gas used.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getBalance
 
@@ -771,7 +1304,7 @@ block_parameter	| string | Integer block number, or the string 'latest', 'earlie
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -786,6 +1319,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | string  | Integer of the current balance in wei.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getBlockByHash
 
@@ -824,7 +1380,7 @@ show_tx_details	| string | If `true` it returns the full transaction objects, if
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -1094,6 +1650,29 @@ transactionsRoot | string | The root of the transaction trie of the block.
 uncles | array | Array of uncle hashes.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
+
 
 ### eth_getBlockByNumber
 
@@ -1132,7 +1711,7 @@ show_tx_details | boolean | If `true` it returns the full transaction objects, i
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -1402,6 +1981,29 @@ transactionsRoot | string | The root of the transaction trie of the block.
 uncles | array | Array of uncle hashes.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
+
 ### eth_getBlockTransactionCountByHash
 
 Returns the number of transactions in a block from a block matching the given block hash.
@@ -1437,7 +2039,7 @@ block_hash           | string  | Hash of a block.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -1452,6 +2054,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | string  | Integer of the number of transactions in this block.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getBlockTransactionCountByNumber
 
@@ -1488,7 +2113,7 @@ block_parameter	| string  | Integer block number, or the string 'latest', 'earli
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -1503,6 +2128,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | string  | Integer of the number of transactions in this block.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getCode
 
@@ -1540,7 +2188,7 @@ block_parameter	| string  | Integer block number, or the string 'latest', 'earli
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -1556,6 +2204,28 @@ jsonrpc           | string  | JSON RPC version.
 result           | string  | The code from the given address.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getLogs
 
@@ -1599,7 +2269,7 @@ topics | Array | Topics are order-dependent. It’s possible to pass in null to 
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -1628,6 +2298,28 @@ jsonrpc           | string  | JSON RPC version.
 result           | array  | Array of log objects, or an empty array if nothing has changed since last poll.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getStorageAt
 
@@ -1669,7 +2361,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -1684,6 +2376,30 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | array  | The value at this storage position.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
+
 ### eth_getTransactionByBlockHashAndIndex
 
 Returns information about a transaction by block hash and transaction index position.
@@ -1721,7 +2437,7 @@ tx_index_position | string | Integer of the transaction index position.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -1778,6 +2494,29 @@ v | string | The standardised V field of the signature.
 value | string | Value transferred in Wei.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
+
 ### eth_getTransactionByBlockNumberAndIndex
 
 Returns information about a transaction by block number and transaction index position.
@@ -1815,7 +2554,7 @@ tx_index_position | string | Integer of the transaction index position.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -1872,6 +2611,29 @@ v | string | The standardised V field of the signature.
 value | string | Value transferred in Wei.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
+
 ### eth_getTransactionByHash
 
 Returns the information about a transaction requested by transaction hash.
@@ -1907,7 +2669,7 @@ tx_hash           | string  | Hash of a transaction.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -1964,6 +2726,29 @@ v | string | The standardised V field of the signature.
 value | string | Value transferred in Wei.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
+
 ### eth_getTransactionCount
 
 Returns the number of transactions sent from an address.
@@ -2002,7 +2787,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2019,7 +2804,28 @@ result           | array  | Integer of the number of transactions send from this
 id           | int  | ID number.
 
 
+<aside class="success">
+200 OK
+</aside>
 
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getTransactionReceipt
 
@@ -2057,7 +2863,7 @@ tx_hash           | string  | Hash of a transaction.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2098,7 +2904,28 @@ transactionHash | string  | Hash of the transaction.
 transactionIndex | string  | Integer of the transactions index position in the block.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
 
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getUncleByBlockHashAndIndex
 
@@ -2138,7 +2965,7 @@ uncle_index_position |	string |	Integer of the uncle index position.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2202,6 +3029,28 @@ transactionsRoot	| string |	The root of the transaction trie of the block.
 uncles	| array	| Array of uncle hashes.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getUncleByBlockNumberAndIndex
 
@@ -2241,7 +3090,7 @@ uncle_index_position |	string |	Integer of the uncle index position.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2304,6 +3153,30 @@ transactions	| array |	Array of transaction objects, or 32 Bytes transaction has
 transactionsRoot	| string |	The root of the transaction trie of the block.
 uncles	| array	| Array of uncle hashes.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
+
 ### eth_getUncleCountByBlockHash
 
 Returns information about a uncle of a block by number and uncle index position.
@@ -2340,7 +3213,7 @@ block_hash	| string |	Hash of a block.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2355,6 +3228,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | object  | Integer of the number of uncles in this block.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getUncleCountByBlockNumber
 
@@ -2391,7 +3287,7 @@ block_parameter	| string |	Integer block number, or the string 'latest', 'earlie
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2406,6 +3302,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | object  | Integer of the number of uncles in this block.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getWork
 
@@ -2431,7 +3350,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2448,6 +3367,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | array  | Array of current block header pow-hash, seed hash used for the DAG, boudary condition ("target") 2^256/difficulty and the current block number.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_hashrate
 
@@ -2473,7 +3415,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2490,6 +3432,29 @@ result           | array  | Number of hashes per second.
 id           | int  | ID number.
 
 **Note**: This call will only return 0x0 as the mining hash rate.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_mining
 
@@ -2515,7 +3480,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2532,6 +3497,29 @@ result           | array  | `true` if the client is mining, otherwise `false`
 id           | int  | ID number.
 
 **Note**: This call will only return false.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_protocolVersion
 
@@ -2557,7 +3545,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2572,6 +3560,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | array  | The current Ethereum protocol version.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 
 ### eth_sendRawTransaction
@@ -2608,7 +3619,7 @@ tx_data           | string  | The signed transaction data
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2623,6 +3634,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | array  | The transaction hash, or the zero hash if the transaction is not yet available.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_submitWork
 
@@ -2662,7 +3696,7 @@ mix_digest |	string |	The mix digest (256 bits).
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2678,6 +3712,28 @@ jsonrpc           | string  | JSON RPC version.
 result           | array  | `true` if the provided solution is valid, otherwise `false`.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_syncing
 
@@ -2705,7 +3761,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2766,7 +3822,7 @@ filter_id           | string  | Filter ID.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2801,6 +3857,29 @@ address | string | Address from which this log originated.
 data | string | Contains the non-indexed arguments of the log.
 topics | array | Array of indexed log arguments.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_getFilterLogs
 
@@ -2838,7 +3917,7 @@ filter_id           | string  | Filter ID.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2874,6 +3953,28 @@ data | string | Contains the non-indexed arguments of the log.
 topics | array | Array of indexed log arguments.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_newBlockFilter
 
@@ -2909,7 +4010,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2925,6 +4026,28 @@ jsonrpc           | string  | JSON RPC version.
 result           | array  | A filter id.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_newFilter
 
@@ -2967,7 +4090,7 @@ topics | array | Topics are order-dependent. It’s possible to pass in null to 
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -2982,6 +4105,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | array  | The filter id.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_newPendingTransactionFilter
 
@@ -3008,7 +4154,7 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -3023,6 +4169,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | array  | A filter id.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_newFilter
 
@@ -3065,7 +4234,7 @@ topics | array | Topics are order-dependent. It’s possible to pass in null to 
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -3080,6 +4249,29 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 result           | array  | The filter id.
 id           | int  | ID number.
+
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 ### eth_uninstallFilter
 
@@ -3108,7 +4300,7 @@ filter_id           | string  | Filter id.
 200 OK
 </aside>
 
-> Sample 200 Response
+> Sample Response
 
 ```shell
 {
@@ -3124,5 +4316,27 @@ jsonrpc           | string  | JSON RPC version.
 result           | boolean  | `true` if the filter was successfully uninstalled, otherwise `false`.
 id           | int  | ID number.
 
+<aside class="success">
+200 OK
+</aside>
+
+> ErrorResponse
+
+```shell
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32700,
+    "message": "Parse error"
+  }
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+id           | int  | ID number.
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
 
 
