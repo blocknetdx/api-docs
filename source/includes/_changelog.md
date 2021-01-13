@@ -22,6 +22,11 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+13/01/2021 |
+-----------|
+• Added Error Responses
+• Fixed favicon
+
 10/01/2021 |
 ------------|
 • Added [Hydra Introduction](#hydra)

@@ -353,13 +353,13 @@ Hydra is a decentralized URL drop-in replacement for Infura. The decentralized a
 
 ### Blockchain Connector
 
-Hydra enables easy connection for developers to access accurate and reliable blockchain information. Powered by Blocknets [XRouter](#xrouter) protocol, Hydra provides users with an all-in-one solution for blockchain data, including Ethereum.
+Hydra enables easy connection for developers to access accurate and reliable blockchain information. Powered by Blocknet's [XRouter](#xrouter) protocol, Hydra provides users with an all-in-one solution for blockchain data, including Ethereum.
 
 ### Fast Access
 
 Access to some blockchains such as Ethereum require incredibly large amounts of data, storage, long sync times and ongoing maintenance which leads to high costs to keep the infrastructure running.
 
-Hydra provides instant access to blockchain data with a simple drop in URL. Developers can begin accessing blockchain data without any of the drawbacks of hosting their own nodes.
+Hydra provides instant access to blockchain data with a simple drop-in URL. Developers can begin accessing blockchain data without any of the drawbacks of hosting their own nodes.
 
 ### Archival Data
 
@@ -373,11 +373,11 @@ Hydra is designed to allow anyone to potentially deploy and run a Hydra endpoint
 
 **Q**: How do I get started as a service provider?
 
-**A**: Have a look at the [Hydra Getting Started section](#hydra-setup).
+**A**: Have a look at the [Hydra Getting Started](#hydra-setup) section.
 
 **Q**: What kind of hardware is recommended as a service provider?
 
-**A**: All blockchains require different levels of hardware but for GETH support it is recommended minimum 8vCPU, 16GB RAM, SSD Hard Disk for archival node.
+**A**: All blockchains require different levels of hardware but for GETH support it is recommended minimum 8vCPU, 16GB RAM, SSD for archival node.
 
 **Q**: How are fees paid or collected?
 
@@ -385,4 +385,4 @@ Hydra is designed to allow anyone to potentially deploy and run a Hydra endpoint
 
 **Q**: How do I get started as a developer?
 
-**A**: Have a look at the Hydra [API section](#hydra-api)
+**A**: Have a look at the [Hydra API](#hydra-api) section
