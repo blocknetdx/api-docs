@@ -82,7 +82,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -H "Api-Key: <API-KEY>" 
 ```
 
-<!-- ## Make Requests
+## Make Requests
 
 ### JSON-RPC Methods
 On the right there is a quick command line example using `curl`:
@@ -100,11 +100,39 @@ The response should look something like the following:
 
 ```
 {"jsonrpc": "2.0","result": "0x657abc", "id":1}
-``` -->
+```
 
-### Subscriptions and Filters
+## Error Codes
 
-TODO
+If an error is returned after a Ethereum JSON-RPC request, the `error` field in the response object **MUST** be an object which contains a `code` and `message` field. The following table displays all error codes and its associated messages.
+
+Code  | Message  | Description | Category
+------|-------|------------
+-32700 |	Parse error	| Invalid JSON	standard
+-32600 |	Invalid request	| JSON is not a valid request object	standard
+-32601 |	Method not found |	Method does not exist	standard
+-32602 |	Invalid params |	Invalid method parameters	standard
+-32603 |	Internal error |	Internal JSON-RPC error	standard
+-32000 |	Invalid input |	Missing or invalid parameters	non-standard
+-32001 |	Resource not found | Requested resource not found	non-standard
+-32002 |	Resource unavailable |	Requested resource not available	non-standard
+-32003 |	Transaction rejected |	Transaction creation failed	non-standard
+-32004 |	Method not supported |	Method is not implemented	non-standard
+-32005 |	Limit exceeded |	Request exceeds defined limit	non-standard
+-32006 |	JSON-RPC version not supported |	Version of JSON-RPC protocol is not supported	non-standard
+
+Example error message:
+
+```shell
+{
+    "id": 1
+    "jsonrpc": "2.0",
+    "error": {
+        "code": -32700,
+        "message": "Parse error"
+    }
+}
+```
 
 ## Pub/Sub Methods
 
@@ -115,7 +143,7 @@ Call                                              | Description
 
 ### eth_subscribe
 
-Starts a subscription (on WebSockets / IPC / TCP transports) to a particular event. For every event that matches the subscription a JSON-RPC notification with event details and subscription ID will be sent to a client. **(WIP)**
+Starts a subscription (on WebSockets / IPC / TCP transports) to a particular event. For every event that matches the subscription a JSON-RPC notification with event details and subscription ID will be sent to a client.
 
 
 #### Request Parameters
