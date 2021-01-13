@@ -375,7 +375,7 @@ Code  | Message  | Description | Object Name
 
 
 
-## Pub/Sub Methods
+<!-- ## Pub/Sub Methods
 
 Call                                              | Description
 --------------------------------------------------|---------------
@@ -537,7 +537,7 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 jsonrpc           | string  | JSON RPC version.
 id           | int  | ID number.
-error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
+error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error -->
 
 ## JSON-RPC Methods
 
