@@ -61,7 +61,7 @@ api_key         | string    | API Key of the Hydra Project.
 expiry_time     | string    | Expiry time of the Hydra Project request.
 payment_address | string     | The Ethereum address to send the payment to.
 payment_amount_tier1 | number | The amount of ETH to pay for a standard Ethereum node
-payment_amount_tier2 | number  | The amount of ETH to pay for an archival ethereum node.
+payment_amount_tier2 | number  | The amount of ETH to pay for an archival Ethereum node.
 project_id      | string | The project ID needed as a path parameter for all ETH methods.
 
 The returned `project_id` should be passed as a path parameter to the Hydra Node you have paid for. Henceforth from now `project-id` is referred as `<PROJECT-ID>` in the rest of the documentation.
