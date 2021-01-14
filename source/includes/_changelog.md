@@ -22,6 +22,11 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+14/01/2021 |
+-----------|
+• Minor typos and editing in intro and hydra section |
+
+
 13/01/2021 |
 -----------|
 • Added Error Responses to Hydra API section |
