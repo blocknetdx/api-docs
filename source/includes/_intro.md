@@ -349,7 +349,7 @@ Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If y
 
 ## Hydra
 
-Hydra is a decentralized URL drop-in replacement for Infura. The decentralized architecture is highly scalable and provides a foundation for a truly decentralized dApp ecosystem.
+Hydra is a decentralized drop-in replacement for Infura. Its decentralized architecture is highly scalable and provides a foundation for a truly decentralized dApp ecosystem.
 
 ### Blockchain Connector
 
@@ -357,13 +357,13 @@ Hydra enables easy connection for developers to access accurate and reliable blo
 
 ### Fast Access
 
-Access to some blockchains such as Ethereum require incredibly large amounts of data, storage, long sync times and ongoing maintenance which leads to high costs to keep the infrastructure running.
+Access to some blockchains such as Ethereum require incredibly large amounts of data, storage, long sync times and ongoing maintenance, which carry high costs.
 
 Hydra provides instant access to blockchain data with a simple drop-in URL. Developers can begin accessing blockchain data without any of the drawbacks of hosting their own nodes.
 
 ### Archival Data
 
-Running an Ethereum archival node is an extremely costly exercise and requires terabytes of storage space on fast drives. Hydra supports  archival nodes which removes the barrier to entry for all developers.
+Running an Ethereum archival node is an extremely costly exercise and requires terabytes of storage space on fast drives. Multiple archival nodes run on Hydra, removing the barrier to entry for all developers.
 
 ### Service Providers
 

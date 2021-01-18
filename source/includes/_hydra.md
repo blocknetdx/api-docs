@@ -61,7 +61,7 @@ api_key         | string    | API Key of the Hydra Project.
 expiry_time     | string    | Expiry time of the Hydra Project request.
 payment_address | string     | The Ethereum address to send the payment to.
 payment_amount_tier1 | number | The amount of ETH to pay for a standard Ethereum node
-payment_amount_tier2 | number  | The amount of ETH to pay for an archival ethereum node.
+payment_amount_tier2 | number  | The amount of ETH to pay for an archival Ethereum node.
 project_id      | string | The project ID needed as a path parameter for all ETH methods.
 
 The returned `project_id` should be passed as a path parameter to the Hydra Node you have paid for. Henceforth from now `project-id` is referred as `<PROJECT-ID>` in the rest of the documentation.
@@ -543,7 +543,7 @@ error        | ParseError (object) or InvalidRequest (object) or MethodNotFound 
 
 Call                                              | Description
 --------------------------------------------------|---------------
-[web3_clientVersion](#web3_clientVersion)                             | Returns the current client version.
+[web3_clientVersion](#web3_clientversion)                             | Returns the current client version.
 [web3_sha3](#web3_sha3)                             | Returns Keccak-256 (not the standardized SHA3-256) of the given data.
 [net_listening](#net_listening)                             | Returns `true` if client is actively listening for network connections.
 [net_peerCount](#net_peerCount)                             | Returns number of peers currenly connected to the client.

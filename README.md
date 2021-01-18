@@ -13,7 +13,7 @@ Using Windows 10:
 
 Download & install ruby+devkit 2.4.7 x64 from here https://rubyinstaller.org/downloads/archives/.
 
-Download & install nodejs from here https://nodejs.org/en/
+Download & install nodejs from here https://nodejs.org/en/.
 
 ```shell
 gem install bundler -v 1.16.1
@@ -33,7 +33,17 @@ bundle exec middleman server
 vagrant up
 ```
 
-If you'd prefer to use Docker, instructions are available [in the wiki](https://github.com/slatedocs/slate/wiki/Using-Slate-in-Docker).
+Using Docker:
+
+Download and install docker.
+
+```shell
+# build the docker image
+docker build -t blocknetdx/api-docs .
+
+# run from the root directory of this project
+docker run --rm --name api-docs -p 4567:4567 -v $(pwd)/source:/srv/api-docs/source blocknetdx/api-docs:latest serve
+```
 
 You can now see the docs at http://localhost:4567. This will reload automatically when changes are saved.
 
@@ -72,9 +82,7 @@ You can now see the docs at http://localhost:4567. This will reload automaticall
 		```
 	1. Replace `M/D/YYY` with the publishing date in said format.
 	1. See past changelog entries for reference.
-1. Build the docs with the `bundle exec middleman build` command.
+1. Build the docs with the `bundle exec middleman build` command. Or use docker to build `docker run --rm --name api-docs -v $(pwd)/build:/srv/api-docs/build -v $(pwd)/source:/srv/api-docs/source blocknetdx/api-docs:latest`
 1. Deploy `build/` contents to staging site for testing.
 1. Deploy `build/` contents to [https://api.blocknet.co/](https://api.blocknet.co/).
-
-
 
