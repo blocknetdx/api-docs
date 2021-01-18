@@ -543,7 +543,7 @@ error        | ParseError (object) or InvalidRequest (object) or MethodNotFound 
 
 Call                                              | Description
 --------------------------------------------------|---------------
-[web3_clientVersion](#web3_clientVersion)                             | Returns the current client version.
+[web3_clientVersion](#web3_clientversion)                             | Returns the current client version.
 [web3_sha3](#web3_sha3)                             | Returns Keccak-256 (not the standardized SHA3-256) of the given data.
 [net_listening](#net_listening)                             | Returns `true` if client is actively listening for network connections.
 [net_peerCount](#net_peerCount)                             | Returns number of peers currenly connected to the client.
