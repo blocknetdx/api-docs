@@ -11,7 +11,7 @@ Oracle Miner               | [https://api.oracleminer.com](https://api.oraclemin
 The Node URL is henceforth referred to as `<NODE-URL>` in the rest of the documentation.
 
 ## Generate A Project
-As a client it is necessary to create a project at your Hydra node. A payment in ETH or aBLOCK is necessary for the project to become active. 
+As a client it is necessary to create a project at your Hydra node. A payment in ETH or aBLOCK is necessary for the project to become active. The payment amounts are fixed in USD, but denominated in ETH.
 
 Create a project as follows with the `request_project` call.
 ### request_project
