@@ -205,7 +205,7 @@ Running option 1 or 2 will prompt operators to install Docker and Docker-compose
 
 Hydra is using PostgreSQL as the backend DB to keep track of payments, API counts, expirary dates. The `eth-payment-processor` container connects to the operators geth through the WebSocket. The payment processor has a block ingestor that monitors each new incoming ETH block for any payments coming in. The payment processor also keeps API counts and send this data to the Postgres DB.
 
-When everything is up and running, the operator needs to provide clients with a way to request a new project. The below (seen on github) shows how this is done.
+When everything is up and running, the operator needs to provide clients with a way to request a new project. The section [Request Project](#request_project) showcases how clients can request a new project. Additionally, this is also showcased at the end of the `README` of [docker-compose file](https://github.com/blocknetdx/exrproxy-env).
 
 
 <!-- ### Scaling up
