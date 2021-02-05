@@ -115,7 +115,7 @@ This call is used to query a random set of connected peers for the latest Servic
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrUpdateNetworkServices 5
 ```
 <code class="api-call">xrUpdateNetworkServices [node_count]\(optional)</code>
@@ -133,7 +133,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 > Sample 200 Response
 
-```cli
+```shell
 true
 ```
 
