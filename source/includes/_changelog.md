@@ -2,7 +2,7 @@
 
 This API documentation will be continuously updated to improve descriptions, instructions, and overall clarity on how to use the API and begin building on the Blocknet Protocol. An overview of changes can be viewed below. For a more detailed view of changes, [see the site's Github repository](https://github.com/blocknetdx/api-docs).
 
-To receive notifications and stay informed on important developer updates and changes relating to the Blocknet Protocol, subscribe to the [developer notification emailing list](http://eepurl.com/dDjhYH).
+To receive notifications and stay informed on important developer updates and changes relating to the Blocknet Protocol, subscribe to the [developer notification emailing list](http://eepurl.com/c5OJMj).
 
 <br>
 
@@ -39,7 +39,33 @@ reference: https://docs.pro.coinbase.com
 • Added [Hydra Getting Started](#hydra-setup) |
 • Added [Hydra API Docs](#hydra-api) |
 
-5/11/2020    |
+7/25/2020   |
+------------|
+• Wallet v4.3.1 release |
+• Updated [dxCancelOrder](#dxcancelorder) description to note when you can't cancel orders |
+
+
+7/20/2020   |
+------------|
+• Wallet v4.3.x release |
+• Added [dxMakePartialOrder](#dxmakepartialorder) call |
+• Added [dxGetUtxos](#dxgetutxos) call |
+• Added [dxSplitAddress](#dxsplitaddress) call |
+• Added [dxSplitInputs](#dxsplitinputs) call |
+• Added [xrUpdateNetworkServices](#xrupdatenetworkservices) call |
+• Added [servicenodelist](#servicenodelist-web) web endpoint |
+• Updated [xrConnect](#xrconnect) description to note it's no longer required |
+• Updated [dxMakeOrder](#dxmakeorder) response details |
+• Updated [dxTakeOrder](#dxtakeorder) response details |
+• Updated [servicenodelist](#servicenodelist) core response details |
+• Updated [dxGetOrders](#dxgetorders) response details |
+• Updated [dxGetOrder](#dxgetorder) response details |
+• Updated [dxGetMyOrders](#dxgetmyorders) response details |
+• Updated [xrGetReply](#xrgetreply) response to include `all_replies` |
+• Updated all XRouter call responses to remove `all_replies` (added to [xrGetReply](#xrgetreply)) |
+
+
+5/11/2020   |
 ------------|
 • Wallet v4.2.x release |
 • Added [dxgetorders](#dxgetorders-web) web endpoint |
@@ -47,10 +73,10 @@ reference: https://docs.pro.coinbase.com
 • Added [C++ library guide](https://github.com/blocknetdx/libxrouter-sampleproj-cpp) link |
 • Added `tls` setting to `xrouter.conf` setup |
 • Added `dxnowallets` and `ShowAllOrders` setting to the [XBridge Setup](#xbridge-setup) |
-• Update [dxGetTradingData](#dxgettradingdata) output |
+• Updated [dxGetTradingData](#dxgettradingdata) response details |
 
 
-4/20/2020    |
+4/20/2020   |
 ------------|
 • Wallet v4.1.x release |
 • Added `status` to [listproposals](#listproposals) response details |
@@ -62,9 +88,9 @@ reference: https://docs.pro.coinbase.com
 • Added [dxFlushCancelledOrders](#dxflushcancelledorders) call |
 • Added [dxGetTradingData](#dxgettradingdata) call |
 • Removed `gettradingdata` call, in progress towards being deprecated |
-• Update `blocknetdx.conf` references to `blocknet.conf` |
-• Update `blocknetdx-cli` references to `blocknet-cli` |
-• Remove `xrUpdateConfigs` command, replaced by `servicenodesendping` |
+• Updated `blocknetdx.conf` references to `blocknet.conf` |
+• Updated `blocknetdx-cli` references to `blocknet-cli` |
+• Remove `xrUpdateConfigs` call, replaced by `servicenodesendping` |
 • Remove `xrouter=1` from XRouter setup |
 • Added selective [Core API](#core-api) calls |
 
@@ -119,7 +145,7 @@ reference: https://docs.pro.coinbase.com
 
 3/5/2019    |
 ------------|
-• Update links to Github to reflect change in repository names |
+• Updated links to Github to reflect change in repository names |
 • Updated link to [compatible blockchains](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) |
 • Updated XRouter [confirmations] to [node_count] |
 • Updated XRouter [block] to [block_number] |
