@@ -332,7 +332,7 @@ This call is used to retrieve a list of all Service Nodes registered on the Bloc
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "snodekey": "0b38bfac90cc5c683b6a27f952b2346a1009fc0f9c1a0790809f185ab27b14ecc6",
