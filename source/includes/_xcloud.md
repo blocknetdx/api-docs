@@ -34,7 +34,7 @@ Call                                               | Description
 
 > Sample Data
 
-```cli
+```shell
 {
   "service": "BTCgetbestblockhash"
 }
@@ -46,7 +46,7 @@ This call is used to send a request to an XCloud service. XCloud is a decentrali
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrService SYSgetbestblockhash
 ```
 <code class="api-call">xrService [service] [param1 param2 paramN]</code>
@@ -65,7 +65,7 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply" : "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2",
   "error" : null,
@@ -92,7 +92,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "service": "SYSgetbestblockhash"
 }
@@ -104,7 +104,7 @@ This call is used to send a request to an XCloud service, along with a specified
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrServiceConsensus 1 SYSgetbestblockhash
 ```
 <code class="api-call">xrServiceConsensus [node_count] [service] [param1 param2 paramN]</code>
@@ -124,7 +124,7 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply" : "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2",
   "error" : null,

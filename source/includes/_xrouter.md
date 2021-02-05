@@ -44,7 +44,7 @@ This call is used to view the XRouter services currently supported on the networ
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrGetNetworkServices
 ```
 <code class="api-call">xrGetNetworkServices</code>
@@ -60,7 +60,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": {
     "spvwallets": [ "xr::BLOCK", "xr::BTC", "xr::LTC", "xr::MNP", "xr::SYS", "xr::TBLOCK" ],
@@ -154,7 +154,7 @@ bool    | A confirmation that the latest Service Node list was received.
 
 > Sample Data
 
-```cli
+```shell
 {
   "service": "SYS"
 }
@@ -166,7 +166,7 @@ This optional call is used to connect to XRouter nodes with the specified servic
 
 > Sample Requests
 
-```cli
+```shell
 // Connect to one XRouter node supporting SYS
 blocknet-cli xrConnect xr::SYS
 
@@ -192,7 +192,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 > Sample 200 Response
 
-```cli
+```shell
 // Sample response for xrConnect SYS 2
 {
   "reply": [
@@ -848,7 +848,7 @@ This call is used to list all the data about current and previously connected no
 
 > Sample Requests
 
-```cli
+```shell
 blocknet-cli xrConnectedNodes
 ```
 <code class="api-call">xrConnectedNodes</code>
@@ -864,7 +864,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": [
     {
@@ -1406,7 +1406,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "blockchain": "SYS"
 }
@@ -1418,7 +1418,7 @@ This call is used to retrieve the current block height of the longest chain for 
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrGetBlockCount SYS 2
 ```
 <code class="api-call">xrGetBlockCount [blockchain] [node_count]\(optional)</code>
@@ -1437,7 +1437,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": 482107,
   "uuid": "34d0998e-a950-4fd8-b1d6-7571c83abb50"
@@ -1462,7 +1462,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "blockchain": "SYS",
   "block_number": 91510
@@ -1475,7 +1475,7 @@ This call is used to retrieve the block hash of the specified block and blockcha
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrGetBlockHash SYS 482107 2
 ```
 <code class="api-call">xrGetBlockHash [blockchain] [block_number] [node_count]\(optional)</code>
@@ -1495,7 +1495,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": "52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79",
   "uuid": "3c84d025-8a03-4b64-848f-99892fe481ff"
@@ -1518,7 +1518,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "blockchain": "SYS",
   "block_hash": "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837"
@@ -1531,7 +1531,7 @@ This call is used to retrieve the block data for the specified block hash and bl
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrGetBlock SYS 0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837 2
 ```
 <code class="api-call">xrGetBlock [blockchain] [block_hash] [node_count]\(optional)</code>
@@ -1551,7 +1551,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": {
     "hash": "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837",
@@ -1628,7 +1628,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "blockchain": "SYS",
   "block_hash1": "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837",
@@ -1642,7 +1642,7 @@ This call is used to retrieve block data for multiple block hashes on the specif
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrGetBlocks SYS "0cf18712db68be85793dc06cd0a4fbc8edb166157e6847bb3c9f55d462b02837,52583afcd857e45234e7c8981804b36d13a7b3025c17f3535c3e724542590a79" 2
 ```
 <code class="api-call">xrGetBlocks [blockchain] [block_hashes] [node_count]\(optional)</code>
@@ -1662,7 +1662,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": [
     {
@@ -1804,7 +1804,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "spvwallet": "SYS",
   "tx_hex": "01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff640363b1082cfabe6d6df75a401bb4e29d77b2162d476557c4bc879380dad926e44c1b2a7c49893a3cc108000000f09f909f000f4d696e6564206279206c616e636163000000000000000000000000000000000000000000000000000000000500c5a00000000000000330952d4b000000001976a914c825a1ecf2a6830c4401620c3a16f1995057c2ab88ac00000000000000002f6a24aa21a9ed2ac560369b71e58f0618a79d2f03bcf7283945e20eef7813de376a6f503448c108000000000000000000000000000000002c6a4c2952534b424c4f434b3a81c66dc456024e97e518ac2ab3ec51bf85b294b9a140c6e9376a040607edc39ddc962c3b"
@@ -1816,7 +1816,7 @@ This call is used to decode a specified bockchain transaction HEX. It requires t
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrDecodeRawTransaction SYS 01000000010000000000000000000000000000000000000000000000000000000000000000ffffffff640363b1082cfabe6d6df75a401bb4e29d77b2162d476557c4bc879380dad926e44c1b2a7c49893a3cc108000000f09f909f000f4d696e6564206279206c616e636163000000000000000000000000000000000000000000000000000000000500c5a00000000000000330952d4b000000001976a914c825a1ecf2a6830c4401620c3a16f1995057c2ab88ac00000000000000002f6a24aa21a9ed2ac560369b71e58f0618a79d2f03bcf7283945e20eef7813de376a6f503448c108000000000000000000000000000000002c6a4c2952534b424c4f434b3a81c66dc456024e97e518ac2ab3ec51bf85b294b9a140c6e9376a040607edc39ddc962c3b 2
 ```
 <code class="api-call">xrDecodeRawTransaction [blockchain] [tx_hex] [node_count]\(optional)</code>
@@ -1836,7 +1836,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": {
     "txid": "aa1838dee180e5c4ad5041ded25aa5d88c41bedb1c339b42f54dbad0e7563c5e",
@@ -1906,7 +1906,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "blockchain": "SYS",
   "tx_id": "9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51"
@@ -1919,7 +1919,7 @@ This call is used to retrieve the transaction data for the specified transaction
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrGetTransaction SYS 9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51 2
 ```
 <code class="api-call">xrGetTransaction [blockchain] [tx_id] [node_count]\(optional)</code>
@@ -1939,7 +1939,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": {
     "txid": "9e5db236f75babe4e28c17f0ed1eddbcfdb5bde8a69750e1a4952d110c620e51",
@@ -1994,7 +1994,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "blockchain": "SYS",
   "tx_id1": "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd",
@@ -2008,7 +2008,7 @@ This call is used to retrieve transaction data for multiple transaction IDs (has
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrGetTransactions SYS "f7efcb33c817153dbea86b827380ffce108c6c8e4707356e874d98d0426339bd,f63543bb90800a601065d6f6d8380d8a98ac1a9f208921febde4eb0168e6fd8e" 2
 ```
 <code class="api-call">xrGetTransactions [blockchain] [tx_ids] [node_count]\(optional)</code>
@@ -2028,7 +2028,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": [
     {
@@ -2130,7 +2130,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "blockchain": "SYS",
   "signed_tx_hex": "0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000"
@@ -2143,7 +2143,7 @@ This call is used to submit a locally signed transaction on the specified blockc
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrSendTransaction SYS 0200000001ce2faed018f4776b41245f78695fdabcc68567b64d13851a7f8277693a23f3e0000000006b483045022100d6e0f7c193e0ae5168e0e8c87a29837f4b8be5c5cdcfa2826a8ddc7cf6cbf43802207ddaa377bc042f9df63eb6f755d23170b9109cb05c18c7ce2fe9993e65434c8b01210323f7e071df863cf20ce13613c68579cdedb6d7c6cf3912f26dac53ec4309c777ffffffff0120a10700000000001976a914eff8cb97723237fe3059774d2a66d02f936e1f1188ac00000000
 ```
 <code class="api-call">xrSendTransaction [blockchain] [signed_tx_hex] [node_count]\(optional)</code>
@@ -2163,7 +2163,7 @@ node_count      | int     | (Optional Parameter)<br>Defaults to `1` if no `conse
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": "9f978c91840adbc4e074395f8f793cb7369c48e2ce831a10c32090bf71ae29ae",
   "uuid": "ACA0874C-C45F-4F40-94AD-794A7E18085A"
@@ -2188,7 +2188,7 @@ reply           | object  | The transaction hash of the sent transaction.
 
 > Sample Data
 
-```cli
+```shell
 {
   "service": "BTCgetbestblockhash"
 }
@@ -2200,7 +2200,7 @@ This call is used to send a request to an XCloud service. XCloud is a decentrali
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrService SYSgetbestblockhash
 ```
 <code class="api-call">xrService [service] [param1 param2 paramN]</code>
@@ -2219,7 +2219,7 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2",
   "error": null,
@@ -2246,7 +2246,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "service": "SYSgetbestblockhash"
 }
@@ -2258,7 +2258,7 @@ This call is used to send a request to an XCloud service, along with a specified
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrServiceConsensus 1 SYSgetbestblockhash
 ```
 <code class="api-call">xrServiceConsensus [node_count] [service] [param1 param2 paramN]</code>
@@ -2278,7 +2278,7 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2",
   "error": null,
@@ -2308,7 +2308,7 @@ uuid            | string  | The response ID, which can be used to view this resp
 
 > Sample Data
 
-```cli
+```shell
 {
   "uuid": "3243a24b-3e9d-40d1-8c33-37a57878ce85"
 }
@@ -2320,7 +2320,7 @@ This call is used to look up responses from previous XRouter calls without havin
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrGetReply 3243a24b-3e9d-40d1-8c33-37a57878ce85
 ```
 <code class="api-call">xrGetReply [uuid]</code>
@@ -2338,7 +2338,7 @@ uuid            | string  | The UUID of the response you want to look up.
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "allreplies": [
     {
@@ -2392,7 +2392,7 @@ This call is used to show the configurations received from all nodes as raw text
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrShowConfigs
 ```
 <code class="api-call">xrShowConfigs</code>
@@ -2408,7 +2408,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "nodepubkey" : "03ca15d619cf36fdc043892b12a3881dd08f2d3905e2ff399ac39cf34b28a995c7",
@@ -2453,7 +2453,7 @@ This call is used to reload `xrouter.conf` and all associated plugin configs aft
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrReloadConfigs
 ```
 <code class="api-call">xrReloadConfigs</code>
@@ -2469,7 +2469,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 true
 ```
 
@@ -2495,7 +2495,7 @@ This call is used to print your XRouter configuration and has two different outp
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli xrStatus
 ```
 <code class="api-call">xrStatus</code>
@@ -2511,7 +2511,7 @@ This call does not take parameters.
 
 > Sample 200 Response \(User Client)
 
-```cli
+```shell
 {
   "xrouter": true,
   "servicenode": false,
@@ -2530,7 +2530,7 @@ config          | string  | The raw text contents of your `xrouter.conf`.
 
 > Sample 200 Response \(Service Node)
 
-```cli
+```shell
 {
     "nodepubkey": "03f1bf0087e5a0036176560493fb05fedb0eb841993536c6a86c78687c4e73a527",
     "score": 0,
@@ -2679,7 +2679,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample Data
 
-  ```cli
+  ```shell
   {
     "blockchain": "SYS",
     "address": "SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP"
@@ -2694,7 +2694,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample Request
 
-  ```cli
+  ```shell
   blocknet-cli xrGetBalance SYS SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP
   ```
   <code class="api-call">xrGetBalance [blockchain] [address] [node_count]\(optional)</code>
@@ -2714,7 +2714,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample 200 Response
 
-  ```cli
+  ```shell
   {
     "reply": "0.000000"
   }
@@ -2740,7 +2740,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample Data
 
-  ```cli
+  ```shell
   {
     "blockchain": "SYS",
     "address": "SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP"
@@ -2753,7 +2753,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample Request
 
-  ```cli
+  ```shell
   blocknet-cli xrGetBalanceUpdate SYS SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP 125157
   ```
   <code class="api-call">xrGetBalanceUpdate [blockchain] [address] [start_block]\(optional) [node_count]\(optional)</code>
@@ -2774,7 +2774,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample 200 Response
 
-  ```cli
+  ```shell
   {
     "reply": "1.430000"
   }
@@ -2800,7 +2800,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample Data
 
-  ```cli
+  ```shell
   {
     "addresses": ["SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP"]
   }
@@ -2812,7 +2812,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample Request
 
-  ```cli
+  ```shell
   blocknet-cli xrGenerateBloomFilter SYb9Gmcwj1aXUV86cKpnCD8SR7hvZgbKTP 
   ```
   <code class="api-call">xrGenerateBloomFilter [address1] [address2...addressN] [node_count]\(optional)</code>
@@ -2831,7 +2831,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample 200 Response
 
-  ```cli
+  ```shell
   {
     "reply": {
       
@@ -2859,7 +2859,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample Data
 
-  ```cli
+  ```shell
   {
     "blockchain": "SYS",
     "bloom_filter": "0000100800"
@@ -2872,7 +2872,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample Request
 
-  ```cli
+  ```shell
   blocknet-cli xrGetTransactionsBloomFilter SYS 0000100800
   ```
   <code class="api-call">xrGetTransactionsBloomFilter [blockchain] [bloom_filter] [start_block]\(optional) [node_count]\(optional)</code>
@@ -2893,7 +2893,7 @@ plugins         | object  | An object of each service you have setup and the raw
 
   > Sample 200 Response
 
-  ```cli
+  ```shell
   {
     "reply": {
       

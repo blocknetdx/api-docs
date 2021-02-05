@@ -42,7 +42,7 @@ Use [ticker (2.0)](#ticker-2-0) for a dynamic list that updates with whichever m
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "symbol": "BLOCK-LTC",
@@ -123,7 +123,7 @@ This call is used to view a dynamic list of the XBridge trade summary for the pa
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "BLOCK-LTC": {
     "volume": "548.12435100",
@@ -193,7 +193,7 @@ This call is used to view the XBridge trade history for the past 24 hours.
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "timestamp": 1559970139,
@@ -278,7 +278,7 @@ To view a full list of supported assets for trading, use [dxgetnetworktokens](#d
 
 > Sample 200 Response
 
-```cli
+```shell
 {
 	"BLOCK": {
 		"id":1,
@@ -440,7 +440,7 @@ This call is used to retrieve all the assets currently supported by the network 
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   "LTC",
   "SYS",
@@ -480,7 +480,7 @@ This call is used to retrieve all orders of every market pair. Unlike with [dxGe
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", 
@@ -554,7 +554,7 @@ This call is used to view the XRouter services currently supported on the networ
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "reply": {
     "spvwallets": [ "xr::BLOCK", "xr::BTC", "xr::LTC", "xr::MNP", "xr::SYS", "xr::TBLOCK" ],

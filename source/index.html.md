@@ -2,7 +2,7 @@
 title: Blocknet | API Documentation
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - cli
+  - shell
 
 wallet_version: 4.3.1
 
@@ -22,11 +22,13 @@ includes:
 - xbridge
 - xrouter
 - xcloud
+- hydra
 - core
 - web
 - changelog
 
 search: true
+code_clipboard: true
 ---
 
 

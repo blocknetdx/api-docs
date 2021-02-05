@@ -41,10 +41,10 @@ under the License.
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title><%= current_page.data.title || "Blocknet | API Documentation" %></title>
     <link rel="apple-touch-icon" sizes="180x180" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://blocknet.co/images/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://blocknet.co/images/favicon.png">
     <link rel="mask-icon" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/safari-pinned-tab.svg" color="#162e48">
-    <link rel="shortcut icon" href="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/favicon.ico">
+    <link rel="shortcut icon" href="https://blocknet.co/images/favicon.png">
     <meta name="msapplication-TileColor" content="#dddfeb">
     <meta name="msapplication-config" content="https://www.blocknet.co/wp-content/themes/blocknet/includes/img/favicon/browserconfig.xml">
     <meta name="theme-color" content="#dddfeb">
@@ -85,6 +85,12 @@ under the License.
     <% else %>
       <%= javascript_include_tag  "all_nosearch" %>
     <% end %>
+
+    <% if current_page.data.code_clipboard %>
+    <script>
+      $(function() { setupCodeCopy(); });
+    </script>
+    <% end %>
   </head>
 
   <body class="<%= page_classes %>" data-languages="<%=h language_tabs.map{ |lang| lang.is_a?(Hash) ? lang.keys.first : lang }.to_json %>">
@@ -124,6 +130,8 @@ under the License.
               <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">BETA</span></a>
             <% elsif h1[:id] == "xcloud-api" %>
               <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">BETA</span></a>
+            <% elsif h1[:id] == "hydra-api" %>
+              <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %><span class="tag">BETA</span></a>
             <% else %>
               <a href="#<%= h1[:id] %>" class="toc-h1 toc-link" data-title="<%= h1[:content].to_s.parameterize %>"><%= h1[:content] %></a>
             <% end %>
@@ -132,6 +140,15 @@ under the License.
                 <% h1[:children].each do |h2| %>
                   <li>
                     <a href="#<%= h2[:id] %>" class="toc-h2 toc-link" data-title="<%= h2[:content].to_s.parameterize %>"><%= h2[:content] %></a>
+                    <% if h2[:children].length > 0 %>
+                      <ul class="toc-list-h3">
+                        <% h2[:children].each do |h3| %>
+                          <li>
+                            <a href="#<%= h3[:id] %>" class="toc-h3 toc-link" data-title="<%= h3[:content] %>"><%= h3[:content] %></a>
+                          </li>
+                        <% end %>
+                      </ul>
+                    <% end %>
                   </li>
                 <% end %>
               </ul>

@@ -22,6 +22,22 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+14/01/2021 |
+-----------|
+• Minor typos and editing in intro and hydra section |
+
+
+13/01/2021 |
+-----------|
+• Added Error Responses to Hydra API section |
+• Fixed favicon |
+• Removed hydra eth subscription |
+
+10/01/2021 |
+------------|
+• Added [Hydra Introduction](#hydra) |
+• Added [Hydra Getting Started](#hydra-setup) |
+• Added [Hydra API Docs](#hydra-api) |
 
 7/25/2020   |
 ------------|

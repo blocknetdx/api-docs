@@ -347,10 +347,42 @@ XCloud sits on top of, and is powered by, XRouter. Services are hosted by Servic
 Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
 
 
+## Hydra
 
+Hydra is a decentralized drop-in replacement for Infura. Its decentralized architecture is highly scalable and provides a foundation for a truly decentralized dApp ecosystem.
 
+### Blockchain Connector
 
+Hydra enables easy connection for developers to access accurate and reliable blockchain information. Powered by Blocknet's [XRouter](#xrouter) protocol, Hydra provides users with an all-in-one solution for blockchain data, including Ethereum.
 
+### Fast Access
 
+Access to some blockchains such as Ethereum require incredibly large amounts of data, storage, long sync times and ongoing maintenance, which carry high costs.
 
+Hydra provides instant access to blockchain data with a simple drop-in URL. Developers can begin accessing blockchain data without any of the drawbacks of hosting their own nodes.
 
+### Archival Data
+
+Running an Ethereum archival node is an extremely costly exercise and requires terabytes of storage space on fast drives. Multiple archival nodes run on Hydra, removing the barrier to entry for all developers.
+
+### Service Providers
+
+Hydra is designed to allow anyone to potentially deploy and run a Hydra endpoint service. This can be a profitable activity for those that want to support the Hydra infrastructure.
+
+### FAQ
+
+**Q**: How do I get started as a service provider?
+
+**A**: Have a look at the [Hydra Getting Started](#hydra-setup) section.
+
+**Q**: What kind of hardware is recommended as a service provider?
+
+**A**: All blockchains require different levels of hardware but for GETH support it is recommended minimum 8vCPU, 16GB RAM, SSD for archival node.
+
+**Q**: How are fees paid or collected?
+
+**A**: Hydra users will be able to send a request with a payment in ETH or aBLOCK to service nodes in return for a project ID and API-key. This allows developers to make requests to the Blocknet network based on how much they paid.
+
+**Q**: How do I get started as a developer?
+
+**A**: Have a look at the [Hydra API](#hydra-api) section

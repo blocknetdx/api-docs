@@ -42,7 +42,7 @@ Call                                              | Description
 
 > Sample Data
 
-```cli
+```shell
 {
   "maker": "SYS",
   "maker_size": "0.100",
@@ -69,7 +69,7 @@ There are no fees to make orders, but there are transaction fees for the maker a
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxMakeOrder SYS 0.100 SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK LTC 0.01 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z exact
 ```
 <code class="api-call">dxMakeOrder [maker] [maker_size] [maker_address] [taker] [taker_size] [taker_address] [type] [dryrun]\(optional)</code>
@@ -94,7 +94,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the o
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "id": "4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "maker": "SYS",
@@ -133,7 +133,7 @@ status          | string        | [View order status codes](#status-codes)
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid parameters: Minimum supported size is 0.000001",
   "code": 1025,
@@ -154,7 +154,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -200,7 +200,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "maker": "SYS",
   "maker_size": "1",
@@ -235,7 +235,7 @@ There are no fees to make orders, but there are transaction fees for the maker a
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxMakePartialOrder SYS 1 SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK LTC 0.1 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z 0.2 true
 ```
 <code class="api-call">dxMakePartialOrder [maker] [maker_size] [maker_address] [taker] [taker_size] [taker_address] [minimum_size] [repost]\(optional) [dryrun]\(optional)</code>
@@ -262,7 +262,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the o
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "id": "4306a107113c4562afa6273ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "maker": "SYS",
@@ -301,7 +301,7 @@ status          | string        | [View order status codes](#status-codes)
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid parameters: Minimum supported size is 0.000001",
   "code": 1025,
@@ -322,7 +322,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -368,7 +368,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "id": "4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "send_address": "LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z",
@@ -387,7 +387,7 @@ Taking an order has a 0.015 BLOCK fee. There are also transaction fees for the t
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxTakeOrder 4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK
 ```
 <code class="api-call">dxTakeOrder [order_id] [send_address] [receive_address] [amount]\(optional) [dryrun]\(optional)</code>
@@ -409,7 +409,7 @@ dryrun          | string        | (Optional Parameter) <br>`dryrun`: Validate th
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "id": "4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "maker": "SYS",
@@ -439,7 +439,7 @@ status        | string        | [View order status codes](#status-codes).
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Transaction 4306aa07113c4562ffa6278ecd9a3990ead53a0227f74ddd9122272e453ae07d not found",
   "code": 1021,
@@ -460,7 +460,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -506,7 +506,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9"
 }
@@ -520,7 +520,7 @@ This call is used to cancel one of your own orders, which automatically rolls ba
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxCancelOrder 91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9
 ```
 <code class="api-call">dxCancelOrder [order_id]</code>
@@ -538,7 +538,7 @@ id            | string        | ID of order being cancelled.
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9",
   "maker": "SYS",
@@ -569,7 +569,7 @@ status        | string        | [View order status codes](#status-codes)
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid order id",
   "code": 1021,
@@ -590,7 +590,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -632,7 +632,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "id": "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a"
 }
@@ -644,7 +644,7 @@ This call is used to retrieve order info.
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetOrder 6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a
 ```
 <code class="api-call">dxGetOrder [order_id]</code>
@@ -662,7 +662,7 @@ id            | string        | ID of order of interest.
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "id": "6be548bc46a3dcc69b6d56529948f7e679dd96657f85f5870a017e005caa050a",
   "maker": "SYS",
@@ -695,7 +695,7 @@ status          | string        | [View order status codes](#status-codes)
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid order id",
   "code": 1021,
@@ -716,7 +716,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -765,7 +765,7 @@ This call is used to retrieve all orders of every market pair.
 
 > Request
 
-```cli
+```shell
 blocknet-cli dxGetOrders
 ```
 <code class="api-call">dxGetOrders</code>
@@ -781,7 +781,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9",
@@ -857,7 +857,7 @@ status                  | string        | [View order status codes](#status-code
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid parameters: This function does not accept any parameters",
   "code": 1025,
@@ -878,7 +878,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -919,7 +919,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "detail": 1,
   "maker": "LTC",
@@ -941,7 +941,7 @@ This call is used to retrieve open orders at various detail levels:
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetOrderBook 1 LTC SYS 100
 ```
 <code class="api-call">dxGetOrderBook [detail] [maker] [taker] [max_orders]\(optional)</code>
@@ -962,7 +962,7 @@ max_orders    | int           | (Optional Parameter) Defaults to `50`.<br>The ma
 
 > Sample 200 Response \(Detail 1)
 
-```cli
+```shell
 {
   "detail": 1,
   "maker": "LTC",
@@ -998,7 +998,7 @@ asks          | array         | An array of the best asks.
 
 > Sample 200 Response \(Detail 2)
 
-```cli
+```shell
 {
   "detail": 2,
   "maker": "LTC",
@@ -1034,7 +1034,7 @@ asks          | array         | An array of asks.
 
 > Sample 200 Response \(Detail 3)
 
-```cli
+```shell
 {
   "detail": 3,
   "maker": "LTC",
@@ -1072,7 +1072,7 @@ asks          | array         | An array of asks.
 
 > Sample 200 Response \(Detail 4)
 
-```cli
+```shell
 {
   "detail": 4,
   "maker": "LTC",
@@ -1108,7 +1108,7 @@ asks          | array         | An array of the best asks.
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid detail level",
   "code": 1015,
@@ -1129,7 +1129,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -1180,7 +1180,7 @@ This call is used to retrieve all of your orders (of all states) from the local 
 
 > Request
 
-```cli
+```shell
 blocknet-cli dxGetMyOrders
 ```
 <code class="api-call">dxGetMyOrders</code>
@@ -1196,7 +1196,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", 
@@ -1260,7 +1260,7 @@ status          | string        | [View order status codes](#status-codes)
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid parameters: This function does not accept any parameters",
   "code": 1025,
@@ -1281,7 +1281,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -1322,7 +1322,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "ageMillis": 600000
 }
@@ -1334,7 +1334,7 @@ This call is used to remove your cancelled orders that are older than the specif
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxFlushCancelledOrders 600000
 ```
 <code class="api-call">dxFlushCancelledOrders [ageMillis]\(optional)</code>
@@ -1352,7 +1352,7 @@ ageMillis     | int           | (Optional Parameter) Defaults to `0`.<br>Remove 
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "ageMillis": 0,
   "now": "20191126T024005.352285",
@@ -1386,7 +1386,7 @@ use_count*        | int           | This value is strictly for debugging purpose
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid parameters: ageMillis must be an integer >= 0",
   "code": 1025,
@@ -1407,7 +1407,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -1450,7 +1450,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "maker": "SYS",
   "taker": "LTC",
@@ -1464,7 +1464,7 @@ This call is used to retrieve all recent filled orders by a given trade pair. It
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetOrderFills SYS LTC false
 ```
 <code class="api-call">dxGetOrderFills [maker] [taker] [combined]\(optional)</code>
@@ -1484,7 +1484,7 @@ combines      | bool          | (Optional Parameter) Defaults to `true`.<br>`tru
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "id": "a1f40d53f75357eb914554359b207b7b745cf096dbcb028eb77b7b7e4043c6b4",
@@ -1527,7 +1527,7 @@ block_id      | string        | Blocknet block hash ID at the time the order was
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid parameters: (maker) (taker) (combined, default=true)[optional]",
   "code": 1025,
@@ -1548,7 +1548,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -1591,7 +1591,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "maker": "SYS",
   "taker": "LTC",
@@ -1607,7 +1607,7 @@ This call is used to retrieve the OHLCV data by trade pair for a specified time 
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetOrderHistory SYS LTC 1540660180 1540660420 60 true
 ```
 
@@ -1645,7 +1645,7 @@ at_start means all orders that fall in the specified number up to the next time 
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   //[ time, low, high, open, close, volume, id(s) ],
   [ "2018-01-16T13:15:05.12345Z", 1.10, 2.0, 1.10, 1.4, 1000, [ "0cc2e8a7222f1416cda996031ca21f67b53431614e89651887bc300499a6f83e" ] ],
@@ -1669,7 +1669,7 @@ order_ids     | array         | Array of GUIDs of all filled orders within the t
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid parameters: granularity=6 must be one of: 60,300,900,3600,21600,86400",
   "code": 1025,
@@ -1690,7 +1690,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -1746,7 +1746,7 @@ This call returns the XBridge trading records. This information is pulled from o
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetTradingData 1440
 ```
 
@@ -1766,7 +1766,7 @@ errors        | bool          | (Optional Parameter) Defaults to `false`.<br>Sho
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "timestamp" : 1559970139,
@@ -1830,7 +1830,7 @@ This call is used to retrieve all the assets supported by your node. If an asset
 
 > Request
 
-```cli
+```shell
 blocknet-cli dxGetLocalTokens
 ```
 <code class="api-call">dxGetLocalTokens</code>
@@ -1846,7 +1846,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   "BLOCK",
   "LTC",
@@ -1862,7 +1862,7 @@ Array         | array         | An array of all the assets supported by the loca
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Bad request",
   "code": 1004,
@@ -1883,7 +1883,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -1930,7 +1930,7 @@ This call is used to retrieve all the assets currently supported by the network.
 
 > Request
 
-```cli
+```shell
 blocknet-cli dxGetNetworkTokens
 ```
 <code class="api-call">dxGetNetworkTokens</code>
@@ -1946,7 +1946,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   "LTC",
   "SYS",
@@ -1961,7 +1961,7 @@ Array         | array         | An array of all the assets supported by the netw
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Bad request",
   "code": 1004,
@@ -1982,7 +1982,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -2031,7 +2031,7 @@ This call is used to retrieve the asset __*available*__ balances for all connect
 
 > Request
 
-```cli
+```shell
 blocknet-cli dxGetTokenBalances
 ```
 <code class="api-call">dxGetTokenBalances</code>
@@ -2047,7 +2047,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "LTC": "0.568942",
   "SYS": "1050.128493",
@@ -2065,7 +2065,7 @@ Object        | object        | Key-value object of the assets and respective ba
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Bad request",
   "code": 1004,
@@ -2086,7 +2086,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -2128,7 +2128,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "asset": "SYS"
 }
@@ -2142,7 +2142,7 @@ This call is used to generate a new address for the specified asset.
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetNewTokenAddress SYS
 ```
 <code class="api-call">dxGetNewTokenAddress [asset]</code>
@@ -2160,7 +2160,7 @@ asset         | string        | The ticker of the asset you want to generate an 
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   "SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK"
 ]
@@ -2173,7 +2173,7 @@ Array         | array         | An array containing the newly generated address 
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Bad request",
   "code": 1004,
@@ -2194,7 +2194,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -2236,7 +2236,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "asset": "BLOCK"
 }
@@ -2250,7 +2250,7 @@ Returns all compatible and unlocked UTXOs for the specified asset. Currently onl
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetUtxos BLOCK
 ```
 <code class="api-call">dxGetUtxos [asset] [include_used]\(optional)</code>
@@ -2269,7 +2269,7 @@ include_used  | bool          | (Optional Parameter) Defaults to `false`.<br>`tr
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "txid": "c019edf2a71efcfc9b1ec50cd0d9db54c55b74acd0bcc81cefd6ffbba359a210",
@@ -2314,7 +2314,7 @@ orderid         | string        | The order ID if the UTXO is currently being us
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Unable to connect to wallet",
   "code": 1018,
@@ -2335,7 +2335,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -2376,7 +2376,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "asset": "BLOCK",
   "split_amount": "4",
@@ -2392,7 +2392,7 @@ Splits unused coin in the given address into the specified size. Left over amoun
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxSplitAddress BLOCK 4 BWQrvmuHB4C68KH5V7fcn9bFtWN8y5hBmR
 ```
 <code class="api-call">dxSplitAddress [asset] [split_amount] [address] [include_fees]\(optional) [show_rawtx]\(optional) [submit]\(optional)</code>
@@ -2415,7 +2415,7 @@ submit        | bool          | (Optional Parameter) Defaults to `true`.<br>`tru
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "token": "BLOCK",
   "include_fees": true,
@@ -2442,7 +2442,7 @@ rawtx                  | string        | The hex string of the raw splitting tra
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Unable to connect to wallet",
   "code": 1018,
@@ -2463,7 +2463,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -2504,7 +2504,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "asset": "BLOCK",
   "split_amount": "4",
@@ -2524,7 +2524,7 @@ Splits specified UTXOs into the given size and address. Left over amounts end up
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxSplitInputs BLOCK 4 BWQrvmuHB4C68KH5V7fcn9bFtWN8y5hBmR true false true [{"txid":"7a54943d3cf87cba104c82b3cde5d7371b3c19f6e25fb4e01d68fb07ce315db4","vout":0},...]
 ```
 <code class="api-call">dxSplitInputs [asset] [split_amount] [address] [include_fees] [show_rawtx] [submit] [utxos]</code>
@@ -2550,7 +2550,7 @@ utxos         | array         | A JSON array of UTXO input objects.
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "token": "BLOCK",
   "include_fees": true,
@@ -2577,7 +2577,7 @@ rawtx                  | string        | The hex string of the raw splitting tra
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Unable to connect to wallet",
   "code": 1018,
@@ -2598,7 +2598,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -2639,7 +2639,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "id": "f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156"
 }
@@ -2651,7 +2651,7 @@ This call is used to retrieve the locked UTXOs for a specified order ID. You can
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetLockedUtxos f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156
 ```
 <code class="api-call">dxGetLockedUtxos [order_id]</code>
@@ -2669,7 +2669,7 @@ id            | string        | The order ID to recieve the UTXOs for.
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "id" : "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9",
@@ -2691,7 +2691,7 @@ Object        | object        | Key-value object of the asset and UTXOs for the 
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Not an exchange node",
   "code": 1029,
@@ -2712,7 +2712,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
@@ -2762,7 +2762,7 @@ This call is used to reload `xbridge.conf` to run newly configured settings with
 
 > Request
 
-```cli
+```shell
 blocknet-cli dxLoadXBridgeConf
 ```
 <code class="api-call">dxLoadXBridgeConf</code>
@@ -2778,7 +2778,7 @@ This call does not take parameters.
 
 > 200 Response
 
-```cli
+```shell
 true
 ```
 
@@ -2789,7 +2789,7 @@ bool          | `true`: Successfully reloaded file.
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Bad request",
   "code": 1004,
@@ -2810,7 +2810,7 @@ name          | string        | Name of the RPC function
 
 > Sample 500 Response
 
-```cli
+```shell
 {
   "error": "Internal error occurred",
   "code": 1002,
