@@ -6,7 +6,6 @@ Available hydra nodes in the hydra network.
 Hydra Node       | Node URL    | 
 ----------------|---------|
 Cloudchains Inc.           | [https://eth-api.core.cloudchainsinc.com](https://eth-api.core.cloudchainsinc.com)
-Oracle Miner               | [https://api.oracleminer.com](https://api.oracleminer.com)
 
 The Node URL is henceforth referred to as `<NODE-URL>` in the rest of the documentation.
 

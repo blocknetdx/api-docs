@@ -294,7 +294,7 @@ The flow of the diagram is top-to-bottom:
 
 ### Namespace
 
-XRouter SPV wallets utlize the `xrs::` namespace while [XCloud](#xcloud) services utilize the `xrs::` namespace. A list of the SPV wallets and services can be viewed using [xrGetNetworkServices](#xrgetnetworkservices) and you can pre-connect to the nodes with [xrConnect](#xrconnect).
+XRouter SPV wallets utlize the `xr::` namespace while [XCloud](#xcloud) services utilize the `xrs::` namespace. A list of the SPV wallets and services can be viewed using [xrGetNetworkServices](#xrgetnetworkservices) and you can pre-connect to the nodes with [xrConnect](#xrconnect).
 
 
 ### Fees
