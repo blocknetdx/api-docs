@@ -304,7 +304,7 @@ With XRouter, and subsequently [XCloud](#xcloud), fees are determined by a free 
 
 ### XRouter Node Scoring
 
-Clients keep a score of each Service Node. When a Service Node reaches a score of `-200`, the Service Node will be banned by the client for a 24hr period. After this 24hr period, the Service Node will start with a score of `-25`. The ban score threshold can be adjusted using the `xrouterbanscore` setting in `blocknet.conf` (see [setup](#xrouter-setup)).
+Clients keep a local score of each Service Node. When a Service Node reaches a score of `-200`, the Service Node will be banned by the client for a 24hr period. After this 24hr period, the Service Node will start with a score of `-25`. The ban score threshold can be adjusted using the `xrouterbanscore` setting in `blocknet.conf` (see [setup](#xrouter-setup)).
 
 Action                                  | Change in Score
 ----------------------------------------|-----------------
@@ -314,7 +314,7 @@ Matching consensus                      | correct_nodes * 2
 Sending bad XRouter config              | -10
 Sending bad XCloud config               | -2
 
-This mechanism and values are subject to change in future releases. Join the [Developer mailing list](http://eepurl.com/dDjhYH) to stay updated.
+This mechanism and values are subject to change in future releases. Join the [Developer mailing list](http://eepurl.com/c5OJMj) to stay updated.
 
 
 ### XRouter Use Cases

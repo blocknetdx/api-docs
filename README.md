@@ -82,7 +82,9 @@ You can now see the docs at http://localhost:4567. This will reload automaticall
 		```
 	1. Replace `M/D/YYY` with the publishing date in said format.
 	1. See past changelog entries for reference.
-1. Build the docs with the `bundle exec middleman build` command. Or use docker to build `docker run --rm --name api-docs -v $(pwd)/build:/srv/api-docs/build -v $(pwd)/source:/srv/api-docs/source blocknetdx/api-docs:latest`
+1. Build the docs with the `bundle exec middleman build` command. 
+   * Docker to build `docker run --rm --name api-docs -v $(pwd)/build:/srv/api-docs/build -v $(pwd)/source:/srv/api-docs/source blocknetdx/api-docs:latest`
+   * Docker windows `docker run --rm --name api-docs -v %cd%/build:/srv/api-docs/build -v %cd%/source:/srv/api-docs/source blocknetdx/api-docs:latest`
 1. Deploy `build/` contents to staging site for testing.
 1. Deploy `build/` contents to [https://api.blocknet.co/](https://api.blocknet.co/).
 

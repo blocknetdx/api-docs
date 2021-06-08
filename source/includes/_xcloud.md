@@ -7,18 +7,19 @@ You can use the [XCloud Services forum category](https://forum.blocknet.co/c/xcl
 See [XCloud Setup](#xcloud-setup) for instructions on setting up your environment for use with XCloud.
 
 
-Call                                              | Description
---------------------------------------------------|---------------
-[xrGetNetworkServices](#xrgetnetworkservices)     | Returns supported services
-[xrConnect](#xrconnect)                           | Pre-connect to XRouter nodes
-[xrConnectedNodes](#xrconnectednodes)             | Returns connected node services and fees
-[xrService](#xrservice)*                          | Use to interact with XCloud services
-[xrServiceConsensus](#xrServiceconsensus)*        | Use to interact with XCloud services with consensus
-[xrGetReply](#xrgetreply)                         | Returns prior response associated with UUID
-[xrShowConfigs](#xrshowconfigs)                   | Returns all node configs received as raw text
-[xrUpdateConfigs](#xrupdateconfigs)               | Requests latest configs from nodes
-[xrReloadConfigs](#xrreloadconfigs)               | Applies changes made to your configs
-[xrStatus](#xrstatus)                             | Returns your XRouter configurations
+Call                                               | Description
+---------------------------------------------------|---------------
+[xrGetNetworkServices](#xrgetnetworkservices)      | Returns supported services
+[xrUpdateNetworkServices](#xrupdatenetworkservices)| Returns latest Service Node list
+[xrConnect](#xrconnect)                            | Pre-connect to XRouter nodes
+[xrConnectedNodes](#xrconnectednodes)              | Returns connected node services and fees
+[xrService](#xrservice)*                           | Use to interact with XCloud services
+[xrServiceConsensus](#xrServiceconsensus)*         | Use to interact with XCloud services with consensus
+[xrGetReply](#xrgetreply)                          | Returns prior response associated with UUID
+[xrShowConfigs](#xrshowconfigs)                    | Returns all node configs received as raw text
+[xrUpdateConfigs](#xrupdateconfigs)                | Requests latest configs from nodes
+[xrReloadConfigs](#xrreloadconfigs)                | Applies changes made to your configs
+[xrStatus](#xrstatus)                              | Returns your XRouter configurations
 
 
 
@@ -68,12 +69,11 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 {
   "reply" : "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2",
   "error" : null,
-  "id" : 1,
   "uuid" : "54b6ec00-8b06-4c2c-9e56-acdff4da69fe"
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
 reply           | unknown | The service's response data.
 error           | object  | The native error response if an error occurred, otherwise a successful response will contain a `null` error.
@@ -127,35 +127,15 @@ paramN          | unknown | (Optional Parameter)<br>Refer to service documentati
 ```shell
 {
   "reply" : "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2",
-  "allreplies" : [
-    {
-      "nodepubkey" : "02c6c79a75846fd9bb064788b03145e347fa5464558fa9030ebb009df2833369f0",
-      "score" : 250,
-      "reply" : "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2"
-    },
-    {
-      "nodepubkey" : "0370874cad6252bb94afa9a253c90122760ce2862e623b515e57bfe0697f3fc515",
-      "score" : 300,
-      "reply" : "6a29264f48a40cc88f7c56cdc5fd4c62d1daa7f83b204fdcd4a022d8676438c2"
-    }
-  ],
   "error" : null,
-  "id" : 1,
   "uuid" : "54b6ec00-8b06-4c2c-9e56-acdff4da69fe"
 }
 ```
 
-Parameter       | Type    | Description
+Key             | Type    | Description
 ----------------|---------|-------------
-reply           | unknown | The service's response data. If using a `node_count` greater than `1`, this returns the most common reply within `allreplies`. If there is a tie then one is chosen, or if one is an error then the non-error is chosen.
-allreplies*     | array   | An array of objects with responses from each node. This can be useful if you wanted to do your own analysis/filtering of the responses.
-nodepubkey*     | string  | The node ID.
-score*          | int     | The respective node's score based on quality of service. A score of `-200` will ban the node for a 24hr period. You can change the ban threshold with the `xrouterbanscore` setting in `blocknet.conf`. See node scoring for more details.
-reply*          | unknown | The service's response data from the respective node.
-error           | object  | The native error response if an error occurred, otherwise a successful response will contain a `null` error.
+reply           | unknown | The service's response data. If using a `node_count` greater than 1, this returns the most common reply. Use [xrGetReply](#xrgetreply) to view each nodes individual response.
 uuid            | string  | The response ID, which can be used to view this response again with [xrGetReply](#xrgetreply).
-
-\* This is only returned if using a `node_count` greater than `1`.
 
 
 
