@@ -200,7 +200,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "maker": "SYS",
   "maker_size": "1",
@@ -235,7 +235,7 @@ There are no fees to make orders, but there are transaction fees for the maker a
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxMakePartialOrder SYS 1 SVTbaYZ8oApVn3uNyimst3GKyvvfzXQgdK LTC 0.1 LVvFhzRoMRGTtGihHp7jVew3YoZRX8y35Z 0.2 true
 ```
 <code class="api-call">dxMakePartialOrder [maker] [maker_size] [maker_address] [taker] [taker_size] [taker_address] [minimum_size] [repost]\(optional) [dryrun]\(optional)</code>
@@ -262,7 +262,7 @@ dryrun        | string        | (Optional Parameter)<br>`dryrun`: Validate the o
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "id": "4306a107113c4562afa6273ecd9a3990ead53a0227f74ddd9122272e453ae07d",
   "maker": "SYS",
@@ -919,7 +919,7 @@ Code  | Type  | Error
 
 > Sample Data
 
-```cli
+```shell
 {
   "detail": 1,
   "maker": "LTC",
@@ -941,12 +941,15 @@ This call is used to retrieve open orders at various detail levels:
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetOrderBook 1 LTC SYS 100
 ```
 <code class="api-call">dxGetOrderBook [detail] [maker] [taker] [max_orders]\(optional)</code>
 
-Parameter     | Type          | Description
+<br><b>Detail 1</b><br>
+Retrieves the best bid and ask.
+
+Key           | Type          | Description
 --------------|---------------|-------------
 detail        | int           | Detail level: `1`, `2`, `3`, `4`
 maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
@@ -962,7 +965,7 @@ max_orders    | int           | (Optional Parameter) Defaults to `50`.<br>The ma
 
 > Sample 200 Response \(Detail 1)
 
-```cli
+```shell
 {
   "detail": 1,
   "maker": "LTC",
@@ -998,7 +1001,7 @@ asks          | array         | An array of the best asks.
 
 > Sample 200 Response \(Detail 2)
 
-```cli
+```shell
 {
   "detail": 2,
   "maker": "LTC",
@@ -1034,7 +1037,7 @@ asks          | array         | An array of asks.
 
 > Sample 200 Response \(Detail 3)
 
-```cli
+```shell
 {
   "detail": 3,
   "maker": "LTC",
@@ -1072,7 +1075,7 @@ asks          | array         | An array of asks.
 
 > Sample 200 Response \(Detail 4)
 
-```cli
+```shell
 {
   "detail": 4,
   "maker": "LTC",
@@ -1180,7 +1183,7 @@ This call is used to retrieve all of your orders (of all states) from the local 
 
 > Request
 
-```cli
+```shell
 blocknet-cli dxGetMyOrders
 ```
 <code class="api-call">dxGetMyOrders</code>
@@ -1196,7 +1199,7 @@ This call does not take parameters.
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "id": "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9", 
@@ -1260,7 +1263,7 @@ status          | string        | [View order status codes](#status-codes)
 
 > Sample 400 Response
 
-```cli
+```shell
 {
   "error": "Invalid parameters: This function does not accept any parameters",
   "code": 1025,
@@ -1740,6 +1743,90 @@ Code  | Type  | Error
 This call returns the XBridge trading records. This information is pulled from on-chain history so pulling a large amount of blocks will result in longer response times.
 
 **This call replaces the `gettradingdata` call, which will be deprecated. Please update to use `dxGetTradingData` as soon as possible**
+
+
+### Request Parameters
+
+> Sample Request
+
+```shell
+blocknet-cli dxGetTradingData 1440
+```
+
+<code class="api-call">dxGetTradingData [blocks]\(optional) [errors]\(optional)</code>
+ 
+Parameter     | Type          | Description
+--------------|---------------|-------------
+blocks        | int           | (Optional Parameter) Defaults to `43200`.<br>Number of blocks to return trade records for (60s block time).
+errors        | bool          | (Optional Parameter) Defaults to `false`.<br>Shows an error if an error is detected. This may be useful if you're building a custom client and change the on-chain order history data format.
+
+
+### Response Parameters
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample 200 Response
+
+```shell
+[
+  {
+    "timestamp" : 1559970139,
+    "fee_txid" : "4b409e5c5fb1986930cf7c19afec2c89ac2ad4fddc13c1d5479b66ddf4a8fefb",
+    "nodepubkey" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
+    "id" : "9eb57bac331eab34f3daefd8364cdb2bb05259c407d805d0bd0c",
+    "taker" : "BLOCK",
+    "taker_size" : 0.001111,
+    "maker" : "SYS",
+    "maker_size" : 0.001000
+  },
+  {
+    "timestamp" : 1559970139,
+    "fee_txid" : "3de7479e8a88ebed986d3b7e7e135291d3fd10e4e6d4c6238663db42c5019286",
+    "nodepubkey" : "Bqtms8j1zrE65kcpsEorE5JDzDaHidMtLG",
+    "id" : "fd0fed3ee9fe557d5735768c9bdcd4ab2908165353e0f0cef0d5",
+    "taker" : "BLOCK",
+    "taker_size" : 0.001577,
+    "maker" : "SYS",
+    "maker_size" : 0.001420
+  },
+  {
+    "timestamp" : 1559970139,
+    "fee_txid" : "9cc4a0dae46f2f1849b3ab6f93ea1c59aeaf0e95662d90398814113f12127eae",
+    "nodepubkey" : "BbrQKtutGBLuWHvq26EmHKuNaztnfBFWVB",
+    "id" : "f74c614489bd77efe545c239d1f9a57363c5428e7401b2018d350",
+    "taker" : "BLOCK",
+    "taker_size" : 0.000231,
+    "maker" : "SYS",
+    "maker_size" : 0.001100
+  }
+]
+```
+
+Key           | Type          | Description
+--------------|---------------|-------------
+timestamp     | int           | Unix epoch timestamp of when the trade took place.
+fee_txid      | string        | The Blocknet trade fee transaction ID.
+nodepubkey    | string        | Service Node that received the trade fee.
+id            | string        | XBridge transaction ID.
+taker         | string        | Taker trading asset; the ticker of the asset being sold by the taker.
+taker_size    | int           | Taker trading size.
+maker         | string        | Maker trading asset; the ticker of the asset being sold by the maker.
+maker_size    | int           | Maker trading size.
+
+
+
+
+
+
+
+
+
+
+## dxGetLocalTokens
+
+This call is used to retrieve all the assets supported by your node. If an asset is not showing for [dxGetLocalTokens](#dxgetlocaltokens), it has not been properly configured (refer back to #2 in [XBridge Setup](#xbridge-setup)).
 
 
 ### Request Parameters
@@ -2250,7 +2337,7 @@ Returns all compatible and unlocked UTXOs for the specified asset. Currently onl
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetUtxos BLOCK
 ```
 <code class="api-call">dxGetUtxos [asset] [include_used]\(optional)</code>
@@ -2392,7 +2479,7 @@ Splits unused coin in the given address into the specified size. Left over amoun
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxSplitAddress BLOCK 4 BWQrvmuHB4C68KH5V7fcn9bFtWN8y5hBmR
 ```
 <code class="api-call">dxSplitAddress [asset] [split_amount] [address] [include_fees]\(optional) [show_rawtx]\(optional) [submit]\(optional)</code>
@@ -2504,6 +2591,25 @@ Code  | Type  | Error
 
 > Sample Data
 
+Code  | Type  | Error
+------|-------|------------
+1001  | 401   | Unauthorized
+1018  | 400   | Unable to connect to wallet
+1002  | 500   | Internal server error
+
+
+
+
+
+
+
+
+
+
+## dxSplitInputs
+
+> Sample Data
+
 ```cli
 {
   "asset": "BLOCK",
@@ -2524,7 +2630,7 @@ Splits specified UTXOs into the given size and address. Left over amounts end up
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxSplitInputs BLOCK 4 BWQrvmuHB4C68KH5V7fcn9bFtWN8y5hBmR true false true [{"txid":"7a54943d3cf87cba104c82b3cde5d7371b3c19f6e25fb4e01d68fb07ce315db4","vout":0},...]
 ```
 <code class="api-call">dxSplitInputs [asset] [split_amount] [address] [include_fees] [show_rawtx] [submit] [utxos]</code>
@@ -2550,7 +2656,7 @@ utxos         | array         | A JSON array of UTXO input objects.
 
 > Sample 200 Response
 
-```cli
+```shell
 {
   "token": "BLOCK",
   "include_fees": true,
@@ -2651,7 +2757,7 @@ This call is used to retrieve the locked UTXOs for a specified order ID. You can
 
 > Sample Request
 
-```cli
+```shell
 blocknet-cli dxGetLockedUtxos f2b1ebf45b81da67171bfc55f34c20c9bbc55d8234b8f5c61d0965f61e3c3156
 ```
 <code class="api-call">dxGetLockedUtxos [order_id]</code>
@@ -2669,7 +2775,7 @@ id            | string        | The order ID to recieve the UTXOs for.
 
 > Sample 200 Response
 
-```cli
+```shell
 [
   {
     "id" : "91d0ea83edc79b9a2041c51d08037cff87c181efb311a095dfdd4edbcc7993a9",
