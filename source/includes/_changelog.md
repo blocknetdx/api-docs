@@ -22,6 +22,10 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+16/04/2022 |
+-----------|
+• Major updates to hydra section |
+
 14/01/2021 |
 -----------|
 • Minor typos and editing in intro and hydra section |
