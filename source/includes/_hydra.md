@@ -5,25 +5,55 @@ Available hydra nodes in the hydra network.
 
 Hydra Node       | Node URL    | 
 ----------------|---------|
-Cloudchains Inc.           | [https://eth-api.core.cloudchainsinc.com](https://eth-api.core.cloudchainsinc.com)
+TBD           | Website TBD
 
 The Node URL is henceforth referred to as `<NODE-URL>` in the rest of the documentation.
 
 ## Generate A Project
 As a client it is necessary to create a project at your Hydra node. A payment in ETH or aBLOCK is necessary for the project to become active. The payment amounts are fixed in USD, but denominated in ETH.
+##### Note
+Once a Hydra/XQuery project has been created and activated, API calls to that project will return details about the project in the HEADER portion of the HTTP response. For example, this kind of info will be returned in the HTTP header when making Hydra/XQuery calls:
+
+```shell
+{
+  "PROJECT-ID" : "832ecaee-a26c-484f-a6f6-51e4cfd1a367",
+  "API-TOKENS" : "6000000",
+  "API-TOKENS-USED" : 1079,
+  "API-TOKENS-REMAINING" : 5998921
+}
+```
 
 Create a project as follows with the `request_project` call.
 ### request_project
 
 Request a Hydra Project, this creates a project ID (`project_id`) in the database of the hydra node and returns an ETH address for payment.
 
+!!! warning "The active life of a project is constrained by two separate constraints: Expiry time (1 month from the date of payment), and number of api calls.
+
+##### Note: 
+
+ - The expiry_time returned by a request_project call to a Hydra/XQuery snode is the expiration of the offer at the quoted rate, not the expiry time of the project that will be initiated once payment is made. The latter will always be one month in the future from the time payment is made.
+ - Tier2 payments give clients access to all archival ETH data, whereas tier1 payments only give access to the most recent 128 blocks of ETH data. (tier1 payments still have access to all data on the AVAX blockchain; only ETH blockchain data is restricted with tier1 payments.)
+ 
+ ##### Payment Notes: 
+- Projects can be underpaid and the snode waits unlimited time for them to be paid fully
+- If a project is paid in over 12h, the user only gets access to the most recent 128 blocks of ETH (nonarchival access) and half of default api count
+- If a project is paid in time in under 12h the api call count is relative to the amount paid and activate archival (i.e. access to all ETH blocks) if greater than tier2
+- A project cannot be upgrade from tier1 to tier2 if already paid tier1. Instead of upgrading, the user should request a new project for tier2 (archival).
+- An active project gives Hydra and XQuery access to all chains supported on the snode where the project is active. So if an snode supports ETH, AVAX, BSC, FTM, SOL, DOT, ADA, Etc., then Hydra and XQuery access to all of those chains is available through an active project.
+It doesn't matter on which chain the payment for the project was paid (e.g. aBLOCK or aaBLOCK).
+
+##### Number of api calls alloted 
+- Tier1 payment is 6 million.
+- Tier2 payment is tier2_amount/tier1_amount * 6 million."
+
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough \
+curl http://<NODE-URL>/xrs/projects \
       -X POST \
       -H "Content-Type: application/json" \
-      -d '{"jsonrpc":"2.0","method":"request_project","params": [],"id":1}'
+      -d '{"id": 1, "method": "request_project", "params": []}'
 ```
 <code class="api-call">request_project</code>
 
@@ -67,13 +97,53 @@ The returned `project_id` should be passed as a path parameter to the Hydra Node
 
 The returned `api_key` should be passed in the request body of the POST request. Henceforth from now `api_key` is referred as `<API-KEY>` in the rest of the documentation.
 
+### Check A Project
+Once payment has been sent to an snode, the project ID/Api-key become active. The client can check to confirm the project has become active like this:
+
+> Sample Request
+
+```shell
+curl http://<NODE-URL>/xrs/projects \
+      -X POST \
+      -H "Content-Type: application/json" \
+      -d '{"id": 1, "method": "list_projects", "params": []}'
+```
+<code class="api-call">check_a_project</code>
+
+This call does not take parameters.
+
+#### Responses
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample Response
+
+```shell
+{
+  "error": 0,
+  "result":
+    {
+      "api_key": "uiF_scQgopWWhgDFT7AMbM2Vf2b66xlfnVrJe6e1gUE",
+      "expiry_time": "2022-11-19 22:17:53 EST",
+      "payment_address": "0x0x0xxx",
+      "payment_amount_tier1": 0.073597,
+      "payment_amount_tier2": 0.420557,
+      "project_id": "85f1641d-f8ab-4acb-aa00-5d19601a9dd7"
+    }
+}
+```
+
+
+
 ## Authentication
 ### Authenticating using a Project ID
 
 > Authentication headers
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" 
@@ -81,7 +151,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 Hydra's Ethereum API requires a valid `Project ID` to be included with your request. This identifier should be appended to the request URL as a path parameter.
 
-`curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID>`
+`curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID>`
 
 In order to authenticate, it is necessary to include a `<API_KEY>` in the `Api-Key` header of a request.
 
@@ -93,13 +163,13 @@ If an authentication error is returned after a `eth_passthrough` request, the `e
 
 Error Code  | Error Name  | Message 
 ------|-------|------------ 
-1 |	MISSING_API_KEY	| API_KEY header missing or project-id missing.
-2 |	MISSING_PROJECT_ID	| Missing project-id in url.
-3 | PROJECT_NOT_EXIST |	Bad API_KEY or project-id does not exist.
-4 |	PROJECT_EXPIRED |	Project has expired. Please request a new project and api key.
-5 | API_TOKENS_EXCEEDED |	API calls exceeded!
-6 |	MISSING_PAYMENT |	Payment not received yet. Please submit payment or wait until payment confirms.
-7 |	API_KEY_DISABLED | API key is disabled.
+1 | MISSING_API_KEY | API_KEY header missing or project-id missing.
+2 | MISSING_PROJECT_ID  | Missing project-id in url.
+3 | PROJECT_NOT_EXIST | Bad API_KEY or project-id does not exist.
+4 | PROJECT_EXPIRED | Project has expired. Please request a new project and api key.
+5 | API_TOKENS_EXCEEDED | API calls exceeded!
+6 | MISSING_PAYMENT | Payment not received yet. Please submit payment or wait until payment confirms.
+7 | API_KEY_DISABLED | API key is disabled.
 
 <aside class="warning">
 401 Unauthorized
@@ -243,7 +313,7 @@ On the right there is a quick command line example using `curl` where `method` =
 
 ```shell
 # Be sure to replace YOUR-PROJECT-ID with a Project ID from the generated project
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -359,18 +429,18 @@ If an error is returned after a Ethereum JSON-RPC request, the `error` field in 
 
 Code  | Message  | Description | Object Name
 ------|-------|------------ | ---------
--32700 |	Parse error	| Invalid JSON	| ParseError
--32600 |	Invalid request	| JSON is not a valid request object |	InvalidRequest
--32601 |	Method not found |	Method does not exist |	MethodNotFound
--32602 |	Invalid params |	Invalid method parameters |	InvalidParams
--32603 |	Internal error |	Internal JSON-RPC error	| InternalError
--32000 |	Invalid input |	Missing or invalid parameters	| InvalidInput
--32001 |	Resource not found | Requested resource not found |	ResourceNotFound
--32002 |	Resource unavailable |	Requested resource not available |	ResourceUnavailable
--32003 |	Transaction rejected |	Transaction creation failed |	TransactionRejected
--32004 |	Method not supported |	Method is not implemented	| MethodNotSupported
--32005 |	Limit exceeded |	Request exceeds defined limit	| LimitExceeded
--32006 |	JSON-RPC version not supported |	Version of JSON-RPC protocol is not supported | Json-rpcVersionNotSupported
+-32700 |  Parse error | Invalid JSON  | ParseError
+-32600 |  Invalid request | JSON is not a valid request object |  InvalidRequest
+-32601 |  Method not found |  Method does not exist | MethodNotFound
+-32602 |  Invalid params |  Invalid method parameters | InvalidParams
+-32603 |  Internal error |  Internal JSON-RPC error | InternalError
+-32000 |  Invalid input | Missing or invalid parameters | InvalidInput
+-32001 |  Resource not found | Requested resource not found | ResourceNotFound
+-32002 |  Resource unavailable |  Requested resource not available |  ResourceUnavailable
+-32003 |  Transaction rejected |  Transaction creation failed | TransactionRejected
+-32004 |  Method not supported |  Method is not implemented | MethodNotSupported
+-32005 |  Limit exceeded |  Request exceeds defined limit | LimitExceeded
+-32006 |  JSON-RPC version not supported |  Version of JSON-RPC protocol is not supported | Json-rpcVersionNotSupported
 
 
 
@@ -398,7 +468,7 @@ Starts a subscription (on WebSockets / IPC / TCP transports) to a particular eve
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -478,7 +548,7 @@ Unsubscribes from a subscription.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -586,7 +656,7 @@ Returns the current web3 client version.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -659,7 +729,7 @@ Returns Keccak-256 (not the standardized SHA3-256) of the given data.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -724,7 +794,7 @@ Returns `true` if client is actively listening for network connections.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -787,7 +857,7 @@ Returns number of peers currenly connected to the client.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -850,7 +920,7 @@ Returns the current network protocol version.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -913,7 +983,7 @@ Returns a list of addresses owned by the client.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -976,7 +1046,7 @@ Returns the number of the most recent block.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1053,7 +1123,7 @@ Executes a new message call immediately without creating a transaction on the bl
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1124,7 +1194,7 @@ Returns the EIP155 chain ID used for transaction signing at the current best blo
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1201,7 +1271,7 @@ Makes a call or transaction, which won’t be added to the blockchain and return
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1282,7 +1352,7 @@ Returns the balance of the account of given address.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1294,7 +1364,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 Parameter       | Type    | Description
 ----------------|---------|-------------
 address | string | The address to check for balance.
-block_parameter	| string | Integer block number, or the string 'latest', 'earliest' or 'pending'.
+block_parameter | string | Integer block number, or the string 'latest', 'earliest' or 'pending'.
 
 
 #### Responses
@@ -1359,7 +1429,7 @@ Returns information about a block by hash.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -1371,7 +1441,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 Parameter       | Type    | Description
 ----------------|---------|-------------
 block_hash | string | Hash of a block.
-show_tx_details	| string | If `true` it returns the full transaction objects, if `false` only the hashes of the transactions.
+show_tx_details | string | If `true` it returns the full transaction objects, if `false` only the hashes of the transactions.
 
 #### Responses
 
@@ -1690,7 +1760,7 @@ Returns information about a block by block number.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2019,7 +2089,7 @@ Returns the number of transactions in a block from a block matching the given bl
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2093,7 +2163,7 @@ Returns the number of transactions in the block with the given block number.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2104,7 +2174,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_parameter	| string  | Integer block number, or the string 'latest', 'earliest' or 'pending'.
+block_parameter | string  | Integer block number, or the string 'latest', 'earliest' or 'pending'.
 
 #### Responses
 
@@ -2168,7 +2238,7 @@ Returns code at a given address.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2179,7 +2249,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_parameter	| string  | Integer block number, or the string 'latest', 'earliest' or 'pending'.
+block_parameter | string  | Integer block number, or the string 'latest', 'earliest' or 'pending'.
 
 #### Responses
 
@@ -2245,7 +2315,7 @@ Returns an array of all logs matching a given filter object.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2338,7 +2408,7 @@ Returns the value from a storage position at a given address.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2416,7 +2486,7 @@ Returns information about a transaction by block hash and transaction index posi
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2533,7 +2603,7 @@ Returns information about a transaction by block number and transaction index po
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2649,7 +2719,7 @@ Returns the information about a transaction requested by transaction hash.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2765,7 +2835,7 @@ Returns the number of transactions sent from an address.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2843,7 +2913,7 @@ Returns the receipt of a transaction by transaction hash.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2944,7 +3014,7 @@ Returns information about a uncle of a block by hash and uncle index position.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -2955,8 +3025,8 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_hash	| string |	Hash of a block.
-uncle_index_position |	string |	Integer of the uncle index position.
+block_hash  | string |  Hash of a block.
+uncle_index_position |  string |  Integer of the uncle index position.
 
 #### Responses
 
@@ -3004,28 +3074,28 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 jsonrpc           | string  | JSON RPC version.
 result           | object  | Transaction receipt object.
-author |	string	| The address of the author of the block.
-difficulty	| string	| Integer of the difficulty for this block.
-extraData	| string	| The ‘extra data’ field of this block.
-gasLimit	| string	| The maximum gas allowed in this block.
-gasUsed	| string	| The total used gas by all transactions in this block.
-hash	| string	| Hash of the block. null when its pending block.
-logsBloom	| string	| The bloom filter for the logs of the block. null when its pending block.
-miner	| string	| Alias of ‘author’.
-mixHash |	string |	The mix hash.
-nonce	| string	| Hash of the generated proof-of-work. null when its pending block. Missing in case of PoA.
-number |	string | The block number. null when its pending block.
-parentHash	| string	| Hash of the parent block.
-receiptsRoot |	string	| The root of the receipts trie of the block.
-sealFields	| array	| Array of seal fields.
-sha3Uncles	| string |	SHA3 of the uncles data in the block.
-size	| string	| Integer the size of this block in bytes.
-stateRoot |	string	| The root of the final state trie of the block.
-timestamp |	string	| The unix timestamp for when the block was collated.
-totalDifficulty	| string |	Integer of the total difficulty of the chain until this block.
-transactions	| array |	Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter.
-transactionsRoot	| string |	The root of the transaction trie of the block.
-uncles	| array	| Array of uncle hashes.
+author |  string  | The address of the author of the block.
+difficulty  | string  | Integer of the difficulty for this block.
+extraData | string  | The ‘extra data’ field of this block.
+gasLimit  | string  | The maximum gas allowed in this block.
+gasUsed | string  | The total used gas by all transactions in this block.
+hash  | string  | Hash of the block. null when its pending block.
+logsBloom | string  | The bloom filter for the logs of the block. null when its pending block.
+miner | string  | Alias of ‘author’.
+mixHash | string |  The mix hash.
+nonce | string  | Hash of the generated proof-of-work. null when its pending block. Missing in case of PoA.
+number |  string | The block number. null when its pending block.
+parentHash  | string  | Hash of the parent block.
+receiptsRoot |  string  | The root of the receipts trie of the block.
+sealFields  | array | Array of seal fields.
+sha3Uncles  | string |  SHA3 of the uncles data in the block.
+size  | string  | Integer the size of this block in bytes.
+stateRoot | string  | The root of the final state trie of the block.
+timestamp | string  | The unix timestamp for when the block was collated.
+totalDifficulty | string |  Integer of the total difficulty of the chain until this block.
+transactions  | array | Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter.
+transactionsRoot  | string |  The root of the transaction trie of the block.
+uncles  | array | Array of uncle hashes.
 id           | int  | ID number.
 
 <aside class="success">
@@ -3069,7 +3139,7 @@ Returns information about a uncle of a block by number and uncle index position.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3080,8 +3150,8 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_parameter	| string |	Integer block number, or the string 'latest', 'earliest' or 'pending'.
-uncle_index_position |	string |	Integer of the uncle index position.
+block_parameter | string |  Integer block number, or the string 'latest', 'earliest' or 'pending'.
+uncle_index_position |  string |  Integer of the uncle index position.
 
 #### Responses
 
@@ -3129,28 +3199,28 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 jsonrpc           | string  | JSON RPC version.
 result           | object  | Transaction receipt object.
-author |	string	| The address of the author of the block.
-difficulty	| string	| Integer of the difficulty for this block.
-extraData	| string	| The ‘extra data’ field of this block.
-gasLimit	| string	| The maximum gas allowed in this block.
-gasUsed	| string	| The total used gas by all transactions in this block.
-hash	| string	| Hash of the block. null when its pending block.
-logsBloom	| string	| The bloom filter for the logs of the block. null when its pending block.
-miner	| string	| Alias of ‘author’.
-mixHash |	string |	The mix hash.
-nonce	| string	| Hash of the generated proof-of-work. null when its pending block. Missing in case of PoA.
-number |	string | The block number. null when its pending block.
-parentHash	| string	| Hash of the parent block.
-receiptsRoot |	string	| The root of the receipts trie of the block.
-sealFields	| array	| Array of seal fields.
-sha3Uncles	| string |	SHA3 of the uncles data in the block.
-size	| string	| Integer the size of this block in bytes.
-stateRoot |	string	| The root of the final state trie of the block.
-timestamp |	string	| The unix timestamp for when the block was collated.
-totalDifficulty	| string |	Integer of the total difficulty of the chain until this block.
-transactions	| array |	Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter.
-transactionsRoot	| string |	The root of the transaction trie of the block.
-uncles	| array	| Array of uncle hashes.
+author |  string  | The address of the author of the block.
+difficulty  | string  | Integer of the difficulty for this block.
+extraData | string  | The ‘extra data’ field of this block.
+gasLimit  | string  | The maximum gas allowed in this block.
+gasUsed | string  | The total used gas by all transactions in this block.
+hash  | string  | Hash of the block. null when its pending block.
+logsBloom | string  | The bloom filter for the logs of the block. null when its pending block.
+miner | string  | Alias of ‘author’.
+mixHash | string |  The mix hash.
+nonce | string  | Hash of the generated proof-of-work. null when its pending block. Missing in case of PoA.
+number |  string | The block number. null when its pending block.
+parentHash  | string  | Hash of the parent block.
+receiptsRoot |  string  | The root of the receipts trie of the block.
+sealFields  | array | Array of seal fields.
+sha3Uncles  | string |  SHA3 of the uncles data in the block.
+size  | string  | Integer the size of this block in bytes.
+stateRoot | string  | The root of the final state trie of the block.
+timestamp | string  | The unix timestamp for when the block was collated.
+totalDifficulty | string |  Integer of the total difficulty of the chain until this block.
+transactions  | array | Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter.
+transactionsRoot  | string |  The root of the transaction trie of the block.
+uncles  | array | Array of uncle hashes.
 id           | int  | ID number.
 
 <aside class="success">
@@ -3193,7 +3263,7 @@ Returns information about a uncle of a block by number and uncle index position.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3204,7 +3274,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_hash	| string |	Hash of a block.
+block_hash  | string |  Hash of a block.
 
 #### Responses
 
@@ -3267,7 +3337,7 @@ Returns the number of uncles in a block from a block matching the given block nu
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3278,7 +3348,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_parameter	| string |	Integer block number, or the string 'latest', 'earliest' or 'pending'.
+block_parameter | string |  Integer block number, or the string 'latest', 'earliest' or 'pending'.
 
 #### Responses
 
@@ -3332,7 +3402,7 @@ Returns the hash of the current block, the seedHash, and the boundary condition 
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3397,7 +3467,7 @@ Returns the number of hashes per second that the node is mining with.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3462,7 +3532,7 @@ Returns `true` if client is actively mining new blocks.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3527,7 +3597,7 @@ Returns the current Ethereum protocol version.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3599,7 +3669,7 @@ Submits a signed transaction to the Ethereum network.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3674,7 +3744,7 @@ Used for submitting a proof-of-work solution.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3685,9 +3755,9 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-nonce	string |	The nonce found (64 bits).
-pow_hash	| string	| The header’s pow-hash (256 bits)
-mix_digest |	string |	The mix digest (256 bits).
+nonce string |  The nonce found (64 bits).
+pow_hash  | string  | The header’s pow-hash (256 bits)
+mix_digest |  string |  The mix digest (256 bits).
 
 #### Responses
 
@@ -3743,7 +3813,7 @@ Returns an object with data about the sync status or `false`.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3801,7 +3871,7 @@ Polling method for a filter, which returns an array of logs which occurred since
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3896,7 +3966,7 @@ Returns an array of all logs matching filter with given id.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -3991,7 +4061,7 @@ Creates a filter in the node, to notify when a new block arrives. To check if th
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -4067,7 +4137,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -4136,7 +4206,7 @@ Creates a filter in the node, to notify when new pending transactions arrive. To
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -4211,7 +4281,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -4280,7 +4350,7 @@ Uninstalls a filter with given id. Should always be called when watch is no long
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
