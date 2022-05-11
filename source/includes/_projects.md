@@ -26,7 +26,7 @@ to as `<NODE-URL>` in this document.
 
 ## Request and Activate A New Project
 
-The next step after selecting an SNode as your EVM data provider is to
+The next step after selecting an SNode as your XQuery/Hydra data provider is to
 create a new project on that SNode via the `request_project` call.
 
 ### request_project
@@ -76,43 +76,95 @@ Parameter       | Type    | Description
 result          | object   | Object of the result.
 api_key      | string    | API Key of the project, referred to in this document as `<API-KEY>`.
 expiry_time     | string    | Expiry time of Project request. Project is cancelled if full payment is not made by this time.
-payment_amount_tier1_aablock | number | The amount of aaBLOCK to pay for tier1* access privileges. If *null*, this payment option is not available.  
-payment_amount_tier1_ablock | number | The amount of aBLOCK to pay for tier1* access privileges. If *null*, this payment option is not available.   
-payment_amount_tier1_eth | number | The amount of ETH to pay for tier1* access privileges. If *null*, this payment option is not available.   
-payment_amount_tier2_aablock | number | The amount of aaBLOCK to pay for tier2* access privileges. If *null*, this payment option is not available.  
-payment_amount_tier2_ablock | number | The amount of aBLOCK to pay for tier2* access privileges. If *null*, this payment option is not available.   
-payment_amount_tier2_eth | number | The amount of ETH to pay for tier2* access privileges. If *null*, this payment option is not available.   
+payment_amount_tier1_aablock | number | The amount of aaBLOCK to pay for tier1* access privileges. If *null*, it means this payment option is not available.
+payment_amount_tier1_ablock | number | The amount of aBLOCK to pay for tier1* access privileges. If *null*, it means this payment option is not available. 
+payment_amount_tier1_eth | number | The amount of ETH to pay for tier1* access privileges. If *null*, it means this payment option is not available. 
+payment_amount_tier2_aablock | number | The amount of aaBLOCK to pay for tier2* access privileges. If *null*, it means this payment option is not available.
+payment_amount_tier2_ablock | number | The amount of aBLOCK to pay for tier2* access privileges. If *null*, it means this payment option is not available. 
+payment_amount_tier2_eth | number | The amount of ETH to pay for tier2* access privileges. If *null*, it means this payment option is not available. 
 payment_avax_address | string     | The Avalanche address to which payment should be sent if paying in ARC20 aaBLOCK (or in AVAX, if that option is added in the future).
 payment_eth_address | string     | The Ethereum address to which payment should be sent if paying in ERC20 aBLOCK or in ETH.
 project_id      | string | The project ID of the project, referred to in this document as `<PROJECT-ID>`
 
-!!! warning "The active life of a project is constrained by two separate constraints: Expiry time (1 month from the date of payment), and number of api calls.
+### Response Parameter Notes:
+- The *expiry_time* returned by a `request_project` call is the
+  expiry time for full payment to be made, not the
+  expiry time of the project that will be initiated once payment is
+  made. The latter will always be one month in the future from the time payment is made.
+- If *null* is returned for the
+*payment_amount_tierX_aablock* values (or for the
+*payment_amount_tierX_avax* values if/when they are added), it means
+Avalanche blockchain data is not available from `<NODE-URL>`.
+- If *null* is returned for the
+*payment_amount_tierX_ablock* values, or for the
+*payment_amount_tierX_eth* values, it means
+Ethereum blockchain data is not available from `<NODE-URL>`.
 
-##### Note: 
+### *tier1 
+- A *tier1* project gets 6 million API calls.
+- If `<NODE-URL>` hosts the
+Ethereum blockchain, a *tier1* project only has access to the most
+recent 128 blocks of ETH data (a.k.a. non-archival ETH data) via the
+[Hydra API](/#hydra-api).
+- [Hydra API](/#hydra-api) access to other [EVMs](https://docs.blocknet.co/resources/glossary/#evm), like Avalanche, is not restricted for a *tier1* project.
+- A *tier1* project has unrestricted access to data from all EVMs hosted
+by `<NODE-URL>`via the [XQuery API](/#xquery-api).
 
- - The expiry_time returned by a request_project call to a Hydra/XQuery snode is the expiration of the offer at the quoted rate, not the expiry time of the project that will be initiated once payment is made. The latter will always be one month in the future from the time payment is made.
- - Tier2 payments give clients access to all archival ETH data, whereas tier1 payments only give access to the most recent 128 blocks of ETH data. (tier1 payments still have access to all data on the AVAX blockchain; only ETH blockchain data is restricted with tier1 payments.)
- 
-#### Payment Notes: 
-- The payment amounts are fixed in USD, but denominated in ETH,
+### *tier2
+- The number of API calls a *tier2* project gets is calculated by the
+forumla:<br>
+`API calls = payment_amount_tier2/payment_amount_tier1 * 6 million`<br>
+For Example, if *payment_amount_tier2_aablock* is 4 and
+payment_amount_tier1_aablock is 0.7 then a *tier2* project would get:<br>
+`4/0.7 * 6,000,000 = 34,285,714` API calls.
+- If `<NODE-URL>` hosts the
+Ethereum blockchain, a *tier2* project has full access to all ETH
+archival data (i.e. ETH data from any block since the inception block) via the
+[Hydra API](/#hydra-api).
+- [Hydra API](/#hydra-api) access to other [EVMs](https://docs.blocknet.co/resources/glossary/#evm), like Avalanche, is not restricted for a *tier2* project.
+- A *tier2* project has unrestricted access to data from all EVMs hosted
+by `<NODE-URL>`via the [XQuery API](/#xquery-api).
+
+
+### Project Details
+- If `<NODE-URL>` hosts both XQuery and Hydra services, an API call to
+either [XQuery API](/#xquery-api) or [Hydra API](/#hydra-api) counts
+as 1 API call and deducts 1 from the total remaining API calls in
+the project.
+- The active life of a project is constrained by two separate
+constraints. Whichever constraint triggers first, terminates the
+project. The two constraints are:
+ 1. Number of api calls. When all purchased API calls have been used,
+   the project expires.
+ 1. Expiry time: 1 month from the date of activation of the project
+
+### Activate Project
+To activate the project returned by the call to `request_project`,
+simply send the required payment amount to the appropriate payment
+address. (See [Response Parameters](/#response) for details). It
+doesn't matter on which chain the payment is made
+(e.g. ETH, aBLOCK or aaBLOCK); an active project is an active project.
+
+
+### Payment Notes
+- The payment amounts are fixed in USD by the SNode operator, but denominated in ETH,
 [aBLOCK](https://docs.blocknet.co/blockchain/ablock/) and/or
-[aaBLOCK](https://docs.blocknet.co/blockchain/aablock/), depending
-which payment methods are accepted at the chosen `<NODE-URL>`.
-- Projects can be underpaid and the snode waits unlimited time for them to be paid fully
-- If a project is paid in over 12h, the user only gets access to the most recent 128 blocks of ETH (nonarchival access) and half of default api count
-- If a project is paid in time in under 12h the api call count is relative to the amount paid and activate archival (i.e. access to all ETH blocks) if greater than tier2
-- A project cannot be upgrade from tier1 to tier2 if already paid tier1. Instead of upgrading, the user should request a new project for tier2 (archival).
-- An active project gives Hydra and XQuery access to all chains supported on the snode where the project is active. So if an snode supports ETH, AVAX, BSC, FTM, SOL, DOT, ADA, Etc., then Hydra and XQuery access to all of those chains is available through an active project.
-It doesn't matter on which chain the payment for the project was paid (e.g. aBLOCK or aaBLOCK).
+[aaBLOCK](https://docs.blocknet.co/blockchain/aablock/).
+- Requested projects that are not paid in full before the
+  [*expiry_time* for payment](/#response-parameter-notes) of the
+  project, will be cancelled. Once a project has been cancelled, any payments made to
+  that project will be returned to the payment sender (minus gas fees).
+- Partial payments sent to a requested project must all be made
+  in the same currency (e.g. ETH, aBLOCK or aaBLOCK), and the sum of
+  all partial payments must satisfy the required payment amount for
+  that currency before the [*expiry_time* for
+  payment](/#response-parameter-notes) of the project. Otherwise, the
+  project will be cancelled and all
+  partial payments will be returned to the payment sender (minus gas
+  fees).
+- A project cannot be upgrade from *tier1* to *tier2* if already paid for
+  at *tier1* level. Instead of upgrading, the user should request a new project for *tier2*.
 
-##### Number of api calls alloted 
-- Tier1 payment is 6 million.
-- Tier2 payment is tier2_amount/tier1_amount * 6 million."
-
-
-The returned `project_id` should be passed as a path parameter to the Hydra Node you have paid for. Henceforth from now `project-id` is referred as `<PROJECT-ID>` in the rest of the documentation.
-
-The returned `api_key` should be passed in the request body of the POST request. Henceforth from now `api_key` is referred as `<API-KEY>` in the rest of the documentation.
 
 ### Check A Project
 Once payment has been sent to an snode, the project ID/Api-key become active. The client can check to confirm the project has become active like this:
