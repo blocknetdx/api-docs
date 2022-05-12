@@ -11,173 +11,37 @@ as proof that the calls are being made from an active project.
 > Authentication headers
 
 ```shell
-curl http://<NODE-URL>/xrs/evm_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" 
 ```
 
-Hydra's Ethereum API requires a valid `Project ID` to be included with your request. This identifier should be appended to the request URL as a path parameter.
+Hydra's API requires a valid `Project ID` to be included with your request. This identifier should be appended to the request URL as a path parameter.
 
-`curl http://<NODE-URL>/xrs/evm_passthrough/<PROJECT-ID>`
+`curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID>`
+
+`<EVM>` in the above format should be replaced by the EVM whose data
+you wish to request  (e.g. ETH, AVAX, etc...)
 
 In order to authenticate, it is necessary to include a `<API_KEY>` in the `Api-Key` header of a request.
 
-
-
-### Error Codes
-
-If an authentication error is returned after a `evm_passthrough` request, the `error` field in the response object must be an error number and the `message` field must be a string. The following table displays all error codes and its associated messages.
-
-Error Code  | Error Name  | Message 
-------|-------|------------ 
-1 | MISSING_API_KEY | API_KEY header missing or project-id missing.
-2 | MISSING_PROJECT_ID  | Missing project-id in url.
-3 | PROJECT_NOT_EXIST | Bad API_KEY or project-id does not exist.
-4 | PROJECT_EXPIRED | Project has expired. Please request a new project and api key.
-5 | API_TOKENS_EXCEEDED | API calls exceeded!
-6 | MISSING_PAYMENT | Payment not received yet. Please submit payment or wait until payment confirms.
-7 | API_KEY_DISABLED | API key is disabled.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError MISSING_API_KEY
-
-```shell
-{
-  "message": "API_KEY header missing or project-id missing",
-  "error": 1
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError MISSING_PROJECT_ID
-
-```shell
-{
-  "message": "Missing project-id in url",
-  "error": 2
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError PROJECT_NOT_EXIST
-
-```shell
-{
-  "message": "Bad API_KEY or project-id does not exist",
-  "error": 3
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError PROJECT_EXPIRED
-
-```shell
-{
-  "message": "Project has expired. Please request a new project and api key",
-  "error": 4
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error Message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError API_TOKENS_EXCEEDED
-
-```shell
-{
-  "message": "Project has expired. Please request a new project and api key",
-  "error": 5
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error Message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError MISSING_PAYMENT
-
-```shell
-{
-  "message": "Payment not received yet. Please submit payment or wait until payment confirms",
-  "error": 6
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error Message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError API_KEY_DISABLED
-
-```shell
-{
-  "message": "API key is disabled",
-  "error": 7
-}
-```
-
-Field       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error Message.
-error        | number | Authentication error code.
+See [Authentication Error Codes](/#authentication-error-codes) for
+details on authentication error codes which can be returned. 
 
 ## Make Requests
-Ethereum JSON-RPC requests are made via the `/xrs/evm_passthrough/<PROJECT-ID>` route. A JSON-RPC request should have a request body containing the `method` (string) and optionally `params` (string array).
+EVM JSON-RPC requests are made via the `/xrs/evm_passthrough/<PROJECT-ID>` route. A JSON-RPC request should have a request body containing the `method` (string) and optionally `params` (string array).
 
 <code class="api-call">method [params]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-method       | string | Ethereum JSON-RPC method.
-params        | string array | Parameters of Ethereum JSON-RPC method.
+method       | string | EVM JSON-RPC method.
+params        | string array | Parameters of EVM JSON-RPC method.
 ### An example
 On the right there is a quick command line example using `curl` where `method` = `eth_blockNumber` and `params` = [].
 
-> Sample Ethereum JSON-RPC Request
+> Sample EVM JSON-RPC Request
 
 ```shell
 # Be sure to replace YOUR-PROJECT-ID with a Project ID from the generated project
@@ -192,19 +56,32 @@ curl http://<NODE-URL>/xrs/evm_passthrough/<PROJECT-ID> \
 
 This call does not take parameters.
 
+<br><br><br><br><br>
+Whether the response code is 200 (success) or not, the Response Header
+will always contain useful information about the project ---->
+>  Response Headers
+
+```shell
+PROJECT-ID: <PROJECT-ID>
+API-TOKENS: <API Token Count>
+API-TOKENS-USED: <API Tokens Used Count>
+API-TOKENS-REMAINING: <API Tokens Remaining Count>
+```
+<br><br>
 <aside class="success">
 200 OK
 </aside>
 
-> Sample Ethereum JSON-RPC Response Body
+> Sample EVM JSON-RPC Response Body
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x895cc6",
   "id": 1
 }
 ```
+<br><br><br>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
@@ -214,24 +91,15 @@ id           | int  | ID number.
 
 
 ### Error codes
-If one of the inputs (`method` and/or `params`) are malformed, then the client may receive one the following error responses:
+ If one of the inputs (`method` and/or `params`) are malformed, then the client may receive one the following error responses:
 
-<aside class="success">
-200 OK
+<aside class="warning">
+400 Bad Request
 </aside>
-
-> MalformedJSONData Response Headers
-
-```shell
-PROJECT-ID: <PROJECT-ID>
-API-TOKENS: <API Token Count>
-API-TOKENS-USED: <API Tokens Used Count>
-API-TOKENS-REMAINING: <API Tokens Remaining Count>
-```
 
 > MalformedJSONData Response Body
 
-```shell
+```json
 {
   "message": "malformed json post data"
   "error": 1000
@@ -249,7 +117,7 @@ error        | number | Error code.
 
 > MissingParameters Response Body
 
-```shell
+```json
 {
   "error": "missing parameters"
 }
@@ -265,7 +133,7 @@ error        | string | Request misses parameters.
 
 > DisallowedMethod Response Body
 
-```shell
+```json
 {
   "error": "disallowed method <method>"
 }
@@ -277,14 +145,14 @@ error        | string | Disallowed JSON-RPC eth method.
 
 
 
-## Ethereum Error Codes
+## EVM Error Codes
 If the request body input for the `evm_passthrough` route is correct, then the following errors may be returned by the `geth` client.
 
-If an error is returned after a Ethereum JSON-RPC request, the `error` field in the response object **MUST** be an object which contains a `code` and `message` field. The following table displays all error codes and its associated messages.
+If an error is returned after a EVM JSON-RPC request, the `error` field in the response object **MUST** be an object which contains a `code` and `message` field. The following table displays all error codes and its associated messages.
 
 > Sample Error Response Body
 
-```shell
+```json
 {
     "id": 1
     "jsonrpc": "2.0",
@@ -327,7 +195,7 @@ Starts a subscription (on WebSockets / IPC / TCP transports) to a particular eve
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "events": "logs"
 }
@@ -358,7 +226,7 @@ events           | string  | Event to be subscribed on.
 
 > Sample Response
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -383,7 +251,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -407,7 +275,7 @@ Unsubscribes from a subscription.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "subscription_id": "0xb53c4832f1dca4a5"
 }
@@ -438,7 +306,7 @@ subscription_id           | string  | Subscription ID.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": true,
@@ -459,7 +327,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -543,7 +411,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "Geth/v1.9.23-stable-8c2f2715/linux-amd64/go1.15.3",
@@ -563,7 +431,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -588,7 +456,7 @@ Returns Keccak-256 (not the standardized SHA3-256) of the given data.
 
 > Sample Data
 
-```shell
+```json
 {
   "sha3_data": "0x68656c6c6f20776f726c64"
 }
@@ -618,7 +486,7 @@ sha3_data           | string  | The data to convert into a SHA3 hash.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x47173285a8d7341e5e972fc677286384f802f8ef42a5ec5f03bbfa254cb01fad",
@@ -638,7 +506,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -681,7 +549,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": true,
@@ -701,7 +569,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -744,7 +612,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x19",
@@ -764,7 +632,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -807,7 +675,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "1",
@@ -827,7 +695,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -870,7 +738,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": ["string"],
@@ -890,7 +758,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -933,7 +801,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x895cc6",
@@ -953,7 +821,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -976,7 +844,7 @@ Executes a new message call immediately without creating a transaction on the bl
 
 > Sample Data
 
-```shell
+```json
 {
   "from": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "to": 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
@@ -1018,7 +886,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x",
@@ -1038,7 +906,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1081,7 +949,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -1101,7 +969,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1125,7 +993,7 @@ Makes a call or transaction, which won’t be added to the blockchain and return
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "from": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "to": 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
@@ -1166,7 +1034,7 @@ data | string | Hash of the method signature and encoded parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x5cec",
@@ -1186,7 +1054,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1210,7 +1078,7 @@ Returns the balance of the account of given address.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "address": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "block_parameter": "latest"
@@ -1243,7 +1111,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -1263,7 +1131,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1287,7 +1155,7 @@ Returns information about a block by hash.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_hash": "0x5bc28118ff3f15c4ae1cd14548c9a89c87405c5a9f0536c517f5955ace4b1011",
   "show_tx_details: "false"
@@ -1319,7 +1187,7 @@ show_tx_details | string | If `true` it returns the full transaction objects, if
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -1593,7 +1461,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1618,7 +1486,7 @@ Returns information about a block by block number.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_parameter": "0x899eef",
   "show_tx_details: "false"
@@ -1650,7 +1518,7 @@ show_tx_details | boolean | If `true` it returns the full transaction objects, i
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -1924,7 +1792,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1948,7 +1816,7 @@ Returns the number of transactions in a block from a block matching the given bl
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_hash": "0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe"
 }
@@ -1978,7 +1846,7 @@ block_hash           | string  | Hash of a block.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0xef",
@@ -1998,7 +1866,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2022,7 +1890,7 @@ Returns the number of transactions in the block with the given block number.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_parameter": "latest"
 }
@@ -2052,7 +1920,7 @@ block_parameter | string  | Integer block number, or the string 'latest', 'earli
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0xac",
@@ -2072,7 +1940,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2096,7 +1964,7 @@ Returns code at a given address.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "address": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
   "block_parameter": "latest"
@@ -2127,7 +1995,7 @@ block_parameter | string  | Integer block number, or the string 'latest', 'earli
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x",
@@ -2147,7 +2015,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2171,7 +2039,7 @@ Returns an array of all logs matching a given filter object.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "fromBlock": "0x1",
   "toBlock": 0x2",
@@ -2208,7 +2076,7 @@ topics | Array | Topics are order-dependent. It’s possible to pass in null to 
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": [
@@ -2241,7 +2109,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2265,7 +2133,7 @@ Returns the value from a storage position at a given address.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "address": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "storage_position": "0x0",
@@ -2300,7 +2168,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -2320,7 +2188,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2344,7 +2212,7 @@ Returns information about a transaction by block hash and transaction index posi
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_hash": "0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe",
   "tx_index_position": "0x0"
@@ -2376,7 +2244,7 @@ tx_index_position | string | Integer of the transaction index position.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2437,7 +2305,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2461,7 +2329,7 @@ Returns information about a transaction by block number and transaction index po
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_parameter": "latest",
   "tx_index_position": "0x0"
@@ -2493,7 +2361,7 @@ tx_index_position | string | Integer of the transaction index position.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2554,7 +2422,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2578,7 +2446,7 @@ Returns the information about a transaction requested by transaction hash.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "tx_hash": "0x091e312f48b184fc86c1d14f6dac5ffad3e49e10752d59d4de4e87655d0156f4"
 }
@@ -2608,7 +2476,7 @@ tx_hash           | string  | Hash of a transaction.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2669,7 +2537,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2693,7 +2561,7 @@ Returns the number of transactions sent from an address.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "address": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "block_parameter": "latest"
@@ -2726,7 +2594,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -2747,7 +2615,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2772,7 +2640,7 @@ Returns the receipt of a transaction by transaction hash.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "tx_hash": "0x091e312f48b184fc86c1d14f6dac5ffad3e49e10752d59d4de4e87655d0156f4"
 }
@@ -2802,7 +2670,7 @@ tx_hash           | string  | Hash of a transaction.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2847,7 +2715,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2872,7 +2740,7 @@ Returns information about a uncle of a block by hash and uncle index position.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_hash": "0xb3b20624f8f0f86eb50dd04688409e5cea4bd02d700bf6e79e9384d47d6a5a35",
   "uncleindex_position": "0x0"
@@ -2904,7 +2772,7 @@ uncle_index_position |  string |  Integer of the uncle index position.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2972,7 +2840,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2997,7 +2865,7 @@ Returns information about a uncle of a block by number and uncle index position.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_parameter": "0x29c",
   "uncle_index_position": "0x0"
@@ -3029,7 +2897,7 @@ uncle_index_position |  string |  Integer of the uncle index position.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -3097,7 +2965,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3122,7 +2990,7 @@ Returns information about a uncle of a block by number and uncle index position.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_hash": "0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe"
 }
@@ -3152,7 +3020,7 @@ block_hash  | string |  Hash of a block.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -3172,7 +3040,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3196,7 +3064,7 @@ Returns the number of uncles in a block from a block matching the given block nu
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_parameter": "latest"
 }
@@ -3226,7 +3094,7 @@ block_parameter | string |  Integer block number, or the string 'latest', 'earli
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -3246,7 +3114,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3289,7 +3157,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": [
@@ -3311,7 +3179,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3354,7 +3222,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -3376,7 +3244,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3419,7 +3287,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": false,
@@ -3441,7 +3309,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3460,7 +3328,7 @@ error        | ParseError (object) or InvalidRequest (object) or MethodNotFound 
 
 ### eth_protocolVersion
 
-Returns the current Ethereum protocol version.
+Returns the current EVM protocol version.
 
 > Sample Request
 
@@ -3484,7 +3352,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "64",
@@ -3495,7 +3363,7 @@ This call does not take parameters.
 Parameter       | Type    | Description
 ----------------|---------|-------------
 jsonrpc           | string  | JSON RPC version.
-result           | array  | The current Ethereum protocol version.
+result           | array  | The current EVM protocol version.
 id           | int  | ID number.
 
 <aside class="success">
@@ -3504,7 +3372,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3524,11 +3392,11 @@ error        | ParseError (object) or InvalidRequest (object) or MethodNotFound 
 
 ### eth_sendRawTransaction
 
-Submits a signed transaction to the Ethereum network.
+Submits a signed transaction to the EVM network.
 
 > Sample Data
 
-```shell
+```json
 {
   "tx_data": "0xf86c8085098bca5a008307a1209437ede5f23cdcecfba18331126668ef705ea78489872386f26fc100008025a04058f161da3a3b028d2a0cbb98f3d22045f97a41150506cb9a52cbf0238622e8a077b6880c0d4c2c1c4ebe23c51d86954aebafaa766cd38806d299997f3face0dd"
 }
@@ -3558,7 +3426,7 @@ tx_data           | string  | The signed transaction data
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0xbb4e52e164889e0f9a7228792ab18ba866a32934f0f136e0e563fdfaaefd34dc",
@@ -3578,7 +3446,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3601,7 +3469,7 @@ Used for submitting a proof-of-work solution.
 
 > Sample Data
 
-```shell
+```json
 {
   "nonce": "0x0000000000000001",
   "pow_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
@@ -3635,7 +3503,7 @@ mix_digest |  string |  The mix digest (256 bits).
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": false,
@@ -3655,7 +3523,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3700,7 +3568,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": false,
@@ -3730,7 +3598,7 @@ Polling method for a filter, which returns an array of logs which occurred since
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "filter_id": "0x16"
 }
@@ -3761,7 +3629,7 @@ filter_id           | string  | Filter ID.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": [
@@ -3801,7 +3669,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3825,7 +3693,7 @@ Returns an array of all logs matching filter with given id.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "filter_id": "0x16"
 }
@@ -3856,7 +3724,7 @@ filter_id           | string  | Filter ID.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": [
@@ -3896,7 +3764,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3920,7 +3788,7 @@ Creates a filter in the node, to notify when a new block arrives. To check if th
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "filter_id": "0x16"
 }
@@ -3949,7 +3817,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -3969,7 +3837,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3993,7 +3861,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "fromBlock": "0x1",
   "toBlock": 0x2",
@@ -4029,7 +3897,7 @@ topics | array | Topics are order-dependent. It’s possible to pass in null to 
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -4049,7 +3917,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -4093,7 +3961,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x3",
@@ -4113,7 +3981,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -4137,7 +4005,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "fromBlock": "0x1",
   "toBlock": 0x2",
@@ -4173,7 +4041,7 @@ topics | array | Topics are order-dependent. It’s possible to pass in null to 
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -4193,7 +4061,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -4239,7 +4107,7 @@ filter_id           | string  | Filter id.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": true,
@@ -4259,7 +4127,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",

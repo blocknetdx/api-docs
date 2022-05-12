@@ -53,7 +53,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
     "result": {
         "api_key": "7sRZhURnVszL6Lf9B7It4Wr0JVYi_mzVAQ4lrutGnsQ",
@@ -150,34 +150,35 @@ doesn't matter on which chain the payment is made
 - The payment amounts are fixed in USD by the SNode operator, but denominated in ETH,
 [aBLOCK](https://docs.blocknet.co/blockchain/ablock/) and/or
 [aaBLOCK](https://docs.blocknet.co/blockchain/aablock/).
-- Requested projects that are not paid in full before the
-  [*expiry_time* for payment](/#response-parameter-notes) of the
-  project, will be cancelled. Once a project has been cancelled, any payments made to
-  that project will be returned to the payment sender (minus gas fees).
+- The [*expiry_time* for payment](/#response-parameter-notes) for payment of the project is 1 hr after request_project is called.
+- Requested projects that are not paid in full before the *expiry_time* for payment will be cancelled. Once a project has been cancelled, any payments made to
+  that project will be returned to the payment sender, minus gas fees. (Nothing will be returned if gas fees are greater than payments made.)
 - Partial payments sent to a requested project must all be made
   in the same currency (e.g. ETH, aBLOCK or aaBLOCK), and the sum of
   all partial payments must satisfy the required payment amount for
-  that currency before the [*expiry_time* for
-  payment](/#response-parameter-notes) of the project. Otherwise, the
-  project will be cancelled and all
-  partial payments will be returned to the payment sender (minus gas
-  fees).
+  that currency before the *expiry_time* for payment. Otherwise, the
+  project will be cancelled and all partial payments will be returned
+  to the payment sender, minus gas fees. (Nothing will be returned if gas fees are greater than payments made.)
 - A project cannot be upgrade from *tier1* to *tier2* if already paid for
   at *tier1* level. Instead of upgrading, the user should request a new project for *tier2*.
 
 
-### Check A Project
-Once payment has been sent to an snode, the project ID/Api-key become active. The client can check to confirm the project has become active like this:
+### Get Project Stats
+Once payment has been sent to an snode, the project becomes
+active. The client can (soon) check to confirm the project has become
+active, and gather other statistics about the project, by calling the
+`get_project_stats` method as in the example in the right panel ---->
 
 > Sample Request
 
 ```shell
-curl http://<NODE-URL>/xrs/projects \
+curl http://<NODE-URL>/xrs/projects/<PROJECT-ID> \
       -X POST \
       -H "Content-Type: application/json" \
-      -d '{"id": 1, "method": "list_projects", "params": []}'
+      -H "Api-Key: <API-KEY>" 
+      -d '{"id": 1, "method": "get_project_stats", "params": []}'
 ```
-<code class="api-call">check_a_project</code>
+<code class="api-call">get_project_stats</code>
 
 This call does not take parameters.
 
@@ -189,29 +190,173 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "error": 0,
   "result":
     {
       "api_key": "uiF_scQgopWWhgDFT7AMbM2Vf2b66xlfnVrJe6e1gUE",
-      "expiry_time": "2022-11-19 22:17:53 EST",
-      "payment_address": "0x0x0xxx",
-      "payment_amount_tier1": 0.073597,
-      "payment_amount_tier2": 0.420557,
+	  "status": "active",
+	  "tier":1, 
+	  "api_tokens":6000000,
+	  "api_tokens_used":0, 
+	  "api_tokens_remaining":6000000, 
+	  "expiry_time": "N/A", 
+	  "expires": "2022-11-19 22:17:53 EST", 
       "project_id": "85f1641d-f8ab-4acb-aa00-5d19601a9dd7"
     }
 }
 ```
+Parameter       | Type    | Description
+----------------|---------|-------------
+error          | integer  | Error code
+result          | object   | Object of the result.
+api_key      | string    | API Key of the project, referred to in this document as `<API-KEY>`.  
+status        | string    | `pending`, `active` or `inactive`: `pending` = "not yet paid, but `<PROJECT-ID>` and `<API-KEY>` have been created." `active` = "paid and has API calls available." `inactive` = "project was active, then expired due to *expiration* time being reached, or no API calls remaining."
+tier            | integer | 0 if *status* is *pending*; 1 for tier1; 2 for tier2
+api_tokens | string | Initial number of API calls granted to the project  
+api_tokens_used | string | Number of API calls used in the project   
+api_tokens_remaining | string | Number of API calls remaining in the project   
+expiry_time | string | If *status* is *pending*, this parameter will display the time by which payment is due to prevent the project from being cancelled. if *status* is *active* or *inactive*, this parameter will display, "N/A" 
+expiration | string | If *status* is *pending*, this parameter will display, "N/A."  If *status* is *active* or *inactive*, this parameter will display the time when the project expires (or expired).
+project_id      | string | The project ID of the project, referred to in this document as `<PROJECT-ID>`
 
-##### Note
-Once a Hydra/XQuery project has been created and activated, API calls to that project will return details about the project in the HEADER portion of the HTTP response. For example, this kind of info will be returned in the HTTP header when making Hydra/XQuery calls:
+### Authentication Error Codes
+
+If an authentication error is returned after a call to `get_project_stats`, or after a call to either [XQuery API](/#xquery-api) or [Hydra API](/#hydra-api), the `error` field in the response object must be an error number and the `message` field must be a string. The following table displays all error codes and their associated messages:
+
+Error Code  | Error Name  | Message 
+------|-------|------------ 
+1 | MISSING_API_KEY | API_KEY header missing or project-id missing.
+2 | MISSING_PROJECT_ID  | Missing project-id in url.
+3 | PROJECT_NOT_EXIST | Bad API_KEY or project-id does not exist.
+4 | PROJECT_EXPIRED | Project has expired. Please request a new project and api key.
+5 | API_TOKENS_EXCEEDED | API calls exceeded!
+6 | MISSING_PAYMENT | Payment not received yet. Please submit payment or wait until payment confirms.
+7 | API_KEY_DISABLED | API key is disabled.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError MISSING_API_KEY
 
 ```shell
 {
-  "PROJECT-ID" : "832ecaee-a26c-484f-a6f6-51e4cfd1a367",
-  "API-TOKENS" : "6000000",
-  "API-TOKENS-USED" : 1079,
-  "API-TOKENS-REMAINING" : 5998921
+  "message": "API_KEY header missing or project-id missing",
+  "error": 1
 }
 ```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError MISSING_PROJECT_ID
+
+```shell
+{
+  "message": "Missing project-id in url",
+  "error": 2
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError PROJECT_NOT_EXIST
+
+```shell
+{
+  "message": "Bad API_KEY or project-id does not exist",
+  "error": 3
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError PROJECT_EXPIRED
+
+```shell
+{
+  "message": "Project has expired. Please request a new project and api key",
+  "error": 4
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error Message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError API_TOKENS_EXCEEDED
+
+```shell
+{
+  "message": "Project has expired. Please request a new project and api key",
+  "error": 5
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error Message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError MISSING_PAYMENT
+
+```shell
+{
+  "message": "Payment not received yet. Please submit payment or wait until payment confirms",
+  "error": 6
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error Message.
+error        | number | Authentication error code.
+
+<aside class="warning">
+401 Unauthorized
+</aside>
+
+> ApiError API_KEY_DISABLED
+
+```shell
+{
+  "message": "API key is disabled",
+  "error": 7
+}
+```
+
+Field       | Type    | Description
+----------------|---------|-------------
+message       | string | Authentication error Message.
+error        | number | Authentication error code.
