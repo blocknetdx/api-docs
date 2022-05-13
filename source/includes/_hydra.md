@@ -1,65 +1,73 @@
 # Hydra API
+## Hydra Authentication
 
-Before data from Hydra API can be consumed by a client, a *Project* must be
-requested and activated via the [Projects API](/#projects-api-xquery-hydra). The `<PROJECT-ID>` and `<API-KEY>` of
-an active project must be provided in API calls to Hydra API
-as proof that the calls are being made from an active project.
-
-## Authentication
-### Authenticating using a Project ID
-
-> Authentication headers
+> Hydra Authentication
 
 ```shell
+# <EVM> in the following example should be replaced by
+# the EVM whose data is desired (e.g. ETH, AVAX, etc...) 
 curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" 
 ```
 
-Hydra's API requires a valid `Project ID` to be included with your request. This identifier should be appended to the request URL as a path parameter.
-
-`curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID>`
-
-`<EVM>` in the above format should be replaced by the EVM whose data
-you wish to request  (e.g. ETH, AVAX, etc...)
-
-In order to authenticate, it is necessary to include a `<API_KEY>` in the `Api-Key` header of a request.
-
-See [Authentication Error Codes](/#authentication-error-codes) for
-details on authentication error codes which can be returned. 
-
+Before data from Hydra API can be consumed by a client, a *Project* must be
+requested and activated via the [Projects
+API](/#projects-api-xquery-hydra). This gives you a `<PROJECT-ID>` and
+`<API-KEY>` of an active project. The `<PROJECT-ID>` must be included in
+the request URL, and the `<API-KEY>` must be  in the `Api-Key` header
+of a request, as in the Hydra Authentication example in the right panel --->
+<br>
+See [Authentication Error Codes](/#authentication-error-codes) for possible error codes and their meanings. 
+ 
 ## Make Requests
-EVM JSON-RPC requests are made via the `/xrs/evm_passthrough/<PROJECT-ID>` route. A JSON-RPC request should have a request body containing the `method` (string) and optionally `params` (string array).
+[EVM](https://docs.blocknet.co/resources/glossary/#evm) JSON-RPC
+requests are made via the `/xrs/evm_passthrough/<EVM>/<PROJECT-ID>`
+route. A JSON-RPC request should have a request body containing the
+`EVM JSON-RPC method` (string) and optionally `EVM JSON-RPC params` (string array).
 
-<code class="api-call">method [params]</code>
+### ETH example
+On the right is a quick command line example using `curl` to request
+the current block number of the ETH EVM. `method` = `eth_blockNumber` and `params` = [].
 
-Parameter       | Type    | Description
-----------------|---------|-------------
-method       | string | EVM JSON-RPC method.
-params        | string array | Parameters of EVM JSON-RPC method.
-### An example
-On the right there is a quick command line example using `curl` where `method` = `eth_blockNumber` and `params` = [].
-
-> Sample EVM JSON-RPC Request
+> Sample EVM JSON-RPC Request - ETH
 
 ```shell
-# Be sure to replace YOUR-PROJECT-ID with a Project ID from the generated project
-curl http://<NODE-URL>/xrs/evm_passthrough/<PROJECT-ID> \
+# In this example, <EVM> should be replaced by ETH to get
+# the current block number of the ETH chain.
+# <NODE-URL>, <PROJECT-ID> and <API-KEY> values should be replaced
+# by the values obtained when the project was requested/activated
+# through the Projects API
+curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}' | jq
 ```
 
 <code class="api-call">eth_blockNumber</code>
 
 This call does not take parameters.
 
-<br><br><br><br><br>
-Whether the response code is 200 (success) or not, the Response Header
-will always contain useful information about the project ---->
->  Response Headers
+<br><br><br><br><br><br><br><br><br>
+
+By default, `curl` does not print the Response Headers. To see the Response Headers printed in the above example, add "`-D -`"
+options to the `curl` command, like this ---->
+
+> Sample EVM JSON-RPC Request - ETH - Print Response Headers
+
+```shell
+curl -D - http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID> \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}'
+```
+<br><br><br><br><br><br><br><br><br><br><br>
+Whether the response code is 200 (success) or not, the Response Headers
+will always contain useful information about the project. ---->
+>  Sample EVM JSON-RPC Response Headers
 
 ```shell
 PROJECT-ID: <PROJECT-ID>
@@ -67,12 +75,13 @@ API-TOKENS: <API Token Count>
 API-TOKENS-USED: <API Tokens Used Count>
 API-TOKENS-REMAINING: <API Tokens Remaining Count>
 ```
-<br><br>
+<br>
+
+> Sample EVM JSON-RPC Response Body
+
 <aside class="success">
 200 OK
 </aside>
-
-> Sample EVM JSON-RPC Response Body
 
 ```json
 {
@@ -89,6 +98,56 @@ jsonrpc           | string  | JSON RPC version.
 result           | string  | Integer of the current block number the client is on.
 id           | int  | ID number.
 
+### AVAX example
+On the right is a quick command line example using `curl` to request
+the current block number of the AVAX EVM. `method` = `eth_blockNumber`
+and `params` = []. <br><br>
+**IMPORTANT:** Some EVMs, like the AVAX C chain, require
+augmentation of the URI to access their JSON RPC methods. For AVAX C
+chain, `/ext/bc/C/rpc` must be appended to the URI, like this ---->
+
+> Sample EVM JSON-RPC Request - AVAX
+
+```shell
+# In this example, <EVM> should be replaced by AVAX to get
+# the current block number of the AVAX C chain.
+# <NODE-URL>, <PROJECT-ID> and <API-KEY> values should be replaced
+# by the values obtained when the project was requested/activated
+# through the Projects API
+curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID>/ext/bc/C/rpc \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}' | jq
+```
+
+<code class="api-call">eth_blockNumber</code>
+
+This call does not take parameters.
+<br><br><br><br><br><br><br><br>
+
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample EVM JSON-RPC Response Body
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": "0xdf2fe8"
+}
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+result           | string  | Integer of the current block number the client is on.
+id           | int  | ID number.
+
+<br><br><br>
 
 ### Error codes
  If one of the inputs (`method` and/or `params`) are malformed, then the client may receive one the following error responses:
@@ -146,7 +205,7 @@ error        | string | Disallowed JSON-RPC eth method.
 
 
 ## EVM Error Codes
-If the request body input for the `evm_passthrough` route is correct, then the following errors may be returned by the `geth` client.
+If the request body input for the `evm_passthrough` route is correct, then the following errors may be returned by the EVM client.
 
 If an error is returned after a EVM JSON-RPC request, the `error` field in the response object **MUST** be an object which contains a `code` and `message` field. The following table displays all error codes and its associated messages.
 

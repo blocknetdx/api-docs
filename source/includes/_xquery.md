@@ -1,14 +1,7 @@
 # XQuery API
+## XQuery Authentication
 
-Before data from XQuery API can be consumed by a client, a *Project* must be
-requested and activated via the [Projects API](/#projects-api-xquery-hydra). The `<PROJECT-ID>` and `<API-KEY>` of
-an active project must be provided in API calls to XQuery API
-as proof that the calls are being made from an active project.
-
-## Authentication
-### Authenticating using a Project ID
-
-> Authentication headers
+> XQuery Authentication
 
 ```shell
 curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer/ \
@@ -17,7 +10,17 @@ curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer/ \
     -H "Api-Key: <API-KEY>" 
 ```
 
-XQuery's API requires a valid `Project ID` to be included with your request. This identifier should be appended to the request URL as a path parameter.
+Before data from XQuery API can be consumed by a client, a *Project* must be
+requested and activated via the [Projects
+API](/#projects-api-xquery-hydra). This gives you a `<PROJECT-ID>` and
+`<API-KEY>` of an active project. The `<PROJECT-ID>` must be included in
+the request URL, and the `<API-KEY>` must be  in the `Api-Key` header
+of a request, as in the XQuery Authentication example in the right panel --->
+<br>
+See [Authentication Error Codes](/#authentication-error-codes) for possible error codes and their meanings. 
+
+
+## XQuery Endpoints
 
 `curl -X POST http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help
 Powered by
@@ -36,12 +39,6 @@ GraphQL endpoint
 GraphQL data types
 	http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help/schema
 `
-
-
-In order to authenticate, it is necessary to include a `<API_KEY>` in the `Api-Key` header of a request.
-
-See [Authentication Error Codes](/#authentication-error-codes) for
-details on authentication error codes which can be returned. 
 
 ## Make Requests
 Ethereum JSON-RPC requests are made via the `/xrs/evm_passthrough/<PROJECT-ID>` route. A JSON-RPC request should have a request body containing the `method` (string) and optionally `params` (string array).

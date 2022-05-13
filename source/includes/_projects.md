@@ -4,7 +4,7 @@ Before data from [XQuery API](/#xquery-api) or [Hydra API](/#hydra-api) can be
 consumed by a client, a *Project* must be requested and activated
 through the Projects API. A project is assigned a `project_id` and an
 `api_key`, referred to in this document as
-`<PROJECT-ID>` and `<API-KEY>`. Both the `<PROJECT-ID>` and `<API-KEY>` must be provided in API calls to [XQuery API](/#xquery-api) and [Hydra API](/#hydra-api) as proof that the calls are being made from an active project.
+`<PROJECT-ID>` and `<API-KEY>`. Both the `<PROJECT-ID>` and `<API-KEY>` must be provided in API calls to [XQuery API](/#xquery-api) and [Hydra API](/#hydra-api) as proof/authentication that the calls are being made from an active project.
 
 ## XQuery/Hydra Nodes
 
@@ -16,7 +16,7 @@ SNode. <br>
 In the meantime, you can get a list of SNodes providing XQuery
 services here:<br>
 [https://service-explorer.core.cloudchainsinc.com/#/xcloud-services/nodes/xrs::xquery](https://service-explorer.core.cloudchainsinc.com/#/xcloud-services/nodes/xrs::xquery).<br>
-You can also get a list of SNodes supporting Hydra services here:<br>
+You can also get a list of SNodes providing Hydra services here:<br>
 [https://service-explorer.core.cloudchainsinc.com/#/xcloud-services/nodes/xrs::evm_passthrough](https://service-explorer.core.cloudchainsinc.com/#/xcloud-services/nodes/xrs::evm_passthrough)
 
 After choosing one of the SNodes from one of the above sites, make a
@@ -38,8 +38,7 @@ illustrated in the Sample Request in the panel on the right --->
 curl http://<NODE-URL>/xrs/projects \
       -X POST \
       -H "Content-Type: application/json" \
-      -d '{"id": 1, "method": "request_project", "params": []}' |
-	  python3 -m json.tool
+      -d '{"id": 1, "method": "request_project", "params": []}' | jq
 ```
 <code class="api-call">request_project</code>
 
@@ -89,7 +88,7 @@ project_id      | string | The project ID of the project, referred to in this do
 ### Response Parameter Notes:
 - The *expiry_time* returned by a `request_project` call is the
   expiry time for full payment to be made, not the
-  expiry time of the project that will be initiated once payment is
+  expiration time of the project that will be initiated once payment is
   made. The latter will always be one month in the future from the time payment is made.
 - If *null* is returned for the
 *payment_amount_tierX_aablock* values (or for the
@@ -176,7 +175,7 @@ curl http://<NODE-URL>/xrs/projects/<PROJECT-ID> \
       -X POST \
       -H "Content-Type: application/json" \
       -H "Api-Key: <API-KEY>" 
-      -d '{"id": 1, "method": "get_project_stats", "params": []}'
+      -d '{"id": 1, "method": "get_project_stats", "params": []}' | jq
 ```
 <code class="api-call">get_project_stats</code>
 
