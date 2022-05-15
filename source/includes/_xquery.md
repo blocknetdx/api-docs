@@ -40,7 +40,7 @@ GraphQL data types
 	http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help/schema
 `
 
-## Make Requests
+## Make XQuery Requests
 Ethereum JSON-RPC requests are made via the `/xrs/evm_passthrough/<PROJECT-ID>` route. A JSON-RPC request should have a request body containing the `method` (string) and optionally `params` (string array).
 
 <code class="api-call">method [params]</code>
