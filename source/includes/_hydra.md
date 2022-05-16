@@ -104,8 +104,8 @@ On the right is a command line example using `curl` to request
 the current block number of the AVAX C chain EVM. `method` = `eth_blockNumber`
 and `params` = []. <br><br>
 **IMPORTANT:** Some EVMs, like the AVAX C chain, require
-augmentation of the URI to access their JSON RPC methods. For AVAX C
-chain EVM access, `/ext/bc/C/rpc` must be appended to the URI, like this ---->
+augmentation of the URL to access their JSON RPC methods. For AVAX C
+chain EVM access, `/ext/bc/C/rpc` must be appended to the URL, like this ---->
 
 > Sample EVM JSON-RPC Request - AVAX C chain EVM
 
@@ -175,9 +175,9 @@ curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID>/ext/info \
 
 Similar to the [AVAX C chain example](/#avax-c-chain-example) above,
 access to the *info* space of the AVAX node requires augmentation of
-the URI. However, instead of augmenting the URI with `/ext/bc/C/rpc`
+the URL. However, instead of augmenting the URL with `/ext/bc/C/rpc`
 to access the AVAX C chain EVM, `ext/info` must be appended to the
-URI to access the *info* space. Also, as per the [AVAX
+URL to access the *info* space. Also, as per the [AVAX
 API](https://docs.avax.network/apis/avalanchego/apis/issuing-api-calls/),
 a parameter designating which of the 3 AVAX chain is being referenced must be passed
 when calling the `info.isBootstrapped` method. The final `curl`
@@ -226,9 +226,9 @@ curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID>/ext/health \
 
 Similar to the [AVAX C chain example](/#avax-c-chain-example) above,
 access to the *health* space of the AVAX node requires augmentation of
-the URI. However, instead of augmenting the URI with `/ext/bc/C/rpc`
+the URL. However, instead of augmenting the URL with `/ext/bc/C/rpc`
 to access the AVAX C chain EVM, `ext/health` must be appended to the
-URI to access the *health* space. Also, as per the [AVAX
+URL to access the *health* space. Also, as per the [AVAX
 API](https://docs.avax.network/apis/avalanchego/apis/issuing-api-calls/),
 no parameters are passed when calling the `health.health` method. The final `curl`
 command looks like this ---->
