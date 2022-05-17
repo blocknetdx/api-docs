@@ -130,7 +130,7 @@ by `<NODE-URL>`via the [XQuery API](/#xquery-api).
 either [XQuery API](/#xquery-api) or [Hydra API](/#hydra-api) counts
 as 1 API call and deducts 1 from the total remaining API calls in
 the project.
-- The active life of a project is constrained by two separate
+- The lifespan of an active project is constrained by two separate
 constraints. Whichever constraint triggers first, terminates the
 project. The two constraints are:
  1. Number of api calls. When all purchased API calls have been used,
@@ -146,24 +146,41 @@ doesn't matter on which chain the payment is made
 
 
 ### Payment Notes
-- The payment amounts are fixed in USD by the SNode operator, but denominated in ETH,
+- The payment amounts are fixed in USD by the SNode operator, but
+denominated in various cryptos such as ETH,
 [aBLOCK](https://docs.blocknet.co/blockchain/ablock/) and/or
 [aaBLOCK](https://docs.blocknet.co/blockchain/aablock/).
-- The [*expiry_time* for payment](/#response-parameter-notes) for payment of the project is 1 hr after request_project is called.
-- Requested projects that are not paid in full before the *expiry_time* for payment will be cancelled. Once a project has been cancelled, any payments made to
-  that project will be returned to the payment sender, minus gas fees. (Nothing will be returned if gas fees are greater than payments made.)
-- Partial payments sent to a requested project must all be made
-  in the same currency (e.g. ETH, aBLOCK or aaBLOCK), and the sum of
-  all partial payments must satisfy the required payment amount for
-  that currency before the *expiry_time* for payment. Otherwise, the
-  project will be cancelled and all partial payments will be returned
-  to the payment sender, minus gas fees. (Nothing will be returned if gas fees are greater than payments made.)
-- A project cannot be upgrade from *tier1* to *tier2* if already paid for
-  at *tier1* level. Instead of upgrading, the user should request a new project for *tier2*.
+- The [*expiry_time*](/#response-parameter-notes) for payment of the
+  project is 1 hr after `request_project` is called.
+- Payment to activate a project should be made for the exact amount indicated by
+  one of the *payment_amount* parameters returned by the `request_project`
+  call. Partial payment should *not* be sent.
+- If a project receives a payment which is >= *tier1* amount, but <
+  *tier2* amount, and the payment is received before the *expiry_time* for payment, the project
+  status becomes *active*, the tier is set to *teir1*, and any
+  difference between the amount received and the *tier1* amount is
+  returned, minus gas fees. (Nothing will be returned if gas fees >=
+  amount to be returned.)
+- If a project receives a payment which is >= *tier2* amount, and the payment is received before the *expiry_time* for payment, the project status becomes *active*, the tier is set to *teir2*, and any
+  difference between the amount received and the *tier2* amount is
+  returned, minus gas fees. (Nothing will be returned if gas fees >=
+  amount to be returned.)
+- If a project receives no payment, or receives a payment which is < *tier1* amount, and the *expiry_time* for payment arrives, the project is cancelled and any amount
+  received prior to cancellation is returned, minus gas fees. (Nothing
+  will be returned if gas fees >= amount to be returned.)
+- Once a project has been cancelled, any payments made to
+  that project will be returned, minus gas fees. (Nothing will be
+  returned if gas fees are greater than payments made.)
+- If a project was *active*, then became *inactive* due to
+  the project's 1 month *expiration* time being reached, or due to no API calls remaining, any
+  payments made to that project will be returned, minus gas fees. (Nothing
+  will be returned if gas fees >= amount to be returned.)
+- A project cannot be upgrade from *tier1* to *tier2* once it has been
+  activated as a *tier1* project. Instead of upgrading, the user should request a new project for *tier2*.
 
 
 ### Get Project Stats
-Once payment has been sent to an snode, the project becomes
+Once the required payment has been sent, the project becomes
 active. The client can (soon) check to confirm the project has become
 active, and gather other statistics about the project, by calling the
 `get_project_stats` method as in the example in the right panel ---->

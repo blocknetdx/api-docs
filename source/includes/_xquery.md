@@ -89,7 +89,7 @@ GraphQL data types
 
 GraphQL endpoint
 	http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer/
-	e.g. See https://api.blocknet.co/#xquery-api
+	e.g. See https://api.blocknet.co/#indexer-example
 ```
 
 The Response Body of a request to the *help* endpoint returns a list
@@ -531,3 +531,39 @@ curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer \
 The Response Body of a request to the *indexer* endpoint returns a
 JSON object containing all blockchain data matching the criteria
 specified in the SQL query ---->
+<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
+
+### indexer python example: xq.py
+On the right is a list of commands that can be issued in a Terminal
+to download  a python script called `xq.py` and
+prepare your system to run it. These commands can be issued
+successfully in an Ubuntu Linux Terminal. They *might* also work
+on other flavors of Linux/Unix/OSX. (If the `env_install.sh` script
+downloaded by the `curl` command doesn't run properly on your
+non-Ubuntu Linux/Unix/OSX system, it can likely be made to run with with some
+minor OS-specific modifications.)
+
+> XQuery indexer endpoint python example: xq.py
+
+<code class="api-call">indexer python example: xq.py</code>
+
+```shell
+#
+curl -fsSL https://getenv.xrouter.com -o env_installer.sh
+chmod +x env_installer.sh
+./env_installer.sh --install
+
+```
+
+`xq.py` provides a convenient
+user-friendly CLI interface to the same *indexer* endpoint mentioned
+in the [indexer example](/#indexer-example) above. It constructs the
+SQL queries for the *indexer* endpoint according to parameters passed
+to it, then sends those SQL queries to the *indexer* endpoint (`
+http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer`). Snippets from
+`xq.py` can be used by any python dApp developer wishing to include
+code that accesses XQuery indexer. Snippets from
+`xq.py` can also be easily translated into other languages by 
+developers writing dApps in languages other than python.
