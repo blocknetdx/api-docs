@@ -4,7 +4,7 @@ Before data from [XQuery API](/#xquery-api) or [Hydra API](/#hydra-api) can be
 consumed by a client, a *Project* must be requested and activated
 through the Projects API. A project is assigned a `project_id` and an
 `api_key`, referred to in this document as
-`<PROJECT-ID>` and `<API-KEY>`. Both the `<PROJECT-ID>` and `<API-KEY>` must be provided in API calls to [XQuery API](/#xquery-api) and [Hydra API](/#hydra-api) as proof/authentication that the calls are being made from an active project.
+`<PROJECT-ID>` and `<API-KEY>`. Both the `<PROJECT-ID>` and `<API-KEY>` must be provided in API calls to [XQuery API](/#xquery-api) and [Hydra API](/#hydra-api) as proof/authentication that the calls are being made from an *active* project.
 
 ## XQuery/Hydra Nodes
 
@@ -130,7 +130,7 @@ by `<NODE-URL>`via the [XQuery API](/#xquery-api).
 either [XQuery API](/#xquery-api) or [Hydra API](/#hydra-api) counts
 as 1 API call and deducts 1 from the total remaining API calls in
 the project.
-- The lifespan of an active project is constrained by two separate
+- The lifespan of an *active* project is constrained by two separate
 constraints. Whichever constraint triggers first, terminates the
 project. The two constraints are:
  1. Number of api calls. When all purchased API calls have been used,
@@ -139,10 +139,10 @@ project. The two constraints are:
 
 ### Activate Project
 To activate the project returned by the call to `request_project`,
-simply send the required payment amount to the appropriate payment
+send the *exact* required payment amount to the appropriate payment
 address. (See [Response Parameters](/#response) for details). It
 doesn't matter on which chain the payment is made
-(e.g. ETH, aBLOCK or aaBLOCK); an active project is an active project.
+(e.g. ETH, aBLOCK or aaBLOCK); an *active* project is an *active* project.
 
 
 ### Payment Notes
@@ -165,10 +165,10 @@ denominated in various cryptos such as ETH,
   difference between the amount received and the *tier2* amount is
   returned, minus gas fees. (Nothing will be returned if gas fees >=
   amount to be returned.)
-- If a project receives no payment, or receives a payment which is < *tier1* amount, and the *expiry_time* for payment arrives, the project is cancelled and any amount
+- If a project receives no payment, or receives a payment which is < *tier1* amount, and the *expiry_time* for payment arrives, the project is *cancelled* and any amount
   received prior to cancellation is returned, minus gas fees. (Nothing
   will be returned if gas fees >= amount to be returned.)
-- Once a project has been cancelled, any payments made to
+- Once a project has been *cancelled*, any payments made to
   that project will be returned, minus gas fees. (Nothing will be
   returned if gas fees are greater than payments made.)
 - If a project was *active*, then became *inactive* due to
@@ -181,8 +181,8 @@ denominated in various cryptos such as ETH,
 
 ### Get Project Stats
 Once the required payment has been sent, the project becomes
-active. The client can (soon) check to confirm the project has become
-active, and gather other statistics about the project, by calling the
+*active*. The client can (soon) check to confirm the project has become
+*active*, and gather other statistics about the project, by calling the
 `get_project_stats` method as in the example in the right panel ---->
 
 > Sample Request
@@ -228,7 +228,7 @@ Parameter       | Type    | Description
 error          | integer  | Error code
 result          | object   | Object of the result.
 api_key      | string    | API Key of the project, referred to in this document as `<API-KEY>`.  
-status        | string    | `pending`, `active` or `inactive`: `pending` = "not yet paid, but `<PROJECT-ID>` and `<API-KEY>` have been created." `active` = "paid and has API calls available." `inactive` = "project was active, then expired due to *expiration* time being reached, or no API calls remaining."
+status        | string    | *pending*, *active*, *inactive* or *cancelled*:<br><br>*pending* = "not yet paid, but `<PROJECT-ID>` and `<API-KEY>` have been created."<br><br>*active* = "paid and has API calls available."<br><br>*inactive* = "project was active, then expired due to *expiration* time being reached, or no API calls remaining."<br><br>*cancelled* = "*pending* project was cancelled due to insufficient payment received before *expiry_time* for payment, or *active* project was cancelled by the client via the [Project Cancellation Protocol.](/#cancel-project)"
 tier            | integer | 0 if *status* is *pending*; 1 for tier1; 2 for tier2
 api_tokens | string | Initial number of API calls granted to the project  
 api_tokens_used | string | Number of API calls used in the project   
@@ -236,6 +236,76 @@ api_tokens_remaining | string | Number of API calls remaining in the project
 expiry_time | string | If *status* is *pending*, this parameter will display the time by which payment is due to prevent the project from being cancelled. if *status* is *active* or *inactive*, this parameter will display, "N/A" 
 expiration | string | If *status* is *pending*, this parameter will display, "N/A."  If *status* is *active* or *inactive*, this parameter will display the time when the project expires (or expired).
 project_id      | string | The project ID of the project, referred to in this document as `<PROJECT-ID>`
+
+### Cancel Project
+
+If at any time a client who has an active project wishes to cancel
+that project, the client can do so by following the procedure below. When a
+client cancels a project, a pro rata refund amount is returned to
+the client. The pro rata refund amount is calculated from the initial
+amount paid, the inital number of API tokens awarded, and the number
+of API tokens remaining at the time of cancellation. Cancelling a
+project is a two-step process.
+
+#### First Step to Cancel Project 
+
+The first step to cancel a project is to call the `cancel_project`
+   method using the format given in the right panel ---->
+
+> Cancel Project
+
+```shell
+curl http://<NODE-URL>/xrs/projects/<PROJECT-ID> \
+      -X POST \
+      -H "Content-Type: application/json" \
+      -H "Api-Key: <API-KEY>" 
+      -d '{"id": 1, "method": "cancel_project", "params": []}' | jq
+```
+
+<code class="api-call">cancel_project</code>
+
+<br><br><br><br><br><br><br><br>
+
+> Sample Response
+
+```json
+{
+    "result": {
+        "api_key": "7sRZhURnVszL6Lf9B7It4Wr0JVYi_mzVAQ4lrutGnsQ",
+        "project_id": "3225c451-09dd-4f98-b538-4828d5b9ab48",
+		"message": "some-text-message", 
+		"signature": "2wqCG3tXqv6rdomvGEAoS1MSNRWEaVFC8z6NJ6cagRBK6xWDRsSjdywEEXEqYq1FQD59nGB9fhY9WNFhCpnMV6yhyNew8Gg",
+		"api_tokens_remaining": 5999000
+    }
+}
+```
+
+The call to `cancel_project` will return the *api_key*, the
+*project_id*, a *message*, a *signature* and the *api_tokens_remaining*, all
+within a JSON object, as in the Sample Response in the right panel ---->
+<aside class="success">
+200 OK
+</aside>
+
+ Parameter       | Type    | Description
+----------------|---------|-------------
+result          | object   | Object of the result.
+api_key      | string    | API Key of the project, referred to in this document as `<API-KEY>`.
+project_id      | string | The project ID of the project, referred to in this document as `<PROJECT-ID>`
+message      | string | The text message which will need to be sent to the Payment Smart Contract to cancel the project. 
+signature      | string | The alphanumeric string which will need to be sent to the Payment Smart Contract to cancel the project. 
+api_tokens_remaining | string | Number of API calls remaining in the project.
+
+#### Second Step to Cancel Project 
+
+The second step to cancel a project is to send the *api_key*, *project_id*, *message*, *signature* and
+   *api_tokens_remaining* to the *close()* method of the Payment
+   Channel Smart Contract. (Details of how to do this, plus an example, will
+   be included here soon.)
+   
+You should now receive your pro rata refund. If you want to check
+   the status of your project to confirm it was
+   cancelled, you can [call the `get_project_stats` method](/#get-project-stats).
 
 ### Authentication Error Codes
 

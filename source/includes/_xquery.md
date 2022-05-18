@@ -535,35 +535,73 @@ specified in the SQL query ---->
 <br><br><br><br><br><br><br><br><br>
 <br><br><br><br><br><br><br><br><br>
 
-### indexer python example: xq.py
-On the right is a list of commands that can be issued in a Terminal
-to download  a python script called `xq.py` and
-prepare your system to run it. These commands can be issued
-successfully in an Ubuntu Linux Terminal. They *might* also work
-on other flavors of Linux/Unix/OSX. (If the `env_install.sh` script
-downloaded by the `curl` command doesn't run properly on your
-non-Ubuntu Linux/Unix/OSX system, it can likely be made to run with with some
-minor OS-specific modifications.)
+## XQuery Python Example: xq.py
+On the right is a list of commands that can be issued in a
+Linux/Unix/OSX Terminal to download  a python script called `xq.py`
+and run it. Please ensure `git`, `python3` and `pip3` are installed on
+your system before issuing these commands. The last command given on
+the right will print the `xq.py` *help* message, which gives full
+details about which parameters it accepts.
 
 > XQuery indexer endpoint python example: xq.py
 
 <code class="api-call">indexer python example: xq.py</code>
 
 ```shell
-#
-curl -fsSL https://getenv.xrouter.com -o env_installer.sh
-chmod +x env_installer.sh
-./env_installer.sh --install
-
+# Issue the following commands to download xq.py, install
+# necessary python support libs, and print the xq.py "help" message.
+git clone https://github.com/blocknetdx/exrproxy-env
+cd exrproxy-env
+pip3 install -r requirements.txt
+cd cli
+./xq.py --help 
 ```
 
-`xq.py` provides a convenient
+`xq.py` provides a convenient,
 user-friendly CLI interface to the same *indexer* endpoint mentioned
-in the [indexer example](/#indexer-example) above. It constructs the
-SQL queries for the *indexer* endpoint according to parameters passed
-to it, then sends those SQL queries to the *indexer* endpoint (`
+in the [indexer example](/#indexer-example) above. It constructs an
+SQL query for the *indexer* endpoint according to parameters passed
+to it, then sends the SQL query to the *indexer* endpoint (`
 http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer`). Snippets from
 `xq.py` can be used by any python dApp developer wishing to include
-code that accesses XQuery indexer. Snippets from
+code to access XQuery indexer. Snippets from
 `xq.py` can also be easily translated into other languages by 
-developers writing dApps in languages other than python.
+such developers writing dApps in languages other than python.
+
+> Example queries to the indexer endpoint using xq.py
+
+```shell
+# In the following examples, replace <PROJECT-ID> and <API-KEY> with
+#  the values obtained when your project was created.
+
+# Get help on xq.py options
+./xq.py --help 
+
+# Query the indexer endpoint on host 194.163.144.68 for the 2 most
+# recent swap transactions involving USDC and USDT
+./xq.py --xqpair USDC/USDT --xqlimit 2 --host 194.163.144.68 --projectid <PROJECT-ID> --apikey <API-KEY>
+
+# Query the indexer endpoint on host 194.163.144.68 for the 2 most
+# recent swap transactions involving USDC and SYS,
+# restricting results to those found on the Pegasys router 
+./xq.py --xqpair USDC/SYS --xqlimit 2 --xqrouter Pegasys --host 194.163.144.68 --projectid <PROJECT-ID> --apikey <API-KEY>
+
+# Query the indexer endpoint on host 194.163.144.68 for the 10 most
+# recent transactions of any kind on the Uniswap router
+./xq.py --xqlimit 10 --xqrouter Uniswap --host 194.163.144.68 --projectid <PROJECT-ID> --apikey <API-KEY>
+
+# Query the indexer endpoint on host 194.163.144.68 for the 5 most
+# recent transactions on any router where the Transaction ID
+# equals 0x085fdb85ddb6db6d8508ec1ebead2f4c3f619dac47d3c31c2a0d9b91b9f8f037
+./xq.py --xqlimit 5 --xqtx 0x085fdb85ddb6db6d8508ec1ebead2f4c3f619dac47d3c31c2a0d9b91b9f8f037 --host 194.163.144.68 --projectid <PROJECT-ID> --apikey <API-KEY>
+```
+
+## XQuery Hasura GUI Console
+
+If the `<NODE-URL>` to which you're making queries has [enabled access
+to XQuery Hasura GUI
+Console](https://docs.blocknet.co/service-nodes/setup/#warning-only-expose-hasura-gui-xquery-port-to-restricted-hosts-if-ever),
+you can access the XQuery Hasura GUI Console simply by navigating in a
+browser to __http://`<NODE-URL>`:8080/console__
+
+Read more about Hasura GraphQL [here](https://hasura.io/docs/latest/graphql/core/index/).

@@ -22,6 +22,13 @@ reference: https://docs.pro.coinbase.com
 
 -->
 
+18/05/2022 |
+-----------|
+• Major updates to Hydra API |
+• Added Projects API section |
+• Added XQuery API section |
+• Misc aesthetic improvements |
+
 16/04/2022 |
 -----------|
 • Major updates to hydra section |
