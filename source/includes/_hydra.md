@@ -1,270 +1,144 @@
 # Hydra API
-## Hydra Nodes
+## Hydra Authentication
 
-Available hydra nodes in the hydra network.
-
-Hydra Node       | Node URL    | 
-----------------|---------|
-Cloudchains Inc.           | [https://eth-api.core.cloudchainsinc.com](https://eth-api.core.cloudchainsinc.com)
-
-The Node URL is henceforth referred to as `<NODE-URL>` in the rest of the documentation.
-
-## Generate A Project
-As a client it is necessary to create a project at your Hydra node. A payment in ETH or aBLOCK is necessary for the project to become active. The payment amounts are fixed in USD, but denominated in ETH.
-
-Create a project as follows with the `request_project` call.
-### request_project
-
-Request a Hydra Project, this creates a project ID (`project_id`) in the database of the hydra node and returns an ETH address for payment.
-
-> Sample Request
+> Hydra Authentication
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough \
-      -X POST \
-      -H "Content-Type: application/json" \
-      -d '{"jsonrpc":"2.0","method":"request_project","params": [],"id":1}'
-```
-<code class="api-call">request_project</code>
-
-This call does not take parameters.
-
-#### Responses
-
-<aside class="success">
-200 OK
-</aside>
-
-> Sample Response
-
-```shell
-{
-  "error": 0,
-  "result":
-    {
-      "api_key": "uiF_scQgopWWhgDFT7AMbM2Vf2b66xlfnVrJe6e1gUE",
-      "expiry_time": "2020-11-19 22:17:53 EST",
-      "payment_address": "0x0x0xxx",
-      "payment_amount_tier1": 0.073597,
-      "payment_amount_tier2": 0.420557,
-      "project_id": "85f1641d-f8ab-4acb-aa00-5d19601a9dd7"
-    }
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-error           | integer  | Error code.
-result          | object   | Object of the result.
-api_key         | string    | API Key of the Hydra Project.
-expiry_time     | string    | Expiry time of the Hydra Project request.
-payment_address | string     | The Ethereum address to send the payment to.
-payment_amount_tier1 | number | The amount of ETH to pay for a standard Ethereum node
-payment_amount_tier2 | number  | The amount of ETH to pay for an archival Ethereum node.
-project_id      | string | The project ID needed as a path parameter for all ETH methods.
-
-The returned `project_id` should be passed as a path parameter to the Hydra Node you have paid for. Henceforth from now `project-id` is referred as `<PROJECT-ID>` in the rest of the documentation.
-
-The returned `api_key` should be passed in the request body of the POST request. Henceforth from now `api_key` is referred as `<API-KEY>` in the rest of the documentation.
-
-## Authentication
-### Authenticating using a Project ID
-
-> Authentication headers
-
-```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# <EVM> in the following example should be replaced by
+# the EVM whose data is desired (e.g. ETH, AVAX, etc...) 
+curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" 
 ```
 
-Hydra's Ethereum API requires a valid `Project ID` to be included with your request. This identifier should be appended to the request URL as a path parameter.
+Before data from Hydra API can be consumed by a client, a *Project* must be
+requested and activated via the [Projects
+API](/#projects-api-xquery-hydra). This gives you a `<PROJECT-ID>` and
+`<API-KEY>` of an active project. The `<PROJECT-ID>` must be included in
+the request URL, and the `<API-KEY>` must be  in the `Api-Key` header
+of a request, as in the Hydra Authentication example in the right panel --->
+<br>
+See [Authentication Error Codes](/#authentication-error-codes) for possible error codes and their meanings. 
+ 
+## Make Hydra Requests
+[EVM](https://docs.blocknet.co/resources/glossary/#evm) JSON-RPC
+requests are made via the `/xrs/evm_passthrough/<EVM>/<PROJECT-ID>`
+route. A JSON-RPC request should have a request body containing the
+`EVM JSON-RPC method` (string) and optionally `EVM JSON-RPC params` (string array).
 
-`curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID>`
+### ETH example
+On the right is a command line example using `curl` to request
+the current block number of the ETH EVM. `method` = `eth_blockNumber` and `params` = [].
 
-In order to authenticate, it is necessary to include a `<API_KEY>` in the `Api-Key` header of a request.
-
-
-
-### Error Codes
-
-If an authentication error is returned after a `eth_passthrough` request, the `error` field in the response object must be an error number and the `message` field must be a string. The following table displays all error codes and its associated messages.
-
-Error Code  | Error Name  | Message 
-------|-------|------------ 
-1 |	MISSING_API_KEY	| API_KEY header missing or project-id missing.
-2 |	MISSING_PROJECT_ID	| Missing project-id in url.
-3 | PROJECT_NOT_EXIST |	Bad API_KEY or project-id does not exist.
-4 |	PROJECT_EXPIRED |	Project has expired. Please request a new project and api key.
-5 | API_TOKENS_EXCEEDED |	API calls exceeded!
-6 |	MISSING_PAYMENT |	Payment not received yet. Please submit payment or wait until payment confirms.
-7 |	API_KEY_DISABLED | API key is disabled.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError MISSING_API_KEY
+> Sample EVM JSON-RPC Request - ETH
 
 ```shell
-{
-  "message": "API_KEY header missing or project-id missing",
-  "error": 1
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError MISSING_PROJECT_ID
-
-```shell
-{
-  "message": "Missing project-id in url",
-  "error": 2
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError PROJECT_NOT_EXIST
-
-```shell
-{
-  "message": "Bad API_KEY or project-id does not exist",
-  "error": 3
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError PROJECT_EXPIRED
-
-```shell
-{
-  "message": "Project has expired. Please request a new project and api key",
-  "error": 4
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error Message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError API_TOKENS_EXCEEDED
-
-```shell
-{
-  "message": "Project has expired. Please request a new project and api key",
-  "error": 5
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error Message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError MISSING_PAYMENT
-
-```shell
-{
-  "message": "Payment not received yet. Please submit payment or wait until payment confirms",
-  "error": 6
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error Message.
-error        | number | Authentication error code.
-
-<aside class="warning">
-401 Unauthorized
-</aside>
-
-> ApiError API_KEY_DISABLED
-
-```shell
-{
-  "message": "API key is disabled",
-  "error": 7
-}
-```
-
-Field       | Type    | Description
-----------------|---------|-------------
-message       | string | Authentication error Message.
-error        | number | Authentication error code.
-
-## Make Requests
-Ethereum JSON-RPC requests are made via the `/xrs/eth_passthrough/<PROJECT-ID>` route. A JSON-RPC request should have a request body containing the `method` (string) and optionally `params` (string array).
-
-<code class="api-call">method [params]</code>
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-method       | string | Ethereum JSON-RPC method.
-params        | string array | Parameters of Ethereum JSON-RPC method.
-### An example
-On the right there is a quick command line example using `curl` where `method` = `eth_blockNumber` and `params` = [].
-
-> Sample Ethereum JSON-RPC Request
-
-```shell
-# Be sure to replace YOUR-PROJECT-ID with a Project ID from the generated project
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# In this example, <EVM> should be replaced by ETH to get
+# the current block number of the ETH chain.
+# <NODE-URL>, <PROJECT-ID> and <API-KEY> values should be replaced
+# by the values obtained when the project was requested/activated
+# through the Projects API
+curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}' | jq
 ```
 
 <code class="api-call">eth_blockNumber</code>
 
 This call does not take parameters.
 
+<br><br><br><br><br><br><br><br><br>
+
+By default, `curl` does not print the Response Headers. To see the Response Headers printed in the above example, add "`-D -`"
+options to the `curl` command, like this ---->
+
+> Sample EVM JSON-RPC Request - ETH - Print Response Headers
+
+```shell
+curl -D - http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID> \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}'
+```
+<br><br><br><br><br><br><br><br><br><br><br>
+Whether the response code is 200 (success) or not, the Response Headers
+will always contain useful information about the project. ---->
+>  Sample EVM JSON-RPC Response Headers
+
+```shell
+PROJECT-ID: <PROJECT-ID>
+API-TOKENS: <API Token Count>
+API-TOKENS-USED: <API Tokens Used Count>
+API-TOKENS-REMAINING: <API Tokens Remaining Count>
+```
+<br>
+
+> Sample EVM JSON-RPC Response Body - ETH
+
 <aside class="success">
 200 OK
 </aside>
 
-> Sample Ethereum JSON-RPC Response Body
-
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x895cc6",
   "id": 1
+}
+```
+<br><br><br>
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+result           | string  | Integer of the current block number the client is on.
+id           | int  | ID number.
+<br><br><br>
+
+### AVAX C chain example
+On the right is a command line example using `curl` to request
+the current block number of the AVAX C chain EVM. `method` = `eth_blockNumber`
+and `params` = []. <br><br>
+**IMPORTANT:** Some EVMs, like the AVAX C chain, require
+augmentation of the URL to access their JSON RPC methods. For AVAX C
+chain EVM access, `/ext/bc/C/rpc` must be appended to the URL, like this ---->
+
+> Sample EVM JSON-RPC Request - AVAX C chain EVM
+
+```shell
+# In this example, <EVM> should be replaced by AVAX to get
+# the current block number of the AVAX C chain.
+# <NODE-URL>, <PROJECT-ID> and <API-KEY> values should be replaced
+# by the values obtained when the project was requested/activated
+# through the Projects API
+curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID>/ext/bc/C/rpc \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}' | jq
+```
+
+<code class="api-call">eth_blockNumber</code>
+
+This call does not take parameters.
+<br><br><br><br><br><br><br><br>
+
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample EVM JSON-RPC Response Body - AVAX C chain EVM
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "result": "0xdf2fe8"
 }
 ```
 
@@ -274,26 +148,181 @@ jsonrpc           | string  | JSON RPC version.
 result           | string  | Integer of the current block number the client is on.
 id           | int  | ID number.
 
+<br><br><br>
 
-### Error codes
-If one of the inputs (`method` and/or `params`) are malformed, then the client may receive one the following error responses:
+### AVAX Info isBootstrapped example
+On the right is a command line example using `curl` to request
+the current *isBootstrapped* status of the AVAX C chain EVM hosted at `<NODE-URL>`. `method` = `info.isBootstrapped`
+and `params` = ["chain":"C"]. <br><br>
+
+> Sample JSON-RPC Request - AVAX info
+
+```shell
+# In this example, <EVM> should be replaced by AVAX to call
+# the info.isBootstrapped method of the AVAX node.
+# <NODE-URL>, <PROJECT-ID> and <API-KEY> values should be replaced
+# by the values obtained when the project was requested/activated
+# through the Projects API
+curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID>/ext/info \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+    -d '{"jsonrpc":"2.0","method":"info.isBootstrapped","params": {"chain":"C"},"id":1}' | jq
+```
+
+<code class="api-call">info.isBootstrapped</code>
+
+
+Similar to the [AVAX C chain example](/#avax-c-chain-example) above,
+access to the *info* space of the AVAX node requires augmentation of
+the URL. However, instead of augmenting the URL with `/ext/bc/C/rpc`
+to access the AVAX C chain EVM, `ext/info` must be appended to the
+URL to access the *info* space. Also, as per the [AVAX
+API](https://docs.avax.network/apis/avalanchego/apis/issuing-api-calls/),
+a parameter designating which of the 3 AVAX chain is being referenced must be passed
+when calling the `info.isBootstrapped` method. The final `curl`
+command looks like this ---->
+
+<br><br>
 
 <aside class="success">
 200 OK
 </aside>
 
-> MalformedJSONData Response Headers
+> Sample JSON-RPC Response Body - AVAX info
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "isBootstrapped": true
+  },
+  "id": 1
+}
+```
+
+### AVAX Health example
+On the right is a command line example using `curl` to request
+the current *health* status of the AVAX node hosted at `<NODE-URL>`. `method` = `health.health`
+and `params` = []. <br><br>
+
+> Sample JSON-RPC Request - AVAX health
 
 ```shell
-PROJECT-ID: <PROJECT-ID>
-API-TOKENS: <API Token Count>
-API-TOKENS-USED: <API Tokens Used Count>
-API-TOKENS-REMAINING: <API Tokens Remaining Count>
+# In this example, <EVM> should be replaced by AVAX to call
+# the health.health method of the AVAX node.
+# <NODE-URL>, <PROJECT-ID> and <API-KEY> values should be replaced
+# by the values obtained when the project was requested/activated
+# through the Projects API
+curl http://<NODE-URL>/xrs/evm_passthrough/<EVM>/<PROJECT-ID>/ext/health \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+    -d '{"jsonrpc":"2.0","method":"health.health","params": [],"id":1}' | jq
 ```
+
+<code class="api-call">health.health</code>
+
+
+Similar to the [AVAX C chain example](/#avax-c-chain-example) above,
+access to the *health* space of the AVAX node requires augmentation of
+the URL. However, instead of augmenting the URL with `/ext/bc/C/rpc`
+to access the AVAX C chain EVM, `ext/health` must be appended to the
+URL to access the *health* space. Also, as per the [AVAX
+API](https://docs.avax.network/apis/avalanchego/apis/issuing-api-calls/),
+no parameters are passed when calling the `health.health` method. The final `curl`
+command looks like this ---->
+
+<br><br>
+
+<aside class="success">
+200 OK
+</aside>
+
+> Sample JSON-RPC Response Body - AVAX health
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "checks": {
+      "C": {
+        "message": {
+          "consensus": {
+            "longestRunningBlock": "84.1507ms",
+            "outstandingBlocks": 1
+          },
+          "vm": null
+        },
+        "timestamp": "2022-05-15T00:07:01.113890064Z",
+        "duration": 29143
+      },
+      "P": {
+        "message": {
+          "consensus": {
+            "longestRunningBlock": "0s",
+            "outstandingBlocks": 0
+          },
+          "vm": {
+            "primary-percentConnected": 0.9955925177653572
+          }
+        },
+        "timestamp": "2022-05-15T00:07:01.114159406Z",
+        "duration": 372805
+      },
+      "X": {
+        "message": {
+          "consensus": {
+            "outstandingVertices": 0,
+            "snowstorm": {
+              "outstandingTransactions": 0
+            }
+          },
+          "vm": null
+        },
+        "timestamp": "2022-05-15T00:07:01.113783807Z",
+        "duration": 47628
+      },
+      "bootstrapped": {
+        "message": [],
+        "timestamp": "2022-05-15T00:07:01.113865158Z",
+        "duration": 25517
+      },
+      "network": {
+        "message": {
+          "connectedPeers": 1492,
+          "sendFailRate": 0,
+          "timeSinceLastMsgReceived": "113.905213ms",
+          "timeSinceLastMsgSent": "113.905213ms"
+        },
+        "timestamp": "2022-05-15T00:07:01.113908308Z",
+        "duration": 13986
+      },
+      "router": {
+        "message": {
+          "longestRunningRequest": "82.871428ms",
+          "outstandingRequests": 45
+        },
+        "timestamp": "2022-05-15T00:07:01.113968981Z",
+        "duration": 53199
+      }
+    },
+    "healthy": true
+  },
+  "id": 1
+}
+```
+
+### Error codes
+ If one of the inputs (`method` and/or `params`) are malformed, then the client may receive one the following error responses:
+
+<aside class="warning">
+400 Bad Request
+</aside>
 
 > MalformedJSONData Response Body
 
-```shell
+```json
 {
   "message": "malformed json post data"
   "error": 1000
@@ -311,7 +340,7 @@ error        | number | Error code.
 
 > MissingParameters Response Body
 
-```shell
+```json
 {
   "error": "missing parameters"
 }
@@ -327,7 +356,7 @@ error        | string | Request misses parameters.
 
 > DisallowedMethod Response Body
 
-```shell
+```json
 {
   "error": "disallowed method <method>"
 }
@@ -339,14 +368,14 @@ error        | string | Disallowed JSON-RPC eth method.
 
 
 
-## Ethereum Error Codes
-If the request body input for the `eth_passthrough` route is correct, then the following errors may be returned by the `geth` client.
+## EVM Error Codes
+If the request body input for the `evm_passthrough` route is correct, then the following errors may be returned by the EVM client.
 
-If an error is returned after a Ethereum JSON-RPC request, the `error` field in the response object **MUST** be an object which contains a `code` and `message` field. The following table displays all error codes and its associated messages.
+If an error is returned after a EVM JSON-RPC request, the `error` field in the response object **MUST** be an object which contains a `code` and `message` field. The following table displays all error codes and its associated messages.
 
 > Sample Error Response Body
 
-```shell
+```json
 {
     "id": 1
     "jsonrpc": "2.0",
@@ -359,18 +388,18 @@ If an error is returned after a Ethereum JSON-RPC request, the `error` field in 
 
 Code  | Message  | Description | Object Name
 ------|-------|------------ | ---------
--32700 |	Parse error	| Invalid JSON	| ParseError
--32600 |	Invalid request	| JSON is not a valid request object |	InvalidRequest
--32601 |	Method not found |	Method does not exist |	MethodNotFound
--32602 |	Invalid params |	Invalid method parameters |	InvalidParams
--32603 |	Internal error |	Internal JSON-RPC error	| InternalError
--32000 |	Invalid input |	Missing or invalid parameters	| InvalidInput
--32001 |	Resource not found | Requested resource not found |	ResourceNotFound
--32002 |	Resource unavailable |	Requested resource not available |	ResourceUnavailable
--32003 |	Transaction rejected |	Transaction creation failed |	TransactionRejected
--32004 |	Method not supported |	Method is not implemented	| MethodNotSupported
--32005 |	Limit exceeded |	Request exceeds defined limit	| LimitExceeded
--32006 |	JSON-RPC version not supported |	Version of JSON-RPC protocol is not supported | Json-rpcVersionNotSupported
+-32700 |  Parse error | Invalid JSON  | ParseError
+-32600 |  Invalid request | JSON is not a valid request object |  InvalidRequest
+-32601 |  Method not found |  Method does not exist | MethodNotFound
+-32602 |  Invalid params |  Invalid method parameters | InvalidParams
+-32603 |  Internal error |  Internal JSON-RPC error | InternalError
+-32000 |  Invalid input | Missing or invalid parameters | InvalidInput
+-32001 |  Resource not found | Requested resource not found | ResourceNotFound
+-32002 |  Resource unavailable |  Requested resource not available |  ResourceUnavailable
+-32003 |  Transaction rejected |  Transaction creation failed | TransactionRejected
+-32004 |  Method not supported |  Method is not implemented | MethodNotSupported
+-32005 |  Limit exceeded |  Request exceeds defined limit | LimitExceeded
+-32006 |  JSON-RPC version not supported |  Version of JSON-RPC protocol is not supported | Json-rpcVersionNotSupported
 
 
 
@@ -389,7 +418,7 @@ Starts a subscription (on WebSockets / IPC / TCP transports) to a particular eve
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "events": "logs"
 }
@@ -398,7 +427,7 @@ Starts a subscription (on WebSockets / IPC / TCP transports) to a particular eve
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -420,7 +449,7 @@ events           | string  | Event to be subscribed on.
 
 > Sample Response
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -445,7 +474,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -469,7 +498,7 @@ Unsubscribes from a subscription.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "subscription_id": "0xb53c4832f1dca4a5"
 }
@@ -478,7 +507,7 @@ Unsubscribes from a subscription.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
@@ -500,7 +529,7 @@ subscription_id           | string  | Subscription ID.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": true,
@@ -521,7 +550,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -538,7 +567,7 @@ jsonrpc           | string  | JSON RPC version.
 id           | int  | ID number.
 error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error -->
 
-## JSON-RPC Methods
+## EVM JSON-RPC Methods
 
 Call                                              | Description
 --------------------------------------------------|---------------
@@ -547,7 +576,6 @@ Call                                              | Description
 [net_listening](#net_listening)                             | Returns `true` if client is actively listening for network connections.
 [net_peerCount](#net_peercount)                             | Returns number of peers currenly connected to the client.
 [net_version](#net_version)                             | Returns the current network protocol version.
-[eth_accounts](#eth_accounts)     | Returns a list of addresses owned by the client.
 [eth_blockNumber](#eth_blocknumber)                           | Returns the number of the most recent block.
 [eth_call](#eth_call)             | Executes a new message call immediately without creating a transaction on the block chain.
 [eth_chainId](#eth_chainid)               | Returns the EIP155 chain ID used for transaction signing at the current best block. Null is returned if not available.
@@ -572,7 +600,6 @@ Call                                              | Description
 [eth_getWork](#eth_getwork)                             | Returns the hash of the current block, the seedHash, and the boundary condition to be met ("target").
 [eth_hashrate](#eth_hashrate)                             | Returns the number of hashes per second that the node is mining with.
 [eth_mining](#eth_mining)                             | Returns `true` if client is actively mining new blocks.
-[eth_protocolVersion](#eth_protocolversion)                             | Returns the current ethereum protocol version.
 [eth_sendRawTransaction](#eth_sendrawtransaction)                             | Creates new message call transaction or a contract creation for signed transactions.
 [eth_submitWork](#eth_submitwork)                             | Used for submitting a proof-of-work solution.
 [eth_syncing](#eth_syncing)                             | Returns an object with data about the sync status or `false`.
@@ -581,21 +608,23 @@ Call                                              | Description
 
 Returns the current web3 client version.
 
-#### Request Parameters
-
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"web3_clientVersion","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"web3_clientVersion","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">web3_clientVersion</code>
 
-This call does not take parameters.
+ This call does not take parameters.
 
 #### Responses
 
@@ -605,7 +634,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "Geth/v1.9.23-stable-8c2f2715/linux-amd64/go1.15.3",
@@ -625,7 +654,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -650,7 +679,7 @@ Returns Keccak-256 (not the standardized SHA3-256) of the given data.
 
 > Sample Data
 
-```shell
+```json
 {
   "sha3_data": "0x68656c6c6f20776f726c64"
 }
@@ -659,11 +688,15 @@ Returns Keccak-256 (not the standardized SHA3-256) of the given data.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"web3_sha3","params": ["0x68656c6c6f20776f726c64"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"web3_sha3","params": ["0x68656c6c6f20776f726c64"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">web3_sha3 [sha3_data]</code>
@@ -680,7 +713,7 @@ sha3_data           | string  | The data to convert into a SHA3 hash.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x47173285a8d7341e5e972fc677286384f802f8ef42a5ec5f03bbfa254cb01fad",
@@ -700,7 +733,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -719,17 +752,28 @@ error        | ParseError (object) or InvalidRequest (object) or MethodNotFound 
 
 ### net_listening
 
-Returns `true` if client is actively listening for network connections.
+Returns `true` if client is actively listening for network
+connections. <br>
 
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"net_listening","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"net_listening","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
+
+**NOTE:** The `net_listening` method works as expected for the ETH
+EVM. However, for the AVAX C chain EVM, [Avalanche
+docs](https://docs.avax.network/nodes/maintain/chain-config-flags/#net)
+has this to say about the `net_listening` method:<br>
+"Note: Coreth is a virtual machine and does not have direct access to the networking layer, so net_listening always returns true and net_peerCount always returns 0. For accurate metrics on the network layer, users should use the AvalancheGo APIs."
 
 <code class="api-call">net_listening</code>
 
@@ -743,7 +787,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": true,
@@ -763,7 +807,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -787,12 +831,28 @@ Returns number of peers currenly connected to the client.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"net_peerCount","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"net_peerCount","params": [],"id":1}' | jq
+# For AVAX C chain, net_peerCount always returns 0. However,
+# AVAX node peer count can be retrieved through a call to the
+# info.peers method like this:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/info \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+    -d '{"jsonrpc":"2.0","method":"info.peers","params":
+	{"chain":"C"},"id":1}' | jq | head
 ```
+
+**NOTE:** The `net_peerCount` method works as expected for the ETH
+EVM. However, for the AVAX C chain EVM, [Avalanche
+docs](https://docs.avax.network/nodes/maintain/chain-config-flags/#net)
+has this to say about the `net_peerCount` method:<br>
+"Note: Coreth is a virtual machine and does not have direct access to the networking layer, so net_listening always returns true and net_peerCount always returns 0. For accurate metrics on the network layer, users should use the AvalancheGo APIs."
 
 <code class="api-call">net_peerCount</code>
 
@@ -804,16 +864,16 @@ This call does not take parameters.
 200 OK
 </aside>
 
-> Sample Response
+> Sample Response - ETH
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x19",
   "id": 1
 }
 ```
-
+ 
 Parameter       | Type    | Description
 ----------------|---------|-------------
 jsonrpc           | string  | JSON RPC version.
@@ -824,9 +884,35 @@ id           | int  | ID number.
 200 OK
 </aside>
 
+> Sample Response - AVAX
+
+```json
+{
+  "jsonrpc": "2.0",
+  "result": {
+    "numPeers": "1493",
+    "peers": [
+      {
+        "ip": "18.158.15.12:9651",
+        "publicIP": "18.158.15.12:9651",
+        "nodeID": "NodeID-kZNuQMHhydefgnwjYX1fhHMpRNAs9my1",
+        "version": "avalanche/1.7.10",
+```
+
+Parameter       | Type    | Description
+----------------|---------|-------------
+jsonrpc           | string  | JSON RPC version.
+result           | result object | object containing results
+numPeers           | string  | Number of Peers
+peers           | peer object | object containing a list of all peers, including all known details about each peer
+
+<aside class="success">
+200 OK
+</aside>
+
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -850,11 +936,15 @@ Returns the current network protocol version.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"net_version","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"net_version","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">net_version</code>
@@ -869,7 +959,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "1",
@@ -889,70 +979,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
-{
-  "id": 0,
-  "jsonrpc": "2.0",
-  "error": {
-    "code": -32700,
-    "message": "Parse error"
-  }
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-jsonrpc           | string  | JSON RPC version.
-id           | int  | ID number.
-error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
-
-### eth_accounts
-
-Returns a list of addresses owned by the client.
-
-> Sample Request
-
-```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
-    -X POST \
-    -H "Content-Type: application/json" \
-    -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_accounts","params":[],"id":1}'
-```
-
-<code class="api-call">eth_accounts</code>
-
-This call does not take parameters.
-
-#### Responses
-
-<aside class="success">
-200 OK
-</aside>
-
-> Sample Response
-
-```shell
-{
-  "jsonrpc": "2.0",
-  "result": ["string"],
-  "id": 1
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-jsonrpc           | string  | JSON RPC version.
-result           | array  | List of addresses owned by the client.
-id           | int  | ID number.
-
-<aside class="success">
-200 OK
-</aside>
-
-> ErrorResponse
-
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -976,11 +1003,15 @@ Returns the number of the most recent block.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_blockNumber</code>
@@ -995,7 +1026,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x895cc6",
@@ -1015,7 +1046,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1038,7 +1069,7 @@ Executes a new message call immediately without creating a transaction on the bl
 
 > Sample Data
 
-```shell
+```json
 {
   "from": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "to": 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
@@ -1053,12 +1084,18 @@ Executes a new message call immediately without creating a transaction on the bl
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_call","params": [{"from": "0x407d73d8a49eeb85d32cf465507dd71d507100c1","to": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b","gas": "0x76c0","gasPrice": "0x9184e72a000","value": "0x186a0","data": "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"}, "latest"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_call","params": [{"from": "0x407d73d8a49eeb85d32cf465507dd71d507100c1","to": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b","gas": "0x76c0","gasPrice": "0x9184e72a000","value": "0x186a0","data": "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"}, "latest"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
+
+#### Request Parameters
 
 <code class="api-call">eth_call [from] [to] [gas] [gasPrice] [value] [data] [block_parameter]</code>
 
@@ -1080,7 +1117,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x",
@@ -1100,7 +1137,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1124,11 +1161,15 @@ Returns the EIP155 chain ID used for transaction signing at the current best blo
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_chainId","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_chainId","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_chainId</code>
@@ -1143,7 +1184,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -1163,7 +1204,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1187,7 +1228,7 @@ Makes a call or transaction, which won’t be added to the blockchain and return
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "from": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "to": 0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
@@ -1201,11 +1242,15 @@ Makes a call or transaction, which won’t be added to the blockchain and return
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_estimateGas","params": [{"from": "0x407d73d8a49eeb85d32cf465507dd71d507100c1","to": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b","gas": "0x76c0","gasPrice": "0x9184e72a000","value": "0x186a0","data": "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"}],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_estimateGas","params": [{"from": "0x407d73d8a49eeb85d32cf465507dd71d507100c1","to": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b","gas": "0x76c0","gasPrice": "0x9184e72a000","value": "0x186a0","data": "0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675"}],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_estimateGas [from] [to] [gas] [gasPrice] [value] [data]</code>
@@ -1228,7 +1273,7 @@ data | string | Hash of the method signature and encoded parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x5cec",
@@ -1248,7 +1293,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1272,7 +1317,7 @@ Returns the balance of the account of given address.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "address": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "block_parameter": "latest"
@@ -1282,11 +1327,15 @@ Returns the balance of the account of given address.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getBalance","params": ["0x407d73d8a49eeb85d32cf465507dd71d507100c1", "latest"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getBalance","params": ["0x407d73d8a49eeb85d32cf465507dd71d507100c1", "latest"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getBalance [address] [block_parameter]</code>
@@ -1294,7 +1343,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 Parameter       | Type    | Description
 ----------------|---------|-------------
 address | string | The address to check for balance.
-block_parameter	| string | Integer block number, or the string 'latest', 'earliest' or 'pending'.
+block_parameter | string | Integer block number, or the string 'latest', 'earliest' or 'pending'.
 
 
 #### Responses
@@ -1305,7 +1354,7 @@ block_parameter	| string | Integer block number, or the string 'latest', 'earlie
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -1325,7 +1374,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1349,7 +1398,7 @@ Returns information about a block by hash.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_hash": "0x5bc28118ff3f15c4ae1cd14548c9a89c87405c5a9f0536c517f5955ace4b1011",
   "show_tx_details: "false"
@@ -1359,11 +1408,15 @@ Returns information about a block by hash.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getBlockByHash","params": ["0x5bc28118ff3f15c4ae1cd14548c9a89c87405c5a9f0536c517f5955ace4b1011",false],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getBlockByHash","params": ["0x5bc28118ff3f15c4ae1cd14548c9a89c87405c5a9f0536c517f5955ace4b1011",false],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getBlockByHash [block_hash] [show_tx_details]</code>
@@ -1371,7 +1424,7 @@ curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
 Parameter       | Type    | Description
 ----------------|---------|-------------
 block_hash | string | Hash of a block.
-show_tx_details	| string | If `true` it returns the full transaction objects, if `false` only the hashes of the transactions.
+show_tx_details | string | If `true` it returns the full transaction objects, if `false` only the hashes of the transactions.
 
 #### Responses
 
@@ -1381,7 +1434,7 @@ show_tx_details	| string | If `true` it returns the full transaction objects, if
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -1655,7 +1708,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -1680,7 +1733,7 @@ Returns information about a block by block number.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_parameter": "0x899eef",
   "show_tx_details: "false"
@@ -1690,11 +1743,15 @@ Returns information about a block by block number.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params": ["0x899eef",false],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getBlockByNumber","params": ["0x899eef",false],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getBlockByNumber [block_parameter] [show_tx_details]</code>
@@ -1712,7 +1769,7 @@ show_tx_details | boolean | If `true` it returns the full transaction objects, i
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -1986,7 +2043,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2010,7 +2067,7 @@ Returns the number of transactions in a block from a block matching the given bl
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_hash": "0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe"
 }
@@ -2019,11 +2076,15 @@ Returns the number of transactions in a block from a block matching the given bl
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getBlockTransactionCountByHash","params": ["0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getBlockTransactionCountByHash","params": ["0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getBlockTransactionCountByHash [block_hash]</code>
@@ -2040,7 +2101,7 @@ block_hash           | string  | Hash of a block.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0xef",
@@ -2060,7 +2121,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2084,7 +2145,7 @@ Returns the number of transactions in the block with the given block number.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_parameter": "latest"
 }
@@ -2093,18 +2154,22 @@ Returns the number of transactions in the block with the given block number.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getBlockTransactionCountByNumber","params": ["latest"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getBlockTransactionCountByNumber","params": ["latest"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getBlockTransactionCountByNumber [block_parameter]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_parameter	| string  | Integer block number, or the string 'latest', 'earliest' or 'pending'.
+block_parameter | string  | Integer block number, or the string 'latest', 'earliest' or 'pending'.
 
 #### Responses
 
@@ -2114,7 +2179,7 @@ block_parameter	| string  | Integer block number, or the string 'latest', 'earli
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0xac",
@@ -2134,7 +2199,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2158,7 +2223,7 @@ Returns code at a given address.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "address": "0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b",
   "block_parameter": "latest"
@@ -2168,18 +2233,22 @@ Returns code at a given address.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getCode","params": ["0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b", "latest"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getCode","params": ["0xa94f5374fce5edbc8e2a8697c15331677e6ebf0b", "latest"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getCode [address] [block_parameter]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_parameter	| string  | Integer block number, or the string 'latest', 'earliest' or 'pending'.
+block_parameter | string  | Integer block number, or the string 'latest', 'earliest' or 'pending'.
 
 #### Responses
 
@@ -2189,7 +2258,7 @@ block_parameter	| string  | Integer block number, or the string 'latest', 'earli
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x",
@@ -2209,7 +2278,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2233,7 +2302,7 @@ Returns an array of all logs matching a given filter object.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "fromBlock": "0x1",
   "toBlock": 0x2",
@@ -2245,11 +2314,15 @@ Returns an array of all logs matching a given filter object.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getLogs","params":[{"fromBlock":"0x1","toBlock":"0x2","address":"0x8888f1f195afa192cfee860698584c030f4c9db1","topics":["0x000000000000000000000000a94f5374fce5edbc8e2a8697c15331677e6ebf0b"]}],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getLogs","params":[{"fromBlock":"0x1","toBlock":"0x2","address":"0x8888f1f195afa192cfee860698584c030f4c9db1","topics":["0x000000000000000000000000a94f5374fce5edbc8e2a8697c15331677e6ebf0b"]}],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getLogs [fromBlock] [toBlock] [address] [topics]</code>
@@ -2270,7 +2343,7 @@ topics | Array | Topics are order-dependent. It’s possible to pass in null to 
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": [
@@ -2303,7 +2376,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2327,7 +2400,7 @@ Returns the value from a storage position at a given address.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "address": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "storage_position": "0x0",
@@ -2338,11 +2411,15 @@ Returns the value from a storage position at a given address.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getStorageAt","params": ["0x407d73d8a49eeb85d32cf465507dd71d507100c1", "0x0", "0x2"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getStorageAt","params": ["0x407d73d8a49eeb85d32cf465507dd71d507100c1", "0x0", "0x2"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getStorageAt [address] [storage_position] [block_parameter]</code>
@@ -2362,7 +2439,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0000000000000000000000000000000000000000000000000000000000000000",
@@ -2382,7 +2459,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2406,7 +2483,7 @@ Returns information about a transaction by block hash and transaction index posi
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_hash": "0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe",
   "tx_index_position": "0x0"
@@ -2416,11 +2493,15 @@ Returns information about a transaction by block hash and transaction index posi
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getTransactionByBlockHashAndIndex","params": ["0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe","0x0"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getTransactionByBlockHashAndIndex","params": ["0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe","0x0"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getTransactionByBlockHashAndIndex [block_hash] [tx_index_position]</code>
@@ -2438,7 +2519,7 @@ tx_index_position | string | Integer of the transaction index position.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2499,7 +2580,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2523,7 +2604,7 @@ Returns information about a transaction by block number and transaction index po
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_parameter": "latest",
   "tx_index_position": "0x0"
@@ -2533,11 +2614,15 @@ Returns information about a transaction by block number and transaction index po
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getTransactionByBlockHashAndIndex","params": ["0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe","0x0"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getTransactionByBlockHashAndIndex","params": ["0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe","0x0"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getTransactionByBlockNumberAndIndex [block_parameter] [tx_index_position]</code>
@@ -2555,7 +2640,7 @@ tx_index_position | string | Integer of the transaction index position.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2616,7 +2701,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2640,7 +2725,7 @@ Returns the information about a transaction requested by transaction hash.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "tx_hash": "0x091e312f48b184fc86c1d14f6dac5ffad3e49e10752d59d4de4e87655d0156f4"
 }
@@ -2649,11 +2734,15 @@ Returns the information about a transaction requested by transaction hash.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getTransactionByHash","params": ["0x091e312f48b184fc86c1d14f6dac5ffad3e49e10752d59d4de4e87655d0156f4"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getTransactionByHash","params": ["0x091e312f48b184fc86c1d14f6dac5ffad3e49e10752d59d4de4e87655d0156f4"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getTransactionByHash [tx_hash]</code>
@@ -2670,7 +2759,7 @@ tx_hash           | string  | Hash of a transaction.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2731,7 +2820,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2755,7 +2844,7 @@ Returns the number of transactions sent from an address.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "address": "0x407d73d8a49eeb85d32cf465507dd71d507100c1",
   "block_parameter": "latest"
@@ -2765,11 +2854,15 @@ Returns the number of transactions sent from an address.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getTransactionCount","params": ["0x407d73d8a49eeb85d32cf465507dd71d507100c1","latest"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getTransactionCount","params": ["0x407d73d8a49eeb85d32cf465507dd71d507100c1","latest"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getTransactionCount [address] [block_parameter]</code>
@@ -2788,7 +2881,7 @@ block_parameter | string | Integer block number, or the string 'latest', 'earlie
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -2809,7 +2902,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2834,7 +2927,7 @@ Returns the receipt of a transaction by transaction hash.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "tx_hash": "0x091e312f48b184fc86c1d14f6dac5ffad3e49e10752d59d4de4e87655d0156f4"
 }
@@ -2843,11 +2936,15 @@ Returns the receipt of a transaction by transaction hash.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getTransactionReceipt","params": ["0x091e312f48b184fc86c1d14f6dac5ffad3e49e10752d59d4de4e87655d0156f4"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getTransactionReceipt","params": ["0x091e312f48b184fc86c1d14f6dac5ffad3e49e10752d59d4de4e87655d0156f4"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getTransactionReceipt [tx_hash]</code>
@@ -2864,7 +2961,7 @@ tx_hash           | string  | Hash of a transaction.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -2909,7 +3006,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -2934,7 +3031,7 @@ Returns information about a uncle of a block by hash and uncle index position.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_hash": "0xb3b20624f8f0f86eb50dd04688409e5cea4bd02d700bf6e79e9384d47d6a5a35",
   "uncleindex_position": "0x0"
@@ -2944,19 +3041,23 @@ Returns information about a uncle of a block by hash and uncle index position.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getUncleByBlockHashAndIndex","params": ["0xb3b20624f8f0f86eb50dd04688409e5cea4bd02d700bf6e79e9384d47d6a5a35","0x0"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getUncleByBlockHashAndIndex","params": ["0xb3b20624f8f0f86eb50dd04688409e5cea4bd02d700bf6e79e9384d47d6a5a35","0x0"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getUncleByBlockHashAndIndex [block_hash] [uncle_index_position]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_hash	| string |	Hash of a block.
-uncle_index_position |	string |	Integer of the uncle index position.
+block_hash  | string |  Hash of a block.
+uncle_index_position |  string |  Integer of the uncle index position.
 
 #### Responses
 
@@ -2966,7 +3067,7 @@ uncle_index_position |	string |	Integer of the uncle index position.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -3004,28 +3105,28 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 jsonrpc           | string  | JSON RPC version.
 result           | object  | Transaction receipt object.
-author |	string	| The address of the author of the block.
-difficulty	| string	| Integer of the difficulty for this block.
-extraData	| string	| The ‘extra data’ field of this block.
-gasLimit	| string	| The maximum gas allowed in this block.
-gasUsed	| string	| The total used gas by all transactions in this block.
-hash	| string	| Hash of the block. null when its pending block.
-logsBloom	| string	| The bloom filter for the logs of the block. null when its pending block.
-miner	| string	| Alias of ‘author’.
-mixHash |	string |	The mix hash.
-nonce	| string	| Hash of the generated proof-of-work. null when its pending block. Missing in case of PoA.
-number |	string | The block number. null when its pending block.
-parentHash	| string	| Hash of the parent block.
-receiptsRoot |	string	| The root of the receipts trie of the block.
-sealFields	| array	| Array of seal fields.
-sha3Uncles	| string |	SHA3 of the uncles data in the block.
-size	| string	| Integer the size of this block in bytes.
-stateRoot |	string	| The root of the final state trie of the block.
-timestamp |	string	| The unix timestamp for when the block was collated.
-totalDifficulty	| string |	Integer of the total difficulty of the chain until this block.
-transactions	| array |	Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter.
-transactionsRoot	| string |	The root of the transaction trie of the block.
-uncles	| array	| Array of uncle hashes.
+author |  string  | The address of the author of the block.
+difficulty  | string  | Integer of the difficulty for this block.
+extraData | string  | The ‘extra data’ field of this block.
+gasLimit  | string  | The maximum gas allowed in this block.
+gasUsed | string  | The total used gas by all transactions in this block.
+hash  | string  | Hash of the block. null when its pending block.
+logsBloom | string  | The bloom filter for the logs of the block. null when its pending block.
+miner | string  | Alias of ‘author’.
+mixHash | string |  The mix hash.
+nonce | string  | Hash of the generated proof-of-work. null when its pending block. Missing in case of PoA.
+number |  string | The block number. null when its pending block.
+parentHash  | string  | Hash of the parent block.
+receiptsRoot |  string  | The root of the receipts trie of the block.
+sealFields  | array | Array of seal fields.
+sha3Uncles  | string |  SHA3 of the uncles data in the block.
+size  | string  | Integer the size of this block in bytes.
+stateRoot | string  | The root of the final state trie of the block.
+timestamp | string  | The unix timestamp for when the block was collated.
+totalDifficulty | string |  Integer of the total difficulty of the chain until this block.
+transactions  | array | Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter.
+transactionsRoot  | string |  The root of the transaction trie of the block.
+uncles  | array | Array of uncle hashes.
 id           | int  | ID number.
 
 <aside class="success">
@@ -3034,7 +3135,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3059,7 +3160,7 @@ Returns information about a uncle of a block by number and uncle index position.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_parameter": "0x29c",
   "uncle_index_position": "0x0"
@@ -3069,19 +3170,23 @@ Returns information about a uncle of a block by number and uncle index position.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getUncleByBlockNumberAndIndex","params": ["0x29c","0x0"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getUncleByBlockNumberAndIndex","params": ["0x29c","0x0"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getUncleByBlockNumberAndIndex [block_parameter] [uncle_index_position]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_parameter	| string |	Integer block number, or the string 'latest', 'earliest' or 'pending'.
-uncle_index_position |	string |	Integer of the uncle index position.
+block_parameter | string |  Integer block number, or the string 'latest', 'earliest' or 'pending'.
+uncle_index_position |  string |  Integer of the uncle index position.
 
 #### Responses
 
@@ -3091,7 +3196,7 @@ uncle_index_position |	string |	Integer of the uncle index position.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": {
@@ -3129,28 +3234,28 @@ Parameter       | Type    | Description
 ----------------|---------|-------------
 jsonrpc           | string  | JSON RPC version.
 result           | object  | Transaction receipt object.
-author |	string	| The address of the author of the block.
-difficulty	| string	| Integer of the difficulty for this block.
-extraData	| string	| The ‘extra data’ field of this block.
-gasLimit	| string	| The maximum gas allowed in this block.
-gasUsed	| string	| The total used gas by all transactions in this block.
-hash	| string	| Hash of the block. null when its pending block.
-logsBloom	| string	| The bloom filter for the logs of the block. null when its pending block.
-miner	| string	| Alias of ‘author’.
-mixHash |	string |	The mix hash.
-nonce	| string	| Hash of the generated proof-of-work. null when its pending block. Missing in case of PoA.
-number |	string | The block number. null when its pending block.
-parentHash	| string	| Hash of the parent block.
-receiptsRoot |	string	| The root of the receipts trie of the block.
-sealFields	| array	| Array of seal fields.
-sha3Uncles	| string |	SHA3 of the uncles data in the block.
-size	| string	| Integer the size of this block in bytes.
-stateRoot |	string	| The root of the final state trie of the block.
-timestamp |	string	| The unix timestamp for when the block was collated.
-totalDifficulty	| string |	Integer of the total difficulty of the chain until this block.
-transactions	| array |	Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter.
-transactionsRoot	| string |	The root of the transaction trie of the block.
-uncles	| array	| Array of uncle hashes.
+author |  string  | The address of the author of the block.
+difficulty  | string  | Integer of the difficulty for this block.
+extraData | string  | The ‘extra data’ field of this block.
+gasLimit  | string  | The maximum gas allowed in this block.
+gasUsed | string  | The total used gas by all transactions in this block.
+hash  | string  | Hash of the block. null when its pending block.
+logsBloom | string  | The bloom filter for the logs of the block. null when its pending block.
+miner | string  | Alias of ‘author’.
+mixHash | string |  The mix hash.
+nonce | string  | Hash of the generated proof-of-work. null when its pending block. Missing in case of PoA.
+number |  string | The block number. null when its pending block.
+parentHash  | string  | Hash of the parent block.
+receiptsRoot |  string  | The root of the receipts trie of the block.
+sealFields  | array | Array of seal fields.
+sha3Uncles  | string |  SHA3 of the uncles data in the block.
+size  | string  | Integer the size of this block in bytes.
+stateRoot | string  | The root of the final state trie of the block.
+timestamp | string  | The unix timestamp for when the block was collated.
+totalDifficulty | string |  Integer of the total difficulty of the chain until this block.
+transactions  | array | Array of transaction objects, or 32 Bytes transaction hashes depending on the last given parameter.
+transactionsRoot  | string |  The root of the transaction trie of the block.
+uncles  | array | Array of uncle hashes.
 id           | int  | ID number.
 
 <aside class="success">
@@ -3159,7 +3264,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3184,7 +3289,7 @@ Returns information about a uncle of a block by number and uncle index position.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_hash": "0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe"
 }
@@ -3193,18 +3298,22 @@ Returns information about a uncle of a block by number and uncle index position.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getUncleCountByBlockHash","params": ["0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getUncleCountByBlockHash","params": ["0x4faaf9dc3b7f58275d18d0d08a9c2aaf91c41102cfe915bbbd208506f1b85ebe"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getUncleByBlockNumberAndIndex [block_parameter] [uncle_index_position]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_hash	| string |	Hash of a block.
+block_hash  | string |  Hash of a block.
 
 #### Responses
 
@@ -3214,7 +3323,7 @@ block_hash	| string |	Hash of a block.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -3234,7 +3343,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3258,7 +3367,7 @@ Returns the number of uncles in a block from a block matching the given block nu
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "block_parameter": "latest"
 }
@@ -3267,18 +3376,22 @@ Returns the number of uncles in a block from a block matching the given block nu
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getUncleCountByBlockNumber","params": ["latest"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getUncleCountByBlockNumber","params": ["latest"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getUncleCountByBlockNumber [block_parameter]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-block_parameter	| string |	Integer block number, or the string 'latest', 'earliest' or 'pending'.
+block_parameter | string |  Integer block number, or the string 'latest', 'earliest' or 'pending'.
 
 #### Responses
 
@@ -3288,7 +3401,7 @@ block_parameter	| string |	Integer block number, or the string 'latest', 'earlie
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -3308,7 +3421,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3332,11 +3445,15 @@ Returns the hash of the current block, the seedHash, and the boundary condition 
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getWork","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getWork","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getWork</code>
@@ -3351,7 +3468,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": [
@@ -3373,7 +3490,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3397,11 +3514,15 @@ Returns the number of hashes per second that the node is mining with.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_hashrate","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_hashrate","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_hashrate</code>
@@ -3416,7 +3537,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x0",
@@ -3438,7 +3559,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3462,11 +3583,15 @@ Returns `true` if client is actively mining new blocks.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_mining","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_mining","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_mining</code>
@@ -3481,7 +3606,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": false,
@@ -3503,7 +3628,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3519,78 +3644,14 @@ Parameter       | Type    | Description
 jsonrpc           | string  | JSON RPC version.
 id           | int  | ID number.
 error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
-
-### eth_protocolVersion
-
-Returns the current Ethereum protocol version.
-
-> Sample Request
-
-```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
-    -X POST \
-    -H "Content-Type: application/json" \
-    -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_protocolVersion","params": [],"id":1}'
-```
-
-<code class="api-call">eth_protocolVersion</code>
-
-This call does not take parameters.
-
-#### Responses
-
-<aside class="success">
-200 OK
-</aside>
-
-> Sample Response
-
-```shell
-{
-  "jsonrpc": "2.0",
-  "result": "64",
-  "id": 1
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-jsonrpc           | string  | JSON RPC version.
-result           | array  | The current Ethereum protocol version.
-id           | int  | ID number.
-
-<aside class="success">
-200 OK
-</aside>
-
-> ErrorResponse
-
-```shell
-{
-  "id": 0,
-  "jsonrpc": "2.0",
-  "error": {
-    "code": -32700,
-    "message": "Parse error"
-  }
-}
-```
-
-Parameter       | Type    | Description
-----------------|---------|-------------
-jsonrpc           | string  | JSON RPC version.
-id           | int  | ID number.
-error        | ParseError (object) or InvalidRequest (object) or MethodNotFound (object) or InvalidParams (object) or InternalError (object) or InvalidInput (object) or ResourceNotFound (object) or ResourceUnavailable (object) or TransactionRejected (object) or MethodNotSupported (object) or LimitExceeded (object) or Json-rpcVersionNotSupported (object) | JSON RPC Error
-
 
 ### eth_sendRawTransaction
 
-Submits a signed transaction to the Ethereum network.
+Submits a signed transaction to the EVM network.
 
 > Sample Data
 
-```shell
+```json
 {
   "tx_data": "0xf86c8085098bca5a008307a1209437ede5f23cdcecfba18331126668ef705ea78489872386f26fc100008025a04058f161da3a3b028d2a0cbb98f3d22045f97a41150506cb9a52cbf0238622e8a077b6880c0d4c2c1c4ebe23c51d86954aebafaa766cd38806d299997f3face0dd"
 }
@@ -3599,12 +3660,18 @@ Submits a signed transaction to the Ethereum network.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_sendRawTransaction","params":["0xf86c8085098bca5a008307a1209437ede5f23cdcecfba18331126668ef705ea78489872386f26fc100008025a04058f161da3a3b028d2a0cbb98f3d22045f97a41150506cb9a52cbf0238622e8a077b6880c0d4c2c1c4ebe23c51d86954aebafaa766cd38806d299997f3face0dd"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_sendRawTransaction","params":["0xf86c8085098bca5a008307a1209437ede5f23cdcecfba18331126668ef705ea78489872386f26fc100008025a04058f161da3a3b028d2a0cbb98f3d22045f97a41150506cb9a52cbf0238622e8a077b6880c0d4c2c1c4ebe23c51d86954aebafaa766cd38806d299997f3face0dd"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
+
+#### Request Parameters
 
 <code class="api-call">eth_sendRawTransaction [tx_data]</code>
 
@@ -3620,7 +3687,7 @@ tx_data           | string  | The signed transaction data
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0xbb4e52e164889e0f9a7228792ab18ba866a32934f0f136e0e563fdfaaefd34dc",
@@ -3640,7 +3707,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3663,7 +3730,7 @@ Used for submitting a proof-of-work solution.
 
 > Sample Data
 
-```shell
+```json
 {
   "nonce": "0x0000000000000001",
   "pow_hash": "0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef",
@@ -3674,20 +3741,26 @@ Used for submitting a proof-of-work solution.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_submitWork","params": ["0x0000000000000001","0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef","0xD1FE5700000000000000000000000000D1FE5700000000000000000000000000"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_submitWork","params": ["0x0000000000000001","0x1234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef","0xD1FE5700000000000000000000000000D1FE5700000000000000000000000000"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
+
+#### Request Parameters
 
 <code class="api-call">eth_submitWork [nonce] [pow_hash] [mix_digest]</code>
 
 Parameter       | Type    | Description
 ----------------|---------|-------------
-nonce	string |	The nonce found (64 bits).
-pow_hash	| string	| The header’s pow-hash (256 bits)
-mix_digest |	string |	The mix digest (256 bits).
+nonce string |  The nonce found (64 bits).
+pow_hash  | string  | The header’s pow-hash (256 bits)
+mix_digest |  string |  The mix digest (256 bits).
 
 #### Responses
 
@@ -3697,7 +3770,7 @@ mix_digest |	string |	The mix digest (256 bits).
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": false,
@@ -3717,7 +3790,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3736,21 +3809,25 @@ error        | ParseError (object) or InvalidRequest (object) or MethodNotFound 
 
 ### eth_syncing
 
-Returns an object with data about the sync status or `false`.
-
-#### Request Parameters
+Returns an object with data about the sync status or `false`.<br>
+**NOTE:** The `eth_syncing` method works as expected for the ETH
+EVM. However, for the AVAX C chain EVM, the `eth_syncing` method
+doesn't exist. To get information about AVAX C chain sync status, the
+AVAX *info* space [info.isBootstrapped](/#avax-info-isbootstrapped-example)
+method should be used instead.
 
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_syncing","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_syncing","params": [],"id":1}' | jq
 ```
 
-<code class="api-call">web3_clientVersion</code>
+<code class="api-call">eth_syncing</code>
 
 This call does not take parameters.
 
@@ -3762,7 +3839,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": false,
@@ -3792,7 +3869,7 @@ Polling method for a filter, which returns an array of logs which occurred since
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "filter_id": "0x16"
 }
@@ -3801,11 +3878,15 @@ Polling method for a filter, which returns an array of logs which occurred since
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getFilterChanges","params": ["0x16"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getFilterChanges","params": ["0x16"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getFilterChanges [filter_id]</code>
@@ -3823,7 +3904,7 @@ filter_id           | string  | Filter ID.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": [
@@ -3863,7 +3944,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3887,7 +3968,7 @@ Returns an array of all logs matching filter with given id.
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "filter_id": "0x16"
 }
@@ -3896,11 +3977,15 @@ Returns an array of all logs matching filter with given id.
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_getFilterLogs","params": ["0x16"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_getFilterLogs","params": ["0x16"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_getFilterLogs [filter_id]</code>
@@ -3918,7 +4003,7 @@ filter_id           | string  | Filter ID.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": [
@@ -3958,7 +4043,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -3982,7 +4067,7 @@ Creates a filter in the node, to notify when a new block arrives. To check if th
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "filter_id": "0x16"
 }
@@ -3991,11 +4076,15 @@ Creates a filter in the node, to notify when a new block arrives. To check if th
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_newBlockFilter","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_newBlockFilter","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_newBlockFilter</code>
@@ -4011,7 +4100,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -4031,7 +4120,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -4055,7 +4144,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "fromBlock": "0x1",
   "toBlock": 0x2",
@@ -4067,11 +4156,15 @@ Creates a filter object, based on filter options, to notify when the state chang
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_newFilter","params": ["0x1","0x2","0x8888f1f195afa192cfee860698584c030f4c9db1","0x000000000000000000000000a94f5374fce5edbc8e2a8697c15331677e6ebf0b"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_newFilter","params": ["0x1","0x2","0x8888f1f195afa192cfee860698584c030f4c9db1","0x000000000000000000000000a94f5374fce5edbc8e2a8697c15331677e6ebf0b"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_newFilter [fromBlock] [toBlock] [address] [topics]</code>
@@ -4091,7 +4184,7 @@ topics | array | Topics are order-dependent. It’s possible to pass in null to 
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -4111,7 +4204,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -4136,11 +4229,15 @@ Creates a filter in the node, to notify when new pending transactions arrive. To
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_newPendingTransactionFilter","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_newPendingTransactionFilter","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_newPendingTransactionFilter</code>
@@ -4155,7 +4252,7 @@ This call does not take parameters.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x3",
@@ -4175,7 +4272,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -4199,7 +4296,7 @@ Creates a filter object, based on filter options, to notify when the state chang
 #### Request Parameters
 > Sample Data
 
-```shell
+```json
 {
   "fromBlock": "0x1",
   "toBlock": 0x2",
@@ -4211,11 +4308,15 @@ Creates a filter object, based on filter options, to notify when the state chang
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_newFilter","params": ["0x1","0x2","0x8888f1f195afa192cfee860698584c030f4c9db1","0x000000000000000000000000a94f5374fce5edbc8e2a8697c15331677e6ebf0b"],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_newFilter","params": ["0x1","0x2","0x8888f1f195afa192cfee860698584c030f4c9db1","0x000000000000000000000000a94f5374fce5edbc8e2a8697c15331677e6ebf0b"],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_newFilter [fromBlock] [toBlock] [address] [topics]</code>
@@ -4235,7 +4336,7 @@ topics | array | Topics are order-dependent. It’s possible to pass in null to 
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": "0x1",
@@ -4255,7 +4356,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
@@ -4280,11 +4381,15 @@ Uninstalls a filter with given id. Should always be called when watch is no long
 > Sample Request
 
 ```shell
-curl https://<NODE-URL>/xrs/eth_passthrough/<PROJECT-ID> \
+# For ETH:
+curl http://<NODE-URL>/xrs/evm_passthrough/ETH/<PROJECT-ID> \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d '{"jsonrpc":"2.0","method":"eth_newPendingTransactionFilter","params": [],"id":1}'
+    -d '{"jsonrpc":"2.0","method":"eth_newPendingTransactionFilter","params": [],"id":1}' | jq
+# For AVAX C chain:
+curl http://<NODE-URL>/xrs/evm_passthrough/AVAX/<PROJECT-ID>/ext/bc/C/rpc \ 
+...
 ```
 
 <code class="api-call">eth_uninstallFilter [filter_id]</code>
@@ -4301,7 +4406,7 @@ filter_id           | string  | Filter id.
 
 > Sample Response
 
-```shell
+```json
 {
   "jsonrpc": "2.0",
   "result": true,
@@ -4321,7 +4426,7 @@ id           | int  | ID number.
 
 > ErrorResponse
 
-```shell
+```json
 {
   "id": 0,
   "jsonrpc": "2.0",
