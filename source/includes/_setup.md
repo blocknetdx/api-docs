@@ -1,6 +1,6 @@
 # Getting Started
 
-The Blocknet Protocol currently requires a synced Blocknet wallet, as well as the synced wallet of any blockchain that will be interacted with. In the future, with the use of [XRouter](#xrouter), this will not be required. In addition, configuration files must also be composed.
+The [XBridge API](/#xbridge-api), [Xrouter API](/#xrouter-api) and [Xcloud API](/#xcloud-api) Blocknet Protocols currently require a synced Blocknet wallet, as well as the synced wallet of any blockchain that will be interacted with. In the future, with the use of [XRouter](#xrouter), this will not be required. In addition, configuration files must also be composed.
 
 
 
@@ -23,7 +23,7 @@ rpcport=41414
 1. [Download and install](https://docs.blocknet.co/wallet/installation) the [latest Blocknet wallet](https://github.com/blocknetdx/blocknet/releases/latest).
 1. Open the wallet, [encrypt it](https://docs.blocknet.co/wallet/encrypting), and [sync the blockchain](https://docs.blocknet.co/wallet/syncing).
 	* A [bootstrap](https://github.com/blocknetdx/blocknet-blockchain-bootstrap) is also available for faster syncing.
-1. Compose `blocknet.conf` as seen in the sample.
+1. Compose `blocknet.conf` as seen in the sample on the right.
 1. Set an RPC username and password in `blocknet.conf`.
 1. If using the XBridge API, see [XBridge Setup](#xbridge-setup).
 1. If using the XRouter API, see [XRouter Setup](#xrouter-setup).
@@ -145,75 +145,3 @@ consensus=5
 1. Use `xrReloadConfigs` to apply changes to `xrouter.conf` without needing to restart the client.
 1. Using the command line(cli) or console, [XCloud API calls](#xcloud-api) can now be made. To begin, use [xrGetNetworkServices](#xrgetnetworkservices) to view the calls under `services` and use [xrService](#xrservice) or [xrServiceConsensus](#xrserviceconsensus) to make the call.
 1. If also using the XBridge API, see [XBridge Setup](#xbridge-setup).
-
-
-
-## Hydra Setup
-
-### TL;DR
-The easiest way to get started is by using the [docker-compose file](https://github.com/blocknetdx/exrproxy-env) on the `blocknetdx/exrproxy-env` GitHub repository.
-
-### Requirements
-> Deployment option 1
-
-```shell
-./deploy.sh
-```
-
-> Deployment option 2 
-
-```shell
-./deploy.sh gethexternal
-```
-
-> Deployment input prompt
-
-```shell
-Install Docker? [y/n] n
-Not installing Docker...
-Your Public IP Address: x.x.x.x
-Servicenode Name: example
-Servicenode Private Key: example
-Servicenode Address: example
-
-Please specify an user and password for the new servicenode
-RPC Username: example
-RPC Password: example
-```
-
-The following requirements have to be met in order to install Hydra:
-
-- Servicenode Private key (How to setup a servicenode [here](https://docs.blocknet.co/service-nodes/setup))
-- Geth synced
-- Port 80 must be opened on the host
-
-Operators should use the [docker-compose file](https://github.com/blocknetdx/exrproxy-env) to setup Hydra. There are three types of setup:
-
-1) `./deploy.sh` (Using geth in the deployment)
-
-2) `./deploy.sh gethexternal` (Using a local geth node outside of the deployment)
-
-3) Manual Usage with setting environment variables.
-
-More advanced operators could edit the existing `docker-compose.yml` file for their own specialized setup.
-
-Running option 1 or 2 will prompt operators to install Docker and Docker-compose, and ask for input to fill out the xbrdige, xrouter and uWSGI configuration files.
-
-
-
-### Payment Processor
-
-Hydra is using PostgreSQL as the backend DB to keep track of payments, API counts, expirary dates. The `eth-payment-processor` container connects to the operators geth through the WebSocket. The payment processor has a block ingestor that monitors each new incoming ETH block for any payments coming in. The payment processor also keeps API counts and send this data to the Postgres DB.
-
-When everything is up and running, the operator needs to provide clients with a way to request a new project. The section [Generate a Project](#generate-a-project) showcases how clients can request a new project. Additionally, this is also showcased at the end of the `README` of [docker-compose file](https://github.com/blocknetdx/exrproxy-env).
-
-
-<!-- ### Scaling up
-
-uWSGI processor/thread count and postgres connection... (WIP) -->
-
-
-
-
-
-

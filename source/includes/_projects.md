@@ -172,8 +172,9 @@ denominated in various cryptos such as ETH,
   that project will be returned, minus gas fees. (Nothing will be
   returned if gas fees are greater than payments made.)
 - If a project was *active*, then became *inactive* due to
-  the project's 1 month *expiration* time being reached, or due to no API calls remaining, any
-  payments made to that project will be returned, minus gas fees. (Nothing
+  the project's 1 month *expiration* time being reached, or due to no
+  API calls remaining, any payments made to that project *after* it
+  became *inactive* will be returned, minus gas fees. (Nothing
   will be returned if gas fees >= amount to be returned.)
 - A project cannot be upgrade from *tier1* to *tier2* once it has been
   activated as a *tier1* project. Instead of upgrading, the user should request a new project for *tier2*.
@@ -191,7 +192,7 @@ Once the required payment has been sent, the project becomes
 curl http://<NODE-URL>/xrs/projects/<PROJECT-ID> \
       -X POST \
       -H "Content-Type: application/json" \
-      -H "Api-Key: <API-KEY>" 
+      -H "Api-Key: <API-KEY>" \
       -d '{"id": 1, "method": "get_project_stats", "params": []}' | jq
 ```
 <code class="api-call">get_project_stats</code>
@@ -258,7 +259,7 @@ The first step to cancel a project is to call the `cancel_project`
 curl http://<NODE-URL>/xrs/projects/<PROJECT-ID> \
       -X POST \
       -H "Content-Type: application/json" \
-      -H "Api-Key: <API-KEY>" 
+      -H "Api-Key: <API-KEY>" \
       -d '{"id": 1, "method": "cancel_project", "params": []}' | jq
 ```
 
