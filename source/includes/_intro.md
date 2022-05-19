@@ -371,18 +371,18 @@ Hydra is designed to allow anyone to potentially deploy and run a Hydra endpoint
 
 ### FAQ
 
-**Q**: How do I get started as a service provider?
+**Q**: How do I get started as a service provider?  
+**Q**: What kind of hardware is recommended as a service provider? 
 
-**A**: Have a look at the [Hydra Getting Started](#hydra-setup) section.
+**A**: Have a look at the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup/).
 
-**Q**: What kind of hardware is recommended as a service provider?
-
-**A**: All blockchains require different levels of hardware but for GETH support it is recommended minimum 8vCPU, 16GB RAM, SSD for archival node.
-
-**Q**: How are fees paid or collected?
-
-**A**: Hydra users will be able to send a request with a payment in ETH or aBLOCK to service nodes in return for a project ID and API-key. This allows developers to make requests to the Blocknet network based on how much they paid.
-
+**Q**: How are fees paid or collected?  
 **Q**: How do I get started as a developer?
 
 **A**: Have a look at the [Hydra API](#hydra-api) section
+
+## XQuery
+
+XQuery is the name of the Blocknet [Indexer](https://docs.blocknet.co/resources/glossary/#indexer). See the [XQuery API](/#xquery-api) to learn how to retrieve specific sets of blockchain data, defined in terms of an SQL query, from multiple [EVM](https://docs.blocknet.co/resources/glossary/#evm) blockchains, through the XQuery API.  
+<br>
+See the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup/) to learn about providing XQuery service on a Service Node.

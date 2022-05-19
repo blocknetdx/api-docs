@@ -315,7 +315,7 @@ JSON object of the structure of the current XQuery graph ---->
 On the right is a command line example using `curl` to request
 information from XQuery about the currently available GraphQL data types.
 
-> XQuery Sample Request - help/shema endpoint
+> XQuery Sample Request - help/schema endpoint
 
 <code class="api-call">help/schema</code>
 
@@ -431,7 +431,7 @@ data from ETH, AVAX, BSC, NEVM, FTM, etc... can be retrieved in a single query.
 curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer \
     -X POST \
     -H "Content-Type: application/json" \
-    -H "Api-Key: <API-KEY>" 
+    -H "Api-Key: <API-KEY>" \
     -d "{\"query\": \"query MyQuery { \
        xquery(where: {xquery_address_filter: {_eq: "Pegasys_Router"}}, order_by: {xquery_blocknumber: desc}, limit: 2) { \
         id \
