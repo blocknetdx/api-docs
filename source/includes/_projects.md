@@ -88,7 +88,7 @@ project_id      | string | The project ID of the project, referred to in this do
 ### Response Parameter Notes:
 - The *expiry_time* returned by a `request_project` call is the
   expiry time for full payment to be made, not the
-  expiration time of the project that will be initiated once payment is
+  expiration time of the project that will be activated once payment is
   made. The latter will always be one month in the future from the time payment is made.
 - If *null* is returned for the
 *payment_amount_tierX_aablock* values (or for the
@@ -150,32 +150,39 @@ doesn't matter on which chain the payment is made
 denominated in various cryptos such as ETH,
 [aBLOCK](https://docs.blocknet.co/blockchain/ablock/) and/or
 [aaBLOCK](https://docs.blocknet.co/blockchain/aablock/).
-- The [*expiry_time*](/#response-parameter-notes) for payment of the
-  project is 1 hr after `request_project` is called.
 - Payment to activate a project should be made for the exact amount indicated by
   one of the *payment_amount* parameters returned by the `request_project`
   call. Partial payment should *not* be sent.
+- The [*expiry_time*](/#response-parameter-notes) for payment to the
+  project is 1 hr after `request_project` is called. As soon as
+  `request_project` is called, the project status becomes
+  *pending*. The project status then changes according to the
+  following rules.
 - If a project receives a payment which is >= *tier1* amount, but <
-  *tier2* amount, and the payment is received before the *expiry_time* for payment, the project
-  status becomes *active*, the tier is set to *teir1*, and any
+  *tier2* amount, and the payment is received before the *expiry_time*
+  for payment, the project
+  status becomes *active*, the tier is set to *tier1*, and any
   difference between the amount received and the *tier1* amount is
   returned, minus gas fees. (Nothing will be returned if gas fees >=
   amount to be returned.)
-- If a project receives a payment which is >= *tier2* amount, and the payment is received before the *expiry_time* for payment, the project status becomes *active*, the tier is set to *teir2*, and any
+- If a project receives a payment which is >= *tier2* amount, and the payment is received before the *expiry_time* for payment, the project status becomes *active*, the tier is set to *tier2*, and any
   difference between the amount received and the *tier2* amount is
   returned, minus gas fees. (Nothing will be returned if gas fees >=
   amount to be returned.)
-- If a project receives no payment, or receives a payment which is < *tier1* amount, and the *expiry_time* for payment arrives, the project is *cancelled* and any amount
+- If a project receives no payment, or receives a payment which is <
+  *tier1* amount, and the *expiry_time* for payment is reached, the
+  project status changes to *cancelled* and any amount
   received prior to cancellation is returned, minus gas fees. (Nothing
   will be returned if gas fees >= amount to be returned.)
-- Once a project has been *cancelled*, any payments made to
-  that project will be returned, minus gas fees. (Nothing will be
+- If an *active* project was cancelled by the client via the [Project Cancellation
+  Protocol.](/#cancel-project), the project status changes to *cancelled*.
+- If a project was active, then expired due to the 1 month *expiration* time being
+  reached, or due to no API calls remaining, the project status
+  changes to *inactive*.
+- Only payments made to a project whose status is *pending* will be
+  accepted. Any payments made to a project whose status is *active*, *inactive*
+  or *cancelled* will be returned, minus gas fees. (Nothing will be
   returned if gas fees are greater than payments made.)
-- If a project was *active*, then became *inactive* due to
-  the project's 1 month *expiration* time being reached, or due to no
-  API calls remaining, any payments made to that project *after* it
-  became *inactive* will be returned, minus gas fees. (Nothing
-  will be returned if gas fees >= amount to be returned.)
 - A project cannot be upgrade from *tier1* to *tier2* once it has been
   activated as a *tier1* project. Instead of upgrading, the user should request a new project for *tier2*.
 
@@ -229,13 +236,13 @@ Parameter       | Type    | Description
 error          | integer  | Error code
 result          | object   | Object of the result.
 api_key      | string    | API Key of the project, referred to in this document as `<API-KEY>`.  
-status        | string    | *pending*, *active*, *inactive* or *cancelled*:<br><br>*pending* = "not yet paid, but `<PROJECT-ID>` and `<API-KEY>` have been created."<br><br>*active* = "paid and has API calls available."<br><br>*inactive* = "project was active, then expired due to *expiration* time being reached, or no API calls remaining."<br><br>*cancelled* = "*pending* project was cancelled due to insufficient payment received before *expiry_time* for payment, or *active* project was cancelled by the client via the [Project Cancellation Protocol.](/#cancel-project)"
+status        | string    | *pending*, *active*, *inactive* or *cancelled*:<br><br>*pending* = "not yet paid, but `<PROJECT-ID>` and `<API-KEY>` have been created."<br><br>*active* = "paid and has API calls available."<br><br>*inactive* = "project was active, then expired due to *expiration* time being reached, or due to no API calls remaining."<br><br>*cancelled* = "*pending* project was cancelled due to insufficient payment received before *expiry_time* for payment, or *active* project was cancelled by the client via the [Project Cancellation Protocol.](/#cancel-project)"
 tier            | integer | 0 if *status* is *pending*; 1 for tier1; 2 for tier2
 api_tokens | string | Initial number of API calls granted to the project  
 api_tokens_used | string | Number of API calls used in the project   
 api_tokens_remaining | string | Number of API calls remaining in the project   
-expiry_time | string | If *status* is *pending*, this parameter will display the time by which payment is due to prevent the project from being cancelled. if *status* is *active* or *inactive*, this parameter will display, "N/A" 
-expiration | string | If *status* is *pending*, this parameter will display, "N/A."  If *status* is *active* or *inactive*, this parameter will display the time when the project expires (or expired).
+expiry_time | string | If *status* is *pending*, this parameter will display the time by which payment is due to prevent the project from being cancelled. if *status* is other than *pending*, this parameter will display, "N/A" 
+expiration | string | If *status* is *pending* or *cancelled*, this parameter will display, "N/A."  If *status* is *active* or *inactive*, this parameter will display the time when the project expires (or expired).
 project_id      | string | The project ID of the project, referred to in this document as `<PROJECT-ID>`
 
 ### Cancel Project
