@@ -21,6 +21,9 @@ To do:
 reference: https://docs.pro.coinbase.com
 
 -->
+25/08/2022 |
+-----------|
+• Refined Projects API section |
 
 18/05/2022 |
 -----------|
