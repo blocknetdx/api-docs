@@ -21,6 +21,12 @@ To do:
 reference: https://docs.pro.coinbase.com
 
 -->
+28/09/2022 |
+-----------|
+• Replaced all occurences of api.blocknet.co with api.blocknet.org |
+• Replaced all occurences of docs.blocknet.co with docs.blocknet.org |
+• Updated README.md to reflect new publishing process |
+
 25/08/2022 |
 -----------|
 • Refined Projects API section |
