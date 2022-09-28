@@ -93,5 +93,5 @@ git add .
 git commit -m "publish changes"
 git push
 ```
-Note, if you don't have permissions to push to `master` branch of the api-docs repo, you'll need to push to a branch or fork of it, then make a pull Request to have your changes merged to `master` branch.
-Hint: If you haven't yet committed your changes to markdown (`.md`) files, and you want to review all your changes using git utilities like `git status` and `git diff`, you can exclude all the changes in the `docs` folder from being considered by these tools by temporarily adding `docs/` to the .gitignore file.
+Note, if you don't have permissions to push to `master` branch of the `api-docs` repo, you'll need to push to a branch or fork of it, then make a Pull Request to have your changes merged to `master` branch.<br><br>
+Hint: If you haven't yet committed your changes to markdown (`.md`) files, and you want to review all your changes using git utilities like `git status` and `git diff`, you can exclude all the changes in the `docs` folder from being considered by these tools by temporarily adding `docs/` to the `.gitignore` file.
