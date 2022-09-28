@@ -89,7 +89,7 @@ GraphQL data types
 
 GraphQL endpoint
 	http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer/
-	e.g. See https://api.blocknet.co/#indexer-example
+	e.g. See https://api.blocknet.org/#indexer-example
 ```
 
 The Response Body of a request to the *help* endpoint returns a list
@@ -600,7 +600,7 @@ such developers writing dApps in languages other than python.
 
 If the `<NODE-URL>` to which you're making queries has [enabled access
 to XQuery Hasura GUI
-Console](https://docs.blocknet.co/service-nodes/setup/#warning-only-expose-hasura-gui-xquery-port-to-restricted-hosts-if-ever),
+Console](https://docs.blocknet.org/service-nodes/setup/#warning-only-expose-hasura-gui-xquery-port-to-restricted-hosts-if-ever),
 you can access the XQuery Hasura GUI Console simply by navigating in a
 browser to __http://`<NODE-URL>`:8080/console__
 

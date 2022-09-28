@@ -22,7 +22,7 @@ of a request, as in the Hydra Authentication example in the right panel --->
 See [Authentication Error Codes](/#authentication-error-codes) for possible error codes and their meanings. 
  
 ## Make Hydra Requests
-[EVM](https://docs.blocknet.co/resources/glossary/#evm) JSON-RPC
+[EVM](https://docs.blocknet.org/resources/glossary/#evm) JSON-RPC
 requests are made via the `/xrs/evm_passthrough/<EVM>/<PROJECT-ID>`
 route. A JSON-RPC request should have a request body containing the
 `EVM JSON-RPC method` (string) and optionally `EVM JSON-RPC params` (string array).

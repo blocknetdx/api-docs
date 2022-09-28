@@ -10,9 +10,9 @@ toc_footers:
   - <a href="https://discord.gg/mZ6pTneMx3" target="_blank">Blocknet Discord</a>
   - <a href="https://github.com/blocknetdx/blocknet/blob/master/CONTRIBUTING.md" target="_blank">Blocknet Core - Contributing</a>
   - <a href="https://github.com/blocknetdx/blocknet" target="_blank">Blocknet Core - Github</a>
-  - <a href="https://docs.blocknet.co/" target="_blank">Documentation Portal</a>
+  - <a href="https://docs.blocknet.org/" target="_blank">Documentation Portal</a>
   - <a href="http://eepurl.com/c5OJMj" target="_blank">Developer Notifications</a>
-  - <a href="https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets" target="_blank">XBridge Compatible Blockchains</a>
+  - <a href="https://docs.blocknet.org/protocol/xbridge/compatibility/#supported-digital-assets" target="_blank">XBridge Compatible Blockchains</a>
   - <a href="https://service-explorer.core.cloudchainsinc.com/#/" target="_blank">XRouter Service Explorer</a>
 
 

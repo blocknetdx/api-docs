@@ -1,6 +1,6 @@
 # Blocknet API Documentation
 
-This repository contains the source code for Blocknet's [API documentation website](https://api.blocknet.co).
+This repository contains the source code for Blocknet's [API documentation website](https://api.blocknet.org).
 
 > Powered by [Slate Docs](https://github.com/lord/slate).
 
@@ -86,5 +86,5 @@ You can now see the docs at http://localhost:4567. This will reload automaticall
    * Docker to build `docker run --rm --name api-docs -v $(pwd)/build:/srv/api-docs/build -v $(pwd)/source:/srv/api-docs/source blocknetdx/api-docs:latest`
    * Docker windows `docker run --rm --name api-docs -v %cd%/build:/srv/api-docs/build -v %cd%/source:/srv/api-docs/source blocknetdx/api-docs:latest`
 1. Deploy `build/` contents to staging site for testing.
-1. Deploy `build/` contents to [https://api.blocknet.co/](https://api.blocknet.co/).
+1. Deploy `build/` contents to [https://api.blocknet.org/](https://api.blocknet.org/).
 

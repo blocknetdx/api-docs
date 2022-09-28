@@ -70,9 +70,9 @@ BLOCK is the utility token of the Blocknet blockchain and powers the Blocknet Pr
 
 ## Service Nodes
 
-The protocol is supported by a network of Service Nodes, which are similar to masternodes with an increased level of participation. Service Nodes host full nodes of the supported blockchains, host microservices, verify UTXOs, route communication between blockchains, participate in governance by voting, and perform anti-spam and anti-DOS measures for the network. Read more about Service Nodes [here](https://docs.blocknet.co/service-nodes/introduction).
+The protocol is supported by a network of Service Nodes, which are similar to masternodes with an increased level of participation. Service Nodes host full nodes of the supported blockchains, host microservices, verify UTXOs, route communication between blockchains, participate in governance by voting, and perform anti-spam and anti-DOS measures for the network. Read more about Service Nodes [here](https://docs.blocknet.org/service-nodes/introduction).
 
-Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.org/service-nodes/setup).
 
 
 
@@ -85,7 +85,7 @@ Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If y
 
 ## XBridge
 
-XBridge provides the ability to perform *true* trustless and decentralized exchanges between any digital asset that is supported by the Blocknet Protocol via APIs ([view list](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets)). When paired with XRouter, any application can perform exchanges between any compatible blockchains using a decentralized SPV implementation. Unlike every other "decentralized" exchange protocols, XBridge doesn't use derivatives (proxy tokens or colored coins), the entire process is done in a trustless manner, and it decentralizes the four components of an exchange: 
+XBridge provides the ability to perform *true* trustless and decentralized exchanges between any digital asset that is supported by the Blocknet Protocol via APIs ([view list](https://docs.blocknet.org/protocol/xbridge/compatibility/#supported-digital-assets)). When paired with XRouter, any application can perform exchanges between any compatible blockchains using a decentralized SPV implementation. Unlike every other "decentralized" exchange protocols, XBridge doesn't use derivatives (proxy tokens or colored coins), the entire process is done in a trustless manner, and it decentralizes the four components of an exchange: 
 
 * __Storage of Funds__ - Trading is non-custodial and occurs directly out of the client's wallet. Funds remain within the client's control throughout the entire process. 
 * __Order Books__ - Orders are broadcasted directly peer-to-peer over the network. Each client compiles the order book themselves instead of relying on a central order book service. All integrators and services on the protocol share the orderbook and liquidity. Currently there is just support for a public order book, but there are plans for private order books and direct trading as well.
@@ -245,7 +245,7 @@ XRouter provides the Blocknet Protocol with a communication layer consisting of 
 
 Since XRouter functions on the TCP/IP level, it is compatible with any network. This includes public and private DLT's from Bitcoin, to IOTA, to Hyperledger.
 
-Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.org/service-nodes/setup).
 
 
 ### XRouter Design
@@ -344,7 +344,7 @@ XCloud can be used to monetize any service with crypto payments without having t
 
 XCloud sits on top of, and is powered by, XRouter. Services are hosted by Service Nodes and operate in a similar manner as the full node SPV wallets. For further explanation, refer to [XRouter Design](#xrouter-design), [Namespacing](#namespace), [Fees](#xrouter-fees), and [XRouter Node Scoring](#xrouter-node-scoring). 
 
-Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+Service Nodes earn 100% of fees from XBridge, XRouter, and XCloud services. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.org/service-nodes/setup).
 
 
 ## Hydra
@@ -374,7 +374,7 @@ Hydra is designed to allow anyone to potentially deploy and run a Hydra endpoint
 **Q**: How do I get started as a service provider?  
 **Q**: What kind of hardware is recommended as a service provider? 
 
-**A**: Have a look at the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup/).
+**A**: Have a look at the [Service Node Setup Guide](https://docs.blocknet.org/service-nodes/setup/).
 
 **Q**: How are fees paid or collected?  
 **Q**: How do I get started as a developer?
@@ -383,6 +383,6 @@ Hydra is designed to allow anyone to potentially deploy and run a Hydra endpoint
 
 ## XQuery
 
-XQuery is the name of the Blocknet [Indexer](https://docs.blocknet.co/resources/glossary/#indexer). See the [XQuery API](/#xquery-api) to learn how to retrieve specific sets of blockchain data, defined in terms of an SQL query, from multiple [EVM](https://docs.blocknet.co/resources/glossary/#evm) blockchains, through the XQuery API.  
+XQuery is the name of the Blocknet [Indexer](https://docs.blocknet.org/resources/glossary/#indexer). See the [XQuery API](/#xquery-api) to learn how to retrieve specific sets of blockchain data, defined in terms of an SQL query, from multiple [EVM](https://docs.blocknet.org/resources/glossary/#evm) blockchains, through the XQuery API.  
 <br>
-See the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup/) to learn about providing XQuery service on a Service Node.
+See the [Service Node Setup Guide](https://docs.blocknet.org/service-nodes/setup/) to learn about providing XQuery service on a Service Node.

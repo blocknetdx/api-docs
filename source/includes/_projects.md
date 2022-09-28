@@ -11,7 +11,7 @@ through the Projects API. A project is assigned a `project_id` and an
 There will soon be a website which provides a list of
 Service Nodes (SNodes) supporting XQuery and/or
 Hydra services. This website will also provides details about which specific
-[EVM](https://docs.blocknet.co/resources/glossary/#evm) data services are supported by each
+[EVM](https://docs.blocknet.org/resources/glossary/#evm) data services are supported by each
 SNode.
 <br><br>
 The URL of this website will be posted here as soon as it's live.
@@ -132,7 +132,7 @@ Syscoin NEVM blockchain data is not available from `<NODE-URL>`.
 Ethereum blockchain, a *tier1* project only has access to the most
 recent 128 blocks of ETH data (a.k.a. non-archival ETH data) via the
 [Hydra API](/#hydra-api).
-- [Hydra API](/#hydra-api) access to other [EVMs](https://docs.blocknet.co/resources/glossary/#evm), like Avalanche or SYS NEVM, is not restricted for a *tier1* project.
+- [Hydra API](/#hydra-api) access to other [EVMs](https://docs.blocknet.org/resources/glossary/#evm), like Avalanche or SYS NEVM, is not restricted for a *tier1* project.
 
 ### *tier2
 - For [Hydra](/#hydra-api) projects: 
@@ -141,7 +141,7 @@ Ethereum blockchain, a *tier2* project has full access to all ETH
 archival data (i.e. ETH data from any block since the inception block) via the
 [Hydra API](/#hydra-api).
 - [Hydra API](/#hydra-api) access to other
-  [EVMs](https://docs.blocknet.co/resources/glossary/#evm), like
+  [EVMs](https://docs.blocknet.org/resources/glossary/#evm), like
   Avalanche or SYS NEVM, is not restricted for a *tier2* project.
 
 
@@ -169,8 +169,8 @@ operator of the SNode at `<NODE-URL>`.
 ### Payment Notes
 - The payment amounts are fixed in USD by the SNode operator, but
 denominated in various cryptos such as ETH,
-[aBLOCK](https://docs.blocknet.co/blockchain/ablock/),
-[aaBLOCK](https://docs.blocknet.co/blockchain/aablock/), sysBLOCK
+[aBLOCK](https://docs.blocknet.org/blockchain/ablock/),
+[aaBLOCK](https://docs.blocknet.org/blockchain/aablock/), sysBLOCK
 and/or wSYS.
 - Payment to activate a project should be made for *at least* the amount indicated by
   one of the *api_call_cost_* parameters returned by the `request_project`

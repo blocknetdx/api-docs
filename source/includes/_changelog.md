@@ -128,7 +128,7 @@ reference: https://docs.pro.coinbase.com
 
 7/12/2019   |
 ------------|
-• Updated [XBridge Setup](#xbridge-setup) to reference the guide in the [documentation portal](https://docs.blocknet.co/protocol/xbridge/setup) |
+• Updated [XBridge Setup](#xbridge-setup) to reference the guide in the [documentation portal](https://docs.blocknet.org/protocol/xbridge/setup) |
 • Added [ticker (2.0)](#ticker-2-0) call |
 
 
@@ -160,7 +160,7 @@ reference: https://docs.pro.coinbase.com
 3/5/2019    |
 ------------|
 • Updated links to Github to reflect change in repository names |
-• Updated link to [compatible blockchains](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) |
+• Updated link to [compatible blockchains](https://docs.blocknet.org/protocol/xbridge/compatibility/#supported-digital-assets) |
 • Updated XRouter [confirmations] to [node_count] |
 • Updated XRouter [block] to [block_number] |
 • Updated language from `token` to `asset`  |

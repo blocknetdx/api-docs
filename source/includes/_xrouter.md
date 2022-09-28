@@ -2193,7 +2193,7 @@ reply           | object  | The transaction hash of the sent transaction.
   "service": "BTCgetbestblockhash"
 }
 ```
-This call is used to send a request to an XCloud service. XCloud is a decentralized microservice cloud network powered by XRouter that allows for interaction with microservices, blockchains, APIs, and cloud tech that's hosted by Service Nodes. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+This call is used to send a request to an XCloud service. XCloud is a decentralized microservice cloud network powered by XRouter that allows for interaction with microservices, blockchains, APIs, and cloud tech that's hosted by Service Nodes. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.org/service-nodes/setup).
 
 
 ### Request Parameters
@@ -2251,7 +2251,7 @@ uuid            | string  | The response ID, which can be used to view this resp
   "service": "SYSgetbestblockhash"
 }
 ```
-This call is used to send a request to an XCloud service, along with a specified amount of nodes for consensus. XCloud is a decentralized microservice cloud network powered by XRouter that allows for interaction with microservices, blockchains, APIs, and cloud tech that's hosted by Service Nodes. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+This call is used to send a request to an XCloud service, along with a specified amount of nodes for consensus. XCloud is a decentralized microservice cloud network powered by XRouter that allows for interaction with microservices, blockchains, APIs, and cloud tech that's hosted by Service Nodes. If you'd like to operate your own Service Node, see the [Service Node Setup Guide](https://docs.blocknet.org/service-nodes/setup).
 
 
 ### Request Parameters

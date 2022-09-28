@@ -1603,7 +1603,7 @@ Code  | Type  | Error
   "granularity": 60
 }
 ```
-This call is used to retrieve the OHLCV data by trade pair for a specified time range and interval. It can return the order history for any [compatible asset](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) since all trade history is stored on-chain.
+This call is used to retrieve the OHLCV data by trade pair for a specified time range and interval. It can return the order history for any [compatible asset](https://docs.blocknet.org/protocol/xbridge/compatibility/#supported-digital-assets) since all trade history is stored on-chain.
 
 
 ### Request Parameters
@@ -2010,7 +2010,7 @@ Code  | Type  | Error
 
 ## dxGetNetworkTokens
 
-This call is used to retrieve all the assets currently supported by the network. This list may differ from the [compatibility list](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) due to assets being unofficially supported or assets not being supported by any nodes on the network.
+This call is used to retrieve all the assets currently supported by the network. This list may differ from the [compatibility list](https://docs.blocknet.org/protocol/xbridge/compatibility/#supported-digital-assets) due to assets being unofficially supported or assets not being supported by any nodes on the network.
 
 
 ### Request Parameters

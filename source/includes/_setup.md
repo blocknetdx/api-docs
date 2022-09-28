@@ -20,8 +20,8 @@ port=41412
 rpcport=41414
 ```
 
-1. [Download and install](https://docs.blocknet.co/wallet/installation) the [latest Blocknet wallet](https://github.com/blocknetdx/blocknet/releases/latest).
-1. Open the wallet, [encrypt it](https://docs.blocknet.co/wallet/encrypting), and [sync the blockchain](https://docs.blocknet.co/wallet/syncing).
+1. [Download and install](https://docs.blocknet.org/wallet/installation) the [latest Blocknet wallet](https://github.com/blocknetdx/blocknet/releases/latest).
+1. Open the wallet, [encrypt it](https://docs.blocknet.org/wallet/encrypting), and [sync the blockchain](https://docs.blocknet.org/wallet/syncing).
 	* A [bootstrap](https://github.com/blocknetdx/blocknet-blockchain-bootstrap) is also available for faster syncing.
 1. Compose `blocknet.conf` as seen in the sample on the right.
 1. Set an RPC username and password in `blocknet.conf`.
@@ -39,7 +39,7 @@ rpcport=41414
 
 ## XBridge Setup
 
-1. Follow the [XBridge Setup Guide](https://docs.blocknet.co/protocol/xbridge/setup).
+1. Follow the [XBridge Setup Guide](https://docs.blocknet.org/protocol/xbridge/setup).
 1. If you would just like to view orders without having the other wallets installed (view order books only, no trading), add `dxnowallets=1` to your `blocknet.conf` or `ShowAllOrders=true` to the header of your `xbridge.conf`.
 1. If any of the wallets are still open, they must be restarted in order to activate the new configurations.
 1. Open, sync, and unlock the Blocknet wallet, as well as whichever blockchains will be interacted with.
@@ -59,7 +59,7 @@ rpcport=41414
 
 ## XRouter Setup
 
-If you would like to operate a Service Node and monetize any microservice, blockchain, API, or cloud tech on your own hardware, in many cases without having to write any code, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+If you would like to operate a Service Node and monetize any microservice, blockchain, API, or cloud tech on your own hardware, in many cases without having to write any code, see the [Service Node Setup Guide](https://docs.blocknet.org/service-nodes/setup).
 
 > Sample blocknet.conf
 
@@ -120,7 +120,7 @@ maxfee=0.02
 
 ## XCloud Setup
 
-If you would like to operate a Service Node and monetize any microservice, blockchain, API, or cloud tech on your own hardware, in many cases without having to write any code, see the [Service Node Setup Guide](https://docs.blocknet.co/service-nodes/setup).
+If you would like to operate a Service Node and monetize any microservice, blockchain, API, or cloud tech on your own hardware, in many cases without having to write any code, see the [Service Node Setup Guide](https://docs.blocknet.org/service-nodes/setup).
 
 > Sample xrouter.conf
 

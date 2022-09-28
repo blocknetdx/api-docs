@@ -424,7 +424,7 @@ services        | string  | An array of services the Service Node is supporting.
 
 ## dxgetnetworktokens (web)
 
-This call is used to retrieve all the assets currently supported by the network for XBridge. This list may differ from the [compatibility list](https://docs.blocknet.co/protocol/xbridge/compatibility/#supported-digital-assets) due to assets being unofficially supported or assets not being supported by any nodes on the network.
+This call is used to retrieve all the assets currently supported by the network for XBridge. This list may differ from the [compatibility list](https://docs.blocknet.org/protocol/xbridge/compatibility/#supported-digital-assets) due to assets being unofficially supported or assets not being supported by any nodes on the network.
 
 
 ### Endpoint
