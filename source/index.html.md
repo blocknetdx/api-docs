@@ -7,7 +7,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
 wallet_version: 4.3.3
 
 toc_footers:
-  - <a href="https://discord.gg/T7AG8TK" target="_blank">Blocknet Discord</a>
+  - <a href="https://discord.gg/mZ6pTneMx3" target="_blank">Blocknet Discord</a>
   - <a href="https://github.com/blocknetdx/blocknet/blob/master/CONTRIBUTING.md" target="_blank">Blocknet Core - Contributing</a>
   - <a href="https://github.com/blocknetdx/blocknet" target="_blank">Blocknet Core - Github</a>
   - <a href="https://docs.blocknet.co/" target="_blank">Documentation Portal</a>
