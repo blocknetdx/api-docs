@@ -21,6 +21,10 @@ To do:
 reference: https://docs.pro.coinbase.com
 
 -->
+19/11/2022 |
+-----------|
+• Updated Projects API to acurately reflect implementation details of new payment processor design |
+
 28/09/2022 |
 -----------|
 • Replaced all occurences of api.blocknet.co with api.blocknet.org |
