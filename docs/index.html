@@ -846,25 +846,22 @@
                             <a href="#request_project" class="toc-h3 toc-link" data-title="request_project">request_project</a>
                           </li>
                           <li>
+                            <a href="#tier1" class="toc-h3 toc-link" data-title="*Tier1">*Tier1</a>
+                          </li>
+                          <li>
+                            <a href="#tier2" class="toc-h3 toc-link" data-title="*Tier2">*Tier2</a>
+                          </li>
+                          <li>
                             <a href="#response" class="toc-h3 toc-link" data-title="Response">Response</a>
                           </li>
                           <li>
                             <a href="#response-parameter-notes" class="toc-h3 toc-link" data-title="Response Parameter Notes:">Response Parameter Notes:</a>
                           </li>
                           <li>
-                            <a href="#tier1" class="toc-h3 toc-link" data-title="*tier1">*tier1</a>
-                          </li>
-                          <li>
-                            <a href="#tier2" class="toc-h3 toc-link" data-title="*tier2">*tier2</a>
-                          </li>
-                          <li>
-                            <a href="#project-details" class="toc-h3 toc-link" data-title="Project Details">Project Details</a>
-                          </li>
-                          <li>
                             <a href="#activate-project" class="toc-h3 toc-link" data-title="Activate Project">Activate Project</a>
                           </li>
                           <li>
-                            <a href="#payment-notes" class="toc-h3 toc-link" data-title="Payment Notes">Payment Notes</a>
+                            <a href="#project-details" class="toc-h3 toc-link" data-title="Project Details">Project Details</a>
                           </li>
                           <li>
                             <a href="#extend-project" class="toc-h3 toc-link" data-title="Extend Project">Extend Project</a>
@@ -10486,9 +10483,8 @@ SNode.
 <br><br>
 The URL of this website will be posted here as soon as it&#39;s live.
 <br><br>
-After choosing one of the SNodes from one of the above sites, make a
-note of the Service Node&#39;s IP address or URL (found in the <em>Host</em>
-column of the above sites). This Node URL will henceforth be referred
+After choosing one of the SNodes from the above-mentioned site, make a
+note of the Service Node&#39;s IP address or URL. This Node URL will henceforth be referred
 to as <code>&lt;NODE-URL&gt;</code> in this document.</p>
 <h2 id='request-and-activate-a-new-project'>Request and Activate A New Project</h2>
 <p>The next step after selecting an SNode as your XQuery/Hydra data provider is to
@@ -10522,15 +10518,47 @@ curl http://&lt;NODE-URL&gt;/xrs/projects <span class="se">\</span>
 </code></pre>
 <p><code class="api-call">request_project [XQuery] [Hydra] [Tier]</code></p>
 
-<p>This call takes optional parameters [XQuery] [Hydra] and/or [Tier]. If
-no parameters are passed, or if boolean param <em>XQuery</em> is passed with
-value <em>True</em>, an <a href="/#xquery-api">XQuery</a> project is requested. If
-XQuery param is passed as <em>True</em>, any <em>Hydra</em> or <em>Tier</em>
-param is ignored. Otherwise, if boolean
-param <em>Hydra</em> is passed with value <em>True</em>, a <a href="/#hydra-api">Hydra</a>
-project is requested and the <a href="/#tier1">Tier level</a> of the Hydra project is set
-according to the integer value passed as the <em>Tier</em> param. (Tier
-defaults to 1 if <em>Tier</em> param is not passed.)</p>
+<p>This call takes optional parameters [XQuery] [Hydra] and/or [Tier].<br>
+These parameters determine which kind of project is being requested.</p>
+
+<ul>
+<li>If no <em>Hydra</em> parameter is passed, an <a href="/#xquery-api">XQuery</a> project
+is requested.</li>
+<li>If boolean param <em>Hydra</em> is passed with
+value <em>True</em> and boolean param <em>XQuery</em> is also passed with
+value <em>True</em>, an error is returned (though a future release may allow
+a project to have both <em>XQuery</em> and <em>Hydra</em> access).</li>
+<li>If boolean param <em>Hydra</em> is passed with value <em>True</em> and boolean
+param <em>XQuery</em> is <em>not</em> passed with
+value <em>True</em>, a <a href="/#hydra-api">Hydra</a> project is requested and the <a href="/#tier1">Tier level</a> of the Hydra project is set according to the integer value passed as the <em>Tier</em> param. (Tier
+defaults to 1 if <em>Tier</em> param is not passed.)</li>
+<li>If the kind of project requested of an SNode is not supported by the SNode, an error is returned. For example, if an XQuery
+project is requested of an SNode which does not support XQuery, or
+if a Tier 2 Hydra project is requested of an SNode which does not
+support ETH access via <a href="/#hydra-api">Hydra</a>, an error is returned.</li>
+</ul>
+<h3 id='tier1'>*Tier1</h3>
+<p>(Only applies to <a href="/#hydra-api">Hydra</a> projects.) </p>
+
+<ul>
+<li>If <code>&lt;NODE-URL&gt;</code> hosts the
+Ethereum blockchain, a <em>tier1</em> <a href="/#hydra-api">Hydra</a> project only has access to the most
+recent 128 blocks of ETH data (a.k.a. non-archival ETH data) via the
+<a href="/#hydra-api">Hydra API</a>.</li>
+<li><a href="/#hydra-api">Hydra API</a> access to other <a href="https://docs.blocknet.org/resources/glossary/#evm">EVMs</a>, like Avalanche or SYS NEVM, is not restricted for a <em>tier1</em> project.</li>
+</ul>
+<h3 id='tier2'>*Tier2</h3>
+<p>(Only applies to <a href="/#hydra-api">Hydra</a> projects.) </p>
+
+<ul>
+<li>If <code>&lt;NODE-URL&gt;</code> hosts the
+Ethereum blockchain, a <em>tier2</em> <a href="/#hydra-api">Hydra</a> project has full access to all ETH
+archival data (i.e. ETH data from any block since the inception block) via the
+<a href="/#hydra-api">Hydra API</a>.</li>
+<li><a href="/#hydra-api">Hydra API</a> access to other
+<a href="https://docs.blocknet.org/resources/glossary/#evm">EVMs</a>, like
+Avalanche or SYS NEVM, is not restricted for a <em>tier2</em> project.</li>
+</ul>
 <h3 id='response'>Response</h3>
 <aside class="success">
 200 OK
@@ -10541,19 +10569,26 @@ defaults to 1 if <em>Tier</em> param is not passed.)</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"teCpyyqed45klJtR7LSEMPtGJO3PrIQv0S9H2oNDYeM"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"expiry_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-08-19 04:08:11 UTC"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_aablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.935193</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_ablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">21.875</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_eth"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.018457</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="mf">182.825524</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_wsys"</span><span class="p">:</span><span class="w"> </span><span class="mf">212.072371</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"payment_avax_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x2568F496962B87240C310978AFe84B75521bb55f"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"payment_eth_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xfB7F79DBcF9E58699D4744054281e3d223B766f0"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"payment_nevm_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x6Ea86E18b73d4b88A986f8f465FDEEefd0E762Cb"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9021a04c-dc04-433f-952a-5b8d5203a1bd"</span><span class="w">
+    </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"P3m8HKVT8xjqvVuDa3dMQPvblYFDyHU0BpLXu33lC6Q"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_aablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0448866189</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_aablock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.005680833333333334</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_ablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0041770833</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_ablock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.005346666666666667</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_avax"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0005160809</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_eth"</span><span class="p">:</span><span class="w"> </span><span class="mf">5.5585e-06</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0425569007</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_sysblock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.005680833333333334</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.006683333333333334</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_wsys"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.058075037</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payment_avax_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x82269041C8AF1B23eF50257f3FD15340e7d329EA"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payment_eth_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x570DB9e59e5895730FA5D888aa5A147bbc36113f"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payment_nevm_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x65753B07c2371AA34c3c5e62b714e731dBF5Ab41"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f0d833d4-a113-497b-9a2a-875382edb7dc"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quote_expiry_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-11-17 22:36:42 UTC"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quote_start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-11-17 21:36:42 UTC"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
+
 </span></code></pre>
 <table><thead>
 <tr>
@@ -10573,39 +10608,59 @@ defaults to 1 if <em>Tier</em> param is not passed.)</p>
 <td>API Key of the project, referred to in this document as <code>&lt;API-KEY&gt;</code>.</td>
 </tr>
 <tr>
-<td>expiry_time</td>
-<td>string</td>
-<td>Expiry time of Project request. Project is cancelled if minimum payment is not made by this time.</td>
-</tr>
-<tr>
-<td>api_call_cost_aablock</td>
+<td>min_amount_aablock</td>
 <td>number</td>
 <td>The cost of 1000 api calls in aaBLOCK. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
-<td>api_call_cost_ablock</td>
+<td>min_amount_aablock_usd</td>
+<td>number</td>
+<td>The cost of 1000 api calls in USD when paying with aaBLOCK.</td>
+</tr>
+<tr>
+<td>min_amount_ablock</td>
 <td>number</td>
 <td>The cost of 1000 api calls in aBLOCK. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
-<td>api_call_cost_sysblock</td>
+<td>min_amount_ablock_usd</td>
 <td>number</td>
-<td>The cost of 1000 api calls in sysBLOCK. If <em>null</em>, it means this payment option is not available.</td>
+<td>The cost of 1000 api calls in USD when paying with aBLOCK.</td>
 </tr>
 <tr>
-<td>api_call_cost_eth</td>
+<td>min_amount_avax</td>
+<td>number</td>
+<td>The cost of 1000 api calls in AVAX. If <em>null</em>, it means this payment option is not available.</td>
+</tr>
+<tr>
+<td>min_amount_eth</td>
 <td>number</td>
 <td>The cost of 1000 api calls in ETH. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
-<td>api_call_cost_wsys</td>
+<td>min_amount_sysblock</td>
+<td>number</td>
+<td>The cost of 1000 api calls in sysBLOCK. If <em>null</em>, it means this payment option is not available.</td>
+</tr>
+<tr>
+<td>min_amount_sysblock_usd</td>
+<td>number</td>
+<td>The cost of 1000 api calls in USD when paying with sysBLOCK.</td>
+</tr>
+<tr>
+<td>min_amount_usd</td>
+<td>number</td>
+<td>The cost of 1000 api calls in USD when paying with AVAX, ETH or wSYS.</td>
+</tr>
+<tr>
+<td>min_amount_wsys</td>
 <td>number</td>
 <td>The cost of 1000 api calls in wSYS. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
 <td>payment_avax_address</td>
 <td>string</td>
-<td>The Avalanche address to which payment should be sent if paying in ARC20 aaBLOCK (or in AVAX, if that option is added in the future).</td>
+<td>The Avalanche address to which payment should be sent if paying in ARC20 aaBLOCK or in AVAX.</td>
 </tr>
 <tr>
 <td>payment_eth_address</td>
@@ -10622,43 +10677,72 @@ defaults to 1 if <em>Tier</em> param is not passed.)</p>
 <td>string</td>
 <td>The project ID of the project, referred to in this document as <code>&lt;PROJECT-ID&gt;</code></td>
 </tr>
+<tr>
+<td>quote_expiry_time</td>
+<td>string</td>
+<td>Expiry time (in UTC) of price quotes returned by the <code>request_project</code> call. Payments made after this time only receive half the normal number of api calls. Currently set to 1 hour after <em>quote_start_time</em>. See <a href="/#extend-project">extend_project</a> to learn about fetching new price quotes and extending <em>quote_expiry_time</em>.</td>
+</tr>
+<tr>
+<td>quote_start_time</td>
+<td>string</td>
+<td>Time (in UTC) when <code>request_project</code> was called.</td>
+</tr>
 </tbody></table>
 <h3 id='response-parameter-notes'>Response Parameter Notes:</h3>
 <ul>
-<li>The <em>expiry_time</em> returned by a <code>request_project</code> call is the
-expiry time for minimum payment to be made.</li>
+<li>The <code>min_amount_&lt;coin&gt;</code> values represent two things:
+
+<ol>
+<li>The minimum amount of <code>&lt;coin&gt;</code> that needs to be sent to activate
+the project.</li>
+<li>The cost of 1000 api calls denominated in <code>&lt;coin&gt;</code>.</li>
+</ol></li>
 <li>If <em>null</em> is returned for the
-<em>api_call_cost_aablock</em> value (or for the
-<em>api_call_cost_avax</em> value if/when it&#39;s added), it means
+<em>min_amount_aablock</em> value, or for the
+<em>min_amount_avax</em> value, it means
 Avalanche blockchain data is not available from <code>&lt;NODE-URL&gt;</code>.</li>
 <li>If <em>null</em> is returned for the
-<em>api_call_cost_ablock</em> value, or for the
-<em>api_call_cost_eth</em> value, it means
+<em>min_amount_ablock</em> value, or for the
+<em>min_amount_eth</em> value, it means
 Ethereum blockchain data is not available from <code>&lt;NODE-URL&gt;</code>.</li>
 <li>If <em>null</em> is returned for the
-<em>api_call_cost_sysblock</em> value, or for the
-<em>api_call_cost_wsys</em> value, it means
+<em>min_amount_sysblock</em> value, or for the
+<em>min_amount_wsys</em> value, it means
 Syscoin NEVM blockchain data is not available from <code>&lt;NODE-URL&gt;</code>.</li>
 </ul>
-<h3 id='tier1'>*tier1</h3>
+<h3 id='activate-project'>Activate Project</h3>
+<p>Once a new project has been requested and a response has been
+received, the next step is to activate the project by sending payment.</p>
+
 <ul>
-<li>For <a href="/#hydra-api">Hydra</a> projects:</li>
-<li>If <code>&lt;NODE-URL&gt;</code> hosts the
-Ethereum blockchain, a <em>tier1</em> project only has access to the most
-recent 128 blocks of ETH data (a.k.a. non-archival ETH data) via the
-<a href="/#hydra-api">Hydra API</a>.</li>
-<li><a href="/#hydra-api">Hydra API</a> access to other <a href="https://docs.blocknet.org/resources/glossary/#evm">EVMs</a>, like Avalanche or SYS NEVM, is not restricted for a <em>tier1</em> project.</li>
-</ul>
-<h3 id='tier2'>*tier2</h3>
-<ul>
-<li>For <a href="/#hydra-api">Hydra</a> projects: </li>
-<li>If <code>&lt;NODE-URL&gt;</code> hosts the
-Ethereum blockchain, a <em>tier2</em> project has full access to all ETH
-archival data (i.e. ETH data from any block since the inception block) via the
-<a href="/#hydra-api">Hydra API</a>.</li>
-<li><a href="/#hydra-api">Hydra API</a> access to other
-<a href="https://docs.blocknet.org/resources/glossary/#evm">EVMs</a>, like
-Avalanche or SYS NEVM, is not restricted for a <em>tier2</em> project.</li>
+<li>To activate the project returned by the <code>request_project</code> call,
+send a payment amount sufficient to purchase 1000 or more api
+calls. The payment does <em>not</em> need to be sent in a single
+transaction. As soon as the total amount of <code>&lt;coin&gt;</code> sent is &gt;= <code>min_amount_&lt;coin&gt;</code>, the project is activated.  (See <a href="/#response">Response Parameters</a> for details.)</li>
+<li>The number of api calls awarded for payments sent <em>before</em> <em>quote_expiry_time</em> is calculated as:<br>
+1000 x <em>payment amount</em> / <em>cost of 1000 api calls</em>.<br></li>
+<li>The number of api calls awarded for payments sent <em>after</em> <em>quote_expiry_time</em> is half the normal amount and is calculated as:<br>
+1000 x <em>payment amount</em> / <em>cost of 1000 api calls</em> / 2.<br>
+See <a href="/#extend-project">extend_project</a> to learn about fetching new price quotes and extending <em>quote_expiry_time</em>.</li>
+<li>There is no maximum number of api calls which can be purchased. </li>
+<li>It doesn&#39;t matter on which chain the payment is made, or which currency
+is used to make the payment (e.g. ETH, aBLOCK, AVAX, aaBLOCK, wSYS, sysBLOCK); an <em>active</em> project is an <em>active</em> project.</li>
+<li>Send payment to the payment address corresponding to the currency in which payment is being made. (See <a href="/#response">Response Parameters</a> for details.) </li>
+<li>The cost per 1000 api calls is determined by <a href="/#request-and-activate-a-new-project">which kind of project is requested</a>, and by the
+operator of the SNode at <code>&lt;NODE-URL&gt;</code>.</li>
+<li>The payment amounts are fixed in USD by the SNode operator, but
+denominated in various cryptos such as ETH,
+<a href="https://docs.blocknet.org/blockchain/ablock/">aBLOCK</a>, AVAX, 
+<a href="https://docs.blocknet.org/blockchain/aablock/">aaBLOCK</a>, wSYS
+and/or sysBLOCK. The <code>min_amount_usd</code> price is the USD price fixed by
+the SNode operator for payments made in ETH, AVAX or wSYS. The
+<code>min_amount_ablock_usd</code>, <code>min_amount_aablock_usd</code>, and
+<code>min_amount_sysblock_usd</code> prices are the USD prices fixed by the SNode
+operator for payments made in <code>ablock</code>, <code>aablock</code> and <code>sysblock</code>,
+respectively. These 3 fixed USD prices are often discounted by the SNode
+operator compared to <code>min_amount_usd</code> to encourage clients to pay in
+some form of <code>BLOCK</code> token. All these USD prices are provided only for
+reference; there is no option to pay in USD.</li>
 </ul>
 <h3 id='project-details'>Project Details</h3>
 <ul>
@@ -10667,78 +10751,21 @@ as 1 API call and deducts 1 from the total remaining API calls in
 the project.</li>
 <li>There is no expiration time for a project. A project remains active
 until all api calls have been used, or until the user or the SNode operator <a href="/#cancel-project">cancels the project</a>.</li>
-</ul>
-<h3 id='activate-project'>Activate Project</h3>
-<ul>
-<li>To activate the project returned by the <code>request_project</code> call,
-send a minimum payment sufficient to purchase 1000 api calls or
-more before the <a href="/#response-parameter-notes"><em>expiry_time</em></a>. (See <a href="/#response">Response Parameters</a> for details.)</li>
-<li>There is no maximum number of api calls which can be purchased.</li>
-<li>The number of api calls awarded is simply 1000 x <em>payment amount</em> /
-<em>cost of 1000 api calls</em>. (See <a href="/#response">Response Parameters</a>
-for details.)</li>
-<li>It doesn&#39;t matter on which chain the payment is made, or which currency
-is used to make the payment (e.g. ETH, aBLOCK, aaBLOCK, sysBLOCK, wSYS); an <em>active</em> project is an <em>active</em> project.</li>
-<li>Send payment to the payment address corresponding to the currency in which payment is being made. (See <a href="/#response">Response Parameters</a> for details.) </li>
-<li>The cost per 1000 api calls is determined by <a href="/#request-and-activate-a-new-project">which kind of project is requested</a>, and by the
-operator of the SNode at <code>&lt;NODE-URL&gt;</code>.</li>
-</ul>
-<h3 id='payment-notes'>Payment Notes</h3>
-<ul>
-<li>The payment amounts are fixed in USD by the SNode operator, but
-denominated in various cryptos such as ETH,
-<a href="https://docs.blocknet.org/blockchain/ablock/">aBLOCK</a>,
-<a href="https://docs.blocknet.org/blockchain/aablock/">aaBLOCK</a>, sysBLOCK
-and/or wSYS.</li>
-<li>Payment to activate a project should be made for <em>at least</em> the amount indicated by
-one of the <em>api_call_cost_</em> parameters returned by the <code>request_project</code>
-call. Partial payment should <em>not</em> be sent.</li>
-<li>The <a href="/#response-parameter-notes"><em>expiry_time</em></a>for payment to the
-project is 1 hr after <code>request_project</code> is called. As soon as
-<code>request_project</code> is called, the project status becomes
-<em>pending</em>. The project status then changes according to the
-following rules.</li>
-<li>If a project receives a payment which is &gt;= the
-<em>api_call_cost_</em> parameter, and the payment is received before the <em>expiry_time</em>
-for payment, the project status becomes <em>active</em>.</li>
-<li>If a project receives no payment, or receives a payment which is
-less than the <em>api_call_cost_</em> parameter, and the <em>expiry_time</em> for payment is reached, the
-project status changes to <em>cancelled</em>.</li>
-<li>If an <em>active</em> project was cancelled by the client via the <a href="/#cancel-project">Project Cancellation
-Protocol</a>, the project status changes to <em>user_cancelled</em>.</li>
-<li>If a project was <em>active</em>, then expired due to no API calls remaining, the project status
-changes to <em>inactive</em>.</li>
-<li>There are only two conditions under which payments made to a project
-will be accepted. Any payment made to a project
-which does not meet either of these two conditions will be returned, minus gas fees. (Nothing will be
-returned if gas fees are greater than payment made.) The two
-conditions  under which payment can be made to a project are:
-
-<ol>
-<li>The project status is <em>pending</em></li>
-<li>The project status is <em>active</em> and the
- <a href="/#extend-project">extend_project</a> method has been called for the project within the last 1 hour.</li>
-</ol></li>
-<li>To change a project&#39;s status from <em>inactive</em>, <em>cancelled</em> or
-<em>user_cancelled</em> to <em>pending</em>, and thus make it eligible to receive
-a payment to purchase new api calls, call the
-<a href="/#extend-project">extend_project</a> method.</li>
 <li>A project cannot be upgrade or changed from XQuery to Hydra, or from
 <em>tier1</em> to <em>tier2</em>. Instead of upgrading, the user should request a new project, passing the
 appropriate parameters to request the <a href="/#request-and-activate-a-new-project">kind of project desired.</a></li>
 </ul>
 <h3 id='extend-project'>Extend Project</h3>
-<p>The <code>extend_project</code> method allows the user to do one of two things:</p>
-
-<ol>
-<li>Extend a project already in the <em>active</em> state by getting a quote for the
-purchase of more api calls and setting a new
-<a href="/#response-parameter-notes"><em>expiry_time</em></a> for making the payment.</li>
-<li>Revive a project from an <em>inactive</em>, <em>cancelled</em> or
-<em>user_cancelled</em> state and place it in a <em>pending</em> state. Once in
-the <em>pending</em> state, the project is eligible to receive
-a payment to purchase new api calls within the new <a href="/#response-parameter-notes"><em>expiry_time</em></a>.</li>
-</ol>
+<p>The <code>extend_project</code> method should be called if the
+<a href="/#response"><em>quote_expiry_time</em></a> has passed and the client
+wants to purchase more api calls for the project. <code>extend_project</code>
+simply fetches new price quotes for
+the purchase of api calls and extends the
+<a href="/#response"><em>quote_expiry_time</em></a> to 1 hour in the future from when
+it is called. This allows the client to
+receive full api call credit for payments they send. (Payments
+sent after <em>quote_expiry_time</em> only receive half the normal number of
+api calls).</p>
 
 <p>The <code>extend_project</code> method works very much like the
 <a href="/#request_project"><code>request_project</code></a>  method, the main
@@ -10775,17 +10802,23 @@ request a new project.</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"teCpyyqed45klJtR7LSEMPtGJO3PrIQv0S9H2oNDYeM"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"expiry_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-08-19 04:08:11 UTC"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_aablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.935193</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_ablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">21.875</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_eth"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.018457</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="mf">182.825524</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_wsys"</span><span class="p">:</span><span class="w"> </span><span class="mf">212.072371</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"payment_avax_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x2568F496962B87240C310978AFe84B75521bb55f"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"payment_eth_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xfB7F79DBcF9E58699D4744054281e3d223B766f0"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"payment_nevm_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x6Ea86E18b73d4b88A986f8f465FDEEefd0E762Cb"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9021a04c-dc04-433f-952a-5b8d5203a1bd"</span><span class="w">
+    </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"P3m8HKVT8xjqvVuDa3dMQPvblYFDyHU0BpLXu33lC6Q"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_aablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0448866189</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_aablock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.005680833333333334</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_ablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0041770833</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_ablock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.005346666666666667</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_avax"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0005160809</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_eth"</span><span class="p">:</span><span class="w"> </span><span class="mf">5.5641e-06</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0425569007</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_sysblock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.005680833333333334</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.006683333333333334</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_wsys"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.058075037</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payment_avax_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x82269041C8AF1B23eF50257f3FD15340e7d329EA"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payment_eth_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x570DB9e59e5895730FA5D888aa5A147bbc36113f"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payment_nevm_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x65753B07c2371AA34c3c5e62b714e731dBF5Ab41"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f0d833d4-a113-497b-9a2a-875382edb7dc"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quote_expiry_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-11-17 23:04:46 UTC"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quote_start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-11-17 22:04:46 UTC"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -10807,39 +10840,59 @@ request a new project.</p>
 <td>API Key of the project, referred to in this document as <code>&lt;API-KEY&gt;</code>.</td>
 </tr>
 <tr>
-<td>expiry_time</td>
-<td>string</td>
-<td>Expiry time of Project request. Project is cancelled if minimum payment is not made by this time.</td>
-</tr>
-<tr>
-<td>api_call_cost_aablock</td>
+<td>min_amount_aablock</td>
 <td>number</td>
 <td>The cost of 1000 api calls in aaBLOCK. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
-<td>api_call_cost_ablock</td>
+<td>min_amount_aablock_usd</td>
+<td>number</td>
+<td>The cost of 1000 api calls in USD when paying with aaBLOCK.</td>
+</tr>
+<tr>
+<td>min_amount_ablock</td>
 <td>number</td>
 <td>The cost of 1000 api calls in aBLOCK. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
-<td>api_call_cost_sysblock</td>
+<td>min_amount_ablock_usd</td>
 <td>number</td>
-<td>The cost of 1000 api calls in sysBLOCK. If <em>null</em>, it means this payment option is not available.</td>
+<td>The cost of 1000 api calls in USD when paying with aBLOCK.</td>
 </tr>
 <tr>
-<td>api_call_cost_eth</td>
+<td>min_amount_avax</td>
+<td>number</td>
+<td>The cost of 1000 api calls in AVAX. If <em>null</em>, it means this payment option is not available.</td>
+</tr>
+<tr>
+<td>min_amount_eth</td>
 <td>number</td>
 <td>The cost of 1000 api calls in ETH. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
-<td>api_call_cost_wsys</td>
+<td>min_amount_sysblock</td>
+<td>number</td>
+<td>The cost of 1000 api calls in sysBLOCK. If <em>null</em>, it means this payment option is not available.</td>
+</tr>
+<tr>
+<td>min_amount_sysblock_usd</td>
+<td>number</td>
+<td>The cost of 1000 api calls in USD when paying with sysBLOCK.</td>
+</tr>
+<tr>
+<td>min_amount_usd</td>
+<td>number</td>
+<td>The cost of 1000 api calls in USD when paying with AVAX, ETH or wSYS.</td>
+</tr>
+<tr>
+<td>min_amount_wsys</td>
 <td>number</td>
 <td>The cost of 1000 api calls in wSYS. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
 <td>payment_avax_address</td>
 <td>string</td>
-<td>The Avalanche address to which payment should be sent if paying in ARC20 aaBLOCK (or in AVAX, if that option is added in the future).</td>
+<td>The Avalanche address to which payment should be sent if paying in ARC20 aaBLOCK or in AVAX.</td>
 </tr>
 <tr>
 <td>payment_eth_address</td>
@@ -10856,12 +10909,21 @@ request a new project.</p>
 <td>string</td>
 <td>The project ID of the project, referred to in this document as <code>&lt;PROJECT-ID&gt;</code></td>
 </tr>
+<tr>
+<td>quote_expiry_time</td>
+<td>string</td>
+<td>Expiry time (in UTC) of price quotes returned by the <code>extend_project</code> call. Payments made after this time only receive half the normal number of api calls. Currently set to 1 hour after <em>quote_start_time</em>.</td>
+</tr>
+<tr>
+<td>quote_start_time</td>
+<td>string</td>
+<td>Time (in UTC) when <code>extend_project</code> was called.</td>
+</tr>
 </tbody></table>
 <h3 id='get-project-stats'>Get Project Stats</h3>
-<p>Once the required payment has been sent, the project becomes
-<em>active</em>. The client can check to confirm the project has become
-<em>active</em>, and gather other statistics about the project, by calling the
-<code>get_project_stats</code> method as in the example in the right panel ----&gt;</p>
+<p>Any time after a project comes into existence via a call to
+<a href="#request_project">request_project</a>, the client can retrieve all details/statistics
+about the project by calling the <code>get_project_stats</code> method, as in the example in the right panel ----&gt;</p>
 
 <blockquote>
 <p>Sample Request</p>
@@ -10886,29 +10948,36 @@ request a new project.</p>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
   </span><span class="s2">"result"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"api_call_cost_aablock"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.86627"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_ablock"</span><span class="p">:</span><span class="w"> </span><span class="s2">"21.875"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_eth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.020989"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="s2">"173.773455"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_call_cost_wsys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"201.573425"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"amount_aablock"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1.86627"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"amount_ablock"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"amount_eth"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"amount_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"amount_wsys"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ng-qQKiKT2T5FGY5Ba_P9Cb3I-fj_ZC04slMbijnmeQ"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_tokens"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6000000"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_tokens_remaining"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6000000"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"api_tokens_used"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"avax_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x6b3757aA176F594B1bB7806Fea9A4Ec6E4fA5808"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"eth_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x22fea657760Bbae0c0b76e46ff0e7821A01BE8Ef"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"expiry_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-08-17 19:27:21 UTC"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"nevm_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x9118e4076E1878Aaf84CbD7EcA78cE3cfa98b80C"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"244c7f0c-d845-44f5-af9a-c572bdd023d9"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"project_type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XQuery"</span><span class="p">,</span><span class="w"> 
-    </span><span class="s2">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-08-17 18:27:21 UTC"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"tier"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w">
+    </span><span class="s2">"Hydra"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"XQuery"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amount_aablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.05</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amount_ablock"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amount_avax"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amount_eth"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amount_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amount_wsys"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XiZYv7K0ef71i4cUU407DKv1_ByybhvqxJyu81TA9LM"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_tokens"</span><span class="p">:</span><span class="w"> </span><span class="mi">2310</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_tokens_remaining"</span><span class="p">:</span><span class="w"> </span><span class="mi">2308</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"api_tokens_used"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_aablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0378651247</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_aablock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0049299999999999995</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_ablock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.003625</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_ablock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.00464</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_avax"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0004462401</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_eth"</span><span class="p">:</span><span class="w"> </span><span class="mf">4.7566e-06</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0377980662</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_sysblock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0049299999999999995</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0058</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_wsys"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0515807728</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payment_avax_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xDE2856f36570E3129518774dc9aC6E1eCB5dE33C"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payment_eth_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xa3b6Cf8d9Dd98d9F937d1147A1E75aa1EfA8B951"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"payment_nevm_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x5a68D16C16807746FBa2E9b28818FA299f50C37A"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"project_id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c0aebddb-f918-457f-ac77-26d557a6fc8b"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quote_expiry_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-11-20 02:07:04 UTC"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"quote_start_time"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2022-11-20 01:07:04 UTC"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active_open"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"tier"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
@@ -10930,54 +10999,44 @@ request a new project.</p>
 <td>Object of the result.</td>
 </tr>
 <tr>
-<td>api_call_cost_aablock</td>
-<td>number</td>
-<td>The cost of 1000 api calls in aaBLOCK. If <em>null</em>, it means this payment option is not available.</td>
+<td>Hydra</td>
+<td>bool</td>
+<td><em>True</em> if this project gives access to the <a href="#hydra-api">Hydra API</a> ; <em>False</em> otherwise</td>
 </tr>
 <tr>
-<td>api_call_cost_ablock</td>
-<td>number</td>
-<td>The cost of 1000 api calls in aBLOCK. If <em>null</em>, it means this payment option is not available.</td>
-</tr>
-<tr>
-<td>api_call_cost_sysblock</td>
-<td>number</td>
-<td>The cost of 1000 api calls in sysBLOCK. If <em>null</em>, it means this payment option is not available.</td>
-</tr>
-<tr>
-<td>api_call_cost_eth</td>
-<td>number</td>
-<td>The cost of 1000 api calls in ETH. If <em>null</em>, it means this payment option is not available.</td>
-</tr>
-<tr>
-<td>api_call_cost_wsys</td>
-<td>number</td>
-<td>The cost of 1000 api calls in wSYS. If <em>null</em>, it means this payment option is not available.</td>
+<td>XQuery</td>
+<td>bool</td>
+<td><em>True</em> if this project gives access to the <a href="#xquery-api">XQuery API</a> ; <em>False</em> otherwise</td>
 </tr>
 <tr>
 <td>amount_aablock</td>
-<td>string</td>
-<td>most recent amount of aaBLOCK recieved by <code>&lt;NODE-URL&gt;</code>.</td>
+<td>number</td>
+<td>current amount of aaBLOCK recieved by <code>&lt;NODE-URL&gt;</code>. *</td>
 </tr>
 <tr>
 <td>amount_ablock</td>
-<td>string</td>
-<td>most recent amount of aBLOCK recieved by <code>&lt;NODE-URL&gt;</code>.</td>
+<td>number</td>
+<td>current amount of aBLOCK recieved by <code>&lt;NODE-URL&gt;</code>. *</td>
+</tr>
+<tr>
+<td>amount_avax</td>
+<td>number</td>
+<td>current amount of AVAX recieved by <code>&lt;NODE-URL&gt;</code>. *</td>
 </tr>
 <tr>
 <td>amount_eth</td>
-<td>string</td>
-<td>most recent amount of eth recieved by <code>&lt;NODE-URL&gt;</code>.</td>
+<td>number</td>
+<td>current amount of ETH recieved by <code>&lt;NODE-URL&gt;</code>. *</td>
 </tr>
 <tr>
 <td>amount_sysblock</td>
-<td>string</td>
-<td>most recent amount of sysBLOCK recieved by <code>&lt;NODE-URL&gt;</code>.</td>
+<td>number</td>
+<td>current amount of sysBLOCK recieved by <code>&lt;NODE-URL&gt;</code>. *</td>
 </tr>
 <tr>
 <td>amount_wsys</td>
-<td>string</td>
-<td>most recent amount of wSYS recieved by <code>&lt;NODE-URL&gt;</code>.</td>
+<td>number</td>
+<td>current amount of wSYS recieved by <code>&lt;NODE-URL&gt;</code>. *</td>
 </tr>
 <tr>
 <td>api_key</td>
@@ -10986,36 +11045,81 @@ request a new project.</p>
 </tr>
 <tr>
 <td>api_tokens</td>
-<td>string</td>
+<td>number</td>
 <td>Total number of API calls granted to the project</td>
 </tr>
 <tr>
 <td>api_tokens_remaining</td>
-<td>string</td>
+<td>number</td>
 <td>Number of API calls remaining in the project</td>
 </tr>
 <tr>
 <td>api_tokens_used</td>
-<td>string</td>
+<td>number</td>
 <td>Number of API calls used in the project</td>
 </tr>
 <tr>
-<td>avax_address</td>
-<td>string</td>
-<td>The Avalanche address to which payment should be sent if paying in ARC20 aaBLOCK (or in AVAX, if that option is added in the future).</td>
+<td>min_amount_aablock</td>
+<td>number</td>
+<td>The cost of 1000 api calls in aaBLOCK. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
-<td>eth_address</td>
+<td>min_amount_aablock_usd</td>
+<td>number</td>
+<td>The cost of 1000 api calls in USD when paying with aaBLOCK.</td>
+</tr>
+<tr>
+<td>min_amount_ablock</td>
+<td>number</td>
+<td>The cost of 1000 api calls in aBLOCK. If <em>null</em>, it means this payment option is not available.</td>
+</tr>
+<tr>
+<td>min_amount_ablock_usd</td>
+<td>number</td>
+<td>The cost of 1000 api calls in USD when paying with aBLOCK.</td>
+</tr>
+<tr>
+<td>min_amount_avax</td>
+<td>number</td>
+<td>The cost of 1000 api calls in AVAX. If <em>null</em>, it means this payment option is not available.</td>
+</tr>
+<tr>
+<td>min_amount_eth</td>
+<td>number</td>
+<td>The cost of 1000 api calls in ETH. If <em>null</em>, it means this payment option is not available.</td>
+</tr>
+<tr>
+<td>min_amount_sysblock</td>
+<td>number</td>
+<td>The cost of 1000 api calls in sysBLOCK. If <em>null</em>, it means this payment option is not available.</td>
+</tr>
+<tr>
+<td>min_amount_sysblock_usd</td>
+<td>number</td>
+<td>The cost of 1000 api calls in USD when paying with sysBLOCK.</td>
+</tr>
+<tr>
+<td>min_amount_usd</td>
+<td>number</td>
+<td>The cost of 1000 api calls in USD when paying with AVAX, ETH or wSYS.</td>
+</tr>
+<tr>
+<td>min_amount_wsys</td>
+<td>number</td>
+<td>The cost of 1000 api calls in wSYS. If <em>null</em>, it means this payment option is not available.</td>
+</tr>
+<tr>
+<td>payment_avax_address</td>
+<td>string</td>
+<td>The Avalanche address to which payment should be sent if paying in ARC20 aaBLOCK or in AVAX.</td>
+</tr>
+<tr>
+<td>payment_eth_address</td>
 <td>string</td>
 <td>The Ethereum address to which payment should be sent if paying in ERC20 aBLOCK or in ETH.</td>
 </tr>
 <tr>
-<td>expiry_time</td>
-<td>string</td>
-<td>If <em>status</em> is <em>pending</em>, or if <em>status</em> is <em>active</em> and <a href="/#extend-project">extend_project</a> has been called within the last 1 hour, this parameter will display the time at which quoted api call costs expire. If quoted api call costs have already expired, this parameter will display the time when they expired.</td>
-</tr>
-<tr>
-<td>nevm_address</td>
+<td>payment_nevm_address</td>
 <td>string</td>
 <td>The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in wSYS.</td>
 </tr>
@@ -11025,30 +11129,36 @@ request a new project.</p>
 <td>The project ID of the project, referred to in this document as <code>&lt;PROJECT-ID&gt;</code></td>
 </tr>
 <tr>
-<td>project_type</td>
+<td>quote_expiry_time</td>
 <td>string</td>
-<td><em>XQuery</em> if project is an XQuery project; <em>Hydra</em> if project is a Hydra project.</td>
+<td>Expiry time (in UTC) of price quotes returned by the most recent <code>request_project</code> or <code>extend_project</code> call. Payments made after this time only receive half the normal number of api calls. Currently set to 1 hour after <em>quote_start_time</em>. See <a href="/#extend-project">extend_project</a> to learn about fetching new price quotes and extending <em>quote_expiry_time</em>.</td>
 </tr>
 <tr>
-<td>start_time</td>
+<td>quote_start_time</td>
 <td>string</td>
-<td>The time when the <code>request_project</code> method first created this project.</td>
+<td>Time (in UTC) when the most recent call to <code>request_project</code>  or <code>extend_project</code> was made for this project.</td>
 </tr>
 <tr>
 <td>status</td>
 <td>string</td>
-<td><em>pending</em>, <em>active</em>, <em>inactive</em>, <em>cancelled</em> or <em>user_cancelled</em>:<br><br><em>pending</em> = &quot;not yet paid, but <code>&lt;PROJECT-ID&gt;</code> and <code>&lt;API-KEY&gt;</code> have been created.&quot;<br><br><em>active</em> = &quot;paid and has API calls remaining.&quot;<br><br><em>inactive</em> = &quot;project was active, then expired due to no API calls remaining.&quot;<br><br><em>cancelled</em> = &quot;<em>pending</em> project was cancelled due to insufficient payment received before <em>expiry_time</em> for payment.&quot;<br><br><em>user_cancelled</em> = <em>active</em> project was cancelled by the client via the <a href="/#cancel-project">Project Cancellation Protocol.</a>&quot;</td>
+<td><em>pending</em>, <em>active</em>, <em>active_open</em>, <em>inactive</em>, <em>cancelled</em> or <em>user_cancelled</em>:<br><br><em>pending</em> = &quot;project is not active and <em>quote_expiry_time</em> has not yet been reached.&quot;<br><br><em>active</em> = &quot;sufficient payment has been made to activate the project, it has API calls remaining, and <em>quote_expiry_time</em> has been reached.&quot;<br><br><em>active_open</em> = &quot;project is active and <em>quote_expiry_time</em> has not yet been reached.&quot;<br><br><em>inactive</em> = &quot;project was active, then became inactive due to no API calls remaining.&quot;<br><br><em>cancelled</em> = &quot;<em>pending</em> project was cancelled due to insufficient payment received to activate the project before <em>quote_expiry_time</em>.&quot;<br><br><em>user_cancelled</em> = <em>active</em> project was cancelled by the client via the <a href="/#cancel-project">Project Cancellation Protocol.</a>&quot;</td>
 </tr>
 <tr>
 <td>tier</td>
 <td>integer</td>
-<td>0 if <em>status</em> is <em>pending</em> or if project_type is <em>Hydra</em>; 1 for tier1 Hydra project; 2 for tier2 Hydra project</td>
+<td>0 if <em>Hydra</em> parameter is <em>False</em> ; 1 for a tier1 Hydra project; 2 for a tier2 Hydra project</td>
 </tr>
 </tbody></table>
-<h3 id='cancel-project'>Cancel Project</h3>
-<p><em>(coming soon, but maybe not for the first release of the Projects API.)</em></p>
 
-<p>If at any time a client who has an active project wishes to cancel
+<p><code>*</code> The <code>amount_&lt;coin&gt;</code> parameters represent the <em>current</em> amount of
+  <code>&lt;coin&gt;</code> received by <code>&lt;NODE-URL&gt;</code>. This value will increase as the
+  client sends more <code>&lt;coin&gt;</code> and decrease as the SNode operator
+  withdraws <code>&lt;coin&gt;</code> from the account.</p>
+<h3 id='cancel-project'>Cancel Project</h3>
+<p><em>(coming soon; this feature will require smart contract payment channels to be
+implemented.)</em></p>
+
+<p>If at any time a client who has an active (or active_open) project wishes to cancel
 that project, the client can do so by following the procedure below. When a
 client cancels a project, a pro rata refund amount is returned to
 the client. The pro rata refund amount is calculated from the initial
@@ -11056,11 +11166,9 @@ amount paid, the inital number of API tokens awarded, and the number
 of API tokens remaining at the time of cancellation. Cancelling a
 project is a two-step process.</p>
 <h4 id='first-step-to-cancel-project'>First Step to Cancel Project</h4>
-<p><em>(coming soon, but maybe not for the first release of the Projects
-API.)</em></p>
+<p><em>(coming soon.)</em></p>
 <h4 id='second-step-to-cancel-project'>Second Step to Cancel Project</h4>
-<p><em>(coming soon, but maybe not for the first release of the Projects
-API.)</em></p>
+<p><em>(coming soon.)</em></p>
 
 <p>You should now receive your pro rata refund. If you want to check
    the status of your project to confirm it was
@@ -19927,6 +20035,16 @@ To do:
 reference: https://docs.pro.coinbase.com
 
 -->
+
+<table><thead>
+<tr>
+<th>19/11/2022</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>• Updated Projects API to acurately reflect implementation details of new payment processor design</td>
+</tr>
+</tbody></table>
 
 <table><thead>
 <tr>
