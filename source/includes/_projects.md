@@ -439,7 +439,7 @@ Error Code  | Error Name  | Message
 1 | MISSING_API_KEY | API_KEY header missing or project-id missing.
 2 | MISSING_PROJECT_ID  | Missing project-id in url.
 3 | PROJECT_NOT_EXIST | Bad API_KEY or project-id does not exist.
-4 | PROJECT_EXPIRED | Project has expired. Please request a new project and api key.
+4 | PROJECT_NOT_SUPPORTED | Project kind not supported by Service Node.
 5 | API_TOKENS_EXCEEDED | API calls exceeded!
 6 | MISSING_PAYMENT | Payment not received yet. Please submit payment or wait until payment confirms.
 7 | API_KEY_DISABLED | API key is disabled.
@@ -502,11 +502,11 @@ error        | number | Authentication error code.
 401 Unauthorized
 </aside>
 
-> ApiError PROJECT_EXPIRED
+> ApiError PROJECT_NOT_SUPPORTED
 
 ```shell
 {
-  "message": "Project has expired. Please request a new project and api key",
+  "message": "Project kind not supported by Service Node.",
   "error": 4
 }
 ```
