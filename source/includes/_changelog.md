@@ -21,6 +21,10 @@ To do:
 reference: https://docs.pro.coinbase.com
 
 -->
+29/11/2022 |
+-----------|
+• Change all references of wsys to sys and wSYS to SYS |
+
 19/11/2022 |
 -----------|
 • Updated Projects API to acurately reflect implementation details of new payment processor design |
