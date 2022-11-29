@@ -10579,7 +10579,7 @@ Avalanche or SYS NEVM, is not restricted for a <em>tier2</em> project.</li>
     </span><span class="s2">"min_amount_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0425569007</span><span class="p">,</span><span class="w">
     </span><span class="s2">"min_amount_sysblock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.005680833333333334</span><span class="p">,</span><span class="w">
     </span><span class="s2">"min_amount_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.006683333333333334</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"min_amount_wsys"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.058075037</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_sys"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.058075037</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payment_avax_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x82269041C8AF1B23eF50257f3FD15340e7d329EA"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payment_eth_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x570DB9e59e5895730FA5D888aa5A147bbc36113f"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payment_nevm_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x65753B07c2371AA34c3c5e62b714e731dBF5Ab41"</span><span class="p">,</span><span class="w">
@@ -10650,12 +10650,12 @@ Avalanche or SYS NEVM, is not restricted for a <em>tier2</em> project.</li>
 <tr>
 <td>min_amount_usd</td>
 <td>number</td>
-<td>The cost of 1000 api calls in USD when paying with AVAX, ETH or wSYS.</td>
+<td>The cost of 1000 api calls in USD when paying with AVAX, ETH or SYS.</td>
 </tr>
 <tr>
-<td>min_amount_wsys</td>
+<td>min_amount_sys</td>
 <td>number</td>
-<td>The cost of 1000 api calls in wSYS. If <em>null</em>, it means this payment option is not available.</td>
+<td>The cost of 1000 api calls in SYS. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
 <td>payment_avax_address</td>
@@ -10670,7 +10670,7 @@ Avalanche or SYS NEVM, is not restricted for a <em>tier2</em> project.</li>
 <tr>
 <td>payment_nevm_address</td>
 <td>string</td>
-<td>The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in wSYS.</td>
+<td>The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in SYS.</td>
 </tr>
 <tr>
 <td>project_id</td>
@@ -10707,7 +10707,7 @@ Avalanche blockchain data is not available from <code>&lt;NODE-URL&gt;</code>.</
 Ethereum blockchain data is not available from <code>&lt;NODE-URL&gt;</code>.</li>
 <li>If <em>null</em> is returned for the
 <em>min_amount_sysblock</em> value, or for the
-<em>min_amount_wsys</em> value, it means
+<em>min_amount_sys</em> value, it means
 Syscoin NEVM blockchain data is not available from <code>&lt;NODE-URL&gt;</code>.</li>
 </ul>
 <h3 id='activate-project'>Activate Project</h3>
@@ -10726,16 +10726,16 @@ transaction. As soon as the total amount of <code>&lt;coin&gt;</code> sent is &g
 See <a href="/#extend-project">extend_project</a> to learn about fetching new price quotes and extending <em>quote_expiry_time</em>.</li>
 <li>There is no maximum number of api calls which can be purchased. </li>
 <li>It doesn&#39;t matter on which chain the payment is made, or which currency
-is used to make the payment (e.g. ETH, aBLOCK, AVAX, aaBLOCK, wSYS, sysBLOCK); an <em>active</em> project is an <em>active</em> project.</li>
+is used to make the payment (e.g. ETH, aBLOCK, AVAX, aaBLOCK, SYS, sysBLOCK); an <em>active</em> project is an <em>active</em> project.</li>
 <li>Send payment to the payment address corresponding to the currency in which payment is being made. (See <a href="/#response">Response Parameters</a> for details.) </li>
 <li>The cost per 1000 api calls is determined by <a href="/#request-and-activate-a-new-project">which kind of project is requested</a>, and by the
 operator of the SNode at <code>&lt;NODE-URL&gt;</code>.</li>
 <li>The payment amounts are fixed in USD by the SNode operator, but
 denominated in various cryptos such as ETH,
 <a href="https://docs.blocknet.org/blockchain/ablock/">aBLOCK</a>, AVAX, 
-<a href="https://docs.blocknet.org/blockchain/aablock/">aaBLOCK</a>, wSYS
+<a href="https://docs.blocknet.org/blockchain/aablock/">aaBLOCK</a>, SYS
 and/or sysBLOCK. The <code>min_amount_usd</code> price is the USD price fixed by
-the SNode operator for payments made in ETH, AVAX or wSYS. The
+the SNode operator for payments made in ETH, AVAX or SYS. The
 <code>min_amount_ablock_usd</code>, <code>min_amount_aablock_usd</code>, and
 <code>min_amount_sysblock_usd</code> prices are the USD prices fixed by the SNode
 operator for payments made in <code>ablock</code>, <code>aablock</code> and <code>sysblock</code>,
@@ -10812,7 +10812,7 @@ request a new project.</p>
     </span><span class="s2">"min_amount_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0425569007</span><span class="p">,</span><span class="w">
     </span><span class="s2">"min_amount_sysblock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.005680833333333334</span><span class="p">,</span><span class="w">
     </span><span class="s2">"min_amount_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.006683333333333334</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"min_amount_wsys"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.058075037</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_sys"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.058075037</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payment_avax_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x82269041C8AF1B23eF50257f3FD15340e7d329EA"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payment_eth_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x570DB9e59e5895730FA5D888aa5A147bbc36113f"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payment_nevm_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x65753B07c2371AA34c3c5e62b714e731dBF5Ab41"</span><span class="p">,</span><span class="w">
@@ -10882,12 +10882,12 @@ request a new project.</p>
 <tr>
 <td>min_amount_usd</td>
 <td>number</td>
-<td>The cost of 1000 api calls in USD when paying with AVAX, ETH or wSYS.</td>
+<td>The cost of 1000 api calls in USD when paying with AVAX, ETH or SYS.</td>
 </tr>
 <tr>
-<td>min_amount_wsys</td>
+<td>min_amount_sys</td>
 <td>number</td>
-<td>The cost of 1000 api calls in wSYS. If <em>null</em>, it means this payment option is not available.</td>
+<td>The cost of 1000 api calls in SYS. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
 <td>payment_avax_address</td>
@@ -10902,7 +10902,7 @@ request a new project.</p>
 <tr>
 <td>payment_nevm_address</td>
 <td>string</td>
-<td>The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in wSYS.</td>
+<td>The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in SYS.</td>
 </tr>
 <tr>
 <td>project_id</td>
@@ -10955,7 +10955,7 @@ about the project by calling the <code>get_project_stats</code> method, as in th
     </span><span class="s2">"amount_avax"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0005</span><span class="p">,</span><span class="w">
     </span><span class="s2">"amount_eth"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"amount_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"amount_wsys"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"amount_sys"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
     </span><span class="s2">"api_key"</span><span class="p">:</span><span class="w"> </span><span class="s2">"XiZYv7K0ef71i4cUU407DKv1_ByybhvqxJyu81TA9LM"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"api_tokens"</span><span class="p">:</span><span class="w"> </span><span class="mi">2310</span><span class="p">,</span><span class="w">
     </span><span class="s2">"api_tokens_remaining"</span><span class="p">:</span><span class="w"> </span><span class="mi">2308</span><span class="p">,</span><span class="w">
@@ -10969,7 +10969,7 @@ about the project by calling the <code>get_project_stats</code> method, as in th
     </span><span class="s2">"min_amount_sysblock"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0377980662</span><span class="p">,</span><span class="w">
     </span><span class="s2">"min_amount_sysblock_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0049299999999999995</span><span class="p">,</span><span class="w">
     </span><span class="s2">"min_amount_usd"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0058</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"min_amount_wsys"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0515807728</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"min_amount_sys"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0515807728</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payment_avax_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xDE2856f36570E3129518774dc9aC6E1eCB5dE33C"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payment_eth_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xa3b6Cf8d9Dd98d9F937d1147A1E75aa1EfA8B951"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"payment_nevm_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x5a68D16C16807746FBa2E9b28818FA299f50C37A"</span><span class="p">,</span><span class="w">
@@ -11034,9 +11034,9 @@ about the project by calling the <code>get_project_stats</code> method, as in th
 <td>current amount of sysBLOCK recieved by <code>&lt;NODE-URL&gt;</code>. *</td>
 </tr>
 <tr>
-<td>amount_wsys</td>
+<td>amount_sys</td>
 <td>number</td>
-<td>current amount of wSYS recieved by <code>&lt;NODE-URL&gt;</code>. *</td>
+<td>current amount of SYS recieved by <code>&lt;NODE-URL&gt;</code>. *</td>
 </tr>
 <tr>
 <td>api_key</td>
@@ -11101,12 +11101,12 @@ about the project by calling the <code>get_project_stats</code> method, as in th
 <tr>
 <td>min_amount_usd</td>
 <td>number</td>
-<td>The cost of 1000 api calls in USD when paying with AVAX, ETH or wSYS.</td>
+<td>The cost of 1000 api calls in USD when paying with AVAX, ETH or SYS.</td>
 </tr>
 <tr>
-<td>min_amount_wsys</td>
+<td>min_amount_sys</td>
 <td>number</td>
-<td>The cost of 1000 api calls in wSYS. If <em>null</em>, it means this payment option is not available.</td>
+<td>The cost of 1000 api calls in SYS. If <em>null</em>, it means this payment option is not available.</td>
 </tr>
 <tr>
 <td>payment_avax_address</td>
@@ -11121,7 +11121,7 @@ about the project by calling the <code>get_project_stats</code> method, as in th
 <tr>
 <td>payment_nevm_address</td>
 <td>string</td>
-<td>The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in wSYS.</td>
+<td>The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in SYS.</td>
 </tr>
 <tr>
 <td>project_id</td>
@@ -20035,6 +20035,16 @@ To do:
 reference: https://docs.pro.coinbase.com
 
 -->
+
+<table><thead>
+<tr>
+<th>29/11/2022</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>• Change all references of wsys to sys and wSYS to SYS</td>
+</tr>
+</tbody></table>
 
 <table><thead>
 <tr>

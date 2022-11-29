@@ -117,7 +117,7 @@ archival data (i.e. ETH data from any block since the inception block) via the
     "min_amount_sysblock": 0.0425569007,
     "min_amount_sysblock_usd": 0.005680833333333334,
     "min_amount_usd": 0.006683333333333334,
-    "min_amount_wsys": 0.058075037,
+    "min_amount_sys": 0.058075037,
     "payment_avax_address": "0x82269041C8AF1B23eF50257f3FD15340e7d329EA",
     "payment_eth_address": "0x570DB9e59e5895730FA5D888aa5A147bbc36113f",
     "payment_nevm_address": "0x65753B07c2371AA34c3c5e62b714e731dBF5Ab41",
@@ -141,11 +141,11 @@ min_amount_avax | number | The cost of 1000 api calls in AVAX. If *null*, it mea
 min_amount_eth | number | The cost of 1000 api calls in ETH. If *null*, it means this payment option is not available.
 min_amount_sysblock | number | The cost of 1000 api calls in sysBLOCK. If *null*, it means this payment option is not available.
 min_amount_sysblock_usd | number | The cost of 1000 api calls in USD when paying with sysBLOCK.  
-min_amount_usd | number | The cost of 1000 api calls in USD when paying with AVAX, ETH or wSYS. 
-min_amount_wsys | number | The cost of 1000 api calls in wSYS. If *null*, it means this payment option is not available.   
+min_amount_usd | number | The cost of 1000 api calls in USD when paying with AVAX, ETH or SYS. 
+min_amount_sys | number | The cost of 1000 api calls in SYS. If *null*, it means this payment option is not available.   
 payment_avax_address | string     | The Avalanche address to which payment should be sent if paying in ARC20 aaBLOCK or in AVAX.
 payment_eth_address | string     | The Ethereum address to which payment should be sent if paying in ERC20 aBLOCK or in ETH.  
-payment_nevm_address | string     | The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in wSYS. 
+payment_nevm_address | string     | The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in SYS. 
 project_id      | string | The project ID of the project, referred to in this document as `<PROJECT-ID>`
 quote_expiry_time     | string    | Expiry time (in UTC) of price quotes returned by the `request_project` call. Payments made after this time only receive half the normal number of api calls. Currently set to 1 hour after *quote_start_time*. See [extend_project](/#extend-project) to learn about fetching new price quotes and extending *quote_expiry_time*.
 quote_start_time     | string    | Time (in UTC) when `request_project` was called.
@@ -165,7 +165,7 @@ Avalanche blockchain data is not available from `<NODE-URL>`.
 Ethereum blockchain data is not available from `<NODE-URL>`.
 - If *null* is returned for the
 *min_amount_sysblock* value, or for the
-*min_amount_wsys* value, it means
+*min_amount_sys* value, it means
 Syscoin NEVM blockchain data is not available from `<NODE-URL>`.
 
 ### Activate Project
@@ -183,16 +183,16 @@ transaction. As soon as the total amount of `<coin>` sent is >= `min_amount_<coi
 See [extend_project](/#extend-project) to learn about fetching new price quotes and extending *quote_expiry_time*.
 - There is no maximum number of api calls which can be purchased. 
 - It doesn't matter on which chain the payment is made, or which currency
-is used to make the payment (e.g. ETH, aBLOCK, AVAX, aaBLOCK, wSYS, sysBLOCK); an *active* project is an *active* project.
+is used to make the payment (e.g. ETH, aBLOCK, AVAX, aaBLOCK, SYS, sysBLOCK); an *active* project is an *active* project.
 - Send payment to the payment address corresponding to the currency in which payment is being made. (See [Response Parameters](/#response) for details.) 
 - The cost per 1000 api calls is determined by [which kind of project is requested](/#request-and-activate-a-new-project), and by the
 operator of the SNode at `<NODE-URL>`.
 - The payment amounts are fixed in USD by the SNode operator, but
 denominated in various cryptos such as ETH,
 [aBLOCK](https://docs.blocknet.org/blockchain/ablock/), AVAX, 
-[aaBLOCK](https://docs.blocknet.org/blockchain/aablock/), wSYS
+[aaBLOCK](https://docs.blocknet.org/blockchain/aablock/), SYS
 and/or sysBLOCK. The `min_amount_usd` price is the USD price fixed by
-the SNode operator for payments made in ETH, AVAX or wSYS. The
+the SNode operator for payments made in ETH, AVAX or SYS. The
 `min_amount_ablock_usd`, `min_amount_aablock_usd`, and
 `min_amount_sysblock_usd` prices are the USD prices fixed by the SNode
 operator for payments made in `ablock`, `aablock` and `sysblock`,
@@ -270,7 +270,7 @@ This call does not take parameters.
     "min_amount_sysblock": 0.0425569007,
     "min_amount_sysblock_usd": 0.005680833333333334,
     "min_amount_usd": 0.006683333333333334,
-    "min_amount_wsys": 0.058075037,
+    "min_amount_sys": 0.058075037,
     "payment_avax_address": "0x82269041C8AF1B23eF50257f3FD15340e7d329EA",
     "payment_eth_address": "0x570DB9e59e5895730FA5D888aa5A147bbc36113f",
     "payment_nevm_address": "0x65753B07c2371AA34c3c5e62b714e731dBF5Ab41",
@@ -293,11 +293,11 @@ min_amount_avax | number | The cost of 1000 api calls in AVAX. If *null*, it mea
 min_amount_eth | number | The cost of 1000 api calls in ETH. If *null*, it means this payment option is not available.
 min_amount_sysblock | number | The cost of 1000 api calls in sysBLOCK. If *null*, it means this payment option is not available.
 min_amount_sysblock_usd | number | The cost of 1000 api calls in USD when paying with sysBLOCK.  
-min_amount_usd | number | The cost of 1000 api calls in USD when paying with AVAX, ETH or wSYS. 
-min_amount_wsys | number | The cost of 1000 api calls in wSYS. If *null*, it means this payment option is not available.   
+min_amount_usd | number | The cost of 1000 api calls in USD when paying with AVAX, ETH or SYS. 
+min_amount_sys | number | The cost of 1000 api calls in SYS. If *null*, it means this payment option is not available.   
 payment_avax_address | string     | The Avalanche address to which payment should be sent if paying in ARC20 aaBLOCK or in AVAX.
 payment_eth_address | string     | The Ethereum address to which payment should be sent if paying in ERC20 aBLOCK or in ETH.  
-payment_nevm_address | string     | The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in wSYS. 
+payment_nevm_address | string     | The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in SYS. 
 project_id      | string | The project ID of the project, referred to in this document as `<PROJECT-ID>`
 quote_expiry_time     | string    | Expiry time (in UTC) of price quotes returned by the `extend_project` call. Payments made after this time only receive half the normal number of api calls. Currently set to 1 hour after *quote_start_time*.
 quote_start_time     | string    | Time (in UTC) when `extend_project` was called. 
@@ -339,7 +339,7 @@ This call does not take parameters.
     "amount_avax": 0.0005,
     "amount_eth": 0,
     "amount_sysblock": 0,
-    "amount_wsys": 0,
+    "amount_sys": 0,
     "api_key": "XiZYv7K0ef71i4cUU407DKv1_ByybhvqxJyu81TA9LM",
     "api_tokens": 2310,
     "api_tokens_remaining": 2308,
@@ -353,7 +353,7 @@ This call does not take parameters.
     "min_amount_sysblock": 0.0377980662,
     "min_amount_sysblock_usd": 0.0049299999999999995,
     "min_amount_usd": 0.0058,
-    "min_amount_wsys": 0.0515807728,
+    "min_amount_sys": 0.0515807728,
     "payment_avax_address": "0xDE2856f36570E3129518774dc9aC6E1eCB5dE33C",
     "payment_eth_address": "0xa3b6Cf8d9Dd98d9F937d1147A1E75aa1EfA8B951",
     "payment_nevm_address": "0x5a68D16C16807746FBa2E9b28818FA299f50C37A",
@@ -376,7 +376,7 @@ amount_ablock | number | current amount of aBLOCK recieved by `<NODE-URL>`. *
 amount_avax | number | current amount of AVAX recieved by `<NODE-URL>`. *
 amount_eth | number | current amount of ETH recieved by `<NODE-URL>`. *
 amount_sysblock | number | current amount of sysBLOCK recieved by `<NODE-URL>`. *
-amount_wsys | number | current amount of wSYS recieved by `<NODE-URL>`. *
+amount_sys | number | current amount of SYS recieved by `<NODE-URL>`. *
 api_key      | string    | API Key of the project, referred to in this document as `<API-KEY>`.   
 api_tokens | number | Total number of API calls granted to the project  
 api_tokens_remaining | number | Number of API calls remaining in the project   
@@ -389,11 +389,11 @@ min_amount_avax | number | The cost of 1000 api calls in AVAX. If *null*, it mea
 min_amount_eth | number | The cost of 1000 api calls in ETH. If *null*, it means this payment option is not available.
 min_amount_sysblock | number | The cost of 1000 api calls in sysBLOCK. If *null*, it means this payment option is not available.
 min_amount_sysblock_usd | number | The cost of 1000 api calls in USD when paying with sysBLOCK.  
-min_amount_usd | number | The cost of 1000 api calls in USD when paying with AVAX, ETH or wSYS. 
-min_amount_wsys | number | The cost of 1000 api calls in wSYS. If *null*, it means this payment option is not available.   
+min_amount_usd | number | The cost of 1000 api calls in USD when paying with AVAX, ETH or SYS. 
+min_amount_sys | number | The cost of 1000 api calls in SYS. If *null*, it means this payment option is not available.   
 payment_avax_address | string     | The Avalanche address to which payment should be sent if paying in ARC20 aaBLOCK or in AVAX.
 payment_eth_address | string     | The Ethereum address to which payment should be sent if paying in ERC20 aBLOCK or in ETH.  
-payment_nevm_address | string     | The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in wSYS. 
+payment_nevm_address | string     | The Syscoin NEVM address to which payment should be sent if paying in SYS-ERC20 sysBLOCK or in SYS. 
 project_id      | string | The project ID of the project, referred to in this document as `<PROJECT-ID>` 
 quote_expiry_time     | string    | Expiry time (in UTC) of price quotes returned by the most recent `request_project` or `extend_project` call. Payments made after this time only receive half the normal number of api calls. Currently set to 1 hour after *quote_start_time*. See [extend_project](/#extend-project) to learn about fetching new price quotes and extending *quote_expiry_time*.
 quote_start_time     | string    | Time (in UTC) when the most recent call to `request_project`  or `extend_project` was made for this project.
