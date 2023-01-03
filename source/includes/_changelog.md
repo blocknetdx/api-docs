@@ -21,6 +21,10 @@ To do:
 reference: https://docs.pro.coinbase.com
 
 -->
+3/1/2023 |
+-----------|
+• Update XQuery API from XQ v1 to XQ v2 |
+ 
 29/11/2022 |
 -----------|
 • Change all references of wsys to sys and wSYS to SYS |

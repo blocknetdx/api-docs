@@ -892,24 +892,38 @@
                     <a href="#xquery-authentication" class="toc-h2 toc-link" data-title="xquery-authentication">XQuery Authentication</a>
                   </li>
                   <li>
-                    <a href="#make-xquery-requests" class="toc-h2 toc-link" data-title="make-xquery-requests">Make XQuery Requests</a>
+                    <a href="#introspection-database-schema-queries" class="toc-h2 toc-link" data-title="introspection-database-schema-queries">Introspection: Database Schema Queries</a>
                       <ul class="toc-list-h3">
                           <li>
-                            <a href="#help-example" class="toc-h3 toc-link" data-title="help example">help example</a>
+                            <a href="#all-types-and-their-descriptions" class="toc-h3 toc-link" data-title="All Types And Their Descriptions">All Types And Their Descriptions</a>
                           </li>
                           <li>
-                            <a href="#help-graph-example" class="toc-h3 toc-link" data-title="help/graph example">help/graph example</a>
+                            <a href="#all-available-queries-and-their-descriptions" class="toc-h3 toc-link" data-title="All Available Queries And Their Descriptions">All Available Queries And Their Descriptions</a>
                           </li>
                           <li>
-                            <a href="#help-schema-example" class="toc-h3 toc-link" data-title="help/schema example">help/schema example</a>
+                            <a href="#digging-deeper-into-the-schema" class="toc-h3 toc-link" data-title="Digging Deeper Into The Schema">Digging Deeper Into The Schema</a>
                           </li>
                           <li>
-                            <a href="#indexer-example" class="toc-h3 toc-link" data-title="indexer example">indexer example</a>
+                            <a href="#query-for-which-fields-are-in-xgraph_psys_state-object" class="toc-h3 toc-link" data-title="Query For Which Fields Are In xgraph_psys_state Object">Query For Which Fields Are In xgraph_psys_state Object</a>
                           </li>
                       </ul>
                   </li>
                   <li>
-                    <a href="#xquery-python-example-xq-py" class="toc-h2 toc-link" data-title="xquery-python-example-xq-py">XQuery Python Example: xq.py</a>
+                    <a href="#query-for-data" class="toc-h2 toc-link" data-title="query-for-data">Query For Data</a>
+                      <ul class="toc-list-h3">
+                          <li>
+                            <a href="#query-all-fields-in-xgraph_psys_state-object" class="toc-h3 toc-link" data-title="Query All Fields In xgraph_psys_state Object">Query All Fields In xgraph_psys_state Object</a>
+                          </li>
+                          <li>
+                            <a href="#query-with-conditions-all-fields-in-xgraph_psys_state-object" class="toc-h3 toc-link" data-title="Query With Conditions All Fields In xgraph_psys_state Object">Query With Conditions All Fields In xgraph_psys_state Object</a>
+                          </li>
+                          <li>
+                            <a href="#query-for-3-largest-wavax-usdc-token-swaps-on-pangolin-exchange" class="toc-h3 toc-link" data-title="Query For 3 Largest WAVAX-USDC Token Swaps On Pangolin Exchange">Query For 3 Largest WAVAX-USDC Token Swaps On Pangolin Exchange</a>
+                          </li>
+                      </ul>
+                  </li>
+                  <li>
+                    <a href="#xquery-python-example-xq-py-upgrade-to-xquery-v2-coming-soon" class="toc-h2 toc-link" data-title="xquery-python-example-xq-py-upgrade-to-xquery-v2-coming-soon">XQuery Python Example: xq.py (upgrade to XQuery v2 coming soon)</a>
                   </li>
                   <li>
                     <a href="#xquery-hasura-gui-console" class="toc-h2 toc-link" data-title="xquery-hasura-gui-console">XQuery Hasura GUI Console</a>
@@ -11446,44 +11460,50 @@ of a request. See examples below for details on how these values are
 included in XQuery requests.
 <br>
 See <a href="/#authentication-error-codes">Authentication Error Codes</a> for possible error codes and their meanings. </p>
-<h2 id='make-xquery-requests'>Make XQuery Requests</h2><h3 id='help-example'>help example</h3>
-<p>On the right is a command line example using <code>curl</code> to request <em>help</em>
-from XQuery about which endpoints are available to XQuery clients.</p>
+<h2 id='introspection-database-schema-queries'>Introspection: Database Schema Queries</h2>
+<p>XQuery is powered in part by <a href="https://hasura.io">Hasrua GraphQL
+Engine</a>. GraphQL offers a set of special
+queries called <a href="https://graphql.org/learn/introspection/">Introspection
+Queries</a>. Introspection
+queries allow an XQuery client to learn about the schema (database
+structure) and available queries within that schema. The following are
+examples of Introspection queries XQuery clients can perform:</p>
+<h3 id='all-types-and-their-descriptions'>All Types And Their Descriptions</h3>
+<p>On the right is a command line example using <code>curl</code> to list <em>all</em>
+available query types and their descriptions.</p>
 
 <blockquote>
-<p>XQuery Sample Request - help endpoint </p>
+<p>XQuery Sample Request - All Types And Their Descriptions </p>
 </blockquote>
 
-<p><code class="api-call">help</code></p>
-<pre class="highlight shell tab-shell"><code><span class="c"># Example to display all available xquery endpoints via help endpoint:</span>
-curl http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/help <span class="se">\</span>
+<p><code class="api-call">All Types And Their Descriptions</code></p>
+<pre class="highlight shell tab-shell"><code><span class="c"># Example to display all types and their descriptions</span>
+curl http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/indexer <span class="se">\</span>
     -X POST <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
-    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> 
-<span class="c"># NOTE: The -X POST parameter is required, but the "Content-Type"</span>
-<span class="c"># and "Api-Key" headers are optional for this help endpoint. </span>
+    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> <span class="se">\</span>
+    -d <span class="s1">'{"query": "query MyQuery {__schema {types {name description}}}"}'</span>
 </code></pre>
 <p><br><br><br><br><br><br><br><br><br><br></p>
 
 <p>By default, <code>curl</code> does not print the Response Headers. To see the Response Headers printed in the above example, add &quot;<code>-D -</code>&quot;
 options to the <code>curl</code> command, like this ----&gt;</p>
 
-<p><code class="api-call">help, print headers</code></p>
+<p><code class="api-call">All Types And Their Descriptions, print headers</code></p>
 
 <blockquote>
-<p>XQuery Sample Request - help endpoint, print headers </p>
+<p>XQuery Sample Request - All Types And Their Descriptions, print headers </p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code><span class="c"># Example to display all available xquery endpoints via help endpoint:</span>
-curl -D - http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/help <span class="se">\</span>
+<pre class="highlight shell tab-shell"><code><span class="c"># Example to display all types and their descriptions &amp; print Headers</span>
+curl -D - http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/indexer <span class="se">\</span>
     -X POST <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
-    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> 
-<span class="c"># NOTE: The -X POST parameter is required, but the "Content-Type"</span>
-<span class="c"># and "Api-Key" headers are optional for this help endpoint. </span>
+    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> <span class="se">\</span>
+    -d <span class="s1">'{"query": "query MyQuery {__schema {types {name description}}}"}'</span>
 </code></pre>
 <p><br><br><br><br><br><br><br><br><br><br><br>
 Whether the response code is 200 (success) or not, the Response Headers
-will always contain useful information about the project. ----&gt;</p>
+will always contain useful information about the project status. ----&gt;</p>
 
 <blockquote>
 <p>XQuery Sample Response Headers</p>
@@ -11496,469 +11516,1097 @@ API-TOKENS-REMAINING: &lt;API Tokens Remaining Count&gt;
 <p><br><br><br><br><br><br><br><br><br><br><br></p>
 
 <blockquote>
-<p>XQuery Sample Response Body - help endpoint</p>
+<p>XQuery Sample Response Body - All Types And Their Descriptions</p>
 </blockquote>
 
 <aside class="success">
 200 OK
 </aside>
-<pre class="highlight shell tab-shell"><code>Powered by
-    https://blocknet.co
-    https://xquery.io
-
-List available endpoints
-    http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/help
-    e.g. curl -X POST http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/help 
-
-Current Graph
-    http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/help/graph
-    e.g. curl -X POST http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/help/graph | jq
-
-GraphQL data types
-    http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/help/schema
-    e.g. curl -X POST http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/help/schema
-
-GraphQL endpoint
-    http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/indexer/
-    e.g. See https://api.blocknet.org/#indexer-example
-</code></pre>
-<p>The Response Body of a request to the <em>help</em> endpoint returns a list
-of all available XQuery endpoints ----&gt;</p>
-<h3 id='help-graph-example'>help/graph example</h3>
-<p>On the right is a command line example using <code>curl</code> to request
-information from XQuery about the graph it&#39;s currently configured to index.</p>
-
-<blockquote>
-<p>XQuery Sample Request - help/graph  endpoint</p>
-</blockquote>
-
-<p><code class="api-call">help/graph</code></p>
-<pre class="highlight shell tab-shell"><code><span class="c"># Example to display the xquery graph via help/graph endpoint:</span>
-curl http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/help/graph <span class="se">\</span>
-    -X POST <span class="se">\</span>
-    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
-    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> | jq
-<span class="c"># NOTE: The -X POST parameter is required, but the "Content-Type"</span>
-<span class="c"># and "Api-Key" headers are optional for this help/graph endpoint. </span>
-</code></pre>
-<blockquote>
-<p>XQuery Sample Response - help/graph endpoint </p>
-</blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"app"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"volume"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/snode"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"graph"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AVAX_ETH"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"endpoint"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/indexer"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"chains"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH_UNISWAP_v2"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"abi"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uniswapRouter_v2.json"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"__schema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"types"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Withdrawal"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boolean"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Deposit"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boolean_comparison_exp"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boolean expression to compare columns of type </span><span class="se">\"</span><span class="s2">Boolean</span><span class="se">\"</span><span class="s2">. All fields are combined with logical 'AND'."</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approval"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Float"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Burn"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Int"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mint"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Int_comparison_exp"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boolean expression to compare columns of type </span><span class="se">\"</span><span class="s2">Int</span><span class="se">\"</span><span class="s2">. All fields are combined with logical 'AND'."</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Swap"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sync"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String_comparison_exp"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boolean expression to compare columns of type </span><span class="se">\"</span><span class="s2">String</span><span class="se">\"</span><span class="s2">. All fields are combined with logical 'AND'."</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transfer"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"__Directive"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approval"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"__EnumValue"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Burn"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"__Field"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mint"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"__InputValue"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Swap"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"__Schema"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sync"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"__Type"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transfer"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">],</span><span class="w">
-      </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Uniswap_Router_v2"</span><span class="p">,</span><span class="w">
-          </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">],</span><span class="w">
-      </span><span class="s2">"historical"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"fromBlock"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10207858"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH_UNISWAP_v3"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"abi"</span><span class="p">:</span><span class="w"> </span><span class="s2">"uniswapRouter_v3.json"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Withdrawal"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"__TypeKind"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Deposit"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"columns and relationships of </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approval"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_aggregate"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aggregated selection of </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Burn"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_aggregate_fields"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aggregate fields of </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mint"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_bool_exp"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boolean expression to filter rows from the table </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">. All fields are combined with a logical 'AND'."</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Swap"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_constraint"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unique or primary key constraints on table </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sync"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_insert_input"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"input type for inserting data into table </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transfer"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_max_fields"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aggregate max on columns"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approval"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_min_fields"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aggregate min on columns"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Burn"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_mutation_response"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"response of any mutation on the table </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mint"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_on_conflict"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"on_conflict condition type for table </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Swap"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_order_by"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Ordering options when selecting data from </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">."</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sync"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_pk_columns_input"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"primary key columns input for table: alembic_version"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transfer"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">],</span><span class="w">
-      </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Uniswap_Router_v3"</span><span class="p">,</span><span class="w">
-          </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xe592427a0aece92de3edee1f18e0157c05861564"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">],</span><span class="w">
-      </span><span class="s2">"historical"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"fromBlock"</span><span class="p">:</span><span class="w"> </span><span class="s2">"12369634"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AVAX_PANGOLIN"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"abi"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pangolinRouter.json"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"query"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-        </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Withdrawal"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_select_column"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"select columns of table </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Deposit"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_set_input"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"input type for updating data in table </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approval"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_stream_cursor_input"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Streaming cursor of the table </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Burn"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_stream_cursor_value_input"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Initial value of the column from where the streaming should start"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mint"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_update_column"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"update columns of table </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Swap"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_updates"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sync"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cursor_ordering"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ordering argument of a cursor"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transfer"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mutation_root"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mutation root"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approval"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"numeric"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Burn"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"numeric_comparison_exp"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boolean expression to compare columns of type </span><span class="se">\"</span><span class="s2">numeric</span><span class="se">\"</span><span class="s2">. All fields are combined with logical 'AND'."</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Mint"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"order_by"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"column ordering options"</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Swap"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"query_root"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Sync"</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"smallint"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
         </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transfer"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">],</span><span class="w">
-      </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"smallint_comparison_exp"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boolean expression to compare columns of type </span><span class="se">\"</span><span class="s2">smallint</span><span class="se">\"</span><span class="s2">. All fields are combined with logical 'AND'."</span><span class="w">
+        </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pangolin_Router"</span><span class="p">,</span><span class="w">
-          </span><span class="s2">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">],</span><span class="w">
-      </span><span class="s2">"historical"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"subscription_root"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+        </span><span class="p">},</span><span class="w">
         </span><span class="p">{</span><span class="w">
-          </span><span class="s2">"fromBlock"</span><span class="p">:</span><span class="w"> </span><span class="s2">"57347"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-      </span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">]</span><span class="w">
-</span><span class="p">}</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"columns and relationships of </span><span class="se">\"</span><span class="s2">xgraph_png.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block_aggregate"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aggregated selection of </span><span class="se">\"</span><span class="s2">xgraph_png.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block_aggregate_fields"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aggregate fields of </span><span class="se">\"</span><span class="s2">xgraph_png.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block_avg_fields"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aggregate avg on columns"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block_bool_exp"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Boolean expression to filter rows from the table </span><span class="se">\"</span><span class="s2">xgraph_png.block</span><span class="se">\"</span><span class="s2">. All fields are combined with a logical 'AND'."</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block_constraint"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unique or primary key constraints on table </span><span class="se">\"</span><span class="s2">xgraph_png.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block_inc_input"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"input type for incrementing numeric columns in table </span><span class="se">\"</span><span class="s2">xgraph_png.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block_insert_input"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"input type for inserting data into table </span><span class="se">\"</span><span class="s2">xgraph_png.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+
+</span><span class="err">...</span><span class="w"> 
+</span><span class="err">...</span><span class="w"> 
+</span><span class="err">...</span><span class="w"> 
+
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_block"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"columns and relationships of </span><span class="se">\"</span><span class="s2">xgraph_psys.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_block_aggregate"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aggregated selection of </span><span class="se">\"</span><span class="s2">xgraph_psys.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_block_aggregate_fields"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aggregate fields of </span><span class="se">\"</span><span class="s2">xgraph_psys.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_block_avg_fields"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"aggregate avg on columns"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+</span><span class="err">...</span><span class="w"> 
+</span><span class="err">...</span><span class="w"> 
+</span><span class="err">...</span><span class="w"> 
 </span></code></pre>
-<p><br><br><br><br><br><br><br><br><br></p>
-
-<aside class="success">
-200 OK
-</aside>
-
-<p>The Response Body of a request to the <em>help/graph</em> endpoint returns a
-JSON object of the structure of the current XQuery graph ----&gt;</p>
-<h3 id='help-schema-example'>help/schema example</h3>
-<p>On the right is a command line example using <code>curl</code> to request
-information from XQuery about the currently available GraphQL data types.</p>
+<p>The Response Body of <a href="/#all-types-and-their-descriptions">the above query for all types and their
+descriptions</a> returns a <em>JSON</em> object listing all available database
+types and their descriptions. See the XQuery Sample
+Response Body at the right for an example. ----&gt;</p>
+<h3 id='all-available-queries-and-their-descriptions'>All Available Queries And Their Descriptions</h3>
+<p>On the right is a command line example using <code>curl</code> to list <em>all</em>
+available queries and their descriptions. ----&gt;</p>
 
 <blockquote>
-<p>XQuery Sample Request - help/schema endpoint</p>
+<p>XQuery Sample Request - All Queries And Their Descriptions</p>
 </blockquote>
 
-<p><code class="api-call">help/schema</code></p>
-<pre class="highlight shell tab-shell"><code><span class="c"># Example to display the xquery schema via help/schema endpoint:</span>
-curl http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/help/schema <span class="se">\</span>
-    -X POST <span class="se">\</span>
-    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
-    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> 
-<span class="c"># NOTE: The -X POST parameter is required, but the "Content-Type"</span>
-<span class="c"># and "Api-Key" headers are optional for this help/schema endpoint. </span>
-</code></pre>
-<blockquote>
-<p>XQuery Sample Response - help/schema endpoint </p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="nb">type </span>xquery <span class="o">{</span>
-  id: Int!
-  xquery_chain_name: Str!
-  xquery_query_name: Str!
-  xquery_timestamp: Int!
-  xquery_tx_hash: Str!
-  xquery_token0_name: Str!
-  xquery_token0_symbol: Str!
-  xquery_token0_decimals: Str!
-  xquery_token1_name: Str!
-  xquery_token1_symbol: Str!
-  xquery_token1_decimals: Str!
-  xquery_side: Str!
-  xquery_address_filter: Str!
-  xquery_blocknumber: Int!
-  xquery_fn_name: Str!
-  xquery_from: Str!
-  xquery_to: Str!
-  xquery_value: Str!
-  xquery_src: Str!
-  xquery_wad: Str!
-  xquery_dst: Str!
-  xquery_owner: Str!
-  xquery_spender: Str!
-  xquery_sender: Str!
-  xquery_amount0: Str!
-  xquery_amount1: Str!
-  xquery_amount0in: Str!
-  xquery_amount1in: Str!
-  xquery_amount0out: Str!
-  xquery_amount1out: Str!
-  xquery_reserve0: Str!
-  xquery_reserve1: Str!
-  xquery_none: Str!
-  xquery_deadline: Str!
-  xquery_v: Str!
-  xquery_r: Str!
-  xquery_s: Str!
-  xquery_data: Str!
-  xquery_tokena: Str!
-  xquery_tokenb: Str!
-  xquery_amountadesired: Str!
-  xquery_amountbdesired: Str!
-  xquery_amountamin: Str!
-  xquery_amountbmin: Str!
-  xquery_token: Str!
-  xquery_amounttokendesired: Str!
-  xquery_amounttokenmin: Str!
-  xquery_amountavaxmin: Str!
-  xquery_amountout: Str!
-  xquery_reservein: Str!
-  xquery_reserveout: Str!
-  xquery_amountin: Str!
-  xquery_path: Str!
-  xquery_amounta: Str!
-  xquery_reservea: Str!
-  xquery_reserveb: Str!
-  xquery_liquidity: Str!
-  xquery_approvemax: Str!
-  xquery_amountoutmin: Str!
-  xquery_amountinmax: Str!
-  xquery_amountethmin: Str!
-  xquery_params: Str!
-  xquery_nonce: Str!
-  xquery_expiry: Str!
-  xquery_amountminimum: Str!
-  xquery_recipient: Str!
-  xquery_feebips: Str!
-  xquery_feerecipient: Str!
-  xquery_amount0delta: Str!
-  xquery_amount1delta: Str!
-
-<span class="o">}</span>
-</code></pre>
-<p><br><br><br><br><br><br><br><br><br></p>
-
-<aside class="success">
-200 OK
-</aside>
-
-<p>The Response Body of a request to the <em>help/schema</em> endpoint returns a
-list of currently available GraphQL data types ----&gt;</p>
-<h3 id='indexer-example'>indexer example</h3>
-<p>On the right is a command line example using <code>curl</code> to make an SQL-style
-query to retrieve specific data from one or more blockchains hosted
-by <code>&lt;NODE-URL&gt;</code>. Note, data matching specific criteria can be
-retrieved from multiple blockchains in a single query. For example,
-data from ETH, AVAX, BSC, NEVM, FTM, etc... can be retrieved in a single query.</p>
-
-<blockquote>
-<p>XQuery Sample Request - indexer endpoint</p>
-</blockquote>
-
-<p><code class="api-call">indexer</code></p>
-<pre class="highlight shell tab-shell"><code><span class="c"># Example to make an SQL query to xquery via indexer endpoint:</span>
+<p><code class="api-call">All Queries And Their Descriptions</code></p>
+<pre class="highlight shell tab-shell"><code><span class="c"># Example to display all queries and their descriptions</span>
 curl http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/indexer <span class="se">\</span>
     -X POST <span class="se">\</span>
     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
     -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> <span class="se">\</span>
-    -d <span class="s2">"{</span><span class="se">\"</span><span class="s2">query</span><span class="se">\"</span><span class="s2">: </span><span class="se">\"</span><span class="s2">query MyQuery { </span><span class="se">\</span><span class="s2">
-       xquery(where: {xquery_address_filter: {_eq: "</span>Pegasys_Router<span class="s2">"}}, order_by: {xquery_blocknumber: desc}, limit: 2) { </span><span class="se">\</span><span class="s2">
-        id </span><span class="se">\</span><span class="s2">
-        xquery_chain_name </span><span class="se">\</span><span class="s2">
-        xquery_query_name </span><span class="se">\</span><span class="s2">
-        xquery_timestamp </span><span class="se">\</span><span class="s2">
-        xquery_tx_hash </span><span class="se">\</span><span class="s2">
-        xquery_token0_name </span><span class="se">\</span><span class="s2">
-        xquery_token0_symbol </span><span class="se">\</span><span class="s2">
-        xquery_token0_decimals </span><span class="se">\</span><span class="s2">
-        xquery_token1_name </span><span class="se">\</span><span class="s2">
-        xquery_token1_symbol </span><span class="se">\</span><span class="s2">
-        xquery_token1_decimals </span><span class="se">\</span><span class="s2">
-        xquery_side </span><span class="se">\</span><span class="s2">
-        xquery_address_filter </span><span class="se">\</span><span class="s2">
-        xquery_blocknumber </span><span class="se">\</span><span class="s2">
-        xquery_from </span><span class="se">\</span><span class="s2">
-        xquery_to </span><span class="se">\</span><span class="s2">
-        xquery_sender </span><span class="se">\</span><span class="s2">
-        xquery_amount0 </span><span class="se">\</span><span class="s2">
-        xquery_amount1 </span><span class="se">\</span><span class="s2">
-        xquery_amount0in </span><span class="se">\</span><span class="s2">
-        xquery_amount1in </span><span class="se">\</span><span class="s2">
-        xquery_amount0out </span><span class="se">\</span><span class="s2">
-        xquery_amount1out </span><span class="se">\</span><span class="s2">
-        } }</span><span class="se">\"</span><span class="s2">}"</span> | jq
+    -d <span class="s1">'{"query": "query MyQuery {__schema {queryType {fields {name description}}}}"}'</span>
 </code></pre>
+<p><br><br><br><br><br><br><br><br><br><br></p>
+
 <blockquote>
-<p>XQuery Sample Response - indexer endpoint</p>
+<p>XQuery Sample Response Body - All Queries And Their Descriptions</p>
 </blockquote>
+
+<aside class="success">
+200 OK
+</aside>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="s2">"xquery"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">56821</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_chain_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SYS"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_query_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Approval"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_tx_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x427edc5a07d66701b1eb7af78eeb8e0dd381252d0eb8078d64e1184eb8ae973f"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token0_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pegasys LP Token"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token0_symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"PLP"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token0_decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token1_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token1_symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token1_decimals"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_address_filter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pegasys_Router"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_blocknumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">76113</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_from"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x2048564077C14B231ECc8C2690829726e9F84a3b"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount0"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount1"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount0in"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount1in"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount0out"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount1out"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="p">{</span><span class="w">
-                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">56822</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_chain_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SYS"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_query_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Transfer"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_tx_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x427edc5a07d66701b1eb7af78eeb8e0dd381252d0eb8078d64e1184eb8ae973f"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token0_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Tether USD"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token0_symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"USDT"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token0_decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token1_name"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token1_symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_token1_decimals"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_side"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_address_filter"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Pegasys_Router"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_blocknumber"</span><span class="p">:</span><span class="w"> </span><span class="mi">76113</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0Df7d92a4DB09d3828a725D039B89FDC8dfC96A6"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x2048564077C14B231ECc8C2690829726e9F84a3b"</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount0"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount1"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount0in"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount1in"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount0out"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-                </span><span class="s2">"xquery_amount1out"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
-            </span><span class="p">}</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"__schema"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"queryType"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"alembic_version_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">alembic_version</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_block_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.block</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_bundle"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.bundle</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_bundle_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.bundle</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_bundle_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.bundle</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_burn"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.burn</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_burn_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.burn</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_burn_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.burn</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_exchange_day_data"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.exchange_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_exchange_day_data_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.exchange_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_exchange_day_data_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.exchange_day_data</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_factory"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.factory</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_factory_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.factory</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_factory_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.factory</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_liquidity_position"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.liquidity_position</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_liquidity_position_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.liquidity_position</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_liquidity_position_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.liquidity_position</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_liquidity_position_snapshot"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.liquidity_position_snapshot</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_liquidity_position_snapshot_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.liquidity_position_snapshot</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_liquidity_position_snapshot_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.liquidity_position_snapshot</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_mint"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.mint</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_mint_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.mint</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_mint_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.mint</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_pair"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.pair</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_pair_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.pair</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_pair_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.pair</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_pair_day_data"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.pair_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_pair_day_data_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.pair_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_pair_day_data_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.pair_day_data</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_pair_hour_data"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.pair_hour_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_pair_hour_data_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.pair_hour_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_pair_hour_data_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.pair_hour_data</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_state"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.state</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_state_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.state</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_state_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.state</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_swap"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.swap</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_swap_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.swap</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_swap_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.swap</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_sync"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.sync</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_sync_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.sync</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_sync_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.sync</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_token"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.token</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_token_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.token</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_token_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.token</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_token_day_data"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.token_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_token_day_data_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.token_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_token_day_data_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.token_day_data</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_token_hour_data"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.token_hour_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_token_hour_data_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.token_hour_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_token_hour_data_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.token_hour_data</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_transaction"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.transaction</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_transaction_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.transaction</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_transaction_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.transaction</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_transfer"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.transfer</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_transfer_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.transfer</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_transfer_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.transfer</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_user"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.user</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_user_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.user</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_png_user_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_png.user</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_block"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_block_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.block</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_block_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.block</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_bundle"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.bundle</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_bundle_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.bundle</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_bundle_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.bundle</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_burn"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.burn</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_burn_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.burn</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_burn_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.burn</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_exchange_day_data"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.exchange_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_exchange_day_data_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.exchange_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_exchange_day_data_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.exchange_day_data</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_factory"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.factory</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_factory_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.factory</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_factory_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.factory</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_liquidity_position"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.liquidity_position</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_liquidity_position_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.liquidity_position</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_liquidity_position_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.liquidity_position</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_liquidity_position_snapshot"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.liquidity_position_snapshot</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_liquidity_position_snapshot_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.liquidity_position_snapshot</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_liquidity_position_snapshot_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.liquidity_position_snapshot</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_mint"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.mint</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_mint_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.mint</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_mint_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.mint</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_pair"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.pair</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_pair_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.pair</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_pair_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.pair</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_pair_day_data"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.pair_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_pair_day_data_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.pair_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_pair_day_data_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.pair_day_data</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_pair_hour_data"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.pair_hour_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_pair_hour_data_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.pair_hour_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_pair_hour_data_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.pair_hour_data</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_state"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.state</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_state_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.state</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_state_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.state</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_swap"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.swap</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_swap_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.swap</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_swap_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.swap</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_sync"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.sync</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_sync_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.sync</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_sync_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.sync</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_token"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.token</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_token_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.token</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_token_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.token</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_token_day_data"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.token_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_token_day_data_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.token_day_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_token_day_data_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.token_day_data</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_token_hour_data"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.token_hour_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_token_hour_data_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.token_hour_data</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_token_hour_data_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.token_hour_data</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_transaction"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.transaction</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_transaction_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.transaction</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_transaction_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.transaction</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_transfer"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.transfer</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_transfer_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.transfer</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_transfer_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.transfer</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_user"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.user</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_user_aggregate"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch aggregated fields from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.user</span><span class="se">\"</span><span class="s2">"</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_user_by_pk"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"fetch data from the table: </span><span class="se">\"</span><span class="s2">xgraph_psys.user</span><span class="se">\"</span><span class="s2"> using primary key columns"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
         </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
     </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p><br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br></p>
+<p>The Response Body of the <a href="/#all-available-queries-and-their-descriptions">query for all available queries and their
+descriptions</a> returns a <em>JSON</em> object listing all available database queries and their descriptions. See the XQuery Sample
+Response Body at the right for an example. ----&gt;</p>
+<h3 id='digging-deeper-into-the-schema'>Digging Deeper Into The Schema</h3>
+<p>One of the available queries returned by the <a href="#all-available-queries-and-their-descriptions">above
+query</a> is
+<em>xgraph_psys_state</em>. If, for example, an XQuery client wants to learn
+what kind of query <em>xgraph_psys_state</em> is, they can issue the query on the
+right to find out if <em>xgraph_psys_state</em> is an <em>INTERFACE</em> or an <em>OBJECT</em> ----&gt;</p>
+
+<blockquote>
+<p>XQuery Sample Request - Dig Into <em>xgraph_psys_state</em></p>
+</blockquote>
+
+<p><code class="api-call">Dig Into <em>xgraph_psys_state</em></code></p>
+<pre class="highlight shell tab-shell"><code><span class="c"># Example to dig into xgraph_psys_state</span>
+curl http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/indexer <span class="se">\</span>
+    -X POST <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> <span class="se">\</span>
+    -d <span class="s1">'{"query": "query MyQuery {__type(name: \"xgraph_psys_state\") {name kind}}"}'</span>
+</code></pre>
+<p><br><br><br><br><br><br><br><br><br><br></p>
+
+<blockquote>
+<p>XQuery Sample Response Body - Dig Into <em>xgraph_psys_state</em></p>
+</blockquote>
+
+<aside class="success">
+200 OK
+</aside>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"__type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_state"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"kind"</span><span class="p">:</span><span class="w"> </span><span class="s2">"OBJECT"</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The Response Body of <a href="/#digging-deeper-into-the-schema">the above query to dig Into
+<em>xgraph_psys_state</em></a> returns a
+<em>JSON</em> object informing us that <em>xgraph_psys_state</em> is an <em>OBJECT</em>,
+not an <em>INTERFACE</em>. See the XQuery Sample
+Response Body at the right. ----&gt;</p>
+<h3 id='query-for-which-fields-are-in-xgraph_psys_state-object'>Query For Which Fields Are In xgraph_psys_state Object</h3>
+<p>From the <a href="/#digging-deeper-into-the-schema">above query</a>, we learned
+that <em>xgraph_psys_state</em>  is a db <em>OBJECT</em>. For a db <em>OBJECT</em>,  it&#39;s
+often useful to know which fields the object contains. To learn the
+names and types of the fields conained in the <em>xgraph_psys_state</em> object, one can issue the query on the
+right. ----&gt;</p>
+
+<blockquote>
+<p>XQuery Sample Request - Which Fields Are In <em>xgraph_psys_state</em> object</p>
+</blockquote>
+
+<p><code class="api-call">Which Fields Are In <em>xgraph_psys_state</em> object</code></p>
+<pre class="highlight shell tab-shell"><code><span class="c"># Example to learn the names and types of the fields conained in the *xgraph_psys_state* object</span>
+curl http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/indexer <span class="se">\</span>
+    -X POST <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> <span class="se">\</span>
+    -d <span class="s1">'{"query": "query MyQuery {__type(name: \"xgraph_psys_state\") {name fields {name type {name kind}}}}"}'</span>
+</code></pre>
+<p><br><br><br><br><br><br><br><br><br><br></p>
+
+<blockquote>
+<p>XQuery Sample Response Body - Which Fields Are In <em>xgraph_psys_state</em> object</p>
+</blockquote>
+
+<aside class="success">
+200 OK
+</aside>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"__type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"xgraph_psys_state"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"fields"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"block_hash"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"String"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kind"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SCALAR"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"block_number"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Int"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kind"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SCALAR"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"finalized"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Int"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kind"</span><span class="p">:</span><span class="w"> </span><span class="s2">"SCALAR"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"id"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kind"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NON_NULL"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="p">{</span><span class="w">
+          </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"name"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"type"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"kind"</span><span class="p">:</span><span class="w"> </span><span class="s2">"NON_NULL"</span><span class="w">
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The Response Body of <a href="/#query-for-which-fields-are-in-xgraph_psys_state-object">the above query for the fields
+contained in the <em>xgraph_psys_state</em> object</a> returns a
+<em>JSON</em> object listing all fields contained in the <em>xgraph_psys_state</em>
+object and their types. See the XQuery Sample
+Response Body at the right. ----&gt;</p>
+<h2 id='query-for-data'>Query For Data</h2>
+<p>In the <a href="/#introspection-database-schema-queries">above section on Introspection
+queries</a> we showed examples of how to
+make queries to the database which return information about the schema/structure of
+the database. In this section, we&#39;ll show some examples of
+queries which return actual data from the database. For full documentation on what kinds of query structures are available, see <a href="https://hasura.io/docs/latest/queries/postgres/index/">Hasura Postgres Queries Documentation</a>. </p>
+<h3 id='query-all-fields-in-xgraph_psys_state-object'>Query All Fields In xgraph_psys_state Object</h3>
+<p>From the <a href="/#query-for-which-fields-are-in-xgraph_psys_state-object">the above query for the fields
+contained in the <em>xgraph_psys_state</em>
+object</a>, we
+learned that the <em>xgraph_psys_state</em> object contains the following fields:</p>
+
+<ul>
+<li>block_hash</li>
+<li>block_number</li>
+<li>finalized</li>
+<li>id</li>
+<li>name</li>
+</ul>
+
+<p>To query for the values of these fields in the <em>xgraph_psys_state</em> object, one can issue the query on the
+right. ----&gt;</p>
+
+<blockquote>
+<p>XQuery Sample Request - Query All Fields In xgraph_psys_state Object</p>
+</blockquote>
+
+<p><code class="api-call">Query All Fields In xgraph_psys_state Object</code></p>
+<pre class="highlight shell tab-shell"><code><span class="c"># Example query all fields in xgraph_psys_state object</span>
+curl http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/indexer <span class="se">\</span>
+    -X POST <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> <span class="se">\</span>
+    -d <span class="s1">'{"query": "query MyQuery {xgraph_psys_state {block_hash block_number finalized id name}}"}'</span>
+</code></pre>
+<p><br><br><br><br><br><br><br><br><br><br></p>
+
+<blockquote>
+<p>XQuery Sample Response Body - Query All Fields In xgraph_psys_state Object</p>
+</blockquote>
+
+<aside class="success">
+200 OK
+</aside>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"xgraph_psys_state"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"block_hash"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x07ccb7399488e430f9f5ba1ed7a848a2e9306ad08a62a19ab472b4ad00294c78"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"block_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">222388</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"finalized"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"indexer"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"block_hash"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"block_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">222388</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"finalized"</span><span class="p">:</span><span class="w"> </span><span class="mi">222388</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"processor_bundle"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"block_hash"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"block_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">222388</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"finalized"</span><span class="p">:</span><span class="w"> </span><span class="mi">1672617599</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"processor_stats"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"block_hash"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"block_number"</span><span class="p">:</span><span class="w"> </span><span class="mi">222388</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"finalized"</span><span class="p">:</span><span class="w"> </span><span class="mi">222388</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"processor_count"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>The Response Body of <a href="/#query-all-fields-in-xgraph_psys_state-object">the above query of all fields in
+the <em>xgraph_psys_state</em> object</a> returns a
+<em>JSON</em> object listing the data values of all fields in the <em>xgraph_psys_state</em>
+object. See the XQuery Sample
+Response Body at the right. ----&gt;</p>
+<h3 id='query-with-conditions-all-fields-in-xgraph_psys_state-object'>Query With Conditions All Fields In xgraph_psys_state Object</h3>
+<p>In practice, almost all queries to the database will have conditions
+attached to them. For example, let&#39;s say we want to query the
+values of all the fields in the <em>xgraph_psys_state</em> object, just as we
+did in the <a href="/#query-all-fields-in-xgraph_psys_state-object">previous
+example</a>, but this
+time we want to impose the
+conditions that data should <em>only</em> be returned for records with
+<em>block_number</em> greater than 20000, and the records returned should be
+ordered by an ascending <em>id</em> field, and no more than 5 records
+should be returned. An example of such a query can be found on the
+right. ----&gt;</p>
+
+<blockquote>
+<p>XQuery Sample Request - Query With Conditions All Fields In xgraph_psys_state Object</p>
+</blockquote>
+
+<p><code class="api-call">Query With Conditions All Fields In xgraph_psys_state Object</code></p>
+<pre class="highlight shell tab-shell"><code><span class="c"># Example query with conditions all fields in xgraph_psys_state object</span>
+curl http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/indexer <span class="se">\</span>
+    -X POST <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> <span class="se">\</span>
+    -d <span class="s1">'{"query": "query MyQuery {xgraph_psys_state(where: {block_number: {_gt: 20000}}, order_by: {id: asc}, limit: 5) {block_hash block_number finalized id name}}"}'</span>
+</code></pre>
+<p><br><br><br><br>
+The conditions we added to the query from the <a href="/#query-all-fields-in-xgraph_psys_state-object">previous
+example</a> don&#39;t change
+the results returned in this case, so we won&#39;t include those results again
+here. The point of this example of a query with conditions is simply
+to show how to impose conditions on query results. For full documentation on what kinds of query structures are available, see <a href="https://hasura.io/docs/latest/queries/postgres/index/">Hasura Postgres Queries Documentation</a>.</p>
+<h3 id='query-for-3-largest-wavax-usdc-token-swaps-on-pangolin-exchange'>Query For 3 Largest WAVAX-USDC Token Swaps On Pangolin Exchange</h3>
+<p>The last &quot;Query for Data&quot; example we&#39;ll give will be for the 3 largest
+WAVAX-USDC token swaps on Pangolin exchange. To make this
+query, we need the address of the WAVAX-USDC pair. That address can be
+found in various ways, including
+<a href="https://info.pangolin.exchange/#/pair/0x0e0100ab771e9288e0aa97e11557e6654c3a9665">here</a>. The
+address of the WAVAX-USDC pair turns out to be
+<code>0x0e0100ab771e9288e0aa97e11557e6654c3a9665</code>. With this information,
+we can construct the desired query as shown on the right ----&gt;</p>
+
+<blockquote>
+<p>XQuery Sample Request - 3 Largest WAVAX-USDC swaps On Pangolin Exchange</p>
+</blockquote>
+
+<p><code class="api-call">3 Largest WAVAX-USDC swaps On Pangolin Exchange</code></p>
+<pre class="highlight shell tab-shell"><code><span class="c"># Query For 3 Largest WAVAX-USDC swaps On Pangolin Exchange</span>
+curl http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/indexer <span class="se">\</span>
+    -X POST <span class="se">\</span>
+    -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+    -H <span class="s2">"Api-Key: &lt;API-KEY&gt;"</span> <span class="se">\</span>
+    -d <span class="s1">'{"query": "query MyQuery {xgraph_png_swap(limit: 3, order_by: {amount0Out: desc}, where: {pair_address: {_eq: \"0x0e0100Ab771E9288e0Aa97e11557E6654C3a9665\"}}) {amount0In amount0Out amount1In amount1Out amountUSD from id logIndex pair_address sender timestamp to transaction_id}}"}'</span> | jq
+</code></pre>
+<blockquote>
+<p>XQuery Sample Response - 3 Largest WAVAX-USDC swaps On Pangolin Exchange</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"xgraph_png_swap"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"amount0In"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount0Out"</span><span class="p">:</span><span class="w"> </span><span class="s2">"9944.474506932517295371"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount1In"</span><span class="p">:</span><span class="w"> </span><span class="s2">"177726.378634000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount1Out"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amountUSD"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x7770000004323b56D6231592F753BD48d7E523e5"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">9325680</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"logIndex"</span><span class="p">:</span><span class="w"> </span><span class="mi">31</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"pair_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0e0100Ab771E9288e0Aa97e11557E6654C3a9665"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x777739FFFd50000000D9dc09b4D0fd3410e41Ce6"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1667882468</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x777739FFFd50000000D9dc09b4D0fd3410e41Ce6"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"transaction_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">8643121</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"amount0In"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount0Out"</span><span class="p">:</span><span class="w"> </span><span class="s2">"6585.806037327803264065"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount1In"</span><span class="p">:</span><span class="w"> </span><span class="s2">"125205.756988000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount1Out"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amountUSD"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xB8E6961C316144266C948A016bB5a07E4D5c561b"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">8958146</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"logIndex"</span><span class="p">:</span><span class="w"> </span><span class="mi">284</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"pair_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0e0100Ab771E9288e0Aa97e11557E6654C3a9665"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x324E2D39f0E2d8ecCDd96bcaa382cd14eD4a0443"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1663088884</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x98708236eF98A579f923279Da9531796c646376d"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"transaction_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">8319724</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"amount0In"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount0Out"</span><span class="p">:</span><span class="w"> </span><span class="s2">"5565.206433513149862722"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount1In"</span><span class="p">:</span><span class="w"> </span><span class="s2">"76847.457887000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amount1Out"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"amountUSD"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.000000000000000000"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"from"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x4F7D9eBe792cb4F4729dE9328A8889c1E49B37B0"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">9590362</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"logIndex"</span><span class="p">:</span><span class="w"> </span><span class="mi">9</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"pair_address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0e0100Ab771E9288e0Aa97e11557E6654C3a9665"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"sender"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xDEF171Fe48CF0115B1d80b88dc8eAB59176FEe57"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"timestamp"</span><span class="p">:</span><span class="w"> </span><span class="mi">1670656399</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"to"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xe3bA3d5e3F98eefF5e9EDdD5Bd20E476202770da"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"transaction_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">8878384</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p><br><br><br><br><br><br><br></p>
 
 <aside class="success">
 200 OK
 </aside>
 
-<p>The Response Body of a request to the <em>indexer</em> endpoint returns a
-JSON object containing all blockchain data matching the criteria
-specified in the SQL query ----&gt;
-<br><br><br><br><br><br><br><br><br>
+<p>The Response Body of <a href="/#query-for-3-largest-wavax-usdc-token-swaps-on-pangolin-exchange">the above query for 3 largest WAVAX-USDC token swaps on Pangolin Exchange</a> returns a
+<em>JSON</em> object listing the data values of all fields in the
+<em>xgraph_png_swap</em> object for the top 3 records that match our query criteria. See the XQuery Sample
+Response Body at the right. ----&gt;
 <br><br><br><br><br><br><br><br><br>
 <br><br><br><br><br><br><br><br><br></p>
-<h2 id='xquery-python-example-xq-py'>XQuery Python Example: xq.py</h2>
+<h2 id='xquery-python-example-xq-py-upgrade-to-xquery-v2-coming-soon'>XQuery Python Example: xq.py (upgrade to XQuery v2 coming soon)</h2>
 <p>On the right is a list of commands that can be issued in a
 Linux/Unix/OSX Terminal to download  a python script called <code>xq.py</code>
 and run it. Please ensure <code>git</code>, <code>python3</code> and <code>pip3</code> are installed on
@@ -11981,9 +12629,9 @@ pip3 install -r requirements.txt
 </code></pre>
 <p><code>xq.py</code> provides a convenient,
 user-friendly CLI interface to the same <em>indexer</em> endpoint mentioned
-in the <a href="/#indexer-example">indexer example</a> above. It constructs an
-SQL query for the <em>indexer</em> endpoint according to parameters passed
-to it, then sends the SQL query to the <em>indexer</em> endpoint (<code>
+in the <a href="#query-for-data">Query for Data examples</a> above. It constructs a
+GraphQL query for the <em>indexer</em> endpoint according to parameters passed
+to it, then sends the GraphQL query to the <em>indexer</em> endpoint (<code>
 http://&lt;NODE-URL&gt;/xrs/xquery/&lt;PROJECT-ID&gt;/indexer</code>). Snippets from
 <code>xq.py</code> can be used by any python dApp developer wishing to include
 code to access XQuery indexer. Snippets from
@@ -12023,7 +12671,7 @@ Console</a>,
 you can access the XQuery Hasura GUI Console simply by navigating in a
 browser to <strong>http://<code>&lt;NODE-URL&gt;</code>:8080/console</strong></p>
 
-<p>Read more about Hasura GraphQL <a href="https://hasura.io/docs/latest/graphql/core/index/">here</a>.</p>
+<p>For full documentation on what kinds of query structures are available, see <a href="https://hasura.io/docs/latest/queries/postgres/index/">Hasura Postgres Queries Documentation</a>.</p>
 <h1 id='hydra-api'>Hydra API</h1><h2 id='hydra-authentication'>Hydra Authentication</h2>
 <blockquote>
 <p>Hydra Authentication</p>
@@ -20035,6 +20683,16 @@ To do:
 reference: https://docs.pro.coinbase.com
 
 -->
+
+<table><thead>
+<tr>
+<th>3/1/2023</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>• Update XQuery API from XQ v1 to XQ v2</td>
+</tr>
+</tbody></table>
 
 <table><thead>
 <tr>

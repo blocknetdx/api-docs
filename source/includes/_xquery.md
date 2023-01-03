@@ -11,24 +11,31 @@ included in XQuery requests.
 <br>
 See [Authentication Error Codes](/#authentication-error-codes) for possible error codes and their meanings. 
 
-## Make XQuery Requests
+## Introspection: Database Schema Queries
 
-### help example
-On the right is a command line example using `curl` to request *help*
-from XQuery about which endpoints are available to XQuery clients.
+XQuery is powered in part by [Hasrua GraphQL
+Engine](https://hasura.io). GraphQL offers a set of special
+queries called [Introspection
+Queries](https://graphql.org/learn/introspection/). Introspection
+queries allow an XQuery client to learn about the schema (database
+structure) and available queries within that schema. The following are
+examples of Introspection queries XQuery clients can perform:
 
-> XQuery Sample Request - help endpoint 
+### All Types And Their Descriptions
+On the right is a command line example using `curl` to list *all*
+available query types and their descriptions.
 
-<code class="api-call">help</code>
+> XQuery Sample Request - All Types And Their Descriptions 
+
+<code class="api-call">All Types And Their Descriptions</code>
 
 ```shell
-# Example to display all available xquery endpoints via help endpoint:
-curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help \
+# Example to display all types and their descriptions
+curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer \
     -X POST \
     -H "Content-Type: application/json" \
-    -H "Api-Key: <API-KEY>" 
-# NOTE: The -X POST parameter is required, but the "Content-Type"
-# and "Api-Key" headers are optional for this help endpoint. 
+    -H "Api-Key: <API-KEY>" \
+	-d '{"query": "query MyQuery {__schema {types {name description}}}"}'
 ```
 
 
@@ -37,23 +44,22 @@ curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help \
 By default, `curl` does not print the Response Headers. To see the Response Headers printed in the above example, add "`-D -`"
 options to the `curl` command, like this ---->
 
-<code class="api-call">help, print headers</code>
+<code class="api-call">All Types And Their Descriptions, print headers</code>
 
-> XQuery Sample Request - help endpoint, print headers 
+> XQuery Sample Request - All Types And Their Descriptions, print headers 
 
 ```shell
-# Example to display all available xquery endpoints via help endpoint:
-curl -D - http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help \
+# Example to display all types and their descriptions & print Headers
+curl -D - http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer \
     -X POST \
     -H "Content-Type: application/json" \
-    -H "Api-Key: <API-KEY>" 
-# NOTE: The -X POST parameter is required, but the "Content-Type"
-# and "Api-Key" headers are optional for this help endpoint. 
+    -H "Api-Key: <API-KEY>" \
+	-d '{"query": "query MyQuery {__schema {types {name description}}}"}'
 ```
 
 <br><br><br><br><br><br><br><br><br><br><br>
 Whether the response code is 200 (success) or not, the Response Headers
-will always contain useful information about the project. ---->
+will always contain useful information about the project status. ---->
 >  XQuery Sample Response Headers
 
 ```shell
@@ -64,478 +70,1117 @@ API-TOKENS-REMAINING: <API Tokens Remaining Count>
 ```
 <br><br><br><br><br><br><br><br><br><br><br>
 
-> XQuery Sample Response Body - help endpoint
+> XQuery Sample Response Body - All Types And Their Descriptions
 
 <aside class="success">
 200 OK
 </aside>
-
-```shell
-Powered by
-	https://blocknet.co
-	https://xquery.io
-
-List available endpoints
-	http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help
-	e.g. curl -X POST http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help 
-
-Current Graph
-	http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help/graph
-	e.g. curl -X POST http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help/graph | jq
-
-GraphQL data types
-	http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help/schema
-	e.g. curl -X POST http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help/schema
-
-GraphQL endpoint
-	http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer/
-	e.g. See https://api.blocknet.org/#indexer-example
-```
-
-The Response Body of a request to the *help* endpoint returns a list
-of all available XQuery endpoints ---->
-
-### help/graph example
-On the right is a command line example using `curl` to request
-information from XQuery about the graph it's currently configured to index.
-
-> XQuery Sample Request - help/graph  endpoint
-
-<code class="api-call">help/graph</code>
-
-```shell
-# Example to display the xquery graph via help/graph endpoint:
-curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help/graph \
-    -X POST \
-    -H "Content-Type: application/json" \
-    -H "Api-Key: <API-KEY>" | jq
-# NOTE: The -X POST parameter is required, but the "Content-Type"
-# and "Api-Key" headers are optional for this help/graph endpoint. 
-```
-
-> XQuery Sample Response - help/graph endpoint 
 
 ```json
 {
-  "type": "app",
-  "volume": "/snode",
-  "graph": "AVAX_ETH",
-  "endpoint": "/indexer",
-  "chains": [
-    {
-      "name": "ETH_UNISWAP_v2",
-      "abi": "uniswapRouter_v2.json",
-      "query": [
+  "data": {
+    "__schema": {
+      "types": [
         {
-          "name": "Withdrawal"
+          "name": "Boolean",
+          "description": null
         },
         {
-          "name": "Deposit"
+          "name": "Boolean_comparison_exp",
+          "description": "Boolean expression to compare columns of type \"Boolean\". All fields are combined with logical 'AND'."
         },
         {
-          "name": "Approval"
+          "name": "Float",
+          "description": null
         },
         {
-          "name": "Burn"
+          "name": "Int",
+          "description": null
         },
         {
-          "name": "Mint"
+          "name": "Int_comparison_exp",
+          "description": "Boolean expression to compare columns of type \"Int\". All fields are combined with logical 'AND'."
         },
         {
-          "name": "Swap"
+          "name": "String",
+          "description": null
         },
         {
-          "name": "Sync"
+          "name": "String_comparison_exp",
+          "description": "Boolean expression to compare columns of type \"String\". All fields are combined with logical 'AND'."
         },
         {
-          "name": "Transfer"
+          "name": "__Directive",
+          "description": null
         },
         {
-          "name": "Approval"
+          "name": "__EnumValue",
+          "description": null
         },
         {
-          "name": "Burn"
+          "name": "__Field",
+          "description": null
         },
         {
-          "name": "Mint"
+          "name": "__InputValue",
+          "description": null
         },
         {
-          "name": "Swap"
+          "name": "__Schema",
+          "description": null
         },
         {
-          "name": "Sync"
+          "name": "__Type",
+          "description": null
         },
         {
-          "name": "Transfer"
-        }
-      ],
-      "address": [
-        {
-          "name": "Uniswap_Router_v2",
-          "address": "0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D"
-        }
-      ],
-      "historical": [
-        {
-          "fromBlock": "10207858"
-        }
-      ]
-    },
-    {
-      "name": "ETH_UNISWAP_v3",
-      "abi": "uniswapRouter_v3.json",
-      "query": [
-        {
-          "name": "Withdrawal"
+          "name": "__TypeKind",
+          "description": null
         },
         {
-          "name": "Deposit"
+          "name": "alembic_version",
+          "description": "columns and relationships of \"alembic_version\""
         },
         {
-          "name": "Approval"
+          "name": "alembic_version_aggregate",
+          "description": "aggregated selection of \"alembic_version\""
         },
         {
-          "name": "Burn"
+          "name": "alembic_version_aggregate_fields",
+          "description": "aggregate fields of \"alembic_version\""
         },
         {
-          "name": "Mint"
+          "name": "alembic_version_bool_exp",
+          "description": "Boolean expression to filter rows from the table \"alembic_version\". All fields are combined with a logical 'AND'."
         },
         {
-          "name": "Swap"
+          "name": "alembic_version_constraint",
+          "description": "unique or primary key constraints on table \"alembic_version\""
         },
         {
-          "name": "Sync"
+          "name": "alembic_version_insert_input",
+          "description": "input type for inserting data into table \"alembic_version\""
         },
         {
-          "name": "Transfer"
+          "name": "alembic_version_max_fields",
+          "description": "aggregate max on columns"
         },
         {
-          "name": "Approval"
+          "name": "alembic_version_min_fields",
+          "description": "aggregate min on columns"
         },
         {
-          "name": "Burn"
+          "name": "alembic_version_mutation_response",
+          "description": "response of any mutation on the table \"alembic_version\""
         },
         {
-          "name": "Mint"
+          "name": "alembic_version_on_conflict",
+          "description": "on_conflict condition type for table \"alembic_version\""
         },
         {
-          "name": "Swap"
+          "name": "alembic_version_order_by",
+          "description": "Ordering options when selecting data from \"alembic_version\"."
         },
         {
-          "name": "Sync"
+          "name": "alembic_version_pk_columns_input",
+          "description": "primary key columns input for table: alembic_version"
         },
         {
-          "name": "Transfer"
-        }
-      ],
-      "address": [
-        {
-          "name": "Uniswap_Router_v3",
-          "address": "0xe592427a0aece92de3edee1f18e0157c05861564"
-        }
-      ],
-      "historical": [
-        {
-          "fromBlock": "12369634"
-        }
-      ]
-    },
-    {
-      "name": "AVAX_PANGOLIN",
-      "abi": "pangolinRouter.json",
-      "query": [
-        {
-          "name": "Withdrawal"
+          "name": "alembic_version_select_column",
+          "description": "select columns of table \"alembic_version\""
         },
         {
-          "name": "Deposit"
+          "name": "alembic_version_set_input",
+          "description": "input type for updating data in table \"alembic_version\""
         },
         {
-          "name": "Approval"
+          "name": "alembic_version_stream_cursor_input",
+          "description": "Streaming cursor of the table \"alembic_version\""
         },
         {
-          "name": "Burn"
+          "name": "alembic_version_stream_cursor_value_input",
+          "description": "Initial value of the column from where the streaming should start"
         },
         {
-          "name": "Mint"
+          "name": "alembic_version_update_column",
+          "description": "update columns of table \"alembic_version\""
         },
         {
-          "name": "Swap"
+          "name": "alembic_version_updates",
+          "description": null
         },
         {
-          "name": "Sync"
+          "name": "cursor_ordering",
+          "description": "ordering argument of a cursor"
         },
         {
-          "name": "Transfer"
+          "name": "mutation_root",
+          "description": "mutation root"
         },
         {
-          "name": "Approval"
+          "name": "numeric",
+          "description": null
         },
         {
-          "name": "Burn"
+          "name": "numeric_comparison_exp",
+          "description": "Boolean expression to compare columns of type \"numeric\". All fields are combined with logical 'AND'."
         },
         {
-          "name": "Mint"
+          "name": "order_by",
+          "description": "column ordering options"
         },
         {
-          "name": "Swap"
+          "name": "query_root",
+          "description": null
         },
         {
-          "name": "Sync"
+          "name": "smallint",
+          "description": null
         },
         {
-          "name": "Transfer"
-        }
-      ],
-      "address": [
+          "name": "smallint_comparison_exp",
+          "description": "Boolean expression to compare columns of type \"smallint\". All fields are combined with logical 'AND'."
+        },
         {
-          "name": "Pangolin_Router",
-          "address": "0xE54Ca86531e17Ef3616d22Ca28b0D458b6C89106"
-        }
-      ],
-      "historical": [
+          "name": "subscription_root",
+          "description": null
+        },
         {
-          "fromBlock": "57347"
-        }
-      ]
-    }
-  ]
-}
+          "name": "xgraph_png_block",
+          "description": "columns and relationships of \"xgraph_png.block\""
+        },
+        {
+          "name": "xgraph_png_block_aggregate",
+          "description": "aggregated selection of \"xgraph_png.block\""
+        },
+        {
+          "name": "xgraph_png_block_aggregate_fields",
+          "description": "aggregate fields of \"xgraph_png.block\""
+        },
+        {
+          "name": "xgraph_png_block_avg_fields",
+          "description": "aggregate avg on columns"
+        },
+        {
+          "name": "xgraph_png_block_bool_exp",
+          "description": "Boolean expression to filter rows from the table \"xgraph_png.block\". All fields are combined with a logical 'AND'."
+        },
+        {
+          "name": "xgraph_png_block_constraint",
+          "description": "unique or primary key constraints on table \"xgraph_png.block\""
+        },
+        {
+          "name": "xgraph_png_block_inc_input",
+          "description": "input type for incrementing numeric columns in table \"xgraph_png.block\""
+        },
+        {
+          "name": "xgraph_png_block_insert_input",
+          "description": "input type for inserting data into table \"xgraph_png.block\""
+        },
+
+... 
+... 
+... 
+
+        {
+          "name": "xgraph_psys_block",
+          "description": "columns and relationships of \"xgraph_psys.block\""
+        },
+        {
+          "name": "xgraph_psys_block_aggregate",
+          "description": "aggregated selection of \"xgraph_psys.block\""
+        },
+        {
+          "name": "xgraph_psys_block_aggregate_fields",
+          "description": "aggregate fields of \"xgraph_psys.block\""
+        },
+        {
+          "name": "xgraph_psys_block_avg_fields",
+          "description": "aggregate avg on columns"
+        },
+... 
+... 
+... 
 ```
-<br><br><br><br><br><br><br><br><br>
 
-<aside class="success">
-200 OK
-</aside>
+The Response Body of [the above query for all types and their
+descriptions](/#all-types-and-their-descriptions) returns a *JSON* object listing all available database
+types and their descriptions. See the XQuery Sample
+Response Body at the right for an example. ---->
 
-The Response Body of a request to the *help/graph* endpoint returns a
-JSON object of the structure of the current XQuery graph ---->
+### All Available Queries And Their Descriptions
+On the right is a command line example using `curl` to list *all*
+available queries and their descriptions. ---->
 
-### help/schema example
-On the right is a command line example using `curl` to request
-information from XQuery about the currently available GraphQL data types.
+> XQuery Sample Request - All Queries And Their Descriptions
 
-> XQuery Sample Request - help/schema endpoint
-
-<code class="api-call">help/schema</code>
+<code class="api-call">All Queries And Their Descriptions</code>
 
 ```shell
-# Example to display the xquery schema via help/schema endpoint:
-curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/help/schema \
-    -X POST \
-    -H "Content-Type: application/json" \
-    -H "Api-Key: <API-KEY>" 
-# NOTE: The -X POST parameter is required, but the "Content-Type"
-# and "Api-Key" headers are optional for this help/schema endpoint. 
-```
-
-> XQuery Sample Response - help/schema endpoint 
-
-```shell
-type xquery {
-  id: Int!
-  xquery_chain_name: Str!
-  xquery_query_name: Str!
-  xquery_timestamp: Int!
-  xquery_tx_hash: Str!
-  xquery_token0_name: Str!
-  xquery_token0_symbol: Str!
-  xquery_token0_decimals: Str!
-  xquery_token1_name: Str!
-  xquery_token1_symbol: Str!
-  xquery_token1_decimals: Str!
-  xquery_side: Str!
-  xquery_address_filter: Str!
-  xquery_blocknumber: Int!
-  xquery_fn_name: Str!
-  xquery_from: Str!
-  xquery_to: Str!
-  xquery_value: Str!
-  xquery_src: Str!
-  xquery_wad: Str!
-  xquery_dst: Str!
-  xquery_owner: Str!
-  xquery_spender: Str!
-  xquery_sender: Str!
-  xquery_amount0: Str!
-  xquery_amount1: Str!
-  xquery_amount0in: Str!
-  xquery_amount1in: Str!
-  xquery_amount0out: Str!
-  xquery_amount1out: Str!
-  xquery_reserve0: Str!
-  xquery_reserve1: Str!
-  xquery_none: Str!
-  xquery_deadline: Str!
-  xquery_v: Str!
-  xquery_r: Str!
-  xquery_s: Str!
-  xquery_data: Str!
-  xquery_tokena: Str!
-  xquery_tokenb: Str!
-  xquery_amountadesired: Str!
-  xquery_amountbdesired: Str!
-  xquery_amountamin: Str!
-  xquery_amountbmin: Str!
-  xquery_token: Str!
-  xquery_amounttokendesired: Str!
-  xquery_amounttokenmin: Str!
-  xquery_amountavaxmin: Str!
-  xquery_amountout: Str!
-  xquery_reservein: Str!
-  xquery_reserveout: Str!
-  xquery_amountin: Str!
-  xquery_path: Str!
-  xquery_amounta: Str!
-  xquery_reservea: Str!
-  xquery_reserveb: Str!
-  xquery_liquidity: Str!
-  xquery_approvemax: Str!
-  xquery_amountoutmin: Str!
-  xquery_amountinmax: Str!
-  xquery_amountethmin: Str!
-  xquery_params: Str!
-  xquery_nonce: Str!
-  xquery_expiry: Str!
-  xquery_amountminimum: Str!
-  xquery_recipient: Str!
-  xquery_feebips: Str!
-  xquery_feerecipient: Str!
-  xquery_amount0delta: Str!
-  xquery_amount1delta: Str!
-
-}
-```
-<br><br><br><br><br><br><br><br><br>
-
-<aside class="success">
-200 OK
-</aside>
-
-The Response Body of a request to the *help/schema* endpoint returns a
-list of currently available GraphQL data types ---->
-
-### indexer example
-On the right is a command line example using `curl` to make an SQL-style
-query to retrieve specific data from one or more blockchains hosted
-by `<NODE-URL>`. Note, data matching specific criteria can be
-retrieved from multiple blockchains in a single query. For example,
-data from ETH, AVAX, BSC, NEVM, FTM, etc... can be retrieved in a single query.
-
-> XQuery Sample Request - indexer endpoint
-
-<code class="api-call">indexer</code>
-
-```shell
-# Example to make an SQL query to xquery via indexer endpoint:
+# Example to display all queries and their descriptions
 curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer \
     -X POST \
     -H "Content-Type: application/json" \
     -H "Api-Key: <API-KEY>" \
-    -d "{\"query\": \"query MyQuery { \
-       xquery(where: {xquery_address_filter: {_eq: "Pegasys_Router"}}, order_by: {xquery_blocknumber: desc}, limit: 2) { \
-        id \
-        xquery_chain_name \
-        xquery_query_name \
-        xquery_timestamp \
-        xquery_tx_hash \
-        xquery_token0_name \
-        xquery_token0_symbol \
-        xquery_token0_decimals \
-        xquery_token1_name \
-        xquery_token1_symbol \
-        xquery_token1_decimals \
-        xquery_side \
-        xquery_address_filter \
-        xquery_blocknumber \
-        xquery_from \
-        xquery_to \
-        xquery_sender \
-        xquery_amount0 \
-        xquery_amount1 \
-        xquery_amount0in \
-        xquery_amount1in \
-        xquery_amount0out \
-        xquery_amount1out \
-        } }\"}" | jq
+	-d '{"query": "query MyQuery {__schema {queryType {fields {name description}}}}"}'
 ```
 
-> XQuery Sample Response - indexer endpoint
 
-```json
-{
-    "data": {
-        "xquery": [
-            {
-                "id": 56821,
-                "xquery_chain_name": "SYS",
-                "xquery_query_name": "Approval",
-                "xquery_timestamp": 0,
-                "xquery_tx_hash": "0x427edc5a07d66701b1eb7af78eeb8e0dd381252d0eb8078d64e1184eb8ae973f",
-                "xquery_token0_name": "Pegasys LP Token",
-                "xquery_token0_symbol": "PLP",
-                "xquery_token0_decimals": 18,
-                "xquery_token1_name": "",
-                "xquery_token1_symbol": "",
-                "xquery_token1_decimals": null,
-                "xquery_side": "",
-                "xquery_address_filter": "Pegasys_Router",
-                "xquery_blocknumber": 76113,
-                "xquery_from": "",
-                "xquery_to": "0x2048564077C14B231ECc8C2690829726e9F84a3b",
-                "xquery_sender": "",
-                "xquery_amount0": null,
-                "xquery_amount1": null,
-                "xquery_amount0in": null,
-                "xquery_amount1in": null,
-                "xquery_amount0out": null,
-                "xquery_amount1out": null
-            },
-            {
-                "id": 56822,
-                "xquery_chain_name": "SYS",
-                "xquery_query_name": "Transfer",
-                "xquery_timestamp": 0,
-                "xquery_tx_hash": "0x427edc5a07d66701b1eb7af78eeb8e0dd381252d0eb8078d64e1184eb8ae973f",
-                "xquery_token0_name": "Tether USD",
-                "xquery_token0_symbol": "USDT",
-                "xquery_token0_decimals": 6,
-                "xquery_token1_name": "",
-                "xquery_token1_symbol": "",
-                "xquery_token1_decimals": null,
-                "xquery_side": "",
-                "xquery_address_filter": "Pegasys_Router",
-                "xquery_blocknumber": 76113,
-                "xquery_from": "0x0Df7d92a4DB09d3828a725D039B89FDC8dfC96A6",
-                "xquery_to": "0x2048564077C14B231ECc8C2690829726e9F84a3b",
-                "xquery_sender": "",
-                "xquery_amount0": null,
-                "xquery_amount1": null,
-                "xquery_amount0in": null,
-                "xquery_amount1in": null,
-                "xquery_amount0out": null,
-                "xquery_amount1out": null
-            }
-        ]
-    }
-}
-```
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br>
-<br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
+
+> XQuery Sample Response Body - All Queries And Their Descriptions
 
 <aside class="success">
 200 OK
 </aside>
 
-The Response Body of a request to the *indexer* endpoint returns a
-JSON object containing all blockchain data matching the criteria
-specified in the SQL query ---->
-<br><br><br><br><br><br><br><br><br>
+```json
+{
+  "data": {
+    "__schema": {
+      "queryType": {
+        "fields": [
+          {
+            "name": "alembic_version",
+            "description": "fetch data from the table: \"alembic_version\""
+          },
+          {
+            "name": "alembic_version_aggregate",
+            "description": "fetch aggregated fields from the table: \"alembic_version\""
+          },
+          {
+            "name": "alembic_version_by_pk",
+            "description": "fetch data from the table: \"alembic_version\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_block",
+            "description": "fetch data from the table: \"xgraph_png.block\""
+          },
+          {
+            "name": "xgraph_png_block_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.block\""
+          },
+          {
+            "name": "xgraph_png_block_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.block\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_bundle",
+            "description": "fetch data from the table: \"xgraph_png.bundle\""
+          },
+          {
+            "name": "xgraph_png_bundle_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.bundle\""
+          },
+          {
+            "name": "xgraph_png_bundle_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.bundle\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_burn",
+            "description": "fetch data from the table: \"xgraph_png.burn\""
+          },
+          {
+            "name": "xgraph_png_burn_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.burn\""
+          },
+          {
+            "name": "xgraph_png_burn_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.burn\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_exchange_day_data",
+            "description": "fetch data from the table: \"xgraph_png.exchange_day_data\""
+          },
+          {
+            "name": "xgraph_png_exchange_day_data_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.exchange_day_data\""
+          },
+          {
+            "name": "xgraph_png_exchange_day_data_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.exchange_day_data\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_factory",
+            "description": "fetch data from the table: \"xgraph_png.factory\""
+          },
+          {
+            "name": "xgraph_png_factory_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.factory\""
+          },
+          {
+            "name": "xgraph_png_factory_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.factory\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_liquidity_position",
+            "description": "fetch data from the table: \"xgraph_png.liquidity_position\""
+          },
+          {
+            "name": "xgraph_png_liquidity_position_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.liquidity_position\""
+          },
+          {
+            "name": "xgraph_png_liquidity_position_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.liquidity_position\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_liquidity_position_snapshot",
+            "description": "fetch data from the table: \"xgraph_png.liquidity_position_snapshot\""
+          },
+          {
+            "name": "xgraph_png_liquidity_position_snapshot_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.liquidity_position_snapshot\""
+          },
+          {
+            "name": "xgraph_png_liquidity_position_snapshot_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.liquidity_position_snapshot\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_mint",
+            "description": "fetch data from the table: \"xgraph_png.mint\""
+          },
+          {
+            "name": "xgraph_png_mint_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.mint\""
+          },
+          {
+            "name": "xgraph_png_mint_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.mint\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_pair",
+            "description": "fetch data from the table: \"xgraph_png.pair\""
+          },
+          {
+            "name": "xgraph_png_pair_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.pair\""
+          },
+          {
+            "name": "xgraph_png_pair_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.pair\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_pair_day_data",
+            "description": "fetch data from the table: \"xgraph_png.pair_day_data\""
+          },
+          {
+            "name": "xgraph_png_pair_day_data_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.pair_day_data\""
+          },
+          {
+            "name": "xgraph_png_pair_day_data_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.pair_day_data\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_pair_hour_data",
+            "description": "fetch data from the table: \"xgraph_png.pair_hour_data\""
+          },
+          {
+            "name": "xgraph_png_pair_hour_data_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.pair_hour_data\""
+          },
+          {
+            "name": "xgraph_png_pair_hour_data_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.pair_hour_data\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_state",
+            "description": "fetch data from the table: \"xgraph_png.state\""
+          },
+          {
+            "name": "xgraph_png_state_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.state\""
+          },
+          {
+            "name": "xgraph_png_state_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.state\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_swap",
+            "description": "fetch data from the table: \"xgraph_png.swap\""
+          },
+          {
+            "name": "xgraph_png_swap_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.swap\""
+          },
+          {
+            "name": "xgraph_png_swap_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.swap\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_sync",
+            "description": "fetch data from the table: \"xgraph_png.sync\""
+          },
+          {
+            "name": "xgraph_png_sync_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.sync\""
+          },
+          {
+            "name": "xgraph_png_sync_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.sync\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_token",
+            "description": "fetch data from the table: \"xgraph_png.token\""
+          },
+          {
+            "name": "xgraph_png_token_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.token\""
+          },
+          {
+            "name": "xgraph_png_token_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.token\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_token_day_data",
+            "description": "fetch data from the table: \"xgraph_png.token_day_data\""
+          },
+          {
+            "name": "xgraph_png_token_day_data_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.token_day_data\""
+          },
+          {
+            "name": "xgraph_png_token_day_data_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.token_day_data\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_token_hour_data",
+            "description": "fetch data from the table: \"xgraph_png.token_hour_data\""
+          },
+          {
+            "name": "xgraph_png_token_hour_data_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.token_hour_data\""
+          },
+          {
+            "name": "xgraph_png_token_hour_data_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.token_hour_data\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_transaction",
+            "description": "fetch data from the table: \"xgraph_png.transaction\""
+          },
+          {
+            "name": "xgraph_png_transaction_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.transaction\""
+          },
+          {
+            "name": "xgraph_png_transaction_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.transaction\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_transfer",
+            "description": "fetch data from the table: \"xgraph_png.transfer\""
+          },
+          {
+            "name": "xgraph_png_transfer_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.transfer\""
+          },
+          {
+            "name": "xgraph_png_transfer_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.transfer\" using primary key columns"
+          },
+          {
+            "name": "xgraph_png_user",
+            "description": "fetch data from the table: \"xgraph_png.user\""
+          },
+          {
+            "name": "xgraph_png_user_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_png.user\""
+          },
+          {
+            "name": "xgraph_png_user_by_pk",
+            "description": "fetch data from the table: \"xgraph_png.user\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_block",
+            "description": "fetch data from the table: \"xgraph_psys.block\""
+          },
+          {
+            "name": "xgraph_psys_block_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.block\""
+          },
+          {
+            "name": "xgraph_psys_block_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.block\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_bundle",
+            "description": "fetch data from the table: \"xgraph_psys.bundle\""
+          },
+          {
+            "name": "xgraph_psys_bundle_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.bundle\""
+          },
+          {
+            "name": "xgraph_psys_bundle_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.bundle\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_burn",
+            "description": "fetch data from the table: \"xgraph_psys.burn\""
+          },
+          {
+            "name": "xgraph_psys_burn_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.burn\""
+          },
+          {
+            "name": "xgraph_psys_burn_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.burn\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_exchange_day_data",
+            "description": "fetch data from the table: \"xgraph_psys.exchange_day_data\""
+          },
+          {
+            "name": "xgraph_psys_exchange_day_data_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.exchange_day_data\""
+          },
+          {
+            "name": "xgraph_psys_exchange_day_data_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.exchange_day_data\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_factory",
+            "description": "fetch data from the table: \"xgraph_psys.factory\""
+          },
+          {
+            "name": "xgraph_psys_factory_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.factory\""
+          },
+          {
+            "name": "xgraph_psys_factory_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.factory\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_liquidity_position",
+            "description": "fetch data from the table: \"xgraph_psys.liquidity_position\""
+          },
+          {
+            "name": "xgraph_psys_liquidity_position_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.liquidity_position\""
+          },
+          {
+            "name": "xgraph_psys_liquidity_position_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.liquidity_position\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_liquidity_position_snapshot",
+            "description": "fetch data from the table: \"xgraph_psys.liquidity_position_snapshot\""
+          },
+          {
+            "name": "xgraph_psys_liquidity_position_snapshot_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.liquidity_position_snapshot\""
+          },
+          {
+            "name": "xgraph_psys_liquidity_position_snapshot_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.liquidity_position_snapshot\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_mint",
+            "description": "fetch data from the table: \"xgraph_psys.mint\""
+          },
+          {
+            "name": "xgraph_psys_mint_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.mint\""
+          },
+          {
+            "name": "xgraph_psys_mint_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.mint\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_pair",
+            "description": "fetch data from the table: \"xgraph_psys.pair\""
+          },
+          {
+            "name": "xgraph_psys_pair_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.pair\""
+          },
+          {
+            "name": "xgraph_psys_pair_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.pair\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_pair_day_data",
+            "description": "fetch data from the table: \"xgraph_psys.pair_day_data\""
+          },
+          {
+            "name": "xgraph_psys_pair_day_data_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.pair_day_data\""
+          },
+          {
+            "name": "xgraph_psys_pair_day_data_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.pair_day_data\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_pair_hour_data",
+            "description": "fetch data from the table: \"xgraph_psys.pair_hour_data\""
+          },
+          {
+            "name": "xgraph_psys_pair_hour_data_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.pair_hour_data\""
+          },
+          {
+            "name": "xgraph_psys_pair_hour_data_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.pair_hour_data\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_state",
+            "description": "fetch data from the table: \"xgraph_psys.state\""
+          },
+          {
+            "name": "xgraph_psys_state_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.state\""
+          },
+          {
+            "name": "xgraph_psys_state_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.state\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_swap",
+            "description": "fetch data from the table: \"xgraph_psys.swap\""
+          },
+          {
+            "name": "xgraph_psys_swap_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.swap\""
+          },
+          {
+            "name": "xgraph_psys_swap_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.swap\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_sync",
+            "description": "fetch data from the table: \"xgraph_psys.sync\""
+          },
+          {
+            "name": "xgraph_psys_sync_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.sync\""
+          },
+          {
+            "name": "xgraph_psys_sync_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.sync\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_token",
+            "description": "fetch data from the table: \"xgraph_psys.token\""
+          },
+          {
+            "name": "xgraph_psys_token_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.token\""
+          },
+          {
+            "name": "xgraph_psys_token_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.token\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_token_day_data",
+            "description": "fetch data from the table: \"xgraph_psys.token_day_data\""
+          },
+          {
+            "name": "xgraph_psys_token_day_data_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.token_day_data\""
+          },
+          {
+            "name": "xgraph_psys_token_day_data_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.token_day_data\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_token_hour_data",
+            "description": "fetch data from the table: \"xgraph_psys.token_hour_data\""
+          },
+          {
+            "name": "xgraph_psys_token_hour_data_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.token_hour_data\""
+          },
+          {
+            "name": "xgraph_psys_token_hour_data_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.token_hour_data\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_transaction",
+            "description": "fetch data from the table: \"xgraph_psys.transaction\""
+          },
+          {
+            "name": "xgraph_psys_transaction_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.transaction\""
+          },
+          {
+            "name": "xgraph_psys_transaction_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.transaction\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_transfer",
+            "description": "fetch data from the table: \"xgraph_psys.transfer\""
+          },
+          {
+            "name": "xgraph_psys_transfer_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.transfer\""
+          },
+          {
+            "name": "xgraph_psys_transfer_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.transfer\" using primary key columns"
+          },
+          {
+            "name": "xgraph_psys_user",
+            "description": "fetch data from the table: \"xgraph_psys.user\""
+          },
+          {
+            "name": "xgraph_psys_user_aggregate",
+            "description": "fetch aggregated fields from the table: \"xgraph_psys.user\""
+          },
+          {
+            "name": "xgraph_psys_user_by_pk",
+            "description": "fetch data from the table: \"xgraph_psys.user\" using primary key columns"
+          }
+        ]
+      }
+    }
+  }
+}
+```
+The Response Body of the [query for all available queries and their
+descriptions](/#all-available-queries-and-their-descriptions) returns a *JSON* object listing all available database queries and their descriptions. See the XQuery Sample
+Response Body at the right for an example. ---->
+
+### Digging Deeper Into The Schema
+
+One of the available queries returned by the [above
+query](#all-available-queries-and-their-descriptions) is
+*xgraph_psys_state*. If, for example, an XQuery client wants to learn
+what kind of query *xgraph_psys_state* is, they can issue the query on the
+right to find out if *xgraph_psys_state* is an *INTERFACE* or an *OBJECT* ---->
+
+> XQuery Sample Request - Dig Into *xgraph_psys_state*
+
+<code class="api-call">Dig Into *xgraph_psys_state*</code>
+
+```shell
+# Example to dig into xgraph_psys_state
+curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+	-d '{"query": "query MyQuery {__type(name: \"xgraph_psys_state\") {name kind}}"}'
+```
+
+<br><br><br><br><br><br><br><br><br><br>
+
+> XQuery Sample Response Body - Dig Into *xgraph_psys_state*
+
+<aside class="success">
+200 OK
+</aside>
+
+```json
+{
+  "data": {
+    "__type": {
+      "name": "xgraph_psys_state",
+      "kind": "OBJECT"
+    }
+  }
+}
+```
+The Response Body of [the above query to dig Into
+*xgraph_psys_state*](/#digging-deeper-into-the-schema) returns a
+*JSON* object informing us that *xgraph_psys_state* is an *OBJECT*,
+not an *INTERFACE*. See the XQuery Sample
+Response Body at the right. ---->
+
+### Query For Which Fields Are In xgraph_psys_state Object
+
+From the [above query](/#digging-deeper-into-the-schema), we learned
+that *xgraph_psys_state*  is a db *OBJECT*. For a db *OBJECT*,  it's
+often useful to know which fields the object contains. To learn the
+names and types of the fields conained in the *xgraph_psys_state* object, one can issue the query on the
+right. ---->
+
+> XQuery Sample Request - Which Fields Are In *xgraph_psys_state* object
+
+<code class="api-call">Which Fields Are In *xgraph_psys_state* object</code>
+
+```shell
+# Example to learn the names and types of the fields conained in the *xgraph_psys_state* object
+curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+	-d '{"query": "query MyQuery {__type(name: \"xgraph_psys_state\") {name fields {name type {name kind}}}}"}'
+```
+
+<br><br><br><br><br><br><br><br><br><br>
+
+> XQuery Sample Response Body - Which Fields Are In *xgraph_psys_state* object
+
+<aside class="success">
+200 OK
+</aside>
+
+```json
+{
+  "data": {
+    "__type": {
+      "name": "xgraph_psys_state",
+      "fields": [
+        {
+          "name": "block_hash",
+          "type": {
+            "name": "String",
+            "kind": "SCALAR"
+          }
+        },
+        {
+          "name": "block_number",
+          "type": {
+            "name": "Int",
+            "kind": "SCALAR"
+          }
+        },
+        {
+          "name": "finalized",
+          "type": {
+            "name": "Int",
+            "kind": "SCALAR"
+          }
+        },
+        {
+          "name": "id",
+          "type": {
+            "name": null,
+            "kind": "NON_NULL"
+          }
+        },
+        {
+          "name": "name",
+          "type": {
+            "name": null,
+            "kind": "NON_NULL"
+          }
+        }
+      ]
+    }
+  }
+}
+```
+The Response Body of [the above query for the fields
+contained in the *xgraph_psys_state* object](/#query-for-which-fields-are-in-xgraph_psys_state-object) returns a
+*JSON* object listing all fields contained in the *xgraph_psys_state*
+object and their types. See the XQuery Sample
+Response Body at the right. ---->
+
+
+## Query For Data
+
+In the [above section on Introspection
+queries](/#introspection-database-schema-queries) we showed examples of how to
+make queries to the database which return information about the schema/structure of
+the database. In this section, we'll show some examples of
+queries which return actual data from the database. For full documentation on what kinds of query structures are available, see [Hasura Postgres Queries Documentation](https://hasura.io/docs/latest/queries/postgres/index/). 
+
+### Query All Fields In xgraph_psys_state Object
+
+From the [the above query for the fields
+contained in the *xgraph_psys_state*
+object](/#query-for-which-fields-are-in-xgraph_psys_state-object), we
+learned that the *xgraph_psys_state* object contains the following fields:
+
+- block_hash
+- block_number
+- finalized
+- id
+- name
+
+To query for the values of these fields in the *xgraph_psys_state* object, one can issue the query on the
+right. ---->
+
+> XQuery Sample Request - Query All Fields In xgraph_psys_state Object
+
+<code class="api-call">Query All Fields In xgraph_psys_state Object</code>
+
+```shell
+# Example query all fields in xgraph_psys_state object
+curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+	-d '{"query": "query MyQuery {xgraph_psys_state {block_hash block_number finalized id name}}"}'
+```
+
+<br><br><br><br><br><br><br><br><br><br>
+
+> XQuery Sample Response Body - Query All Fields In xgraph_psys_state Object
+
+<aside class="success">
+200 OK
+</aside>
+
+```json
+{
+  "data": {
+    "xgraph_psys_state": [
+      {
+        "block_hash": "0x07ccb7399488e430f9f5ba1ed7a848a2e9306ad08a62a19ab472b4ad00294c78",
+        "block_number": 222388,
+        "finalized": null,
+        "id": 1,
+        "name": "indexer"
+      },
+      {
+        "block_hash": null,
+        "block_number": 222388,
+        "finalized": 222388,
+        "id": 2,
+        "name": "processor_bundle"
+      },
+      {
+        "block_hash": null,
+        "block_number": 222388,
+        "finalized": 1672617599,
+        "id": 3,
+        "name": "processor_stats"
+      },
+      {
+        "block_hash": null,
+        "block_number": 222388,
+        "finalized": 222388,
+        "id": 4,
+        "name": "processor_count"
+      }
+    ]
+  }
+}
+```
+The Response Body of [the above query of all fields in
+the *xgraph_psys_state* object](/#query-all-fields-in-xgraph_psys_state-object) returns a
+*JSON* object listing the data values of all fields in the *xgraph_psys_state*
+object. See the XQuery Sample
+Response Body at the right. ---->
+
+### Query With Conditions All Fields In xgraph_psys_state Object
+
+In practice, almost all queries to the database will have conditions
+attached to them. For example, let's say we want to query the
+values of all the fields in the *xgraph_psys_state* object, just as we
+did in the [previous
+example](/#query-all-fields-in-xgraph_psys_state-object), but this
+time we want to impose the
+conditions that data should *only* be returned for records with
+*block_number* greater than 20000, and the records returned should be
+ordered by an ascending *id* field, and no more than 5 records
+should be returned. An example of such a query can be found on the
+right. ---->
+
+> XQuery Sample Request - Query With Conditions All Fields In xgraph_psys_state Object
+
+<code class="api-call">Query With Conditions All Fields In xgraph_psys_state Object</code>
+
+```shell
+# Example query with conditions all fields in xgraph_psys_state object
+curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+	-d '{"query": "query MyQuery {xgraph_psys_state(where: {block_number: {_gt: 20000}}, order_by: {id: asc}, limit: 5) {block_hash block_number finalized id name}}"}'
+```
+<br><br><br><br>
+The conditions we added to the query from the [previous
+example](/#query-all-fields-in-xgraph_psys_state-object) don't change
+the results returned in this case, so we won't include those results again
+here. The point of this example of a query with conditions is simply
+to show how to impose conditions on query results. For full documentation on what kinds of query structures are available, see [Hasura Postgres Queries Documentation](https://hasura.io/docs/latest/queries/postgres/index/).
+
+### Query For 3 Largest WAVAX-USDC Token Swaps On Pangolin Exchange
+The last "Query for Data" example we'll give will be for the 3 largest
+WAVAX-USDC token swaps on Pangolin exchange. To make this
+query, we need the address of the WAVAX-USDC pair. That address can be
+found in various ways, including
+[here](https://info.pangolin.exchange/#/pair/0x0e0100ab771e9288e0aa97e11557e6654c3a9665). The
+address of the WAVAX-USDC pair turns out to be
+`0x0e0100ab771e9288e0aa97e11557e6654c3a9665`. With this information,
+we can construct the desired query as shown on the right ---->
+
+> XQuery Sample Request - 3 Largest WAVAX-USDC swaps On Pangolin Exchange
+
+<code class="api-call">3 Largest WAVAX-USDC swaps On Pangolin Exchange</code>
+
+```shell
+# Query For 3 Largest WAVAX-USDC swaps On Pangolin Exchange
+curl http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer \
+    -X POST \
+    -H "Content-Type: application/json" \
+    -H "Api-Key: <API-KEY>" \
+    -d '{"query": "query MyQuery {xgraph_png_swap(limit: 3, order_by: {amount0Out: desc}, where: {pair_address: {_eq: \"0x0e0100Ab771E9288e0Aa97e11557E6654C3a9665\"}}) {amount0In amount0Out amount1In amount1Out amountUSD from id logIndex pair_address sender timestamp to transaction_id}}"}' | jq
+```
+
+> XQuery Sample Response - 3 Largest WAVAX-USDC swaps On Pangolin Exchange
+
+```json
+{
+  "data": {
+    "xgraph_png_swap": [
+      {
+        "amount0In": "0.000000000000000000",
+        "amount0Out": "9944.474506932517295371",
+        "amount1In": "177726.378634000000000000",
+        "amount1Out": "0.000000000000000000",
+        "amountUSD": "0.000000000000000000",
+        "from": "0x7770000004323b56D6231592F753BD48d7E523e5",
+        "id": 9325680,
+        "logIndex": 31,
+        "pair_address": "0x0e0100Ab771E9288e0Aa97e11557E6654C3a9665",
+        "sender": "0x777739FFFd50000000D9dc09b4D0fd3410e41Ce6",
+        "timestamp": 1667882468,
+        "to": "0x777739FFFd50000000D9dc09b4D0fd3410e41Ce6",
+        "transaction_id": 8643121
+      },
+      {
+        "amount0In": "0.000000000000000000",
+        "amount0Out": "6585.806037327803264065",
+        "amount1In": "125205.756988000000000000",
+        "amount1Out": "0.000000000000000000",
+        "amountUSD": "0.000000000000000000",
+        "from": "0xB8E6961C316144266C948A016bB5a07E4D5c561b",
+        "id": 8958146,
+        "logIndex": 284,
+        "pair_address": "0x0e0100Ab771E9288e0Aa97e11557E6654C3a9665",
+        "sender": "0x324E2D39f0E2d8ecCDd96bcaa382cd14eD4a0443",
+        "timestamp": 1663088884,
+        "to": "0x98708236eF98A579f923279Da9531796c646376d",
+        "transaction_id": 8319724
+      },
+      {
+        "amount0In": "0.000000000000000000",
+        "amount0Out": "5565.206433513149862722",
+        "amount1In": "76847.457887000000000000",
+        "amount1Out": "0.000000000000000000",
+        "amountUSD": "0.000000000000000000",
+        "from": "0x4F7D9eBe792cb4F4729dE9328A8889c1E49B37B0",
+        "id": 9590362,
+        "logIndex": 9,
+        "pair_address": "0x0e0100Ab771E9288e0Aa97e11557E6654C3a9665",
+        "sender": "0xDEF171Fe48CF0115B1d80b88dc8eAB59176FEe57",
+        "timestamp": 1670656399,
+        "to": "0xe3bA3d5e3F98eefF5e9EDdD5Bd20E476202770da",
+        "transaction_id": 8878384
+      }
+    ]
+  }
+}
+```
+<br><br><br><br><br><br><br>
+
+<aside class="success">
+200 OK
+</aside>
+
+The Response Body of [the above query for 3 largest WAVAX-USDC token swaps on Pangolin Exchange](/#query-for-3-largest-wavax-usdc-token-swaps-on-pangolin-exchange) returns a
+*JSON* object listing the data values of all fields in the
+*xgraph_png_swap* object for the top 3 records that match our query criteria. See the XQuery Sample
+Response Body at the right. ---->
 <br><br><br><br><br><br><br><br><br>
 <br><br><br><br><br><br><br><br><br>
 
-## XQuery Python Example: xq.py
+## XQuery Python Example: xq.py (upgrade to XQuery v2 coming soon)
 On the right is a list of commands that can be issued in a
 Linux/Unix/OSX Terminal to download  a python script called `xq.py`
 and run it. Please ensure `git`, `python3` and `pip3` are installed on
@@ -559,9 +1204,9 @@ cd cli
 
 `xq.py` provides a convenient,
 user-friendly CLI interface to the same *indexer* endpoint mentioned
-in the [indexer example](/#indexer-example) above. It constructs an
-SQL query for the *indexer* endpoint according to parameters passed
-to it, then sends the SQL query to the *indexer* endpoint (`
+in the [Query for Data examples](#query-for-data) above. It constructs a
+GraphQL query for the *indexer* endpoint according to parameters passed
+to it, then sends the GraphQL query to the *indexer* endpoint (`
 http://<NODE-URL>/xrs/xquery/<PROJECT-ID>/indexer`). Snippets from
 `xq.py` can be used by any python dApp developer wishing to include
 code to access XQuery indexer. Snippets from
@@ -604,4 +1249,4 @@ Console](https://docs.blocknet.org/service-nodes/setup/#warning-only-expose-hasu
 you can access the XQuery Hasura GUI Console simply by navigating in a
 browser to __http://`<NODE-URL>`:8080/console__
 
-Read more about Hasura GraphQL [here](https://hasura.io/docs/latest/graphql/core/index/).
+For full documentation on what kinds of query structures are available, see [Hasura Postgres Queries Documentation](https://hasura.io/docs/latest/queries/postgres/index/).
