@@ -11155,7 +11155,7 @@ about the project by calling the <code>get_project_stats</code> method, as in th
 <tr>
 <td>status</td>
 <td>string</td>
-<td><em>pending</em>, <em>active</em>, <em>active_open</em>, <em>inactive</em>, <em>cancelled</em> or <em>user_cancelled</em>:<br><br><em>pending</em> = &quot;project is not active and <em>quote_expiry_time</em> has not yet been reached.&quot;<br><br><em>active</em> = &quot;sufficient payment has been made to activate the project, it has API calls remaining, and <em>quote_expiry_time</em> has been reached.&quot;<br><br><em>active_open</em> = &quot;project is active and <em>quote_expiry_time</em> has not yet been reached.&quot;<br><br><em>inactive</em> = &quot;project was active, then became inactive due to no API calls remaining.&quot;<br><br><em>cancelled</em> = &quot;<em>pending</em> project was cancelled due to insufficient payment received to activate the project before <em>quote_expiry_time</em>.&quot;<br><br><em>user_cancelled</em> = <em>active</em> project was cancelled by the client via the <a href="/#cancel-project">Project Cancellation Protocol.</a>&quot;</td>
+<td><em>pending</em>, <em>active</em>, <em>active_open</em>, <em>inactive</em>, <em>expired</em> or <em>cancelled</em>:<br><br><em>pending</em> = &quot;project is not active and <em>quote_expiry_time</em> has not yet been reached.&quot;<br><br><em>active</em> = &quot;sufficient payment has been made to activate the project, it has API calls remaining, and <em>quote_expiry_time</em> has been reached.&quot;<br><br><em>active_open</em> = &quot;project is active and <em>quote_expiry_time</em> has not yet been reached.&quot;<br><br><em>inactive</em> = &quot;project was active, then became inactive due to no API calls remaining.&quot;<br><br><em>expired</em> = &quot;<em>pending</em> project was cancelled due to insufficient payment received to activate the project before <em>quote_expiry_time</em>.&quot;<br><br><em>cancelled</em> = <em>active</em> project was cancelled by the client via the <a href="/#cancel-project">Project Cancellation Protocol.</a>&quot;</td>
 </tr>
 <tr>
 <td>tier</td>
@@ -20683,6 +20683,16 @@ To do:
 reference: https://docs.pro.coinbase.com
 
 -->
+
+<table><thead>
+<tr>
+<th>20/1/2023</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>• minor updates to project status terms</td>
+</tr>
+</tbody></table>
 
 <table><thead>
 <tr>

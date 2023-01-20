@@ -21,6 +21,10 @@ To do:
 reference: https://docs.pro.coinbase.com
 
 -->
+20/1/2023 |
+-----------|
+• minor updates to project status terms |
+ 
 3/1/2023 |
 -----------|
 • Update XQuery API from XQ v1 to XQ v2 |
